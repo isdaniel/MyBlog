@@ -1,7 +1,7 @@
 clone_depth: 5
 branches:
   only:
-  - files
+  - master
 environment:
   access_token:
     secure: 0ZwRmmbCpax3nuXqwEohKEJtnlgV273cz/gEj6QTvgfaX5+Grv8iRrea6DruLvCU
