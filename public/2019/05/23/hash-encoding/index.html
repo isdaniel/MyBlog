@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="這一邊有三筆資料  U2FsdGVkX19FJsgVyam+Gh2EwmGs4BEJjJJsWxCXHWw84gp3uHvozWsHY8gfAx0C VG9kYXkgaXMgYSBnb29kIERheQ== 046a484a529ecfc7693753ee65802b5cfcafd548252d0e5f1bca845ad2208b91  這三個東西看起來都是亂碼，但所代表含意完全不一樣 這邊會跟大">
+<meta name="keywords" content="Base64,AES,SHA256,Encoding,Hash">
+<meta property="og:type" content="article">
+<meta property="og:title" content="淺談-編碼(encoding) vs 加解密 vs 雜湊(Hash)">
+<meta property="og:url" content="https://isdaniel.github.io/2019/05/23/hash-encoding/index.html">
+<meta property="og:site_name" content="石頭的coding之路">
+<meta property="og:description" content="這一邊有三筆資料  U2FsdGVkX19FJsgVyam+Gh2EwmGs4BEJjJJsWxCXHWw84gp3uHvozWsHY8gfAx0C VG9kYXkgaXMgYSBnb29kIERheQ== 046a484a529ecfc7693753ee65802b5cfcafd548252d0e5f1bca845ad2208b91  這三個東西看起來都是亂碼，但所代表含意完全不一樣 這邊會跟大">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557148998_19694.png">
+<meta property="og:image" content="https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557149615_79307.png">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/2/2b/Caesar3.svg">
+<meta property="og:image" content="https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557152092_14191.png">
+<meta property="og:image" content="https://ithelp.ithome.com.tw/upload/images/20190510/20096630rEP4mvVyso.png">
+<meta property="og:updated_time" content="2019-05-23T11:45:53.543Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="淺談-編碼(encoding) vs 加解密 vs 雜湊(Hash)">
+<meta name="twitter:description" content="這一邊有三筆資料  U2FsdGVkX19FJsgVyam+Gh2EwmGs4BEJjJJsWxCXHWw84gp3uHvozWsHY8gfAx0C VG9kYXkgaXMgYSBnb29kIERheQ== 046a484a529ecfc7693753ee65802b5cfcafd548252d0e5f1bca845ad2208b91  這三個東西看起來都是亂碼，但所代表含意完全不一樣 這邊會跟大">
+<meta name="twitter:image" content="https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557148998_19694.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://isdaniel.github.io/2019/05/23/hash-encoding/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>淺談-編碼(encoding) vs 加解密 vs 雜湊(Hash) | 石頭的coding之路</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">石頭的coding之路</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Navigationsleiste an/ausschalten">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Startseite</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archiv</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://isdaniel.github.io/2019/05/23/hash-encoding/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Daniel Shih">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="石頭的coding之路">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">淺談-編碼(encoding) vs 加解密 vs 雜湊(Hash)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Erstellt: 2019-05-23 19:32:08 / Geändert am: 19:45:53" itemprop="dateCreated datePublished" datetime="2019-05-23T19:32:08+08:00">2019-05-23</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>這一邊有三筆資料</p>
+<ul>
+<li>U2FsdGVkX19FJsgVyam+Gh2EwmGs4BEJjJJsWxCXHWw84gp3uHvozWsHY8gfAx0C</li>
+<li>VG9kYXkgaXMgYSBnb29kIERheQ==</li>
+<li>046a484a529ecfc7693753ee65802b5cfcafd548252d0e5f1bca845ad2208b91</li>
+</ul>
+<p>這三個東西看起來都是亂碼，但所代表含意完全不一樣</p>
+<p>這邊會跟大家分享這三個東西特性和差異性</p>
+<p>此文同步發布 Blog <a href="https://dotblogs.com.tw/daniel/2019/05/06/223004" target="_blank" rel="noopener">[淺談] 編碼(encoding) vs 加解密 vs 雜湊(Hash)</a></p>
+<h1 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h1><p>會想分享這篇文章是因為蠻多人把</p>
+<ul>
+<li>編碼(encoding)</li>
+<li>加解密</li>
+<li>雜湊(Hash) </li>
+</ul>
+<p>這三個東西搞混，尤其是把編碼當作加密….這是非常危險的事情. </p>
+<pre><code>編碼!= 加密 兩個是完全不一樣的東西
+編碼!= 加密 兩個是完全不一樣的東西
+編碼!= 加密 兩個是完全不一樣的東西
+</code></pre><p>很重要所以要說三次XD! </p>
+<hr>
+<h1 id="編碼"><a href="#編碼" class="headerlink" title="編碼"></a>編碼</h1><h2 id="說明："><a href="#說明：" class="headerlink" title="說明："></a>說明：</h2><p>這邊用<code>Base64</code>編碼來介紹，我們可以看到下圖資料轉換是雙向的．</p>
+<pre><code>Hello Daniel　=&gt;  SGVsbG8gRGFuaWVs
+</code></pre><p>如果我們想要把<code>SGVsbG8gRGFuaWVs</code> 變回 <code>Hello Daniel</code> 只需進行<code>Base64</code>解碼即可</p>
+<p><img src="https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557148998_19694.png" alt></p>
+<p>編碼是將原本的資料經過一個運算轉換成另一組資料,如果要還原成原本資料解碼</p>
+<h2 id="用途："><a href="#用途：" class="headerlink" title="用途："></a>用途：</h2><p>在網路傳輸會使用到編碼主要是資料在傳輸時有些特殊字元,有特殊用途(ex:Http 傳參數  &amp;….)</p>
+<p>這時就可使用編碼將資料轉換成不會衝突到字串.</p>
+<p>如果想要了解 Base64 原理和演算法的話可以看我另一篇<a href="https://dotblogs.com.tw/daniel/2019/05/09/001147" target="_blank" rel="noopener">【深入淺出】Base編碼 (Base64為例子)</a></p>
+<hr>
+<h1 id="加解密"><a href="#加解密" class="headerlink" title="加解密"></a>加解密</h1><h2 id="說明：-1"><a href="#說明：-1" class="headerlink" title="說明："></a>說明：</h2><p>這邊以<code>AES</code>來介紹，我們可以看到下圖資料轉換是雙向，但會透過一個Key來做轉換(這邊是和編碼最大的差別)</p>
+<p><img src="https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557149615_79307.png" alt></p>
+<p>要還原成原始資料我們只能透過一樣的Key才可以達成，就像一個寶相只有唯一一把鑰匙可以打開一樣．</p>
+<p>這邊補充一個簡單加密法(凱薩算法)，他是使用字元位移的數字來當作Key</p>
+<p>如果位移數量是1 <code>ABCD =&gt; BCDE</code></p>
+<p>如圖</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Caesar3.svg" alt></p>
+<h2 id="用途：-1"><a href="#用途：-1" class="headerlink" title="用途："></a>用途：</h2><p>加密可以確保資料的安全性（只有相同的Key才可還原成原本資料）很適合用在機密資料且須要還原使用</p>
+<hr>
+<h1 id="雜湊-Hash"><a href="#雜湊-Hash" class="headerlink" title="雜湊(Hash)"></a>雜湊(Hash)</h1><h2 id="說明：-2"><a href="#說明：-2" class="headerlink" title="說明："></a>說明：</h2><p>這裡用<code>Sha256</code>來當作範例</p>
+<p>Hash有幾個特點</p>
+<ol>
+<li>不管資料量多大經過SHA256運算字串長度都是一樣的</li>
+<li><code>SHA256</code>的原因是運算完的資料大小一定是 <code>256 bit</code></li>
+<li>她是一個不可逆的算法所以我們可以看到箭頭是單向.</li>
+<li>相同的值用SHA運算過後值都是一樣的</li>
+</ol>
+<p><img src="https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557152092_14191.png" alt></p>
+<p>一定會有小夥伴好奇,運算完都是固定長度 那會不會出現一個情況,原始資料不一樣但算完<code>Hash</code>結果是一樣的</p>
+<pre><code>會 這個我們稱之為雜湊碰撞 這個機率很小
+</code></pre><h2 id="用途：-2"><a href="#用途：-2" class="headerlink" title="用途："></a>用途：</h2><p>一般我們可以把使用者密碼經<code>Hash</code>運算存入資料庫中,當作使用唯一識別碼(像指紋)下次使用者登入用運一樣的<code>Hash</code>算法 再將值拿來比較辨識使用者合法性.</p>
+<hr>
+<h2 id="小結："><a href="#小結：" class="headerlink" title="小結："></a>小結：</h2><p>對於這邊有一個簡單的比較表格</p>
+<ul>
+<li>編碼(encoding)</li>
+<li>加解密</li>
+<li>雜湊(Hash) </li>
+</ul>
+<p><img src="https://ithelp.ithome.com.tw/upload/images/20190510/20096630rEP4mvVyso.png" alt="https://ithelp.ithome.com.tw/upload/images/20190510/20096630rEP4mvVyso.png"></p>
+<p>加解密和編碼最常被大家誤會搞錯地方是以為使用<code>Base64</code>編碼就很安全(但有心人事取得你的資料只要知道你使用編碼就可以還原成原始資料)</p>
+<p>如果要確保資料隱密性時可以使用加解密而不是編碼</p>
+<p>所以別再把<code>Base64</code>編碼當作加密工具來使用.</p>
+<p>這是很危險低</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Base64/" rel="tag"># Base64</a>
+          
+            <a href="/tags/AES/" rel="tag"># AES</a>
+          
+            <a href="/tags/SHA256/" rel="tag"># SHA256</a>
+          
+            <a href="/tags/Encoding/" rel="tag"># Encoding</a>
+          
+            <a href="/tags/Hash/" rel="tag"># Hash</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/23/modify-sourcecode/" rel="prev" title="沒有Source Code 如何修改程式??">
+                沒有Source Code 如何修改程式?? <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Daniel Shih</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">Artikel</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">schlagwörter</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#編碼"><span class="nav-number">2.</span> <span class="nav-text">編碼</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#說明："><span class="nav-number">2.1.</span> <span class="nav-text">說明：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用途："><span class="nav-number">2.2.</span> <span class="nav-text">用途：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加解密"><span class="nav-number">3.</span> <span class="nav-text">加解密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#說明：-1"><span class="nav-number">3.1.</span> <span class="nav-text">說明：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用途：-1"><span class="nav-number">3.2.</span> <span class="nav-text">用途：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#雜湊-Hash"><span class="nav-number">4.</span> <span class="nav-text">雜湊(Hash)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#說明：-2"><span class="nav-number">4.1.</span> <span class="nav-text">說明：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用途：-2"><span class="nav-number">4.2.</span> <span class="nav-text">用途：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小結："><span class="nav-number">4.3.</span> <span class="nav-text">小結：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Daniel Shih</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Design – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
