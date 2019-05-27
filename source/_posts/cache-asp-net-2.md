@@ -1,7 +1,7 @@
 ---
 title: Asp.net使用快取 (二)
 date: 2019-05-27 14:52:47
-tags:
+tags: [C#,Asp.net,cache]
 ---
 [前篇-Asp.net使用快取 (一)](https://ithelp.ithome.com.tw/articles/10198630)向大家簡單介紹
 1. 快取是什麼
@@ -10,9 +10,7 @@ tags:
 
 這篇是分享把快取程式碼變得更有彈性
 
-
 -----
-
 
 第二篇大綱
 
