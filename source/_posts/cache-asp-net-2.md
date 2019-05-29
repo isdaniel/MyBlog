@@ -3,7 +3,11 @@ title: Asp.net使用快取 (二)
 date: 2019-05-27 14:52:47
 tags: [C#,Asp.net,cache]
 ---
-[前篇-Asp.net使用快取 (一)](https://ithelp.ithome.com.tw/articles/10198630)向大家簡單介紹
+
+{% post_link cache-asp-net-1 %}
+
+向大家簡單介紹
+
 1. 快取是什麼
 2. 為何要使用快取
 3. 使用簡單`HttpRuntime.Cache`使用快取機制
@@ -12,18 +16,15 @@ tags: [C#,Asp.net,cache]
 
 -----
 
-第二篇大綱
+## 第二篇大綱
 
 1. 提出介面,提高可替換性
 2. 使用泛型改寫快取 讀取方式
 3. 使用擴充方法改寫快取
 
-
-
 -----
 
-
-1. 提出介面,提高可替換性
+### 提出介面,提高可替換性
 
 情境:
 
@@ -178,7 +179,7 @@ public class HomeController : Controller
 -----
 
 
-2. 使用泛型改寫快取 讀取方式
+### 使用泛型改寫快取 讀取方式
 
 我在[StackOverFlow解答](https://stackoverflow.com/questions/51160978/sql-server-data-caching-in-asp-net/51161277#51161277)的方式就是第二種
 
@@ -215,13 +216,9 @@ data = GetOrSetCache("name1",data,numberOfMinutes );
 
 我們只需要呼叫`GetOrSetCache`方法,這個方法把`GetCache`和`SetCache`封裝起來了
 
-
-
 -----
 
-
-
-3. 使用擴充方法改寫快取
+### 使用擴充方法改寫快取
 
 .Net有提供一個很方便的機制 **擴充方法**,這個機制幫我們解決一個很重要的問題.
 我們可以**擴充已經封裝但沒有原始碼的類別**,

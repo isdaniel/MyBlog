@@ -24,7 +24,6 @@ tags: [Base64,AES,SHA256,Encoding,Hash]
 * 加解密
 * 雜湊(Hash) 
 
-
 這三個東西搞混，尤其是把編碼當作加密....這是非常危險的事情. 
 
     編碼!= 加密 兩個是完全不一樣的東西
@@ -52,9 +51,7 @@ tags: [Base64,AES,SHA256,Encoding,Hash]
 
 這時就可使用編碼將資料轉換成不會衝突到字串.
 
- 
-
-如果想要了解 Base64 原理和演算法的話可以看我另一篇[【深入淺出】Base編碼 (Base64為例子)](https://dotblogs.com.tw/daniel/2019/05/09/001147)
+如果想要了解 Base64 原理和演算法的話可以看我另一篇{% post_link base64-principle %}
 
 -----
 
@@ -62,7 +59,6 @@ tags: [Base64,AES,SHA256,Encoding,Hash]
 ## 說明：
 
 這邊以`AES`來介紹，我們可以看到下圖資料轉換是雙向，但會透過一個Key來做轉換(這邊是和編碼最大的差別)
-
 
 ![](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557149615_79307.png)
 

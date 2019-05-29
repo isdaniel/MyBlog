@@ -105,7 +105,6 @@ FROM CTE
 最後CTE結果集就會呈現如下^^ 
 ![https://az787680.vo.msecnd.net/user/九桃/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521377621_11696.PNG](https://az787680.vo.msecnd.net/user/九桃/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521377621_11696.PNG)
 
-此文同步發布在 : https://dotblogs.com.tw/daniel/2018/03/18/213231
 
 **補充 oracle解法**
 
