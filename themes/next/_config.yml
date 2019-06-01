@@ -204,9 +204,9 @@ social:
   #Twitter: https://twitter.com/yourname || twitter
   FaceBook: https://www.facebook.com/profile.php?id=100001400319136 || facebook
   #VK Group: https://vk.com/yourname || vk
-  #StackOverflow: https://stackoverflow.com/yourname || stack-overflow
+  StackOverflow: https://stackoverflow.com/users/5176071/d-shih || stack-overflow
   #YouTube: https://youtube.com/yourname || youtube
-  IG: https://www.instagram.com/dn_shih/ || instagram
+  #IG: https://www.instagram.com/dn_shih/ || instagram
   #Skype: skype:yourname?call|chat || skype
 
 social_icons:
@@ -602,10 +602,10 @@ calendar:
 
 # Disqus
 disqus:
-  enable: false
-  shortname:
+  enable: true
+  shortname: danielshih
   count: true
-  lazyload: false
+  lazyload: true
 
 # DisqusJS
 # Alternative Disqus - Render comment component using Disqus API
@@ -651,8 +651,8 @@ valine:
 # Introduction: https://github.com/imsun/gitment
 gitment:
   enable: false
-  mint: true # RECOMMEND, A mint on Gitment, to support count, language and proxy_gateway
-  count: true # Show comments count in post meta area
+  mint: false # RECOMMEND, A mint on Gitment, to support count, language and proxy_gateway
+  count: false # Show comments count in post meta area
   lazy: false # Comments lazy loading with a button
   cleanly: false # Hide 'Powered by ...' on footer, and more
   language: # Force language, or auto switch by theme
@@ -750,10 +750,10 @@ needmoreshare2:
 # Copyright 2015-2018 GrowingIO, Inc. More info available at https://www.growingio.com
 #growingio_analytics: #your projectId
 
-# Google Analytics
+# Google AnalyticsGoogle Analytics
 #google_analytics:
-#  tracking_id:
-#  localhost_ignored: true
+  tracking_id: UA-141257985-1
+  localhost_ignored: true
 
 # CNZZ count
 #cnzz_siteid:
@@ -906,7 +906,7 @@ note:
   #  - flat      flat callout style with background, like on Mozilla or StackOverflow.
   #  - disabled  disable all CSS styles import of note tag.
   style: simple
-  icons: false
+  icons: true
   border_radius: 3
   # Offset lighter of background in % for modern and flat styles (modern: -12 | 12; flat: -18 | 6).
   # Offset also applied to label tag variables. This option can work with disabled note tag.
@@ -916,7 +916,7 @@ note:
 tabs:
   enable: true
   transition:
-    tabs: false
+    tabs: true
     labels: true
   border_radius: 0
 
