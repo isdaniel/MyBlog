@@ -2,6 +2,7 @@
 title: Asp.net使用快取 (二)
 date: 2019-05-27 14:52:47
 tags: [C#,Asp.net,cache]
+categories: C#
 ---
 
 {% post_link cache-asp-net-1 %}

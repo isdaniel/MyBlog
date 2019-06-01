@@ -2,6 +2,7 @@
 title: Asp.net使用快取 (一)
 date: 2019-05-27 08:26:31
 tags: [C#,Asp.net,cache]
+categories: C#
 ---
 
 最近回答[SQL Server data caching in ASP.NET](https://stackoverflow.com/questions/51160978/sql-server-data-caching-in-asp-net/51161277#51161277)問題,且有人問我有關快取的問題.

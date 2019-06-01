@@ -2,6 +2,7 @@
 title: 五分鐘快速了解 [傳址，傳參考，傳址]
 date: 2019-05-27 21:13:34
 tags: [C#,Memory,call by value,call by adress,call by reference]
+categories: [C#]
 ---
 **傳址，傳參考，傳址**  是基本但重要的概念。此概念在很多語言都通用
 

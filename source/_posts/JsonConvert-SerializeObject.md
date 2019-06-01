@@ -1,7 +1,8 @@
 ---
 title: JsonConvert.SerializeObject 呼叫 object.Equals 問題探討
 date: 2019-05-26 22:40:46
-tags: [C#,IOC,Json.net]
+tags: [C#,Json.net]
+categories: [C#]
 ---
 
 最近在 StackOverFlow 解答一個很有趣的問題[Json.Net / Newtonsoft: Using JsonConvert.SerializeObject results in weird .Equals calls - why?](https://stackoverflow.com/questions/51669072/json-net-newtonsoft-using-jsonconvert-serializeobject-results-in-weird-equal/51670641#51670641)

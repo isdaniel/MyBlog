@@ -2,6 +2,7 @@
 title: IOC(控制反轉)，DI(依賴注入) 深入淺出~~
 date: 2019-05-26 22:31:09
 tags: [C#,IOC,Autofac,Design-Pattern]
+categories: [C#,IOC]
 ---
 
 `IOC`是一個oop重要的程式設計思想。
