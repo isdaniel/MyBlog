@@ -6,7 +6,6 @@ environment:
   access_token:
     secure: 0ZwRmmbCpax3nuXqwEohKEJtnlgV273cz/gEj6QTvgfaX5+Grv8iRrea6DruLvCU
 install:
-  - ps: Install-Product node 6.0 
   - node --version
   - npm --version
   - npm install
