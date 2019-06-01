@@ -13,6 +13,7 @@ install:
   - npm install hexo-generator-index2 
   - npm install hexo-cli -g
 build_script:
+  - hexo clean
   - hexo generate
 artifacts:
   - path: public
