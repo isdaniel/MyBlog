@@ -34,7 +34,7 @@ notifications:
     to:
       - dog830228@gmail.com
     subject: 'Build {{status}}'                 
-      message: >-
+    message: >-
     <div style="font-family:'Segoe UI',Arial,Sans-Serif;font-size:10pt;">
         {{#passed}}
         <h1 style="font-size: 150%;font-weight:normal; color:#078DC7;"><a href="{{buildUrl}}" style="color:#078DC7;">Build {{projectName}} {{buildVersion}} completed</a></h1>{{/passed}}
