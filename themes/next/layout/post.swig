@@ -11,8 +11,10 @@
   <div id="posts" class="posts-expand">
     {{ post_template.render(page) }}
   </div>
-
+  <br/>
+  {% include '_custom/ad.swig' %}
 {% endblock %}
+
 
 {% block sidebar %}
   {{ sidebar_template.render(true) }}
