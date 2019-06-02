@@ -47,6 +47,6 @@ notifications:
         </p>
         <p><a href="{{notificationSettingsUrl}}" style="font-size:85%;color:#999;">Configure your notification preferences</a></p>
     </div>
-  on_build_success: false
+  on_build_success: true
   on_build_failure: true
   on_build_status_changed: true
