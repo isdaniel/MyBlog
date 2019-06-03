@@ -26,7 +26,7 @@ categories: [SQL,Oracle]
       SELECT 0 X 
       FROM DUAL
      )
-    CONNECT BY LEVEL <= 10</code>
+    CONNECT BY LEVEL <= 10
 
 此範例使用 `LEVEL ` 在 `CONNECT BY` 上當條件 建立列值到`LEVEL` 大於等於 10
 
@@ -42,7 +42,7 @@ categories: [SQL,Oracle]
       FROM DUAL
     )t1
     CONNECT BY startDt - endDt + LEVEL <= 0
-    </code>
+    
 
 一開始有兩個欄位 
 

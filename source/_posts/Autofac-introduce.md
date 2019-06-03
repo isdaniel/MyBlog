@@ -116,7 +116,7 @@ categories: [C#,IOC]
 
 已上面的例子來說：我只需要用 `InvoiceApiFactory `產生繼承`ApiBase<> `物件，使用`IConfig `將會被容器自動注入其中。
 
-* * *
+-----
 
 ## Autofac 常用三種注射方式.
 

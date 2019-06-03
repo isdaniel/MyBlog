@@ -32,7 +32,7 @@ Autofac 有寫一個 [Autofac.Extras.DynamicProxy](https://github.com/autofac/A
 
 這幾個欄位是我們比較常用的資訊
 
-    <code class="language-cs">public class TimeInterceptor : IInterceptor
+    public class TimeInterceptor : IInterceptor
     {
         private ITimeService _timeService;
         public TimeInterceptor(ITimeService s)
@@ -56,7 +56,7 @@ Autofac 有寫一個 [Autofac.Extras.DynamicProxy](https://github.com/autofac/A
                 invocation.ReturnValue = time;
             }
         }
-    }</code>
+    }
 
 他使用到 `TimeService` 模擬從資料庫中撈取資料出來
 
