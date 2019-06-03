@@ -75,6 +75,6 @@ Note :
 
 日後會有其他篇文章來詳細說明細節.
 
-* 建立自己Blog系列(二) github Setting
+* {% post_link hexo-github-setting %}
 * 建立自己Blog系列(三) Hexo next theme 介紹
 * 建立自己Blog系列(四) Appveyor 介紹 yaml.

@@ -41,3 +41,8 @@ categories: WebDesign
 我們可以嘗試在這個Hosting Repository建立一個`index.html` 在上面打`Hello would`並`commit push`
 
 在訪問`https://[username].github.io/`應該就可以看到Hello Would文字.
+
+
+* {% post_link github-hexo-appveyor %}
+* 建立自己Blog系列(三) Hexo next theme 介紹
+* 建立自己Blog系列(四) Appveyor 介紹 yaml.
