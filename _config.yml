@@ -122,3 +122,7 @@ symbols_count_time:
   time: true
   total_symbols: true
   total_time: true
+
+addlink:
+  before_text: __此文作者__：Daniel Shih(石頭)<br />__此文地址__：  
+  after_text: <br />__版權聲明__：本博客所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/tw/">CC BY-NC-SA 3.0 TW</a> 許可協議。轉載請註明出處！

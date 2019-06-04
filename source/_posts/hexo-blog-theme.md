@@ -191,3 +191,5 @@ Hexo有眾多Theme可以選擇，我們要切換使用的Theme只需要做幾個
 * hexo-symbols-count-time 閱讀次數
 * hexo-generator-index2  頁面分類
 * hexo-related-popular-posts 熱門文章
+* hexo-addlink 在文章最末添加永久鏈接及版權聲明
+
