@@ -165,4 +165,29 @@ categories: WebDesign
 
 或是也可以[參考官網](https://hexo.io/zh-tw/docs/configuration.html)
 
+## Hexo推薦Theme [Next]
+
+Hexo有眾多Theme可以選擇，我們要切換使用的Theme只需要做幾個步驟.
+
+1. 在網路上尋到想要使用的Hexo Theme.
+2. 把資料檔放在`/themes/`資料夾目錄下.
+
+這次想要跟大家介紹我使用的[Next Theme](https://github.com/theme-next/hexo-theme-next)，我會使用原因如下
+
+* 擁有眾多開源者貢獻
+* 畫面乾淨又整潔
+
+### 在Hexo使用Next
+
+1. 我們把上面的Next Theme clone一份下來.https://github.com/theme-next/hexo-theme-next.git
+2. 在`/themes/` 建立一個 `next` 資料夾並把`Next Theme`所有檔案copy進去.
+3. 修改Hexo `_config.yml`檔案，把`theme`改成`next`
+
 ## Hexo推薦插件
+
+下面是我推薦大家使用的`Hexo`插件，使用說明我就不一一跟大家解釋了網路上很多分享文.
+
+* theme-next-reading-progress 閱讀進度.
+* hexo-symbols-count-time 閱讀次數
+* hexo-generator-index2  頁面分類
+* hexo-related-popular-posts 熱門文章
