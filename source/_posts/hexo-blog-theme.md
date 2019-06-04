@@ -56,18 +56,25 @@ categories: WebDesign
 
 `Hexo` 是使用yml檔案格式來當設定檔.
 
-建立完Hexo資料後會有一個`_config.yml`檔案,那就是`Hexo`的設定檔案.
+> hexo init blog       # 初始化 blog
+
+資料夾檔案結構如下圖：
+
+![img](/images/github_hexo_theme1.PNG)
+
+當在Blog Code Repository 中建立完`Hexo`資料檔後會有一個`_config.yml`檔案,就是`Hexo`的設定檔案.
+
+## 解說 config.yml 設定檔
 
 ### 預設頁面：
 
-    # Site
-    title: 石頭的coding之路
-    subtitle:
-    description: 好點子沒價值，有價值的是把好點子實現～～
+    title: 石頭的coding之路   #網站標題
+    subtitle: 
+    description: 好點子沒價值，有價值的是把好點子實現 #網站描述
     keywords:
-    author: Daniel Shih
-    language: zh-tw
-    timezone:
+    author: Daniel Shih #您的名字
+    language: zh-tw  #語系
+    timezone:        #時差
 
     # Header
     menu:
@@ -80,27 +87,27 @@ categories: WebDesign
 ### 路由設定：
 
     # URL
-    url: https://isdaniel.github.io/
-    root: /
+    url: https://isdaniel.github.io/ #網站的網址
+    root: /  #網站的根目錄
     permalink: :year/:month/:day/:title/
     permalink_defaults:
 
 ### 資料檔設定：
 
     # Directory
-    source_dir: source
-    public_dir: public
-    tag_dir: tags
-    archive_dir: archives
-    category_dir: categories
+    source_dir: source #原始檔案資料夾，這個資料夾用於存放您的內容 預設值 source
+    public_dir: public #使用Hexo g 產生靜態檔案資料夾名稱
+    tag_dir: tags #標籤資料夾名稱
+    archive_dir: archives #彙整資料夾名稱
+    category_dir: categories #分類資料夾名稱
     code_dir: downloads/code
-    i18n_dir: :lang
+    i18n_dir: :lang #語言資料夾名稱
     skip_render:
 
 ### 文章設定
 
-    new_post_name: :title.md 
-    default_layout: post
+    new_post_name: :title.md #新文章的檔案名稱
+    default_layout: post #預設佈局資料夾
     titlecase: false # Transform title into titlecase
     external_link: true # Open external links in new tab
     filename_case: 0
@@ -129,22 +136,22 @@ categories: WebDesign
     # Date / Time format
     ## You can customize the date format as defined in
     ## http://momentjs.com/docs/#/displaying/format/
-    date_format: YYYY-MM-DD
-    time_format: HH:mm:ss
+    date_format: YYYY-MM-DD #日期格式
+    time_format: HH:mm:ss #時間格式	
 
 ### Hexo 主題設定
 
     # Extensions
-    theme: next
+    theme: next #使用主題名稱, 設為 false 表示關閉主題功能
 
 ### 發佈資料設定
 
     # Deployment
     ## Docs: https://hexo.io/docs/deployment.html
     deploy:
-    type: git
-    repo: https://github.com/isdaniel/isdaniel.github.io.git
-    branch: master
+    type: git #發佈使用版控類別 使用git
+    repo: https://github.com/isdaniel/isdaniel.github.io.git #發佈到哪個Repository
+    branch: master #發佈使用的分支
 
 ### 社群資料設定：
 
@@ -154,6 +161,8 @@ categories: WebDesign
     email_url: dog830228@gmail.com
 
 
-可以參考我的[_config.yml](https://github.com/isdaniel/MyBlog/blob/master/_config.yml)檔案
+設定檔可以參考我的[_config.yml](https://github.com/isdaniel/MyBlog/blob/master/_config.yml)檔案
+
+或是也可以[參考官網](https://hexo.io/zh-tw/docs/configuration.html)
 
 ## Hexo推薦插件
