@@ -42,7 +42,6 @@ categories: WebDesign
 
 在訪問`https://[username].github.io/`應該就可以看到Hello Would文字.
 
-
 * {% post_link github-hexo-appveyor %}
-* 建立自己Blog系列(三) Hexo next theme 介紹
+* {% post_link hexo-blog-theme %}
 * 建立自己Blog系列(四) Appveyor 介紹 yaml.

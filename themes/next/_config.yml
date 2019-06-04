@@ -179,8 +179,8 @@ menu_settings:
 # Schemes
 #scheme: Muse
 #scheme: Mist
-scheme: Pisces
-#scheme: Gemini
+#scheme: Pisces
+scheme: Gemini
 
 
 # ---------------------------------------------------------------
@@ -574,10 +574,7 @@ bookmark:
 
 # Reading progress bar
 # Dependencies: https://github.com/theme-next/theme-next-reading-progress
-reading_progress:
-  enable: true
-  color: "#37c6c0"
-  height: 2px
+
 
 # Google Calendar
 # Share your recent schedule to others via calendar page.
@@ -1165,7 +1162,11 @@ vendors:
   # See: https://github.com/theme-next/theme-next-reading-progress
   # Example:
   # reading_progress: //cdn.jsdelivr.net/gh/theme-next/theme-next-reading-progress@1/reading_progress.min.js
-  reading_progress:
+
+reading_progress:
+  enable: true
+  color: "#37c6c0" 
+  height: 3px 
 
   # leancloud-storage
   # See: https://www.npmjs.com/package/leancloud-storage
