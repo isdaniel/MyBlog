@@ -19,14 +19,16 @@ categories: [C#,Delegate]
 
 宣告一個 `voidDelegate` 委託
 
-    public delegate void voidDelegate();
+```csharp
+public delegate void voidDelegate();
 
-    static void Main(string[] args)
-    {
-        Console.WriteLine($"delegate is class? {typeof(voidDelegate).IsClass}");
+static void Main(string[] args)
+{
+    Console.WriteLine($"delegate is class? {typeof(voidDelegate).IsClass}");
 
-        Console.ReadKey();
-    }
+    Console.ReadKey();
+}
+```
 
 >執行結果:Yes 委託是一個特別的類別
 
@@ -38,24 +40,28 @@ categories: [C#,Delegate]
 
 使用如下 new 一個 `calcInt` 並傳入建構子參數  add方法 之後就可以把`calcint`當作方法來使用
 
-    calcInt calcint = new calcInt(add);
-    var result1 = calcint(5,5);
-    Console.WriteLine(result1);
+```csharp
+calcInt calcint = new calcInt(add);
+var result1 = calcint(5,5);
+Console.WriteLine(result1);
 
-    //方法
-    static int add(int a, int b)
-    {
-        return a + b;
-    }
+//方法
+static int add(int a, int b)
+{
+    return a + b;
+}
+```
 
 或是
 
 使用.net提供的 語法糖 如下
 
-    calcInt calcint1 = (a,b) => { return a + b; };
-    var result2 = calcint1(5, 5);
-    Console.WriteLine(result2);
-    (a,b) => { return a + b; }; 
+```csharp
+calcInt calcint1 = (a,b) => { return a + b; };
+var result2 = calcint1(5, 5);
+Console.WriteLine(result2);
+(a,b) => { return a + b; }; 
+```
 
 編譯器會動態幫我們產生一個方法。
 
@@ -69,44 +75,48 @@ categories: [C#,Delegate]
 
 在類別中宣告Calc委託，在Excute方法中我們直接回傳執行Calc結果
 
-    public class Calculator<T>
-        where T : struct
-    {
-        public delegate T Calc(IList<T> list);
+```csharp
+public class Calculator<T>
+    where T : struct
+{
+    public delegate T Calc(IList<T> list);
 
-        IList<T> _container;
-        public Calculator(IList<T> container)
-        {
-            _container = container;
-        }
-        public T Excute(Calc C)
-        {
-            return C(_container);
-        }
+    IList<T> _container;
+    public Calculator(IList<T> container)
+    {
+        _container = container;
     }
- 
+    public T Excute(Calc C)
+    {
+        return C(_container);
+    }
+}
+```
+
 ## 使用方法如下：
 
 宣告一個物件Calculator傳入建構子參數List
 
 重點:我們可以在Client端決定如何使用此方法
 
-    List<int> i_List = new List<int>()
+```csharp
+List<int> i_List = new List<int>()
+{
+    1,3,5,7,9
+};
+Calculator<int> calculator = new Calculator<int>(i_List);
+int i_add = calculator.Excute((list) => list.Sum());
+int i_multi = calculator.Excute((list) =>
+{
+    int totle = 1;
+    foreach (var i in list)
     {
-        1,3,5,7,9
-    };
-    Calculator<int> calculator = new Calculator<int>(i_List);
-    int i_add = calculator.Excute((list) => list.Sum());
-    int i_multi = calculator.Excute((list) =>
-    {
-        int totle = 1;
-        foreach (var i in list)
-        {
-            totle *= i;
-        }
-        return totle;
-    });
-    Console.WriteLine($"add:{i_add}  multi:{i_multi}");
+        totle *= i;
+    }
+    return totle;
+});
+Console.WriteLine($"add:{i_add}  multi:{i_multi}");
+```
 
 總結:如上面程式碼　我們可在`Client`中決定對`List`集合做操作(加,減,乘,除) ，而不是一開始就寫死在類別中，降低了類別方法和`Client`的耦合
 

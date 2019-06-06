@@ -1,8 +1,8 @@
 ---
 title: MediatorPattern(中介者模式)
 date: 2019-06-03 22:30:12
-tags: [C#,DesignPattern,MediatorPattern]
-categories: [C#,DesignPattern]
+tags: [csharp,DesignPattern,MediatorPattern]
+categories: [csharp,DesignPattern]
 ---
 
 ## 說明
@@ -36,83 +36,91 @@ categories: [C#,DesignPattern]
 
 ### 程式碼
 
-    public class ProductManager
-    {
-        public DBAdmin DbAdmin { get; set; }
-        public Programer Programer { get; set; }
+```csharp
+public class ProductManager
+{
+    public DBAdmin DbAdmin { get; set; }
+    public Programer Programer { get; set; }
 
-        internal void Send(string message, OriginReqBase req)
-        {
-     　　　　　　 //如果是DBAdmin傳遞訊息由Programer執行,反之
-                if (req.GetType() == typeof(DBAdmin))
-                    Programer.DoProcess(message);
-                else if(req.GetType() == typeof(Programer))
-                    DbAdmin.DoProcess(message);
-        }
+    internal void Send(string message, OriginReqBase req)
+    {
+    　　　　　　 //如果是DBAdmin傳遞訊息由Programer執行,反之
+            if (req.GetType() == typeof(DBAdmin))
+                Programer.DoProcess(message);
+            else if(req.GetType() == typeof(Programer))
+                DbAdmin.DoProcess(message);
     }
+}
+```
 
 傳遞通知或訊息邏輯寫在`Send`方法裡面.
 
 本次範例依照傳入的型別,如果是`DBAdmin`傳遞訊息由`Programer`執行,反之
 
-    public abstract class OriginReqBase
+```csharp
+public abstract class OriginReqBase
+{
+    protected ProductManager _productManager;
+
+    protected OriginReqBase(ProductManager productManager)
     {
-        protected ProductManager _productManager;
-
-        protected OriginReqBase(ProductManager productManager)
-        {
-            _productManager = productManager;
-        }
-
-        public virtual void Requirement(string message)
-        {
-            _productManager.Send(message, this);
-        }
+        _productManager = productManager;
     }
+
+    public virtual void Requirement(string message)
+    {
+        _productManager.Send(message, this);
+    }
+}
+```
 
 `OriginReqBase`(抽象同事者) 因為每個角色 (`ConcreteColleague`) 都需要知道中介者存在，所以把參數設定在建構子上。
 
 `Requirement `方法通知 PM 中介者將資料傳遞出去
 
-    public class Programer : OriginReqBase
+```csharp
+public class Programer : OriginReqBase
+{
+
+    public void DoProcess(string message)
     {
-
-        public void DoProcess(string message)
-        {
-            Console.WriteLine($"Programer: {message}");
-        }
-
-        public Programer(ProductManager productManager) : base(productManager)
-        {
-        }
+        Console.WriteLine($"Programer: {message}");
     }
 
-    public class DBAdmin : OriginReqBase
+    public Programer(ProductManager productManager) : base(productManager)
     {
-
-        public void DoProcess(string message)
-        {
-            Console.WriteLine($"DBA:{message}");
-        }
-
-        public DBAdmin(ProductManager productManager) : base(productManager)
-        {
-        }
     }
+}
+
+public class DBAdmin : OriginReqBase
+{
+
+    public void DoProcess(string message)
+    {
+        Console.WriteLine($"DBA:{message}");
+    }
+
+    public DBAdmin(ProductManager productManager) : base(productManager)
+    {
+    }
+}
+```
 
 `DoProcess` 方法 PM 中介者呼叫使用
 
-    ProductManager pm = new ProductManager();
+```csharp
+ProductManager pm = new ProductManager();
 
-    DBAdmin DBA1 = new DBAdmin(pm);　//DBA知道PM存在
-    Programer RD1 = new Programer(pm);　//RD知道PM存在
+DBAdmin DBA1 = new DBAdmin(pm);　//DBA知道PM存在
+Programer RD1 = new Programer(pm);　//RD知道PM存在
 
-    pm.Programer = RD1; //PM知道DBA
-    pm.DbAdmin = DBA1;  //PM知道RD
+pm.Programer = RD1; //PM知道DBA
+pm.DbAdmin = DBA1;  //PM知道RD
 
-    //現在DBA和RD只需要傳訊息就可將訊息轉到需要知道的人
-    RD1.Requirement("DB modify Requestment.");
-    DBA1.Requirement("DB Process doing.");
+//現在DBA和RD只需要傳訊息就可將訊息轉到需要知道的人
+RD1.Requirement("DB modify Requestment.");
+DBA1.Requirement("DB Process doing.");
+```
 
 ### 有三大重點
 
