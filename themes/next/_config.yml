@@ -442,16 +442,23 @@ tagcloud:
 # ---------------------------------------------------------------
 
 font:
-  enable: false
+  enable: true
+  host: /fonts
 
   # Uri of fonts host, e.g. //fonts.googleapis.com (Default).
-  host:
 
   # Font options:
   # `external: true` will load this font family from `host` above.
   # `family: Times New Roman`. Without any quotes.
   # `size: xx`. Use `px` as unit.
+  logo:
+    external: true
+    family: Georgia
 
+  codes:
+    external: true
+    family: Inconsolata for Powerline
+    size: 16
   # Global font settings used for all elements in <body>.
   global:
     external: true
@@ -473,16 +480,7 @@ font:
 
   # Font settings for Logo.
   # Fallback to `global` font settings.
-  logo:
-    external: true
-    family:
-    size:
 
-  # Font settings for <code> and code blocks.
-  codes:
-    external: true
-    family:
-    size:
 
 
 # ---------------------------------------------------------------
@@ -857,7 +855,7 @@ algolia_search:
 # Local search
 # Dependencies: https://github.com/theme-next/hexo-generator-searchdb
 local_search:
-  enable: false
+  enable: true
   # If auto, trigger search by changing input.
   # If manual, trigger search by pressing enter key or search button.
   trigger: auto
