@@ -13,58 +13,25 @@ categories: [C#]
 
 今天就跟大家分享Float和Double會誤差的原因
 
-
 ## 一. 浮點數介紹
 
-    一開始先對於float和double做身家調查
+> 一開始先對於float和double做身家調查
 
 ### 浮點類型的範圍
 
-<table responsive="true" summary="table">
-	<thead>
-		<tr responsive="true">
-			<th scope="col">類型</th>
-			<th scope="col">最小值</th>
-			<th scope="col">最大值</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td data-th="類型">float</td>
-			<td data-th="最小值">1.175494351 E – 38</td>
-			<td data-th="最大值">3.402823466 E + 38</td>
-		</tr>
-		<tr>
-			<td data-th="類型">double</td>
-			<td data-th="最小值">2.2250738585072014 E – 308</td>
-			<td data-th="最大值">1.7976931348623158 E + 308</td>
-		</tr>
-	</tbody>
-</table>
+|類型|最小值|最大值|
+|--- |--- |--- |
+|float|1.175494351 E – 38|3.402823466 E + 38|
+|double|2.2250738585072014 E – 308|1.7976931348623158 E + 308|
+
 
 ### 浮點類型
 
-<table responsive="true" summary="table">
-	<thead>
-		<tr responsive="true">
-			<th scope="col">類型</th>
-			<th scope="col">有效數字</th>
-			<th scope="col">位元組數</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td data-th="類型">float</td>
-			<td data-th="有效數字">6 – 7</td>
-			<td data-th="位元組數">4</td>
-		</tr>
-		<tr>
-			<td data-th="類型">double</td>
-			<td data-th="有效數字">15 – 16</td>
-			<td data-th="位元組數">8</td>
-		</tr>
-	</tbody>
-</table>
+|類型|有效數字|位元組數|
+|--- |--- |--- |
+|float|6 – 7|4|
+|double|15 – 16|8|
+
 
 ### 二. 浮點數產生
 
