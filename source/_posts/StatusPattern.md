@@ -9,12 +9,11 @@ categories: [C#,DesignPattern]
 
 狀態者模式
 
-
 優勢在可將複雜的物件狀態條件,以物件方式來減少條件式的判斷程式
 
 可由物件自身的狀態，決定之後的動作行為.
 
-## 狀態者模式 說明:
+## 狀態者模式 說明：
 
 需求簡易流程如下
 
@@ -101,8 +100,8 @@ public class PaymentContext
 
 裡面有`SetStatus` 和 `RunProcess` 方法
 
-1.  RunProcess 方法 就是將商品一個往下一個流程推進
-2.  SetStatus 方法 可以改變商品狀態
+1. RunProcess 方法 就是將商品一個往下一個流程推進
+2. SetStatus 方法 可以改變商品狀態
 
 上面類別中的程式碼 目前有點小複雜但還算簡單,但等日後需求越來越多 後人一直把程式碼寫入`Switch case` 或`if ... else` 中就會導致程式碼越來越複雜
 
@@ -114,7 +113,7 @@ public class PaymentContext
 
 就可開出一個抽象類別,裡面有這兩個抽象方法,給之後的狀態子類去實現.
 
-```csharp 
+```csharp
 public abstract class PaymentSatusBase
 {
         protected PaymentGate _gate;
@@ -163,13 +162,13 @@ public class PaymentGate
 }
 ```
 
-##  如何新建一個流程物件?
+## 如何新建一個流程物件?
 
-1.  首先我們需要先取得當前使用者使用的 `PaymentGate `引用並傳入建構子當作參數
-2.  實現Running和SetStatus方法,並將此狀態的邏輯寫上
-3.  執行完後需要更改下個流程,可以將值賦予給`CurrnetProceess` 屬性
+1. 首先我們需要先取得當前使用者使用的 `PaymentGate `引用並傳入建構子當作參數
+2. 實現Running和SetStatus方法,並將此狀態的邏輯寫上
+3. 執行完後需要更改下個流程,可以將值賦予給`CurrnetProceess` 屬性
 
-```csharp 
+```csharp
 public class ProcessSatus : PaymentSatusBase
 {
     public ProcessSatus(PaymentGate g)
@@ -209,58 +208,62 @@ public class ProcessSatus : PaymentSatusBase
 
 另外後面幾個流程比照辦理一一搬入類別中
 
-    ```csharp [	]public class CancelSatus : PaymentSatusBase
+```csharp
+public class CancelSatus : PaymentSatusBase
+{
+    public CancelSatus(PaymentGate g)
     {
-        public CancelSatus(PaymentGate g)
-        {
-            _gate = g;
-        }
-        public override string Running(Product p)
-        {
-            return "交易取消完成";
-        }
-
-        public override string SetSatus(PayStatus s)
-        {
-            string result = string.Empty;
-            if (s == PayStatus.Init)
-                result = "訂單取消請勿修改";
-            return result;
-        }
+        _gate = g;
+    }
+    public override string Running(Product p)
+    {
+        return "交易取消完成";
     }
 
-    public class SuccessSatus : PaymentSatusBase
+    public override string SetSatus(PayStatus s)
     {
-        public SuccessSatus(PaymentGate g)
-        {
-            _gate = g;
-        }
+        string result = string.Empty;
+        if (s == PayStatus.Init)
+            result = "訂單取消請勿修改";
+        return result;
+    }
+}
 
-        public override string Running(Product p)
-        {
-            return "交易完成";
-        }
+public class SuccessSatus : PaymentSatusBase
+{
+    public SuccessSatus(PaymentGate g)
+    {
+        _gate = g;
+    }
 
-        public override string SetSatus(PayStatus s)
-        {
-            string result = string.Empty;
-            if (s == PayStatus.Init)
-                result = "訂單成功請勿修改";
-            return result;
-        }
-    }```
+    public override string Running(Product p)
+    {
+        return "交易完成";
+    }
+
+    public override string SetSatus(PayStatus s)
+    {
+        string result = string.Empty;
+        if (s == PayStatus.Init)
+            result = "訂單成功請勿修改";
+        return result;
+    }
+}
+```
 
 最後外部程式使用如下
 
-    ```csharp [	]Product p = new Product();
-    p.Name = "電腦";
-    p.Price = 300000;
+```csharp
+Product p = new Product();
+p.Name = "電腦";
+p.Price = 300000;
 
-    PaymentGate context = new PaymentGate(p);
-    Console.WriteLine(context.RunProcess());
-    Console.WriteLine(context.RunProcess());
-    Console.WriteLine(context.RunProcess());
-    context.SetStatus(PayStatus.Init);
-    Console.WriteLine(context.RunProcess());```
+PaymentGate context = new PaymentGate(p);
+Console.WriteLine(context.RunProcess());
+Console.WriteLine(context.RunProcess());
+Console.WriteLine(context.RunProcess());
+context.SetStatus(PayStatus.Init);
+Console.WriteLine(context.RunProcess());
+```
 
 [程式碼放在github上](https://github.com/isdaniel/DesignPattern/tree/master/DesignPattern/StatePattern)

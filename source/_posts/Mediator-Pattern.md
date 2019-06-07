@@ -1,8 +1,8 @@
 ---
 title: MediatorPattern(中介者模式)
 date: 2019-06-03 22:30:12
-tags: [csharp,DesignPattern,MediatorPattern]
-categories: [csharp,DesignPattern]
+tags: [C#,DesignPattern,MediatorPattern]
+categories: [C#,DesignPattern]
 ---
 
 ## 說明
@@ -124,15 +124,12 @@ DBA1.Requirement("DB Process doing.");
 
 ### 有三大重點
 
-1.  DBA和RD(同事者) 知道PM(中介者)存在
-2.  PM(中介者)知道DBA和RD(同事者)存在
-3.  DBA和RD不用知道對方存在但卻可以互相傳遞訊息(因為PM已經幫助我們解耦合了)
+1. DBA和RD(同事者) 知道PM(中介者)存在
+2. PM(中介者)知道DBA和RD(同事者)存在
+3. ㄋDBA和RD不用知道對方存在但卻可以互相傳遞訊息(因為PM已經幫助我們解耦合了)
 
 ![](https://az787680.vo.msecnd.net/user/九桃/f718d961-2f8b-46ac-a2f7-b95af802f23a/1549792143_37531.png)
 
 UML圖 (有標示相對應的角色關係)
 
 我看來這個解耦合核心思想跟容器有點像，因為需要做溝通或通知時我們統一只需要轉交給<span style="color:#FFD700;">**中介者**</span>會幫助我們處理溝通事宜
-
-
-                
