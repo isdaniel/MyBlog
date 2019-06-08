@@ -1,5 +1,5 @@
 ---
-title: 橋接模式(BridgePattern)
+title: 樣板模式(TemplatePattern)
 date: 2019-06-02 22:30:11
 tags: [C#,DesignPattern,TemplatePattern]
 categories: [C#,DesignPattern]
