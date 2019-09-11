@@ -1,12 +1,13 @@
-1. 目錄
-1. Http 請求 Asp.net網站架構圖
-2. 介紹IHttpMoudle & IHttphandler & ApplicationHost.config
-3. IsapiRunTime & HttpRuntime
-5. HttpApplicationFactory
-6. MVC 取得IHttpHandler & UrlRoutingModule-4.0
-7. Router介紹(一) ASP.NET MVC路由扩展：路由映射
-8. Router介紹(二)t
-9. ASP.NET路由系统实现原理：HttpHandler的动态映射
+1. 從Asp.net框架角度進入Asp.net MVC原始碼－Http 請求 Asp.net IIS伺服器架構(第1天)
+1. 從Asp.net框架角度進入Asp.net MVC原始碼－介紹IHttpMoudle & IHttphandler & ApplicationHost.config(第2天)
+2. 從Asp.net框架角度進入Asp.net MVC原始碼－ IsapiRunTime & HttpRuntime (第3天)
+3. 從Asp.net框架角度進入Asp.net MVC原始碼－ HttpApplicationFactory (第4天)
+5. 從Asp.net框架角度進入Asp.net MVC原始碼－ HttpApplication(一) 初始化建立IHttpMoudule (第5天)
+6. 從Asp.net框架角度進入Asp.net MVC原始碼－ HttpApplication(二) 建置呼叫管道 (第6天)
+7. 從Asp.net框架角度進入Asp.net MVC原始碼－ HttpAppliaction(三) 取得呼叫IHttpHandler (第7天)
+8. 從Asp.net框架角度進入Asp.net MVC原始碼－ 揭密Mvc使用IHttpHandler by UrlRoutingModule-4.0 
+ (第8天)
+9. 從Asp.net框架角度進入Asp.net MVC原始碼－ MVC Router介紹(一) (第9天)
 10. Asp.net MVC 控制器解析(一)
 11. Asp.net MVC 控制器解析(二)
 12. IOC with Asp.net MVC (一)
