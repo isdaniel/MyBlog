@@ -1,30 +1,30 @@
 ---
-title: 從Asp.net框架角度進入Asp.net MVC原始碼－介紹IHttpMoudle & IHttphandler & ApplicationHost.config(第2天)
-date: 
+title: 介紹IHttpMoudle & IHttphandler & ApplicationHost.config(第2天)
+date: 2019-09-13 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
-categories: [C#]
+categories: [11th鐵人賽]
 ---
 # Agenda<!-- omit in toc -->
-- [前言：](#%E5%89%8D%E8%A8%80)
-  - [IHttpHandler和HttpModule關係](#IHttpHandler%E5%92%8CHttpModule%E9%97%9C%E4%BF%82)
-- [Asp.net_Application_Event生命週期](#AspnetApplicationEvent%E7%94%9F%E5%91%BD%E9%80%B1%E6%9C%9F)
-  - [Event事件名稱：](#Event%E4%BA%8B%E4%BB%B6%E5%90%8D%E7%A8%B1)
-  - [事件方法說明：](#%E4%BA%8B%E4%BB%B6%E6%96%B9%E6%B3%95%E8%AA%AA%E6%98%8E)
-- [IHttpHandler](#IHttpHandler)
-- [IHttpModule](#IHttpModule)
-- [自己建立一個 IHttpHandler](#%E8%87%AA%E5%B7%B1%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B-IHttpHandler)
-    - [Web.Config註冊上面撰寫的IHttpHandler](#WebConfig%E8%A8%BB%E5%86%8A%E4%B8%8A%E9%9D%A2%E6%92%B0%E5%AF%AB%E7%9A%84IHttpHandler)
-- [自己建立一個 IHttpModule](#%E8%87%AA%E5%B7%B1%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B-IHttpModule)
-    - [建立一個類別實現IHttpModule](#%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E9%A1%9E%E5%88%A5%E5%AF%A6%E7%8F%BEIHttpModule)
-    - [Web.Config註冊上面撰寫的IHttpModule](#WebConfig%E8%A8%BB%E5%86%8A%E4%B8%8A%E9%9D%A2%E6%92%B0%E5%AF%AB%E7%9A%84IHttpModule)
-  - [程式碼](#%E7%A8%8B%E5%BC%8F%E7%A2%BC)
-    - [建立一個類別實現IHttpHander](#%E5%BB%BA%E7%AB%8B%E4%B8%80%E5%80%8B%E9%A1%9E%E5%88%A5%E5%AF%A6%E7%8F%BEIHttpHander)
-- [ApplicationHost.config 設定擋](#ApplicationHostconfig-%E8%A8%AD%E5%AE%9A%E6%93%8B)
-  - [IIS預設設定Module在哪邊?](#IIS%E9%A0%90%E8%A8%AD%E8%A8%AD%E5%AE%9AModule%E5%9C%A8%E5%93%AA%E9%82%8A)
-    - [IIS](#IIS)
-    - [IISExpress](#IISExpress)
-- [小結](#%E5%B0%8F%E7%B5%90)
-- [參考資料：](#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99)
+- [前言：](#%e5%89%8d%e8%a8%80)
+  - [IHttpHandler和HttpModule關係](#ihttphandler%e5%92%8chttpmodule%e9%97%9c%e4%bf%82)
+- [Asp.net_Application_Event生命週期](#aspnetapplicationevent%e7%94%9f%e5%91%bd%e9%80%b1%e6%9c%9f)
+  - [Event事件名稱：](#event%e4%ba%8b%e4%bb%b6%e5%90%8d%e7%a8%b1)
+  - [事件方法說明：](#%e4%ba%8b%e4%bb%b6%e6%96%b9%e6%b3%95%e8%aa%aa%e6%98%8e)
+- [IHttpHandler](#ihttphandler)
+- [IHttpModule](#ihttpmodule)
+- [自己建立一個 IHttpHandler](#%e8%87%aa%e5%b7%b1%e5%bb%ba%e7%ab%8b%e4%b8%80%e5%80%8b-ihttphandler)
+    - [Web.Config註冊上面撰寫的IHttpHandler](#webconfig%e8%a8%bb%e5%86%8a%e4%b8%8a%e9%9d%a2%e6%92%b0%e5%af%ab%e7%9a%84ihttphandler)
+- [自己建立一個 IHttpModule](#%e8%87%aa%e5%b7%b1%e5%bb%ba%e7%ab%8b%e4%b8%80%e5%80%8b-ihttpmodule)
+    - [建立一個類別實現IHttpModule](#%e5%bb%ba%e7%ab%8b%e4%b8%80%e5%80%8b%e9%a1%9e%e5%88%a5%e5%af%a6%e7%8f%beihttpmodule)
+    - [Web.Config註冊上面撰寫的IHttpModule](#webconfig%e8%a8%bb%e5%86%8a%e4%b8%8a%e9%9d%a2%e6%92%b0%e5%af%ab%e7%9a%84ihttpmodule)
+  - [程式碼](#%e7%a8%8b%e5%bc%8f%e7%a2%bc)
+    - [建立一個類別實現IHttpHander](#%e5%bb%ba%e7%ab%8b%e4%b8%80%e5%80%8b%e9%a1%9e%e5%88%a5%e5%af%a6%e7%8f%beihttphander)
+- [ApplicationHost.config 設定擋](#applicationhostconfig-%e8%a8%ad%e5%ae%9a%e6%93%8b)
+  - [IIS預設設定Module在哪邊?](#iis%e9%a0%90%e8%a8%ad%e8%a8%ad%e5%ae%9amodule%e5%9c%a8%e5%93%aa%e9%82%8a)
+    - [IIS](#iis)
+    - [IISExpress](#iisexpress)
+- [小結](#%e5%b0%8f%e7%b5%90)
+- [參考資料：](#%e5%8f%83%e8%80%83%e8%b3%87%e6%96%99)
 
 ## 前言：
 
@@ -345,6 +345,5 @@ IIS預設幫忙載入許多`Moudle`我們自己客製化的`Module`也可以在�
 
 ##  參考資料：
 
-* <https://docs.microsoft.com/en-us/previous-versions/aspnet/bb398986(v=vs.100)#Features>
-* <https://support.microsoft.com/zh-tw/help/307985/info-asp-net-http-modules-and-http-handlers-overview>
-* <https://www.codeproject.com/Articles/335968/Implementing-HTTPHandler-and-HTTPModule-in-ASP-NET>
+* [HTTP Handlers and HTTP Modules Overview](https://docs.microsoft.com/en-us/previous-versions/aspnet/bb398986(v=vs.100)#Features)
+* [Implementing HTTPHandler and HTTPModule in ASP.NET](https://www.codeproject.com/Articles/335968/Implementing-HTTPHandler-and-HTTPModule-in-ASP-NET)
