@@ -1,9 +1,10 @@
 ---
-title: 從Asp.net框架角度進入Asp.net MVC原始碼－Http 請求 Asp.net IIS伺服器架構(第1天)
-date: 
-tags: [C#,Asp.net,Asp.net-MVC,SourceCode]
+title: 從Asp.net框架角度進入Asp.net MVC原始碼－ (開賽)Http 請求 Asp.net IIS伺服器架構(第1天)
+date: 2019-09-12 10:00:00
+tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [C#]
 ---
+
 # Agenda<!-- omit in toc -->
 - [開賽前言：](#%e9%96%8b%e8%b3%bd%e5%89%8d%e8%a8%80)
   - [為什麼想要選擇此主題](#%e7%82%ba%e4%bb%80%e9%ba%bc%e6%83%b3%e8%a6%81%e9%81%b8%e6%93%87%e6%ad%a4%e4%b8%bb%e9%a1%8c)
