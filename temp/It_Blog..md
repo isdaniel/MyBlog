@@ -1,28 +1,28 @@
-1. (開賽)Http 請求 Asp.net IIS伺服器架構(第1天)
-2. 介紹IHttpMoudle & IHttphandler & ApplicationHost.config(第2天)
-3. IsapiRunTime & HttpRuntime (第3天)
-4. HttpApplicationFactory (第4天)
-5. HttpApplication(一) 初始化建立IHttpMoudule (第5天)
-6. HttpApplication(二) 建置呼叫管道 (第6天)
-7. HttpAppliaction(三) 取得呼叫IHttpHandler (第7天)
-8. 揭密Mvc使用IHttpHandler by UrlRoutingModule-4.0 (第8天)
-9.  MVC Router介紹(一) (第9天)
-10. MVC Router介紹(二) (第10天)
-11. Asp.net MVC 控制器解析(一) (第11天)
-12. Asp.net MVC 控制器解析(二) (第12天)
-13. IoC應用在Asp.net MVC(一) (第13天)
-14. IoC應用在Asp.net MVC(二) (第14天)
-15. 執行Action方法 InvokeAction(一) (第15天)
-16. MVC Filter 機制解密 (第16天)
-17. 執行Action方法 InvokeAction(二)) (第17天)
-18. Model(ModelBing)模型綁定(一) (第18天)
-19. Model(ModelMetadata) (第19天)
-20. 探討Model上客製化標籤如何被解析使用 (第20天)
-21. Model 探討驗證標籤(ValidationAttribute) (第21天)
-22. View是如何被建立(一) (第22天)
-23. 6個基本(ActionResult) View是如何被建立(二) (第23天)
-24. 探討ViewEngine機制 View是如何被建立(三) (第24天)
-25. 動態產生程式碼(WebViewPage) View是如何被建立(四) (第25天)
-26. 動手DIY改造 Asp.net MVC- Route解析機制 (第26天)
-27. 動手DIY改造 Asp.net MVC- DependencyResolver by Autofac (第27天)
-28. 動手DIY改造 Asp.net MVC- 從Asp.net框架角度進入Asp.net MVC原始碼- (第28天)
+1. [Day01] (開賽)Http 請求 Asp.net IIS伺服器架構
+2. [Day02] Asp.Net支柱 IHttpMoudle & IHttphandler
+3. [Day03] 啟動吧!Asp.Net IsapiRunTime & HttpRuntime
+4. [Day04] 掌控HttpApplication物件建立 - HttpApplicationFactory
+5. [Day05] Asp.Net重要物件HttpApplication(一) 初始化建立IHttpMoudule
+6. [Day06] Asp.Net重要物件HttpApplication(二) 建置執行管道
+7. [Day07] Asp.Net重要物件HttpApplication(三) 取得執行的IHttpHandler
+8. [Day08] 揭密Mvc使用IHttpHandler by UrlRoutingModule-4.0
+9. [Day09] 進入MVC原始碼世界 Route & RouteTable 原始碼解析
+10. [Day10] 透過MvcRouteHandler取得呼叫IHttphandler
+11. [Day11] Asp.net MVC Controller是怎麼被建立(原始碼揭密)
+12. [Day12] Controller重要幾個類別(原始碼揭密)
+13. [Day13] Asp.net MVC如何實現IOC解析器
+14. [Day14] 反轉起來~透過IOC解析來執行依賴反轉
+15. [Day15] Action方法如何被執行InvokeAction(一)
+16. [Day16] MVC Filter 機制解密
+17. [Day17] Action方法如何被執行InvokeAction(二)
+18. [Day18] 提供ModelBing幾個重要功臣(Model)
+19. [Day19] Http參數如何綁定到Action參數上(簡單和複雜模型綁定探討)
+20. [Day20] 探討Model上客製化標籤如何被解析使用
+21. [Day21] Model 探討驗證標籤(ValidationAttribute)
+22. [Day22] View是如何被建立(一)
+23. [Day23] 6個基本(ActionResult) View是如何被建立(二)
+24. [Day24] 探討ViewEngine機制 View是如何被建立(三)
+25. [Day25] 動態產生程式碼(WebViewPage) View是如何被建立(四)
+26. [Day26] 動手DIY改造 Asp.net MVC- Route解析機制
+27. [Day27] 動手DIY改造 Asp.net MVC- DependencyResolver by Autofac
+28. [Day28] 動手DIY改造 Asp.net MVC- 從Asp.net框架角度進入Asp.net MVC原始碼

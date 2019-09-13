@@ -1,5 +1,5 @@
 ---
-title: 介紹IHttpMoudle & IHttphandler & ApplicationHost.config(第2天)
+title: Asp.Net支柱 IHttpMoudle & IHttphandler (第2天)
 date: 2019-09-13 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]

@@ -1,5 +1,5 @@
 ---
-title:  (開賽)Http 請求 Asp.net IIS伺服器架構(第1天)
+title: (開賽)Http 請求 Asp.net IIS伺服器架構 (第1天)
 date: 2019-09-12 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
