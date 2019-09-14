@@ -25,4 +25,5 @@
 25. [Day25] 動態產生程式碼(WebViewPage) View是如何被建立(四)
 26. [Day26] 動手DIY改造 Asp.net MVC- Route解析機制
 27. [Day27] 動手DIY改造 Asp.net MVC- DependencyResolver by Autofac
-28. [Day28] 動手DIY改造 Asp.net MVC- 從Asp.net框架角度進入Asp.net MVC原始碼
+28. [Day28] 動手DIY改造 Asp.net MVC- 建立自己ActionInvoker和Model綁定機制
+29. [Day29] 動手DIY改造 Asp.net MVC- 擴充在擴充,強化WebViewPage製作多國貨幣機制
