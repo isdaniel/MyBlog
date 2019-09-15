@@ -10,7 +10,7 @@ categories: [11th鐵人賽]
 - [取得使用 HttpApplication物件 (GetApplicationInstance)](#%e5%8f%96%e5%be%97%e4%bd%bf%e7%94%a8-httpapplication%e7%89%a9%e4%bb%b6-getapplicationinstance)
   - [HttpApplicationFactory 初始化 (EnsureInited方法)](#httpapplicationfactory-%e5%88%9d%e5%a7%8b%e5%8c%96-ensureinited%e6%96%b9%e6%b3%95)
   - [Application_Start方法為什麼只會呼叫一次? (EnsureAppStartCalled)](#applicationstart%e6%96%b9%e6%b3%95%e7%82%ba%e4%bb%80%e9%ba%bc%e5%8f%aa%e6%9c%83%e5%91%bc%e5%8f%ab%e4%b8%80%e6%ac%a1-ensureappstartcalled)
-- [GetNormalApplicationInstance](#getnormalapplicationinstance)
+- [返回一個 HttpApplication 物件 (GetNormalApplicationInstance)](#%e8%bf%94%e5%9b%9e%e4%b8%80%e5%80%8b-httpapplication-%e7%89%a9%e4%bb%b6-getnormalapplicationinstance)
 - [小結](#%e5%b0%8f%e7%b5%90)
 
 ## 前言：
@@ -196,7 +196,7 @@ private void FireApplicationOnStart(HttpContext context) {
 
 > 在處理完事件`Application_OnStart`呼叫`RecycleSpecialApplicationInstance`回收`HttpApplication`物件
 
-## GetNormalApplicationInstance
+## 返回一個 HttpApplication 物件 (GetNormalApplicationInstance)
 
 方法中主要做.
 
@@ -231,7 +231,8 @@ private HttpApplication GetNormalApplicationInstance(HttpContext context) {
 今天我們學到
 
 1. `IHttpHandler GetApplicationInstance(HttpContext context)`其實是返回一個`HttpApplication`物件.
-2. 這個工廠會有一個 `_freeList` 集合來存取之前用過的`HttpApplication`物件,如果集合中沒有適合的`HttpApplication`物件就會使用反射返回一個新的`HttpApplication`並將他初始化．
-3. 所以`HttpRuntime`呼叫的是`HttpApplication`物件的`ProcessRequest`方法
+2. 在`EnsureAppStartCalled`方法中呼叫`FireApplicationOnStart`方法動態建立一個`HttpApplication`物件,呼叫完`Application_OnStart`事件就回收掉並使用一個`flag`布林值代表已經呼叫過.
+3. 這個工廠會有一個 `_freeList` 集合來存取之前用過的`HttpApplication`物件,如果集合中沒有適合的`HttpApplication`物件就會使用反射返回一個新的`HttpApplication`並將他初始化．
+4. 所以`HttpRuntime`呼叫的是`HttpApplication`物件的`ProcessRequest`方法
 
 下篇會跟大家介紹`HttpApplication`類別成員詳細資訊
