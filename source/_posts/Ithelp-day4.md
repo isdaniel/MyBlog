@@ -1,6 +1,6 @@
 ---
 title: 掌控HttpApplication物件建立 - HttpApplicationFactory (第4天)
-date: 
+date: 2019-09-15 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
@@ -93,3 +93,5 @@ private HttpApplication GetNormalApplicationInstance(HttpContext context) {
 1. `IHttpHandler GetApplicationInstance(HttpContext context)`其實是返回一個`HttpApplication`物件.
 2. 這個工廠會有一個 `_freeList` 集合來存取之前用過的`HttpApplication`物件，如果集合中沒有適合的`HttpApplication`物件就會使用反射返回一個新的`HttpApplication`並將他初始化．
 3. 所以`HttpRuntime`呼叫的是`HttpApplication`物件的`ProcessRequest`方法
+
+下篇會跟大家介紹`HttpApplication`類別成員詳細資訊
