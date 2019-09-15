@@ -6,7 +6,7 @@
 title: 石頭的coding之路
 subtitle: Hello World
 description: 好點子沒價值，有價值的是把好點子實現
-keywords:
+keywords: c#,Asp.net,Asp.net MVC,source code,後端,WebApi,SQL,SQL Server
 author: Daniel Shih
 language: zh-tw
 timezone:
@@ -24,7 +24,7 @@ menu:
 url: https://isdaniel.github.io/
 root: /
 #permalink: :year/:month/:day/:title/
-permalink: :title.html
+permalink: :title/
 permalink_defaults:
 
 # Directory
