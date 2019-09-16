@@ -1,6 +1,6 @@
 ---
 title: Asp.Net重要物件HttpApplication(一) 初始化建立IHttpMoudule (第5天)
-date: 
+date: 2019-09-16 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
@@ -20,11 +20,9 @@ categories: [11th鐵人賽]
 
 上一篇文章分享`HttpApplicationFactory.GetApplicationInstance`方法返回一個`HttpApplication`給`HttpRuntime`來呼叫使用.
 
-`HttpApplication`可謂是我們`Asp.net`中很重要但很複雜的類別
+今天開始介紹`HttpApplication`這個很重要的類別,它可謂是我們`Asp.net`中很複雜但重要的類別
 
-> `Global.cs`是繼承這個類別
-
-但為什麼需要繼承這個類別呢? 讓我們繼續看下去.
+`Global.cs`是繼承`HttpApplication`類別,但為什麼需要繼承這個類別呢? 讓我們繼續看下去.
 
 > 查看原始碼好站 [Reference Source](https://referencesource.microsoft.com/)
 > 此文的程式碼比較多我會在原始碼上邊上說明相對應編號方便大家觀看
