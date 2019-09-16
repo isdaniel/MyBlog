@@ -78,41 +78,65 @@ public interface IISAPIRuntime {
 在`CreateWorkerRequest`會依據不同IIS版本建立不同`ISAPIWorkerRequest`物件,之後在呼叫`Initialize`方法把`Http`請求內容初次填入這個對象.
 
 ```csharp
-ISAPIWorkerRequest wr = null;
-try {
-    bool useOOP = (iWRType == WORKER_REQUEST_TYPE_OOP);
+public int ProcessRequest(IntPtr ecb, int iWRType) {
+	IntPtr pHttpCompletion = IntPtr.Zero;
+	if (iWRType == WORKER_REQUEST_TYPE_IN_PROC_VERSION_2) {
+		pHttpCompletion = ecb;
+		ecb = UnsafeNativeMethods.GetEcb(pHttpCompletion);
+	} 
+	ISAPIWorkerRequest wr = null;
+	try {
+		bool useOOP = (iWRType == WORKER_REQUEST_TYPE_OOP);
+		wr = ISAPIWorkerRequest.CreateWorkerRequest(ecb, useOOP);
+		wr.Initialize();             
+		String wrPath = wr.GetAppPathTranslated();
+		String adPath = HttpRuntime.AppDomainAppPathInternal;                
+		
+		if (adPath == null ||
+			StringUtil.EqualsIgnoreCase(wrPath, adPath)) {
+			
+			HttpRuntime.ProcessRequestNoDemand(wr);
+			return 0;
+		}
+		else {
+			// need to restart app domain
+			HttpRuntime.ShutdownAppDomain(ApplicationShutdownReason.PhysicalApplicationPathChanged,
+										  SR.GetString(SR.Hosting_Phys_Path_Changed,
+																		   adPath,
+																		   wrPath));
+			return 1;
+		}
+	}
+	catch(Exception e) {
+		try {
+			WebBaseEvent.RaiseRuntimeError(e, this);
+		} catch {}
+		
+		if (wr != null && wr.Ecb == IntPtr.Zero) {
+			if (pHttpCompletion != IntPtr.Zero) {
+				UnsafeNativeMethods.SetDoneWithSessionCalled(pHttpCompletion);
+			}
+			if (e is ThreadAbortException) {
+				Thread.ResetAbort();
+			}                    
 
-    //初始化WorkerRequest物件
-    wr = ISAPIWorkerRequest.CreateWorkerRequest(ecb, useOOP);
-    wr.Initialize();
-
-    // check if app path matches (need to restart app domain?)                
-    String wrPath = wr.GetAppPathTranslated();
-    String adPath = HttpRuntime.AppDomainAppPathInternal;                
-    
-    if (adPath == null ||
-        StringUtil.EqualsIgnoreCase(wrPath, adPath)) {
-        
-        //執行請求
-        HttpRuntime.ProcessRequestNoDemand(wr);
-        return 0;
-    }
-    else {
-        // need to restart app domain
-        HttpRuntime.ShutdownAppDomain(ApplicationShutdownReason.PhysicalApplicationPathChanged,
-                                        SR.GetString(SR.Hosting_Phys_Path_Changed,
-                                                                        adPath,
-                                                                        wrPath));
-        return 1;
-    }
+			return 0;
+		}
+		
+		throw;
+	}
 }
 ```
 
-這段程式碼有兩個重點:
+這段程式碼有幾個重點:
 
 1. 把Http請求內文封裝到`WorkerRequest`物件中,方便日後使用.
 2. `wr.Initialize()`初始化`WorkerRequest`物件
 3. 呼叫`HttpRuntime.ProcessRequestNoDemand`方法並把剛剛初始化的`WorkerRequest`物件當作參數傳入.
+
+其中參數`ecb`(`Execution Control Block`)是一個**Unmanaged Pointer**
+
+`ISAPIRuntime`不能直接調用`ASP.NET ISAPI`,所以通過一個`ecb`物件指標,`ecb`實現`ISAPI`和`ISAPIRutime`之間溝通.
 
 ## HttpRuntime.ProcessRequestNoDemand
 
