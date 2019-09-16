@@ -198,7 +198,7 @@ public interface IHttpModule
 
 如果有認真看原始碼的小夥伴,會發現`HttpApplication`的`ProcessRequest`目前是**throw**一個錯誤.
 
-那他是怎麼完成請求的呢?
+那他是怎麼找到使用`HttpHandler`物件並完成請求的呢?
 
 ```Csharp
 void IHttpHandler.ProcessRequest(HttpContext context) {
@@ -206,11 +206,11 @@ void IHttpHandler.ProcessRequest(HttpContext context) {
 }
 ```
 
-> 因為`HttpRunTime`是呼叫異步請求 `BeginProcessRequest` 方法.
+> 因為`HttpRunTime`是呼叫異步請求`BeginProcessRequest`方法.
 
-這邊提一下 [啟動吧!Asp.Net IsapiRunTime & HttpRuntime](https://ithelp.ithome.com.tw/articles/10215221) 會先判斷`app`物件是否實現`IHttpAsyncHandler`.
+這邊提一下 [啟動吧!Asp.Net IsapiRunTime & HttpRuntime](https://ithelp.ithome.com.tw/articles/10215221)會先判斷`app`物件是否實現`IHttpAsyncHandler`.
 
-`HttpApplication`有實現.所以優先執行異步請求.
+`HttpApplication`有實現`IHttpAsyncHandler`介面.所以優先執行異步請求.
 
 ```Csharp
 if (app is IHttpAsyncHandler) {
