@@ -156,8 +156,9 @@ private AsyncAppEventHandlersTable AsyncEvents {
 
 `PostMapRequestHandler`提供擴充的事件註冊點，透過`AddSyncEventHookup`把事件加入集合中.
 
-1. `EventPostMapRequestHandler`就是日後當作查找索引的`Object`
-2. `value` 擴充的事件
+1. `object key`:此事件識別資訊(每個事件都有自己的Object),如`PostMapRequestHandler`事件傳入`EventPostMapRequestHandler`物件.
+2. `Delegate handler`:使用者撰寫事件方法.
+3. `RequestNotification notification`:屬於哪種分群.
 
 ```Csharp
 public event EventHandler PostMapRequestHandler {
