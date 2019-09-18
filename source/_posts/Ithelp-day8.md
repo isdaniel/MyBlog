@@ -1,6 +1,6 @@
 ---
 title:  揭密Mvc使用IHttpHandler by UrlRoutingModule-4.0 (第8天)
-date: 
+date: 2019-09-19 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
@@ -25,7 +25,7 @@ categories: [11th鐵人賽]
 
 在標題已經透漏我們是透過`UrlRoutingModule`這個繼承`IHttpModule`的類別來取得`IHttpHandler`
 
-但有人可能會有疑問是我明明沒有註冊此`HttpModule` `Asp.net`怎麼知道的呢?
+有人可能會有疑問是我明明沒有註冊此`HttpModule` `Asp.net`怎麼知道的呢?
 
 原因是這個`Module`是預設就載入
 
@@ -80,7 +80,6 @@ private void OnApplicationPostResolveRequestCache(object sender, EventArgs e) {
 
 ### PostResolveRequestCache方法
 
-
 ```csharp
 public virtual void PostResolveRequestCache(HttpContextBase context) {
 	// Match the incoming URL against the route table
@@ -114,9 +113,13 @@ public virtual void PostResolveRequestCache(HttpContextBase context) {
 }
 ```
 
-`RouteCollection`給我們註冊使用路由的集合(`Asp.net Global.cs`中我們很常看到使用).
+`RouteCollection`是一個全域路由集合,註冊使用路由(`Asp.net Global.cs`中我們很常看到使用).
+
+> 對於此集合註冊路由,是`MVC`,`WebApi`能運行的關鍵喔
 
 在`MVC`中我們透過`MapRoute`擴展方法來註冊路由,其實在這個擴展方法中會建立一個`Route`物件並加入`RouteCollection`集合中.
+
+> `Route`物件會提供一個`HttpHandler`來給我們呼叫使用.
 
 ```csharp
 routes.MapRoute(
@@ -128,10 +131,9 @@ routes.MapRoute(
 
 `RouteCollection.GetRouteData(context)`取得路由中匹配此次請求的路由資料，藉由此註冊進集合並繼承`RouteBase`抽象類別的物件
 
-
 ### IRouteHandler取得執行HttpHandler
 
-在`routeData`會有一個重要的屬性`RouteHandler`的是繼承於`IRouteHandler`
+在`routeData`會有一個重要的屬性`RouteHandler`是繼承於`IRouteHandler`
 
 這個介面只有一個方法就是回傳`IHttpHandler`看到這基本上就可以知道`MVC`的`IHttpHandler`是呼叫`RouteHandler.GetHttpHandler`回傳的物件.
 
@@ -140,6 +142,8 @@ public interface IRouteHandler {
     IHttpHandler GetHttpHandler(RequestContext requestContext);
 }
 ```
+
+> 後面會對於此介面有更詳細介紹
 
 ### RemapHandler設置HttpContext的HttpHandler
 
@@ -152,8 +156,7 @@ IHttpHandler httpHandler = routeHandler.GetHttpHandler(requestContext);
 context.RemapHandler(httpHandler);
 ```
 
-這邊說明一下`RemapHandler`作用,最主要是把傳入參數`handler`傳給
-`_remapHandler`
+這邊說明一下`RemapHandler`作用,最主要是把傳入參數`handler`傳給`_remapHandler`欄位
 
 ```csharp
 public void RemapHandler(IHttpHandler handler) {
@@ -194,10 +197,7 @@ internal IHttpHandler RemapHandlerInstance {
 }
 ```
 
-我們在前一篇有說道
-
-> `MapHttpHandler`會依照下面權重來取得`HttpHander`物件.
-> `context.RemapHandlerInstance`如果有物件就優先返回(很重要因為這就是Asp.net MVC使用的`HttpHander`物件)
+> 我們之前有分享`MapHandlerExecutionStep`,`MapHttpHandler`會優先讀取存在`context.RemapHandlerInstance`中`HttpHandler`如果有物件就給`CallHandlerExecutionStep`呼叫使用.
 
 這邊算是比較完整圓了上一篇埋的小伏筆.
 
@@ -210,4 +210,4 @@ internal IHttpHandler RemapHandlerInstance {
 3. 路由其實是`Asp.net MVC`呼叫的關鍵
 4. 因為在`MapHandlerExecutionStep`執行前已經決定`context.RemapHandlerInstance`所以就不會呼叫到`config`設定`HttpHander`物件
 
-基本上`Asp.net`部分已經介紹完了,接下來會進入Asp.net MVC的世界.
+基本上`Asp.net`部分已經介紹完了,接下來會進入`Asp.net MVC`的世界.

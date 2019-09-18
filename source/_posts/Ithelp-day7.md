@@ -1,6 +1,6 @@
 ---
 title: Asp.Net重要物件HttpApplication(三) 取得執行的IHttpHandler (第7天)
-date: 
+date:  2019-09-18 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
@@ -23,9 +23,9 @@ categories: [11th鐵人賽]
 
 ## 呼叫HttpAppliaction取得HttpHandler並呼叫
 
-在`ApplicationStepManager`的`ExecutionStep`中重要的實現類別為
+在`ApplicationStepManager`的`IExecutionStep`中重要的實現類別有兩個
 
-1. `MapHandlerExecutionStep`
+1. `MapHandlerExecutionStep`:找到執行`IHttpHander`
 2. `CallHandlerExecutionStep`
 
 ### MapHandlerExecutionStep程式碼解說
