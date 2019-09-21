@@ -1,13 +1,13 @@
 ---
 title: 透過MvcRouteHandler取得呼叫IHttphandler (第10天)
-date: 
+date: 2019-09-21 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
-- [MvcRouteHandler取得IHttpHandler](#mvcroutehandler%e5%8f%96%e5%be%97ihttphandler)
-- [MvcHandler](#mvchandler)
+- [MVC取得使用HttpHandler (IHttpHandler)](#mvc%e5%8f%96%e5%be%97%e4%bd%bf%e7%94%a8httphandler-ihttphandler)
+- [MVC呼叫的HttpHandler (MvcHandler)](#mvc%e5%91%bc%e5%8f%ab%e7%9a%84httphandler-mvchandler)
 - [小結](#%e5%b0%8f%e7%b5%90)
 
 ## 前言
@@ -20,7 +20,7 @@ categories: [11th鐵人賽]
 
 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
 
-## MvcRouteHandler取得IHttpHandler
+## MVC取得使用HttpHandler (IHttpHandler)
 
 之前說到我們透過`MapRoute`擴展方法加入一個`Route`物件給`RouteCollection`**全域路由集合**.
 
@@ -35,9 +35,7 @@ Route route = new Route(url, new MvcRouteHandler())
 };
 ```
 
-`IRouteHandler`最重要的是`IHttpHandler IRouteHandler.GetHttpHandler(RequestContext requestContext)`會取得使用的`IHttpHandler`.
-
-下面程式碼可以看到**Mvc**使用`IHttpHandler`是`MvcHandler`，且調用他的`ProcessRequest`,`BeginProcessRequest`方法.
+`IRouteHandler`最重要的是`IHttpHandler IRouteHandler.GetHttpHandler(RequestContext requestContext)`會取得一個`IHttpHandler`物件.
 
 ```csharp
 public class MvcRouteHandler : IRouteHandler
@@ -83,14 +81,15 @@ public class MvcRouteHandler : IRouteHandler
 }
 ```
 
-## MvcHandler
+上面程式碼可以看到**Mvc**使用`IHttpHandler`是`MvcHandler`
 
-下面貼上`MvcHandler`類別中主要核心的程式碼
+## MVC呼叫的HttpHandler (MvcHandler)
 
-做了幾件事情.
+`MvcHandler`類別中主要核心的程式碼做了幾件事情.
 
 1. 使用一個`Adapter`對於`HttpContext`物件把他轉成可以繼承於`HttpContextBase`的`HttpContextWrapper`類別.
 2. 透過`ProcessRequestInit`取得執行`controller`物件並且呼叫執行方法.
+3. 最後透過`ReleaseController`釋放之前使用過資源
 
 ```csharp
 protected virtual void ProcessRequest(HttpContext httpContext)
