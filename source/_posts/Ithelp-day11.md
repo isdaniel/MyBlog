@@ -1,6 +1,6 @@
 ---
-title:  Asp.net MVC Controller是怎麼被建立(原始碼揭密) (第11天)
-date: 
+title:  Asp.net MVC Controller是怎麼被建立 (第11天)
+date: 2019-09-22 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---

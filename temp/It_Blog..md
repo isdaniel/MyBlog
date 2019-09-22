@@ -8,8 +8,8 @@
 8. [Day08] 揭密Mvc使用IHttpHandler by UrlRoutingModule-4.0
 9. [Day09] 進入MVC原始碼世界 Route & RouteTable 原始碼解析
 10. [Day10] 透過MvcRouteHandler取得呼叫IHttphandler
-11. [Day11] Asp.net MVC Controller是怎麼被建立(原始碼揭密)
-12. [Day12] Controller重要幾個類別(原始碼揭密)
+11. [Day11] Asp.net MVC Controller是怎麼被建立
+12. [Day12] Controller重要幾個類別
 13. [Day13] Asp.net MVC如何實現IOC解析器
 14. [Day14] 反轉起來~透過IOC解析來執行依賴反轉
 15. [Day15] Action方法如何被執行InvokeAction(一)
