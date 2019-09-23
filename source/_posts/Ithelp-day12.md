@@ -1,6 +1,6 @@
 ---
-title: Controller重要幾個類別(原始碼揭密) (第12天)
-date: 
+title: 談談Controller幾個重要成員 (第12天)
+date: 2019-09-22 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
@@ -18,9 +18,11 @@ categories: [11th鐵人賽]
 
 ## 前言
 
-上篇得知MVC預設透過`DefaultControllerFactory`反射方式動態建立物件
+上篇得知MVC預設透過`DefaultControllerFactory`反射方式動態建立`Controller`物件
 
 本篇會分享我們常用到`Controller`基礎類別和相關物件.
+
+> 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
 
 ## ControllerBase(Controller基礎類別)
 
@@ -305,7 +307,6 @@ public class AuthorizationContext : ControllerContext
 
 當我看到`ControllerContext`的設計時讓我驚艷的,因為他把**MVC**用到`Context`都關聯綁定到一個類別中.
 
-因為在商業邏輯中會有許多`Model`類別,且這些類別資料存在一定的相關性,我覺得這個設計可以使用可以大大改善資料傳遞上的麻煩.
-讓程式寫起來更安全,簡單
+因為在商業邏輯中會有許多`Model`類別,且這些類別資料存在一定的相關性,我覺得這個設計可以使用可以大大改善資料傳遞上的麻煩,讓程式寫起來更安全,簡單
 
-之後我會把上面的UML圖慢慢畫出來,一步一步揭開`Asp.net MVC`的面紗.
+之後我會把上面的**UML**圖慢慢畫出來,一步一步揭開`Asp.net MVC`面紗.

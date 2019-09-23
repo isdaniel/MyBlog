@@ -77,7 +77,7 @@ public interface IAsyncController : IController
 }
 ```
 
-透過`RouteData.GetRequiredString`取得執行`Controller`名稱，經由`RouteValueDictionary`查找之前註冊Url樣板並解析此次要使用`Controller`名稱
+透過`RouteData.GetRequiredString`取得執行`Controller`名稱，經由`RouteValueDictionary`查找之前註冊`Url`樣板並解析此次要使用`Controller`名稱
 
 ```csharp
 public string GetRequiredString(string valueName)
