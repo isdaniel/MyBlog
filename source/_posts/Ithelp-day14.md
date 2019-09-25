@@ -1,6 +1,6 @@
 ---
 title: 反轉起來~透過IOC解析來執行依賴反轉 (第14天)
-date: 
+date: 2019-09-25 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
