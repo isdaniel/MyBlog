@@ -10,6 +10,7 @@ categories: [11th鐵人賽]
   - [ControllerBuilder](#controllerbuilder)
   - [IControllerFactory介面](#icontrollerfactory%e4%bb%8b%e9%9d%a2)
   - [ControllerFactory(DefaultControllerFactory.cs)](#controllerfactorydefaultcontrollerfactorycs)
+- [建立Controller的IControllerActivator](#%e5%bb%ba%e7%ab%8bcontroller%e7%9a%84icontrolleractivator)
 - [小結:](#%e5%b0%8f%e7%b5%90)
 
 ## 前言
@@ -208,6 +209,57 @@ protected internal virtual IController GetControllerInstance(RequestContext requ
     return ControllerActivator.Create(requestContext, controllerType);
 }
 ```
+
+## 建立Controller的IControllerActivator
+
+上面說`GetControllerInstance`會透過一個`ControllerActivator`,而`ControllerActivator`預設其實是`DefaultControllerActivator`類別幫助我們建立`Controller`物件透過`Create`方法.
+
+以下是`DefaultControllerActivator`程式碼
+
+```csharp
+private class DefaultControllerActivator : IControllerActivator
+{
+    private Func<IDependencyResolver> _resolverThunk;
+
+    public DefaultControllerActivator()
+        : this(null)
+    {
+    }
+
+    public DefaultControllerActivator(IDependencyResolver resolver)
+    {
+        if (resolver == null)
+        {
+            _resolverThunk = () => DependencyResolver.Current;
+        }
+        else
+        {
+            _resolverThunk = () => resolver;
+        }
+    }
+
+    public IController Create(RequestContext requestContext, Type controllerType)
+    {
+        try
+        {
+            return (IController)(_resolverThunk().GetService(controllerType) ?? Activator.CreateInstance(controllerType));
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException(
+                String.Format(
+                    CultureInfo.CurrentCulture,
+                    MvcResources.DefaultControllerFactory_ErrorCreatingController,
+                    controllerType),
+                ex);
+        }
+    }
+}
+```
+
+能看到這邊依賴一個`IDependencyResolver`,這裡先埋個小伏筆後面幾篇會為各位解答.
+
+> `DefaultControllerActivator`透過`Activator.CreateInstance`產生`Controller`物件,使用無建構子參數的Create方式
 
 ## 小結:
 

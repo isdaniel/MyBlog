@@ -8,7 +8,7 @@ categories: [11th鐵人賽]
 - [前言](#%e5%89%8d%e8%a8%80)
 - [IOC介紹](#ioc%e4%bb%8b%e7%b4%b9)
 	- [程式碼介紹IOC by Autofac](#%e7%a8%8b%e5%bc%8f%e7%a2%bc%e4%bb%8b%e7%b4%b9ioc-by-autofac)
-- [用AutoFac IOC 和 Asp.net mvc關係](#%e7%94%a8autofac-ioc-%e5%92%8c-aspnet-mvc%e9%97%9c%e4%bf%82)
+- [AutoFac IOC 和 Asp.net mvc關係](#autofac-ioc-%e5%92%8c-aspnet-mvc%e9%97%9c%e4%bf%82)
 - [DependencyResolver 揭密](#dependencyresolver-%e6%8f%ad%e5%af%86)
 - [MVC 裡IDependencyResolver](#mvc-%e8%a3%a1idependencyresolver)
 - [小結:](#%e5%b0%8f%e7%b5%90)
@@ -21,7 +21,7 @@ categories: [11th鐵人賽]
 
 控制反轉是一個設計思想 ，把對於某個物件的控制權移轉給第三方容器.
 
-詳細資訊可以查看小弟另一篇文章 [IOC(控制反轉)，DI(依賴注入) 深入淺出~~](https://isdaniel.github.io/ioc-di.html)
+詳細資訊可以查看小弟另一篇文章 [IOC(控制反轉)，DI(依賴注入) 深入淺出~~](https://isdaniel.github.io/ioc-di)
 
 這段程式碼是在`Asp.net MVC`搭配使用`AutoFac`容器範例,有沒有人會很好奇說為什麼只需要透過`DependencyResolver.SetResolver`方法我就可以直接使用`AutoFac`或其他IOC容器?
 
@@ -47,7 +47,7 @@ DependencyResolver.SetResolver(container);
 
 上面說明太抽象嗎? 可以看一下下面這張圖.
 
-[img](https://az787680.vo.msecnd.net/user/九桃/493ce9d9-64bd-4343-a145-16ab21f3c695/1555312814_72597.png)
+![img](https://az787680.vo.msecnd.net/user/九桃/493ce9d9-64bd-4343-a145-16ab21f3c695/1555312814_72597.png)
 
 IOC容器框架有很多種但基本上都有下面兩個功能
 
@@ -86,21 +86,22 @@ IContainer container = builder.Build();
 var a = container.Resolve<A>();
 ```
 
-## 用AutoFac IOC 和 Asp.net mvc關係
+## AutoFac IOC 和 Asp.net mvc關係
 
-如果沒有搭配IOC容器的`Asp.net MVC`對於使用的物件必須寫死在`Controller`類別中
+如果`Asp.net`沒有搭配IOC容器(使用`DefaultResolver`)`Asp.net MVC`對於使用的物件必須寫死在`Controller`類別中
 
-無法使用建構子或屬性來決定使用哪個物件
+> 無法使用建構子或屬性來決定使用哪個物件
 
 如下面程式碼
 
 ```csharp
 public class HomeController : Controller
 {
-    IUserService userService = new UserService();
+    IUserService userService;
 
-    public HomeController(){
-
+    public HomeController(IUserService userService){
+		if(userService == null)
+			userService = new UserService();
     }
     public ActionResult Index()
     {
@@ -110,7 +111,7 @@ public class HomeController : Controller
     //....
 ```
 
-如果在建構子使用參數會丟錯誤
+> 如果在建構子使用參數會丟錯誤,在[[Day11] Asp.net MVC Controller是怎麼被建立](https://ithelp.ithome.com.tw/articles/10219020)談到建立`Controller`物件透過`DefaultControllerActivator`預設使用反射建立`Controller`物件.
 
 ![relationship_pic.PNG](https://raw.githubusercontent.com/isdaniel/MyBlog/master/source/images/itHelp/13/Controller_Parameter.gif)
 
@@ -118,7 +119,9 @@ public class HomeController : Controller
 
 如果我們想在建構子傳入參數或是想要統一管理注入的物件，就可以使用`IOC`容器來幫我完成
 
-為什麼`Asp.net MVC`使用`DependencyResolver.SetResolver`替換成`IOC`容器就可以使用容器優勢呢?
+-----
+
+> 為什麼`Asp.net MVC`使用`DependencyResolver.SetResolver`方法替換成`IOC`容器就可輕易替換使用容器?
 
 ```csharp
 //....
