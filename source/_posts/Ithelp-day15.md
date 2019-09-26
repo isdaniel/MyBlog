@@ -1,6 +1,6 @@
 ---
 title: Action方法如何被執行InvokeAction(一) (第15天)
-date: 
+date: 2019-09-25 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
@@ -10,6 +10,8 @@ categories: [11th鐵人賽]
 - [ControllerActionInvoker](#controlleractioninvoker)
   - [取得](#%e5%8f%96%e5%be%97)
 - [揭密取得過濾器(Filter)機制AOP](#%e6%8f%ad%e5%af%86%e5%8f%96%e5%be%97%e9%81%8e%e6%bf%be%e5%99%a8filter%e6%a9%9f%e5%88%b6aop)
+  - [AOP(Aspect-Oriented Programming)核心概念Proxy Pattern](#aopaspect-oriented-programming%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5proxy-pattern)
+  - [Asp.net AOP機制揭密(Filter)](#aspnet-aop%e6%a9%9f%e5%88%b6%e6%8f%ad%e5%af%86filter)
   - [GetFilters方法](#getfilters%e6%96%b9%e6%b3%95)
 - [小結](#%e5%b0%8f%e7%b5%90)
 
@@ -126,6 +128,26 @@ public override ActionDescriptor FindAction(ControllerContext controllerContext,
 `ReflectedControllerDescriptor`利用反射取得要執行的`Method`資料(MethodInfo),並封裝到`ReflectedActionDescriptor`類別中.
 
 ## 揭密取得過濾器(Filter)機制AOP
+
+AOP 是 **OOP(物件導向)一個變化程式撰寫思想。**（非取代OOP而是擴充）
+
+導入AOP幫助：
+
+可幫我們分離**核心邏輯**跟**非核心邏輯**代碼，很好降低模組間耦合性，已便日後擴充。
+
+非核心邏輯代碼像：(日誌記錄，性能統計，安全控制，事務處理，異常處理等代碼從業務邏輯代碼中劃分出來)
+
+![https://ithelp.ithome.com.tw/upload/images/20180209/20096630UyP6I4l2MB.png](https://ithelp.ithome.com.tw/upload/images/20180209/20096630UyP6I4l2MB.png)
+
+原本寫法把寫日誌相關程式寫入，業務邏輯方法中。導致此方法非單一職則。我們可以把程式重構改寫成(右圖)，將寫日誌方法抽離出來更有效達成模組化。
+
+### AOP(Aspect-Oriented Programming)核心概念Proxy Pattern
+
+AOP是擴充`Proxy Pattern`(代理模式)概念，為每個方法提供一個代理人，可為執行前或執行後提供擴展機制，並由代理類別來呼叫真正呼叫使用方法．
+
+如果想要更多了解代理模式可以參考我之前寫的[ProxyPattern代理模式(二)](https://dotblogs.com.tw/daniel/2017/10/12/152439)
+
+### Asp.net AOP機制揭密(Filter)
 
 取得完`ActionDescriptor`物件後,會先判斷`actionDescriptor`是否成功.
 
