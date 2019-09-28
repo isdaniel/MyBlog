@@ -1,16 +1,16 @@
 ---
 title: Action方法如何被執行InvokeAction(二) (第17天)
-date: 
+date: 2019-09-28 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
-- [ControllerActionInvoker中 重要InvokeAction方法](#controlleractioninvoker%e4%b8%ad-%e9%87%8d%e8%a6%81invokeaction%e6%96%b9%e6%b3%95)
+- [ControllerActionInvoker方法 重要InvokeAction方法](#controlleractioninvoker%e6%96%b9%e6%b3%95-%e9%87%8d%e8%a6%81invokeaction%e6%96%b9%e6%b3%95)
 	- [取得ControllerDescriptor(ReflectedControllerDescriptor)](#%e5%8f%96%e5%be%97controllerdescriptorreflectedcontrollerdescriptor)
 - [ActionDescriptor(ReflectedActionDescriptor)](#actiondescriptorreflectedactiondescriptor)
 	- [ReflectedActionDescriptor 取得ActionMethod參數資訊](#reflectedactiondescriptor-%e5%8f%96%e5%be%97actionmethod%e5%8f%83%e6%95%b8%e8%b3%87%e8%a8%8a)
-- [取得Action執行參數](#%e5%8f%96%e5%be%97action%e5%9f%b7%e8%a1%8c%e5%8f%83%e6%95%b8)
+- [取得Action方法執行參數](#%e5%8f%96%e5%be%97action%e6%96%b9%e6%b3%95%e5%9f%b7%e8%a1%8c%e5%8f%83%e6%95%b8)
 - [小結:](#%e5%b0%8f%e7%b5%90)
 
 ## 前言
@@ -26,7 +26,7 @@ categories: [11th鐵人賽]
 
 > 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
 
-## ControllerActionInvoker中 重要InvokeAction方法
+## ControllerActionInvoker方法 重要InvokeAction方法
 
 在`ControllerActionInvoker`最重要的就是`InvokeAction`方法,因為主要透過他去呼叫`ActionResult`抽象類別`ExecuteResult`方法.
 
@@ -205,7 +205,7 @@ public override object Execute(ControllerContext controllerContext, IDictionary<
 }
 ```
 
-## 取得Action執行參數
+## 取得Action方法執行參數
 
 上面提到`Action`使用參數會轉換到一個`IDictionary<string, object>`裡面.
 
