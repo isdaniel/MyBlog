@@ -1,6 +1,6 @@
 ---
 title: 提供ModelBing幾個重要功臣(Model) (第18天)
-date: 
+date: 2019-09-29 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
@@ -46,7 +46,7 @@ categories: [11th鐵人賽]
 
 下圖可以表示`SimpleModel`和`ComplexModel`
 
-![BindSimpleModel](https://raw.githubusercontent.com/isdaniel/MyBlog/master/source/images/itHelp/17/model.PNG)
+![BindSimpleModel](https://raw.githubusercontent.com/isdaniel/MyBlog/master/source/images/itHelp/17/UML_Model.jpg)
 
 > `ComplexModel`一個人可擁有多個房子,所以`Person`類別擁有`HouseCollection`引用.
 取得使用`ModelBinder`機制。
