@@ -1,6 +1,6 @@
 ---
 title: Http參數如何綁定到Action參數上(簡單和複雜模型綁定探討) (第19天)
-date: 
+date: 2019-09-30 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
@@ -354,7 +354,7 @@ protected virtual object GetPropertyValue(ControllerContext controllerContext, M
 
 ![UML_Model](https://raw.githubusercontent.com/isdaniel/MyBlog/master/source/images/itHelp/18/Composite_Design_Pattern_UML.jpg)
 
-[參考圖片連結](https://en.wikipedia.org/wiki/Composite_pattern#/media/File:W3sDesign_Composite_Design_Pattern_UML.jpg)
+[參考圖片連結](https://en.wikipedia.org/wiki/Composite_pattern)
 
 組合模式基本上分為兩個部分**葉**(`Left`)和**組件**(`component`)他們都依賴於一個抽象,組件實現取得動作的抽象只為了獲得下面的葉,真正有動作只會在葉有動作
 

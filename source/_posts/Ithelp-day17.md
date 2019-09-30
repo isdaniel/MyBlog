@@ -179,12 +179,11 @@ public abstract class ActionDescriptor : ICustomAttributeProvider, IUniquelyIden
 
 1. `MethodInfo`是從`ReflectedControllerDescriptor`利用反射取得執行`Action`方法資訊.
 2. 利用`ExtractParameterFromDictionary`方法將`IDictionary<string, object> parameters`傳入參數轉成可傳入方法物件.
-3. 執行`Action`方法(透過`ActionMethodDispatcher`物件)並將參數傳入
+3. 透過`ActionMethodDispatcher`物件`Execute`方法執行`Action`方法(`ActionMethodDispatcher`透過`Expression`表達式動態建立方法並呼叫)
 
-> `actionReturnValue` 是`Action`方法的回傳值.
+> `ActionMethodDispatcher`的`Expression`表達式詳解會在後面做介紹
 
 ```csharp
-
 public MethodInfo MethodInfo { get; private set; }
 
 public override object Execute(ControllerContext controllerContext, IDictionary<string, object> parameters)
@@ -204,6 +203,8 @@ public override object Execute(ControllerContext controllerContext, IDictionary<
 	return actionReturnValue;
 }
 ```
+
+> `actionReturnValue` 是`Action`方法的回傳值.
 
 ## 取得Action方法執行參數
 
