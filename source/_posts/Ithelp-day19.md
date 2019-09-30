@@ -48,6 +48,8 @@ public class RootObject
 
 本篇就和大家分享這個機制是如何達成的
 
+> 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
+
 ## ModelMetadata 元數據儲存參數資料
 
 `Model`參數類型可能是一個簡單的字串或者是一個值類型物件，也可能是一個複雜物件類型。

@@ -24,6 +24,8 @@ categories: [11th鐵人賽]
 
 這篇會跟大家介紹**MVC**是如何把達成這個複雜的動作
 
+> 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
+
 ## IModelBinder(DefaultModelBinder)
 
 `DefaultModelBinder`將Http請求傳來資料轉換為強型別物件,`DefaultModelBinder`是如何取得使用`Model`資料呢?
