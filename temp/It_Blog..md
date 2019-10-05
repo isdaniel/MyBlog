@@ -27,3 +27,4 @@
 27. [Day27] 動手DIY改造 Asp.net MVC- DependencyResolver by Autofac
 28. [Day28] 動手DIY改造 Asp.net MVC- 建立自己ActionInvoker和Model綁定機制
 29. [Day29] 動手DIY改造 Asp.net MVC- 擴充在擴充,強化WebViewPage製作多國貨幣機制
+30. [Day30] 鐵人賽完賽＆總結
