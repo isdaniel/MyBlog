@@ -1,6 +1,6 @@
 ---
 title:  探討ViewEngine機制 View是如何被建立(三) (第24天)
-date: 
+date: 2019-10-05 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
@@ -27,6 +27,8 @@ categories: [11th鐵人賽]
 這篇會跟大家分享值型上面動作核心類別.
 
 個人覺得**MVC**運用很多物件導向概念和用法,在讀程式時有件事情很重要是理解類別負責的工作和類別之間關係.就像現實生活中人與人的關係要了解清楚.
+
+> 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
 
 ## ViewResultBase.ExecuteResult
 

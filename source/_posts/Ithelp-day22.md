@@ -1,12 +1,13 @@
 ---
 title:  View是如何被建立(一) (第22天)
-date: 
+date: 2019-10-03 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
 
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
+- [Action方法是如何被呼叫(快速整理)](#action%e6%96%b9%e6%b3%95%e6%98%af%e5%a6%82%e4%bd%95%e8%a2%ab%e5%91%bc%e5%8f%ab%e5%bf%ab%e9%80%9f%e6%95%b4%e7%90%86)
 - [ActionMethodDispatcher 取得(執行Action方法)](#actionmethoddispatcher-%e5%8f%96%e5%be%97%e5%9f%b7%e8%a1%8caction%e6%96%b9%e6%b3%95)
 	- [Expression動態產生呼叫Action方法 (GetExecutor)](#expression%e5%8b%95%e6%85%8b%e7%94%a2%e7%94%9f%e5%91%bc%e5%8f%abaction%e6%96%b9%e6%b3%95-getexecutor)
 		- [GetExecutor方法 Expression產生呼叫程式碼解說](#getexecutor%e6%96%b9%e6%b3%95-expression%e7%94%a2%e7%94%9f%e5%91%bc%e5%8f%ab%e7%a8%8b%e5%bc%8f%e7%a2%bc%e8%a7%a3%e8%aa%aa)
@@ -48,6 +49,9 @@ internal void BindComplexElementalModel(ControllerContext controllerContext, Mod
 * 字典`Key`就是`Model`傳入名稱
 * 字典`object`就是`Model`的值
 
+> 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
+
+## Action方法是如何被呼叫(快速整理)
 
 前幾篇有說過`InvokeActionMethodWithFilters`方法，執行會產生要執行`ActionResult`物件並使用字典當作參數傳入
 

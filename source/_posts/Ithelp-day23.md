@@ -31,6 +31,8 @@ protected virtual void InvokeActionResult(ControllerContext controllerContext, A
 
 本篇來介紹常用的`ActionResult`其內部運作程式碼
 
+> 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
+
 ## 6種基本的ActionResult
 
 下面這六個類別是直接繼承於`ActionResult`的類別(其中有標註**Base class**代表這是抽象類別另外有類別繼承它)

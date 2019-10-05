@@ -1,6 +1,6 @@
 ---
 title:  探討Model上客製化標籤如何被解析使用 (第20天)
-date: 
+date: 2019-10-01 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
@@ -8,7 +8,7 @@ categories: [11th鐵人賽]
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
 - [IMetadataAware介面](#imetadataaware%e4%bb%8b%e9%9d%a2)
-  - [AllowHtmlAttribute](#allowhtmlattribute)
+  - [AllowHtmlAttribute標籤](#allowhtmlattribute%e6%a8%99%e7%b1%a4)
   - [為何可以透過實現IMetadataAware介面來擴充對於metadata操作](#%e7%82%ba%e4%bd%95%e5%8f%af%e4%bb%a5%e9%80%8f%e9%81%8e%e5%af%a6%e7%8f%beimetadataaware%e4%bb%8b%e9%9d%a2%e4%be%86%e6%93%b4%e5%85%85%e5%b0%8d%e6%96%bcmetadata%e6%93%8d%e4%bd%9c)
 - [CachedDataAnnotationsModelMetadataProvider](#cacheddataannotationsmodelmetadataprovider)
   - [CachedDataAnnotationsModelMetadata](#cacheddataannotationsmodelmetadata)
@@ -41,7 +41,9 @@ public interface IMetadataAware
 
 如果你想要對於`modelmetadata`資訊做修改或新增資料可以製作自己`IMetadataAware`介面標籤.
 
-### AllowHtmlAttribute
+> 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
+
+### AllowHtmlAttribute標籤
 
 為了防止[(Cross-site scripting)XSS攻擊](https://zh.wikipedia.org/zh-tw/%E8%B7%A8%E7%B6%B2%E7%AB%99%E6%8C%87%E4%BB%A4%E7%A2%BC)通過在針對某些輸入框中寫入或注入`HTML`來攻擊我們`Web`應用
 
@@ -90,7 +92,7 @@ public sealed class AllowHtmlAttribute : Attribute, IMetadataAware
 
 ### 為何可以透過實現IMetadataAware介面來擴充對於metadata操作
 
-因為在`AssociatedMetadataProvider`抽象類別中有個`ApplyMetadataAwareAttributes`方法.
+在`AssociatedMetadataProvider`抽象類別中有個`ApplyMetadataAwareAttributes`方法.
 
 參數物件上屬性進行反射取得使用到`IMetadataAware`的標籤,並呼叫他的`OnMetadataCreated`方法.
 
@@ -139,9 +141,7 @@ public class ForgotViewModel
 * `RequiredAttribute`
 * `DisplayAttribute`
 
-還有一大堆,下面會跟大家介紹**MVC**是怎麼取得並調用這些標籤.
-
-`ModelMetadataProviders`這個類別會提供使用哪個`ModelMetadataProvider`
+還有其他一大堆,下面會跟大家介紹**MVC**是怎麼取得並使用這些標籤,`ModelMetadataProviders`這個類別會提供使用哪個`ModelMetadataProvider`
 
 在原始碼建構子預設使用`CachedDataAnnotationsModelMetadataProvider`
 
@@ -163,7 +163,7 @@ public class ModelMetadataProviders
 }
 ```
 
-在`CachedDataAnnotationsModelMetadataProvider`類別有一個`CreateMetadataPrototype`方法,他會返回一個`CachedDataAnnotationsModelMetadata`物件,這個物件存放參數上屬性欄位使用標籤資訊.
+在`CachedDataAnnotationsModelMetadataProvider`類別有一個`CreateMetadataPrototype`方法返回一個`CachedDataAnnotationsModelMetadata`物件,這個物件存放參數上屬性欄位使用標籤資訊.
 
 ```csharp
 public class CachedDataAnnotationsModelMetadataProvider : CachedAssociatedMetadataProvider<CachedDataAnnotationsModelMetadata>

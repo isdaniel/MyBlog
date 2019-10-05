@@ -1,6 +1,6 @@
 ---
 title:  探討Model驗證標籤(ValidationAttribute) (第21天)
-date: 
+date: 2019-10-02 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
@@ -20,6 +20,8 @@ categories: [11th鐵人賽]
 `CachedDataAnnotationsMetadataAttributes`這個類別攔截某些標籤可被攔截驗證.
 
 本篇會介紹另一個可以客製化驗證`ValidationAttribute`,常用驗證標籤並講述是如何參數屬性是如何取得這個標籤和使用過程.
+
+> 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
 
 ## ValidationAttribute
 
@@ -55,7 +57,6 @@ public abstract class ValidationAttribute : Attribute{
 * `ClientDataTypeModelValidatorProvider`
 
 `ModelValidatorProviderCollection`是一個`ModelValidatorProvider`集合,可對於此集合加入`ModelValidatorProvider`物件.
-
 
 ```csharp
 public static class ModelValidatorProviders
