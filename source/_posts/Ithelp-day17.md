@@ -28,7 +28,7 @@ categories: [11th鐵人賽]
 
 ## ControllerActionInvoker方法 重要InvokeAction方法
 
-在`ControllerActionInvoker`最重要的就是`InvokeAction`方法,因為主要透過他去呼叫`ActionResult`抽象類別`ExecuteResult`方法.
+`ControllerActionInvoker`類別最重要的就是`InvokeAction`方法,因為主要透過他去呼叫`ActionResult`抽象類別`ExecuteResult`方法.
 
 `InvokeAction`有兩個參數
 

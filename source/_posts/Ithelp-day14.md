@@ -47,7 +47,7 @@ internal DefaultControllerFactory(IControllerActivator controllerActivator, IRes
 }
 ```
 
-`DefaultControllerActivator`類別幫助我們建立`Controller`物件透過`Create`方法.
+如果我們沒透過`DependencyResolver.SetResolver`方法設定其他解析器,預設使用`DefaultControllerActivator`類別幫助我們建立`Controller`物件透過`Create`方法.
 
 ```csharp
 private class DefaultControllerActivator : IControllerActivator
@@ -315,7 +315,6 @@ public class AutofacDependencyResolver : IDependencyResolver
 }
 
 ```
-
 
 ## 小結：
 

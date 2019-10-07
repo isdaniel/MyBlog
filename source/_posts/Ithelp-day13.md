@@ -8,14 +8,14 @@ categories: [11th鐵人賽]
 - [前言](#%e5%89%8d%e8%a8%80)
 - [IOC介紹](#ioc%e4%bb%8b%e7%b4%b9)
 	- [程式碼介紹IOC by Autofac](#%e7%a8%8b%e5%bc%8f%e7%a2%bc%e4%bb%8b%e7%b4%b9ioc-by-autofac)
-- [AutoFac IOC 和 Asp.net mvc關係](#autofac-ioc-%e5%92%8c-aspnet-mvc%e9%97%9c%e4%bf%82)
+- [AutoFac IOC容器 和 Asp.net mvc關係](#autofac-ioc%e5%ae%b9%e5%99%a8-%e5%92%8c-aspnet-mvc%e9%97%9c%e4%bf%82)
 - [DependencyResolver 揭密](#dependencyresolver-%e6%8f%ad%e5%af%86)
 - [MVC 裡IDependencyResolver](#mvc-%e8%a3%a1idependencyresolver)
 - [小結:](#%e5%b0%8f%e7%b5%90)
 
 ## 前言
 
-`IOC`是一個`oop`重要程式設計思想。
+`IOC`依賴反轉是`oop`重要程式設計思想。
 
 > `Ioc—Inversion of Control` 控制反轉
 
@@ -23,7 +23,7 @@ categories: [11th鐵人賽]
 
 詳細資訊可以查看小弟另一篇文章 [IOC(控制反轉)，DI(依賴注入) 深入淺出~~](https://isdaniel.github.io/ioc-di)
 
-這段程式碼是在`Asp.net MVC`搭配使用`AutoFac`容器範例,有沒有人會很好奇說為什麼只需要透過`DependencyResolver.SetResolver`方法我就可以直接使用`AutoFac`或其他IOC容器?
+> 有沒有人會很好奇說為什麼只需要透過`DependencyResolver.SetResolver`方法我就可以直接使用`AutoFac`或其他IOC容器?
 
 ```csharp
 //....
@@ -32,14 +32,14 @@ IContainer container = new builder.Build();
 DependencyResolver.SetResolver(container);
 ```
 
-今天會跟大家分享`Asp.net`利用什麼技巧可以讓外部的`IOC`容器很容易擴充
+今天跟大家分享`Asp.net MVC`利用什麼設計技巧,讓外部`IOC`容器可以很方便融入系統中.
 
 > 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
 
 ## IOC介紹
 
-> 控制反轉是一個設計思想 ，把對於某個物件的控制權移轉給第三方容器 
-> 系統中模組建議依賴抽象，因為各個模組間不需要知道對方太多細節（實作），知道越多耦合越強。
+> 控制反轉是一個設計思想，把對於某個物件**建立,生命週期**控制權移轉給第三方統一管理
+> 在設計模組時建議依賴抽象，因為各個模組間不需要知道對方太多細節（實作），知道越多耦合越強。
 
 `A`物件內部有使用到`B`物件 `A`,`B`物件中有依賴的成份
 控制反轉是把原本`A`對`B`控制權移交給第三方容器。
@@ -49,15 +49,22 @@ DependencyResolver.SetResolver(container);
 
 ![img](https://az787680.vo.msecnd.net/user/九桃/493ce9d9-64bd-4343-a145-16ab21f3c695/1555312814_72597.png)
 
+> 最後對於使用者來說,我只需要認識這個第三方容器並跟這個容器取得我要A物件,至於A物件和其他物件關係使用者不用瞭解
+
 IOC容器框架有很多種但基本上都有下面兩個功能
 
 1. 掌控物件生命週期
-2. 註冊設定如何注入的說明書
+2. 設定物件關係的註冊表(取用時會依照此註冊關係建立物件並自動注入相依物件)
 
 ### 程式碼介紹IOC by Autofac
 
-原本`A`物件會直接引用於`B`和`C`物件這導致`A`**掌控**`B`和`C`物件創建和銷毀.如果透過`IOC`容器我們不用管只需要知道容器會幫我們提供注入物件.
-我們只需要關注如何使用此物件.
+我們依照此圖做一個簡單範例**by Autofac**
+
+![img](https://az787680.vo.msecnd.net/user/九桃/493ce9d9-64bd-4343-a145-16ab21f3c695/1555312814_72597.png)
+
+`A`物件會直接引用於`B`和`C`物件這導致`A`**掌控**`B`和`C`物件創建和銷毀
+
+如下面程式碼,A物件需要掌控`B`和`C`生命週期和物件建立.
 
 ```csharp
 public class A{
@@ -66,14 +73,16 @@ public class A{
 }
 ```
 
-這個程式碼是利用`Autofac`框架`sample code`，比起上面多了一段註冊程式碼.主要告訴容器物件之間關係和如何掌控物件生命週期.
-
-`Autofac`為例子最後只需要利用`container.Resolve<T>`方法就可以跟容器來取想要的物件,至於引用的物件是如何注入或關係我們就不必關心.
+如果透過`IOC`容器我們就不用擔心物件如何建立和他所依賴`B`和`C`物件,因為我們會在容器註表中指定他的關係,使用時只需要關注如何使用此物件.
 
 ```csharp
 public class A{
-    public B BObject {get;set;}
-    public C CObject {get;set;}
+    public B BObject {get;private set;}
+    public C CObject {get;private set;}
+	public A(B b,C c){
+		BObject = b;
+		CObject = c;
+	}
 }
 
 //autofac property injection
@@ -86,9 +95,13 @@ IContainer container = builder.Build();
 var a = container.Resolve<A>();
 ```
 
-## AutoFac IOC 和 Asp.net mvc關係
+這個程式碼是利用`Autofac`框架，比起上面多了一段註冊程式碼.主要告訴容器物件之間關係和如何掌控物件生命週期.
 
-如果`Asp.net`沒有搭配IOC容器(使用`DefaultResolver`)`Asp.net MVC`對於使用的物件必須寫死在`Controller`類別中
+上面例子最後只需要利用`container.Resolve<T>`方法就可以跟容器來取想要的物件,至於引用的物件是如何注入或關係我們就不必關心.
+
+## AutoFac IOC容器 和 Asp.net mvc關係
+
+如果`Asp.net`沒有搭配**IOC容器**(預設使用`DefaultResolver`)`Asp.net MVC`對於使用物件必須寫死在`Controller`類別中
 
 > 無法使用建構子或屬性來決定使用哪個物件
 
@@ -111,7 +124,7 @@ public class HomeController : Controller
     //....
 ```
 
-> 如果在建構子使用參數會丟錯誤,在[[Day11] Asp.net MVC Controller是怎麼被建立](https://ithelp.ithome.com.tw/articles/10219020)談到建立`Controller`物件透過`DefaultControllerActivator`預設使用反射建立`Controller`物件.
+> 如果在建構子使用參數會丟錯誤,在[[Day11] Asp.net MVC Controller是怎麼被建立](https://ithelp.ithome.com.tw/articles/10219020)談到建立`Controller`物件透過`DefaultControllerActivator`預設使用反射建立`Controller`物件呼叫無參數的建構子方法.
 
 ![relationship_pic.PNG](https://raw.githubusercontent.com/isdaniel/MyBlog/master/source/images/itHelp/13/Controller_Parameter.gif)
 
@@ -132,7 +145,7 @@ DependencyResolver.SetResolver(container);
 
 ## DependencyResolver 揭密
 
-`DependencyResolver.SetResolver`提供一個
+`DependencyResolver.SetResolver`提供一個替換`_current`欄位的機制
 
 ```csharp
 /// <summary>
@@ -167,7 +180,7 @@ public void InnerSetResolver(IDependencyResolver resolver)
 1. `GetService`返回一個物件
 2. `GetServices`返回一個物件集合
 
-主要透過這兩個方法讓第三方容器來返回注入的物件.
+主要透過這`GetService`方法取得使用`Controller`物件
 
 ```csharp
 public interface IDependencyResolver
@@ -241,35 +254,6 @@ private class DefaultDependencyResolver : IDependencyResolver
 	public IEnumerable<object> GetServices(Type serviceType)
 	{
 		return Enumerable.Empty<object>();
-	}
-}
-
-private class DelegateBasedDependencyResolver : IDependencyResolver
-{
-	private Func<Type, object> _getService;
-	private Func<Type, IEnumerable<object>> _getServices;
-
-	public DelegateBasedDependencyResolver(Func<Type, object> getService, Func<Type, IEnumerable<object>> getServices)
-	{
-		_getService = getService;
-		_getServices = getServices;
-	}
-	
-	public object GetService(Type type)
-	{
-		try
-		{
-			return _getService.Invoke(type);
-		}
-		catch
-		{
-			return null;
-		}
-	}
-
-	public IEnumerable<object> GetServices(Type type)
-	{
-		return _getServices(type);
 	}
 }
 ```

@@ -7,6 +7,8 @@ categories: [11th鐵人賽]
 
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
+- [揭密取得過濾器(Filter)機制AOP](#%e6%8f%ad%e5%af%86%e5%8f%96%e5%be%97%e9%81%8e%e6%bf%be%e5%99%a8filter%e6%a9%9f%e5%88%b6aop)
+	- [AOP(Aspect-Oriented Programming)核心概念Proxy Pattern](#aopaspect-oriented-programming%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5proxy-pattern)
 - [五種過濾器(Filter)介面](#%e4%ba%94%e7%a8%ae%e9%81%8e%e6%bf%be%e5%99%a8filter%e4%bb%8b%e9%9d%a2)
 - [AuthorizationFilter](#authorizationfilter)
 	- [IAuthenticationFilter and AuthenticationContext](#iauthenticationfilter-and-authenticationcontext)
@@ -26,7 +28,29 @@ categories: [11th鐵人賽]
 
 本篇會和大家繼續分享`InvokeAction`後續動作.
 
+為什麼我們在`Action`方法和`Controller`類別放置一個繼承（`AuthorizationFilter、ActionFilter、ResultFilter,ExceptionFilter`）標籤(`Attribute`)對應介面(`IAuthorizationFilter、IActionFilter、IResultFilter,IExceptionFilter`),程式幫我們自動載入**MVC**生命週期中並執行?
+
 > 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
+
+## 揭密取得過濾器(Filter)機制AOP
+
+AOP 是 **OOP(物件導向)一個變化程式撰寫思想。**（非取代OOP而是擴充）
+
+導入AOP幫助：
+
+可幫我們分離**核心邏輯**跟**非核心邏輯**代碼，很好降低模組間耦合性，已便日後擴充。
+
+非核心邏輯代碼像：(日誌記錄，性能統計，安全控制，事務處理，異常處理等代碼從業務邏輯代碼中劃分出來)
+
+![https://ithelp.ithome.com.tw/upload/images/20180209/20096630UyP6I4l2MB.png](https://ithelp.ithome.com.tw/upload/images/20180209/20096630UyP6I4l2MB.png)
+
+原本寫法把寫日誌相關程式寫入，業務邏輯方法中。導致此方法非單一職則。我們可以把程式重構改寫成(右圖)，將寫日誌方法抽離出來更有效達成模組化。
+
+### AOP(Aspect-Oriented Programming)核心概念Proxy Pattern
+
+`AOP`是擴充`Proxy Pattern`(代理模式)概念，為每個方法提供一個代理人，可為執行前或執行後提供擴展機制，並由代理類別來呼叫真正呼叫使用方法．
+
+如果想要更多了解代理模式可以參考我之前寫的[ProxyPattern代理模式(二)](https://dotblogs.com.tw/daniel/2017/10/12/152439)
 
 ## 五種過濾器(Filter)介面
 
@@ -363,5 +387,7 @@ protected virtual ExceptionContext InvokeExceptionFilters(ControllerContext cont
 `IAuthenticationFilter`和`IAuthorizationFilter`基本上都是權限驗證的過濾器
 
 > 但有先後順序,這點需注意!! 先執行`IAuthenticationFilter`後`IAuthorizationFilter`
+
+看了**MVC**過濾器原始碼後有感而法,石頭就基於[RealProxy](https://docs.microsoft.com/zh-tw/dotnet/api/system.runtime.remoting.proxies.realproxy?view=netframework-4.8)這個類別做了一個AOP開源框架[AwesomeProxy.Net](https://github.com/isdaniel/AwesomeProxy.Net).
 
 下篇會繼續介紹`Action`參數如何建立,遇到複雜`Model` MVC是怎麼處理
