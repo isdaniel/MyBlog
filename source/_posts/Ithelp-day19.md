@@ -52,13 +52,11 @@ public class RootObject
 
 ## ModelMetadata 元數據儲存參數資料
 
-`Model`參數類型可能是一個簡單的字串或者是一個值類型物件，也可能是一個複雜物件類型。
+`Model`參數類型可能是一個簡單字串或者是一個值類型，也可能是一個複雜類型物件。
 
-對於一個複雜物件，基於類型本身和物件成員元數據通過一個`ModelMetadata`類別來達成
+對於一個複雜類型物件，基於類型本身和物件成員元數據通過一個`ModelMetadata`類別來達成
 
-某個成員又可能是一個複雜類型，所以通過`ModelMetadata`對象表示的`Model`
-
-所以`ModelMetadata`(元數據)實際上具有一個樹形層次化的資料結構.
+某個成員又可能是一個複雜類型物件，通過`ModelMetadata`物件表示`Model`狀態,所以`ModelMetadata`(元數據)實際上具有一個樹形層次化的資料結構.
 
 ```csharp
 public class ModelMetadata
@@ -88,7 +86,7 @@ public class ModelMetadata
 }
 ```
 
-在`ModelMetadata`類別中有幾個主要的屬性.
+在`ModelMetadata`類別中有幾個重要的屬性.
 
 1. `Provider(ModelMetadataProvider)`:存放當前物件下面一個`ModelMetadataProvider`資訊,`ModelMetadataProvider`主要是提供`ModelMetadata`是如何被產生(一般使用`CachedDataAnnotationsModelMetadataProvider`這個類別使用`MemoryCache`存放資訊)
 2. `IEnumerable<ModelMetadata>`:用來表示當前物件所使用屬性資訊`ModelMetadata`集合
@@ -118,7 +116,7 @@ public class AddressInfo
 }
 ```
 
-上面類別關係圖就是簡單的複雜模型
+上面類別關係圖就是簡單表示複雜模型
 
 通過上面的介紹我們知道表示`Model`元數據`ModelMetadata`具有一個樹形層次結構
 

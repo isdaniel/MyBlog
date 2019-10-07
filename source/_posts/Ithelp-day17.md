@@ -15,20 +15,17 @@ categories: [11th鐵人賽]
 
 ## 前言
 
-上篇揭開**MVC**過濾器如何取得看我們四大常用過濾器,基本介紹.
+上篇揭開**MVC**常用的過濾器如何被獲取呼叫跟基本介紹.
 
-之前有大概介紹這兩個物件,今天會來細部探討他們裡面有哪些重要成員.
+前幾篇有介紹`ControllerDescriptor`,`ActionDescriptor`兩個物件,今天會來細部探討他們裡面有哪些重要成員.
 
-* `ControllerDescriptor`
-* `ActionDescriptor`
-
-這篇會繼續和大家分享是如何覺得要呼叫哪個`Action`方法並且在這個過程中也哪些重要物件跟動作.
+本篇會繼續分析呼叫`Action`方法邏輯和在過程中有用到重要物件跟動作.
 
 > 我有做一個可以針對於[Asp.net MVC Debugger](https://github.com/isdaniel/Asp.net-MVC-Debuger)的專案，只要下中斷點就可輕易進入Asp.net MVC原始碼.
 
 ## ControllerActionInvoker方法 重要InvokeAction方法
 
-`ControllerActionInvoker`類別最重要的就是`InvokeAction`方法,因為主要透過他去呼叫`ActionResult`抽象類別`ExecuteResult`方法.
+前面有說`ControllerActionInvoker`類別最重要的就是`InvokeAction`方法,因為主要透過他去呼叫`ActionResult`抽象類別`ExecuteResult`方法.
 
 `InvokeAction`有兩個參數
 
@@ -39,12 +36,11 @@ categories: [11th鐵人賽]
 public virtual bool InvokeAction(ControllerContext controllerContext, string actionName)
 ```
 
-除了呼叫`ExecuteResult`方法外還做了其他事情.
-
-對於藉由`ControllerContext`封裝兩個物件.
+`InvokeAction`方法除了呼叫`ExecuteResult`方法外還做了其他事情,對於藉由`ControllerContext`封裝兩個物件.
 
 * `ControllerDescriptor`
 * `ActionDescriptor`
+
 
 這兩個物件在此方法中很重要.
 
@@ -73,7 +69,7 @@ protected virtual ControllerDescriptor GetControllerDescriptor(ControllerContext
 
 1. `ControllerType`此次執行`Controller`類型
 2. **(重要)**`FindAction`透過此方法取得`ActionDescriptor`物件.
-3. `GetFilterAttributes`取的此`Controller`上的`AcitonFilter`
+3. `GetFilterAttributes`方法會透過此物件取得`AcitonFilter`(掛載在`Controller`上)
 
 ```csharp
 public abstract class ControllerDescriptor : ICustomAttributeProvider, IUniquelyIdentifiable
@@ -143,7 +139,7 @@ public override ActionDescriptor FindAction(ControllerContext controllerContext,
 
 ## ActionDescriptor(ReflectedActionDescriptor)
 
-每一個`Action`執行方法會通過`ActionDescriptor`物件,所以`ActionDescriptor`是另一個在`InovkeAction`很重要物件
+執行每一個`Action`方法會通過`ActionDescriptor`物件,所以`ActionDescriptor`是另一個對於`InovkeAction`方法來說很重要物件
 
 在`ActionDescriptor`抽象類別中有許多重要的成員
 

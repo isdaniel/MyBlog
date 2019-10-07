@@ -34,14 +34,21 @@ categories: [11th鐵人賽]
 
 ### ModelBinders
 
+
 `IModelBinder.BindModel`方法使用兩個參數
+
+```csharp
+public object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
+```
 
 1. `ControllerContext`:`Controller`資訊，
 2. `ModelBindingContext`:當前參數綁定資訊
 
-我們能夠針對當前`Model`綁定建立相應`ModelBindingContext`物件，我們就能使用基於某個參數`ModelBinder`得到對應的參數值。關於`ModelBindingContext`建立我們會在後續部分進行的單獨介紹.
+`BindModel`方法機於`Http`請求傳送資料進行`Model`綁定(對於`Action`方法使用參數),其中`ModelBindingContext`參數會提供綁定使用的重要物件成員.
 
-在`IModelBinder.BindModel`方法中主要透過兩個`internal`方法建立`Model`參數物件.
+> 關於`ModelBindingContext`建立我們會在後續部分進行的單獨介紹.
+
+在`IModelBinder.BindModel`方法中主要透過兩個重要`internal`方法.
 
 * `BindComplexModel`:複雜參數綁定
 * `BindSimpleModel`:簡單參數綁定
@@ -53,10 +60,10 @@ categories: [11th鐵人賽]
 > `ComplexModel`一個人可擁有多個房子,所以`Person`類別擁有`HouseCollection`引用.
 取得使用`ModelBinder`機制。
 
-依照下面順序
+取得`ModelBinder`會依照下面順序
 
 1. 參數掛有`ModelBinderAttribute`標籤並將`BinderType`屬性指向一個繼承`IModelBinder`型別.
-2. 參數掛有繼承`CustomModelBinderAttribute`類型上()
+2. 參數掛有繼承`CustomModelBinderAttribute`類型
 3. 透過`ModelBinderProviderCollection`(預設**MVC**沒有提供`ModelBinderProvider`)
 4. 預設`DefaultModelBinder`
 
@@ -68,13 +75,17 @@ public ActionResult HttpModules(Person p)
 public ActionResult HttpModules([ModelBinder(typeof(DefaultModelBinder))]Person p)
 ```
 
-也可透過`ModelBinders.Binders.Add`方法註冊綁定類型.
+在`Global.cs`可透過`ModelBinders.Binders.Add`方法註冊綁定類型.
 
-`ModelBinders.Binders.Add(typeof(Arg),new FooModelBinder());`.
+如下面程式碼.
+
+```csharp
+ModelBinders.Binders.Add(typeof(Arg),new FooModelBinder());
+```
 
 ### ModelBinderDictionary
 
-一般的參數透過`DefaultModelBinder`來幫我們完成參數綁定.
+一般參數透過`DefaultModelBinder`來幫我們完成參數綁定.
 
 但有些特別的資料需要透過`ModelBinderDictionary`取得使用`ModelBinder`,例如上傳檔案,我們可以使用`HttpPostedFileBase`來取得檔案資訊流.
 
