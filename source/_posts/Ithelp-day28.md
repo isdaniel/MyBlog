@@ -1,6 +1,6 @@
 ---
 title: 動手DIY改造 Asp.net MVC- 建立自己ActionInvoker和Model綁定機制 (第28天)
-date: 
+date: 2019-10-09 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---

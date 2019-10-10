@@ -1,6 +1,6 @@
 ---
 title: 動手DIY改造 Asp.net MVC- 擴充在擴充,強化WebViewPage製作多國貨幣機制 (第29天)
-date: 
+date: 2019-10-10 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 ---
