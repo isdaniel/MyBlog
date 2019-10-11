@@ -152,8 +152,8 @@ categories: [11th鐵人賽]
 
 [[Day26] 動手DIY改造 Asp.net MVC- Route解析機制](https://ithelp.ithome.com.tw/articles/10225616)
 
-[Day27] 動手DIY改造 Asp.net MVC- 自己動作建立一個DependencyResolver解析器(Autofac)
+[[Day27] 動手DIY改造 Asp.net MVC- 自己動作建立一個DependencyResolver解析器(Autofac)](https://ithelp.ithome.com.tw/articles/10225993)
 
-[Day28] 動手DIY改造 Asp.net MVC- 建立自己ActionInvoker和Model綁定機制
+[[Day28] 動手DIY改造 Asp.net MVC- 建立自己ActionInvoker和Model綁定機制](https://ithelp.ithome.com.tw/articles/10226285)
 
-[Day29] 動手DIY改造 Asp.net MVC- 擴充在擴充,強化WebViewPage製作多國貨幣機制
+[[Day29] 動手DIY改造 Asp.net MVC- 擴充在擴充,強化WebViewPage製作多國貨幣機制](https://ithelp.ithome.com.tw/articles/10226680)
