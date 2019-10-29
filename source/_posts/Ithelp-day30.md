@@ -1,5 +1,5 @@
 ---
-title:　鐵人賽完賽＆總結　(第30天)
+title: 鐵人賽完賽＆總結　(第30天)
 date: 2019-10-11 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]

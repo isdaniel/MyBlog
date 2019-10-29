@@ -227,7 +227,7 @@ avatar:
   # In theme directory (source/images): /images/avatar.gif
   # In site directory (source/uploads): /uploads/avatar.gif
   # You can also use other linking images.
-  url: https://scontent.ftpe8-3.fna.fbcdn.net/v/t1.0-9/60180310_2282070531849602_6588071415033888768_n.jpg?_nc_cat=107&_nc_ht=scontent.ftpe8-3.fna&oh=e8ad93eddc7af4887fd8ab0434374fe0&oe=5D9577FC
+  url: https://avatars0.githubusercontent.com/u/9159452?s=460&v=4
   # If true, the avatar would be dispalyed in circle.
   rounded: false
   # The value of opacity should be choose from 0 to 1 to set the opacity of the avatar.
