@@ -8,8 +8,6 @@ categories: [C#,DesignPattern]
 
 本篇範例 文字內容->AES加密->Zip檔附加密碼->輸出儲存
 
-
-
 **情境**
 有個需求要做
 
