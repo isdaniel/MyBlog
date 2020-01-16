@@ -9,9 +9,10 @@ categories: [DataBase,Turning]
 - [沒有Index的資料表](#%e6%b2%92%e6%9c%89index%e7%9a%84%e8%b3%87%e6%96%99%e8%a1%a8)
 - [Index中的B+ tree](#index%e4%b8%ad%e7%9a%84b-tree)
 - [Index優缺點](#index%e5%84%aa%e7%bc%ba%e9%bb%9e)
-  - [建立太多索引,小心降低新增、更新效率](#%e5%bb%ba%e7%ab%8b%e5%a4%aa%e5%a4%9a%e7%b4%a2%e5%bc%95%e5%b0%8f%e5%bf%83%e9%99%8d%e4%bd%8e%e6%96%b0%e5%a2%9e%e6%9b%b4%e6%96%b0%e6%95%88%e7%8e%87)
 - [Clustered Index(叢集索引)](#clustered-index%e5%8f%a2%e9%9b%86%e7%b4%a2%e5%bc%95)
 - [NonClustered Index(非叢集索引)](#nonclustered-index%e9%9d%9e%e5%8f%a2%e9%9b%86%e7%b4%a2%e5%bc%95)
+  - [Key Lookup](#key-lookup)
+  - [RID Lookup](#rid-lookup)
 
 ## 前文
 
@@ -33,11 +34,9 @@ categories: [DataBase,Turning]
 
 `B+ tree`資料結構如下圖，這個資料結在在範圍查詢時較`B tree`來的更穩定
 
-
-
 ![](https://i.imgur.com/8CDe0Ms.png)
 
-真正Index `B+ tree`儲存比較類似於下圖
+Index真正在使用`B+ tree`儲存類似於下圖
 
 此圖來自(Pro SQL Server Internals, 2nd edition)
 
@@ -45,11 +44,7 @@ categories: [DataBase,Turning]
 
 ## Index優缺點
 
-在`SQL-Server`上如果此資料表沒有建立`Index`就為`Heap`資料表.
-
-### 建立太多索引,小心降低新增、更新效率
-
-之所以`Index`可以加快查詢速度，是`Index`以**空間**換取**時間**。
+建立太多索引，小心降低新增、更新效率，`Index`可以加快查詢速度，是`Index`以**空間**換取**時間**。
 
 基本上它使用的資源如下:
 
@@ -60,4 +55,38 @@ categories: [DataBase,Turning]
 
 ## Clustered Index(叢集索引)
 
+每個資料表只能有一個`Clustered index`，資料表會依照`Clustered index`方式存放排列資料，`Clustered Index`跟資料一起放置在`Left`子頁層
+
+> `Cluster index`好比書籍頁碼目錄。每本書只能有一個目錄
+
+建立`Clustered Index`欄位有幾個重點
+
+1. 常用於查詢欄位
+2. 可識別度高(唯一性較高)
+
 ## NonClustered Index(非叢集索引)
+
+每個資料表能有許多`non-cluster index`，像每本書可以有很多種索引目錄，例如依照字母排序、依照附錄A、附錄B
+
+`NonClustered Index`(index page)上所有分葉節點存放指標，如果資料表已存在`Clustered Index`，那麼該指標將會指向叢集索引，如不存在將指向資料真實存放位置
+
+> this is a very important point to remember. Nonclustered indexes do not store information about physical row location when a table has a clustered index. They store the value of the clustered index key instead.
+
+上面簡單來說如果`NonClustered Index`沒有包含所有要查詢欄位
+
+1. 有`Clustered Index`，會執行`Key Lookup`
+2. 沒有`Clustered Index`，會執行`RID Lookup`
+
+> 這裡的`RID`是指向真實資料位子`RowID`
+
+### Key Lookup
+
+`NonClustered Index`中會存放此Row在`Clustered Index`相對位置，假如單單靠搜尋`Non-Clustered Index`沒有辦法滿足所有查詢需要資料就會去`Key Lookup`(by Clustered key)回`Clustered Index`取出相對應的資料.
+
+此存取就稱為`Lookup`，`lookup`會消耗`Disk I/O`，所以所耗的時間相對會比較大
+
+### RID Lookup
+
+資料表沒有`Clustered Index`且使用`Index`所有查詢欄位不包含在`Converting Index`中就會透過`RID Lookup`查找確切Page上的Row(藉由`Row-Id`)
+
+> RID Key:8 byte.
