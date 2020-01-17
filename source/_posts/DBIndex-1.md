@@ -81,12 +81,12 @@ Index真正在使用`B+ tree`儲存類似於下圖
 
 ### Key Lookup
 
-`NonClustered Index`中會存放此Row在`Clustered Index`相對位置，假如單單靠搜尋`Non-Clustered Index`沒有辦法滿足所有查詢需要資料就會去`Key Lookup`(by Clustered key)回`Clustered Index`取出相對應的資料.
-
-此存取就稱為`Lookup`，`lookup`會消耗`Disk I/O`，所以所耗的時間相對會比較大
+`NonClustered Index`中會存放此Row在`Clustered Index`相對位置，假如單單靠搜尋`Non-Clustered Index`沒有辦法滿足所有查詢需要資料就會去`Key Lookup`(by Clustered key)回找`Clustered Index`取出相對應的資料.
 
 ### RID Lookup
 
 資料表沒有`Clustered Index`且使用`Index`所有查詢欄位不包含在`Converting Index`中就會透過`RID Lookup`查找確切Page上的Row(藉由`Row-Id`)
 
-> RID Key:8 byte.
+> RID Key的大小8 byte
+
+`lookup`會消耗`Disk I/O`，所以所耗的時間相對會比較大.
