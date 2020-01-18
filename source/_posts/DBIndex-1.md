@@ -16,7 +16,6 @@ categories: [DataBase,Turning]
 - [範例演示](#%e7%af%84%e4%be%8b%e6%bc%94%e7%a4%ba)
   - [建立一個 NonClustered Index](#%e5%bb%ba%e7%ab%8b%e4%b8%80%e5%80%8b-nonclustered-index)
 - [再建立一個 Clustered Index](#%e5%86%8d%e5%bb%ba%e7%ab%8b%e4%b8%80%e5%80%8b-clustered-index)
-  - [有沒有辦法避免Key Lookup??](#%e6%9c%89%e6%b2%92%e6%9c%89%e8%be%a6%e6%b3%95%e9%81%bf%e5%85%8dkey-lookup)
 
 ## 前文
 
@@ -97,9 +96,7 @@ Index真正在使用`B+ tree`儲存類似於下圖
 
 `NonClustered Index`中會存放此Row在`Clustered Index`相對位置，假如單單靠搜尋`Non-Clustered Index`沒有辦法滿足所有查詢需要資料就會去`Key Lookup`(by Clustered key)回找`Clustered Index`取出相對應的資料.
 
-
 ## 範例演示
-
 
 我們先準備10000筆樣本資料
 
@@ -113,7 +110,7 @@ CREATE TABLE T(
 INSERT INTO T (UserId,UserGroup)
 SELECT TOP 10000 1.0 + floor(10000 * RAND(convert(varbinary, newid()))),
 	   (1.0 + floor(10000 * RAND(convert(varbinary, newid())))/1000)+1
-FROM sys.all_columns t1 CROSS JOIN  sys.all_columns t2 
+FROM sys.all_columns t1 CROSS JOIN  sys.all_columns t2
 ```
 
 建立完資料後我們利用下面條件來查找資料.
@@ -159,12 +156,3 @@ CREATE CLUSTERED INDEX CIX_T_UserId on  dbo.T(
 
 ![](https://i.imgur.com/PPTDYcG.png)
 
-### 有沒有辦法避免Key Lookup??
-
-我們在上面說到`Key Lookup`就是會回去反查所需要的欄位，雖然這比全表掃描來的好但我如果`Key Lookup`回去就必須犧牲些`IO`讀取.
-
-我是否有辦法建立一個`Index`卻不用`Lookup`回去呢?
-
-答案是有辦法就是建立`Convering Index`.
-
-這個我們下次再來討論.
