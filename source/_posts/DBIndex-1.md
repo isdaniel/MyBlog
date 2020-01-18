@@ -1,13 +1,12 @@
 ---
-title: 
-date: 2019-06-02 11:12:43
+title: 資料庫索引深入淺出(一)
+date: 2019-01-20 11:12:43
 tags: [DataBase,Turning,Sql-server]
 categories: [DataBase,Turning]
 ---
 # Agenda<!-- omit in toc -->
 - [前文](#%e5%89%8d%e6%96%87)
-- [沒有Index的資料表](#%e6%b2%92%e6%9c%89index%e7%9a%84%e8%b3%87%e6%96%99%e8%a1%a8)
-- [Index中的B+ tree](#index%e4%b8%ad%e7%9a%84b-tree)
+- [Index使用的資料結構(B+ tree)](#index%e4%bd%bf%e7%94%a8%e7%9a%84%e8%b3%87%e6%96%99%e7%b5%90%e6%a7%8bb-tree)
 - [Index優缺點](#index%e5%84%aa%e7%bc%ba%e9%bb%9e)
 - [Clustered Index(叢集索引)](#clustered-index%e5%8f%a2%e9%9b%86%e7%b4%a2%e5%bc%95)
 - [NonClustered Index(非叢集索引)](#nonclustered-index%e9%9d%9e%e5%8f%a2%e9%9b%86%e7%b4%a2%e5%bc%95)
@@ -23,9 +22,7 @@ categories: [DataBase,Turning]
 
 > 每個`Index`都擁有自己的`B+ tree`.
 
-## 沒有Index的資料表
-
-## Index中的B+ tree
+## Index使用的資料結構(B+ tree)
 
 `B+ tree`是一種資料結構這個資料結構被`Index`拿來使用，關於`B+ tree`網路上有很多資源可再自行尋找，所以我們來談談為什麼`DataBase`會使用`B+ tree`
 
@@ -69,9 +66,16 @@ Index真正在使用`B+ tree`儲存類似於下圖
 
 ## NonClustered Index(非叢集索引)
 
-每個資料表能有許多`non-cluster index`，像每本書可以有很多種`Index`目錄，例如依照字母排序、依照附錄A、附錄B
+每個資料表能有許多`NonClustered Index`，像每本書可以有很多種附錄
 
-`NonClustered Index`(index page)上所有分葉節點存放指標，如果資料表已存在`Clustered Index`，那麼該指標將會指`Clustered Index`，如不存在將指向資料真實存放位置
+1. 例如依照字母排序
+2. 依照附錄A
+3. 附錄B
+4. .....
+
+> `NonClustered Index`也按照`Key Column`排序
+
+`NonClustered Index`(index page)上所有分葉節點存放指標，如果資料表已存在`Clustered Index`(`KeyID`)，那麼該指標將會指`Clustered Index`，如不存在將指向資料真實存放位置(`RID`)
 
 > this is a very important point to remember. Nonclustered indexes do not store information about physical row location when a table has a clustered index. They store the value of the clustered index key instead.
 
@@ -155,4 +159,3 @@ CREATE CLUSTERED INDEX CIX_T_UserId on  dbo.T(
 能看到執行計畫的不同了，已經透過`Key Lookup`回去查找資料，原因是目前資料表已經有`Clustered Index`但此查詢使用條件使用`NonClustered Index`所以導致需要`Lookup`回去`Clustered Index`的`B+ Tree`查找資料
 
 ![](https://i.imgur.com/PPTDYcG.png)
-
