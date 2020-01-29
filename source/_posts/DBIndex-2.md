@@ -15,7 +15,11 @@ categories: [DataBase,Turning]
 
 ## 前文
 
-在[資料庫索引深入淺出(一)](https://isdaniel.github.io/DBIndex-1/)文章介紹
+本系列文章
+
+* [資料庫索引深入淺出(一)](https://isdaniel.github.io/DBIndex-1/)
+* [資料庫索引深入淺出(二)](https://isdaniel.github.io/DBIndex-2/)
+* [資料庫索引深入淺出(三)](https://isdaniel.github.io/DBIndex-3/)
 
 兩種基本索引
 
@@ -135,4 +139,3 @@ CREATE CLUSTERED INDEX IX_T_Id on  dbo.T(
 2. Columns都必須定義成`NOT NULL`
 
 > 一般在建立`Primary Key`是`Clustered Index`，但我們可以自行建立為`NonClustered Index`的`Primary Key`
-

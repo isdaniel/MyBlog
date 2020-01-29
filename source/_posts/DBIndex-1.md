@@ -10,10 +10,10 @@ categories: [DataBase,Turning]
 - [Index優缺點](#index%e5%84%aa%e7%bc%ba%e9%bb%9e)
 - [Clustered Index(叢集索引)](#clustered-index%e5%8f%a2%e9%9b%86%e7%b4%a2%e5%bc%95)
 - [NonClustered Index(非叢集索引)](#nonclustered-index%e9%9d%9e%e5%8f%a2%e9%9b%86%e7%b4%a2%e5%bc%95)
-  - [RID Lookup](#rid-lookup)
-  - [Key Lookup](#key-lookup)
+	- [RID Lookup](#rid-lookup)
+	- [Key Lookup](#key-lookup)
 - [範例演示](#%e7%af%84%e4%be%8b%e6%bc%94%e7%a4%ba)
-  - [建立一個 NonClustered Index](#%e5%bb%ba%e7%ab%8b%e4%b8%80%e5%80%8b-nonclustered-index)
+	- [建立一個 NonClustered Index](#%e5%bb%ba%e7%ab%8b%e4%b8%80%e5%80%8b-nonclustered-index)
 - [再建立一個 Clustered Index](#%e5%86%8d%e5%bb%ba%e7%ab%8b%e4%b8%80%e5%80%8b-clustered-index)
 
 ## 前文
