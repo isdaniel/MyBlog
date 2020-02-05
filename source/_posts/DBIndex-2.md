@@ -129,13 +129,25 @@ CREATE CLUSTERED INDEX IX_T_Id on  dbo.T(
 
 ## Primary Key
 
-在`SQL-Server`很常使用`Primary Key`但你知道他代表甚麼含意嗎?
+在`SQL-Server`很常使用PRIMARY KEY但你知道他代表甚麼含意嗎?
 
-`Primary Key`是也是一個`Index`，他可以設定`NonClustered Index`或是`Clustered Index`
+PRIMARY KEY是也是一個`Index`，他可以設定`NonClustered Index`或是`Clustered Index`
 
-`PRIMARY KEY`有幾個特徵
+PRIMARY KEY有幾個特徵
 
 1. 資料不能重複(Unique)
 2. Columns都必須定義成`NOT NULL`
+3. PRIMARY KEY是一個`Index`
 
-> 一般在建立`Primary Key`是`Clustered Index`，但我們可以自行建立為`NonClustered Index`的`Primary Key`
+> 預設建立的PRIMARY KEY是`Clustered Index`，但我們使用語法自行建立為`NonClustered Index`的PRIMARY KEY
+
+如下範例我們可以建立一個`NONCLUSTERED`的PRIMARY KEY
+
+```SQL
+CREATE TABLE T(
+    ID INT NOT NULL,  
+    CONSTRAINT [PK_T] PRIMARY KEY NONCLUSTERED (
+        ID
+    )
+)
+```
