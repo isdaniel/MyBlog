@@ -1,5 +1,5 @@
 ---
-title: 資料庫資料表
+title: 撰寫SQL的建議
 date: 2020-01-26 23:10:43
 tags: [DataBase,Turning,Sql-server]
 categories: [DataBase,Turning]
@@ -130,4 +130,3 @@ FROM dbo.T
 WHERE col IS NOT NULL AND col <> ''
 --DROP TABLE T
 ```
-
