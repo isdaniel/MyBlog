@@ -19,7 +19,6 @@ categories: [DataBase,Turning]
 
 * [資料庫索引深入淺出(一)](https://isdaniel.github.io/DBIndex-1/)
 * [資料庫索引深入淺出(二)](https://isdaniel.github.io/DBIndex-2/)
-* [資料庫索引深入淺出(三)](https://isdaniel.github.io/DBIndex-3/)
 
 兩種基本索引
 

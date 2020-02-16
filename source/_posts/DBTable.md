@@ -1,5 +1,5 @@
 ---
-title: 資料庫資料表
+title: SqlServer資料表深入淺出
 date: 2020-01-26 23:10:43
 tags: [DataBase,Turning,Sql-server]
 categories: [DataBase,Turning]
@@ -105,10 +105,14 @@ WHERE Val IS NULL
 
 > 此資料表是`Heap`資料表在`NonClustered Index`中會存放`Heap RID`
 
+![](https://i.imgur.com/e87YROd.png)
+
+> 記得在`DBCC IND`取得的PID是要找`PageType = 2`
+
 ```sql
 DBCC traceon (3604);
-DBCC IND ('DEMO',T1,-1)
-DBCC Page ('DEMO',T1,-1)
+DBCC IND ([Your DataBase],T1,-1)
+DBCC PAGE([Your DataBase],1,[Your PID],3)
 ```
 
 透過`DBCC`可以看到查找資料表Page資料可以顯示如下結果集.
@@ -120,8 +124,6 @@ DBCC Page ('DEMO',T1,-1)
 * FID（2 bytes）
 * PID（4 bytes）
 * SLOT（2 bytes）
-
-![](https://i.imgur.com/e87YROd.png)
 
 可藉由下面的Script來拆解`Heap RID(Key)`資料
 
