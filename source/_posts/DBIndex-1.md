@@ -71,9 +71,8 @@ Index真正在使用`B+ tree`儲存類似於下圖
 1. 例如依照字母排序
 2. 依照附錄A
 3. 附錄B
-4. .....
 
-> `NonClustered Index`也按照`Key Column`排序
+> `NonClustered Index`按照`Key Column`排序，
 
 `NonClustered Index`(index page)上所有分葉節點存放指標，如果資料表已存在`Clustered Index`(`KeyID`)，那麼該指標將會指`Clustered Index`，如不存在將指向資料真實存放位置(`RID`)
 
