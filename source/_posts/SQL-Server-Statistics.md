@@ -1,0 +1,79 @@
+---
+title: SqlServer資料表深入淺出
+date: 2020-02-16 23:10:43
+tags: [DataBase,Turning,Sql-server]
+categories: [DataBase,Turning]
+--- 
+
+## 什麼是統計值
+
+SQL Server的QO(Query Optimizer)透過`cost-based model`來選擇一個最合適計畫(估算成本最低)來執行查詢
+
+>　注意每個執行計畫是使用CPU來做估算，使用過的執行計畫一般會Cache起來已便下次使用
+
+QO會依照基數估計(Cardinality estimation)來產生執行計畫，所以基數估計扮演一個很重要的角色
+
+SQL Server統計值是對於每個Index或欄位資料分布做紀錄，任何型態都支援統計值資料.
+
+過期的統計值資料導致QO誤判產生不良執行計畫
+
+何時建立統計值?
+
+如果查詢的條件欄位沒有統計值，Query Optimizer會在編譯前作統計值建立或有門檻條件性的更新。
+
+## DBCC SHOW_STATISTICS
+
+```sql
+DBCC SHOW_STATISTICS
+```
+
+### 觸發統計值更新
+
+假如有設定自動更新統計值，異動資料筆數超過 (500 + 20%)資料，會觸發統計值更新
+
+> 如果是大資料表容易造成統計值不準確，因為要達到自動更新門檻有點困難
+
+找尋是否有**同一個欄位名稱的統計值重複**，如果有建立刪除語法
+
+```sql
+WITH    autostats(object_id, stats_id, name, column_id)
+AS (
+SELECT  sys.stats.object_id ,
+        sys.stats.stats_id ,
+        sys.stats.name ,
+        sys.stats_columns.column_id
+FROM    sys.stats
+        INNER JOIN sys.stats_columns ON sys.stats.object_id = sys.stats_columns.object_id
+                                        AND sys.stats.stats_id = sys.stats_columns.stats_id
+WHERE   sys.stats.auto_created = 1
+        AND sys.stats_columns.stats_column_id = 1
+)
+SELECT  OBJECT_NAME(sys.stats.object_id) AS [Table] ,
+		sys.columns.name AS [Column] ,
+		sys.stats.name AS [Overlapped] ,
+		autostats.name AS [Overlapping] ,
+		'DROP STATISTICS [' + OBJECT_SCHEMA_NAME(sys.stats.object_id) + '].[' + OBJECT_NAME(sys.stats.object_id) + '].[' + autostats.name + ']'
+FROM    sys.stats
+		INNER JOIN sys.stats_columns ON sys.stats.object_id = sys.stats_columns.object_id
+										AND sys.stats.stats_id = sys.stats_columns.stats_id
+		INNER JOIN autostats ON sys.stats_columns.object_id = autostats.object_id
+								AND sys.stats_columns.column_id = autostats.column_id
+		INNER JOIN sys.columns ON sys.stats.object_id = sys.columns.object_id
+									AND sys.stats_columns.column_id = sys.columns.column_id
+WHERE   sys.stats.auto_created = 0
+		AND sys.stats_columns.stats_column_id = 1
+		AND sys.stats_columns.stats_id != autostats.stats_id
+		AND OBJECTPROPERTY(sys.stats.object_id, 'IsMsShipped') = 0;
+```    
+
+## 更新統計值優化
+
+SQL2017之前版本建議啟用TF2371
+
+```sql
+DBCC TRACEON (2371,-1)
+```
+
+啟動後大資料就不會只使用(500 + 20%)條件來更新統計值，會依照資料表筆數來判斷(如下圖)
+
+![image alt](https://www.virtual-dba.com/media/sql-server-chart.jpg)
