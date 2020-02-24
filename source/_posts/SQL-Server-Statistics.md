@@ -1,6 +1,6 @@
 ---
-title: SqlServer資料表深入淺出
-date: 2020-02-16 23:10:43
+title: 影響Query Optimizer產生執行計畫的關鍵(統計值)
+date: 2020-02-20 23:10:43
 tags: [DataBase,Turning,Sql-server]
 categories: [DataBase,Turning]
 --- 
@@ -11,16 +11,23 @@ SQL Server的QO(Query Optimizer)透過`cost-based model`來選擇一個最合適
 
 >　注意每個執行計畫是使用CPU來做估算，使用過的執行計畫一般會Cache起來已便下次使用
 
-QO會依照基數估計(Cardinality estimation)來產生執行計畫，所以基數估計扮演一個很重要的角色
+QO會依照基數估計(Cardinality estimation)來產生執行計畫，基數估計扮演一個很重要的角色
 
 SQL Server統計值是對於每個Index或欄位資料分布做紀錄，任何型態都支援統計值資料.
 
 過期的統計值資料導致QO誤判產生不良執行計畫
 
-何時建立統計值?
+### 何時建立統計值?
 
-如果查詢的條件欄位沒有統計值，Query Optimizer會在編譯前作統計值建立或有門檻條件性的更新。
+每個索引都會有自己個統計資訊，在`UI`查看統計資訊如下圖.
 
+![](https://i.imgur.com/7TiCaUh.png)
+
+如果查詢條件欄位沒有統計值，`Query Optimizer`會在編譯前將**統計值建立或有門檻條件性的更新**。
+
+如下圖我們使用`C3`沒有建立索引欄位來查詢，SQL-Server就會幫我們自動產生`_WA_Sys_00000003_6EF57B66`這個統計資訊來讓`QO`產生執行計畫時有個依據.
+
+![](https://i.imgur.com/WYcY8VW.png)
 
 ## 查詢資料表統計值 & 了解統計值欄位含意
 
@@ -105,7 +112,7 @@ DBCC TRACEON (2371,-1)
 
 ![image alt](https://www.virtual-dba.com/media/sql-server-chart.jpg)
 
-> 假如使用執行計畫很不準確可以查看，當前的統計值是否是正確
+> 假如使用執行計畫(估計值)很不準確可以查看，當前的統計值是否是正確
 
 如果要更新統計值可以使用下面語法.
 
