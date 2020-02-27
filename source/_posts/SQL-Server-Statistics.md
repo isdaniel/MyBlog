@@ -1,6 +1,6 @@
 ---
 title: 影響Query Optimizer產生執行計畫的關鍵(統計值)
-date: 2020-02-20 23:10:43
+date: 2020-02-25 23:10:43
 tags: [DataBase,Turning,Sql-server]
 categories: [DataBase,Turning]
 --- 
