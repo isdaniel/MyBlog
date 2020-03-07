@@ -4,24 +4,14 @@ date: 2020-01-26 23:10:43
 tags: [DataBase,Turning,Sql-server]
 categories: [DataBase,Turning]
 ---
-# Agenda<!-- omit in toc -->
-- [前文](#%e5%89%8d%e6%96%87)
-- [關於Page](#%e9%97%9c%e6%96%bcpage)
-- [Heap資料表](#heap%e8%b3%87%e6%96%99%e8%a1%a8)
-  - [IAM(index allocation map)](#iamindex-allocation-map)
-- [forwarding pointer](#forwarding-pointer)
-  - [forwarding pointer(Demo)](#forwarding-pointerdemo)
-  - [RID Lookup](#rid-lookup)
-- [dbcc page 語法](#dbcc-page-%e8%aa%9e%e6%b3%95)
 
 ## 前文
 
 本篇會跟大家對於`SQL-Server`資料表深入淺出的介紹.
 
-## 關於Page
+## 關於子頁層
 
-資料會存在Page中
-而一個`Page`大小為 8K/Page => 8092(8060 bytes)
+資料會存在子頁層中(page),一個`Page`大小為 8K/Page => 8092(8060 bytes)
 
 > 每個Page除了存取資料還會存放一些`MetaData`，我們可以先當作是每個Page大小是8K
 
