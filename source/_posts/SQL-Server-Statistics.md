@@ -67,7 +67,28 @@ DBCC SHOW_STATISTICS('dbo.posts','PK_Posts')
 
 > 如果是大資料表容易造成統計值不準確，因為要達到自動更新門檻有點困難
 
-找尋是否有**同一個欄位名稱的統計值重複**，如果有建立刪除語法
+在SQL2017之前版本建議啟用TF2371，可以讓自動更新統計值的門檻數量變平滑點
+
+```sql
+DBCC TRACEON (2371,-1)
+```
+
+啟動後大資料就不會只使用(500 + 20%)條件來更新統計值，會依照資料表筆數來判斷(如下圖)
+
+![image alt](https://www.virtual-dba.com/media/sql-server-chart.jpg)
+
+> 假如使用執行計畫(估計值)很不準確可以查看，當前的統計值是否是正確
+
+如果要更新統計值可以使用下面語法.
+
+```sql
+UPDATE STATISTICS dbo.T1;  --更新統計值
+DBCC SHOW_STATISTICS ('dbo.T1', idx1) --顯示統計值
+```
+
+### 刪除重複統計值資料
+
+我們在建立索引，在下次查詢時`SQL-Server`會幫我們建立索引的統計值資料,這時候之前建立資料變得是多餘的就可以利用下面`Script`找尋是否有**同個欄位擁有重複統計值**，可建立刪除`Script`
 
 ```sql
 WITH    autostats(object_id, stats_id, name, column_id)
@@ -100,23 +121,85 @@ WHERE   sys.stats.auto_created = 0
 		AND OBJECTPROPERTY(sys.stats.object_id, 'IsMsShipped') = 0;
 ```
 
-## 更新統計值優化
+### 統計值和查詢記憶體分配
 
-SQL2017之前版本建議啟用TF2371
+SQL-Server查詢不同操作有不同的記憶體分配方式,例如`Index Scan`不用把資料存在記憶體中(因為一筆一筆取出就可以),但如果是使用`Sort`相關的操作,需要在執行前訪問rowset
 
-```sql
-DBCC TRACEON (2371,-1)
-```
+`SQL-Server`會依照統計值來分配合適的記憶體大小,假如統計值不准會導致記憶體分配不對,就會把資料存在TempDb造成查詢效能低落.
 
-啟動後大資料就不會只使用(500 + 20%)條件來更新統計值，會依照資料表筆數來判斷(如下圖)
-
-![image alt](https://www.virtual-dba.com/media/sql-server-chart.jpg)
-
-> 假如使用執行計畫(估計值)很不準確可以查看，當前的統計值是否是正確
-
-如果要更新統計值可以使用下面語法.
+下面這個範例來演示上面所說的
 
 ```sql
-UPDATE STATISTICS dbo.T1;  --更新統計值
-DBCC SHOW_STATISTICS ('dbo.T1', idx1) --顯示統計值
+create table dbo.MemoryGrantDemo 
+( 
+    ID int not null, 
+    Col int not null, 
+    Placeholder char(8000) 
+); 
+ 
+create unique clustered index IDX_MemoryGrantDemo_ID 
+ on dbo.MemoryGrantDemo(ID); 
+
+ ;with N1(C) as (select 0 union all select 0) -- 2 rows 
+ ,N2(C) as (select 0 from N1 as T1 cross join N1 as T2) -- 4 rows 
+ ,N3(C) as (select 0 from N2 as T1 cross join N2 as T2) -- 16 rows 
+ ,N4(C) as (select 0 from N3 as T1 cross join N3 as T2) -- 256 rows 
+ ,N5(C) as (select 0 from N4 as T1 cross join N4 as T2) -- 65,536 rows 
+ ,IDs(ID) as (select row_number() over (order by (select null)) from N5) 
+ insert into dbo.MemoryGrantDemo(ID,Col,Placeholder) 
+     select ID, ID % 100, convert(char(100),ID) from IDs; 
+ 
+ 
+create nonclustered index IDX_MemoryGrantDemo_Col 
+ on dbo.MemoryGrantDemo(Col); 
 ```
+
+建立一張表`MemoryGrantDemo`並建立`Clustered Index`跟新增65,536筆資料`Col`介於1~100之間,最後在建立一個`NonClustered Index`
+
+> `Col`介於1~100之間會有統計值
+
+
+```sql
+ ;with N1(C) as (select 0 union all select 0) -- 2 rows 
+ ,N2(C) as (select 0 from N1 as T1 cross join N1 as T2) -- 4 rows 
+ ,N3(C) as (select 0 from N2 as T1 cross join N2 as T2) -- 16 rows 
+ ,N4(C) as (select 0 from N3 as T1 cross join N3 as T2) -- 256 rows 
+ ,N5(C) as (select 0 from N4 as T1 cross join N2 as T2) -- 1,024 rows 
+ ,IDs(ID) as (select row_number() over (order by (select null)) from N5) 
+ insert into dbo.MemoryGrantDemo(ID,Col,Placeholder) 
+     select 100000 + ID, 1000, convert(char(100),ID) 
+     from IDs 
+     where ID <= 656;
+```
+
+最後在新增`Col = 1000`的`656`筆資料
+
+> 因為只有新增`656`只有原本的1%所以不會觸法更新統計值
+
+
+如下圖能看到`IDX_MemoryGrantDemo_Col`並沒有`Col=1000`的資訊
+
+![](https://i.imgur.com/FTykGu7.png)
+
+
+建立好資料後我們使用`statistics`和打開執行計畫來看看兩者差別
+
+```sql
+ declare 
+     @Dummy int 
+ 
+set statistics time on 
+ select @Dummy = ID from dbo.MemoryGrantDemo where Col = 1 order by Placeholder; 
+ select @Dummy = ID from dbo.MemoryGrantDemo where Col = 1000 order by Placeholder; 
+ set statistics time off 
+```
+
+在執行計畫中看到第二個查詢有個驚嘆號,移過去看可以發現查詢出來的資料寫入TempDb中
+
+![](https://i.imgur.com/fTAZq1T.png)
+
+[訊息]中能看到第二個查詢語法使用時間比較長
+
+![](https://i.imgur.com/Pjk1vTs.png)
+
+> 因為SQL-Server依照統計值分配不和是記憶體大小,所以需要把資料搬到tempdb
