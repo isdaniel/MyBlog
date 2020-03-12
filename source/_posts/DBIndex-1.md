@@ -5,8 +5,7 @@ tags: [DataBase,Turning,Sql-server,Index]
 categories: [DataBase,Turning]
 ---
 # Agenda<!-- omit in toc -->
-- [
-- 前文](#%e5%89%8d%e6%96%87)
+- [前文](#%e5%89%8d%e6%96%87)
 - [Index使用的資料結構(B+ tree)](#index%e4%bd%bf%e7%94%a8%e7%9a%84%e8%b3%87%e6%96%99%e7%b5%90%e6%a7%8bb-tree)
 - [Index優缺點](#index%e5%84%aa%e7%bc%ba%e9%bb%9e)
 - [Clustered Index(叢集索引)](#clustered-index%e5%8f%a2%e9%9b%86%e7%b4%a2%e5%bc%95)

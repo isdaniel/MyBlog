@@ -4,23 +4,14 @@ date: 2020-01-26 23:10:43
 tags: [DataBase,Turning,Sql-server]
 categories: [DataBase,Turning]
 ---
-# Agenda<!-- omit in toc -->
-- [前文](#%e5%89%8d%e6%96%87)
-- [關於Page](#%e9%97%9c%e6%96%bcpage)
-- [Heap資料表](#heap%e8%b3%87%e6%96%99%e8%a1%a8)
-  - [IAM(index allocation map)](#iamindex-allocation-map)
-- [forwarding pointer](#forwarding-pointer)
-  - [forwarding pointer(Demo)](#forwarding-pointerdemo)
-  - [RID Lookup](#rid-lookup)
 
 ## 前文
 
 本篇會跟大家對於`SQL-Server`資料表深入淺出的介紹.
 
-## 關於Page
+## 關於子頁層
 
-資料會存在Page中
-而一個`Page`大小為 8K/Page => 8092(8060 bytes)
+資料會存在子頁層中(page),一個`Page`大小為 8K/Page => 8092(8060 bytes)
 
 > 每個Page除了存取資料還會存放一些`MetaData`，我們可以先當作是每個Page大小是8K
 
@@ -156,3 +147,64 @@ DBCC PAGE(AdventureWorks2012_Data,1,987456,3)
 ```
 
 就可以查找到我們要的資料在`PID = 987456`這個Page中.
+
+## dbcc page 語法
+
+下面語法透過`dbcc page`可以了解資料表存取資訊
+
+```SQL
+/* 建立測試資料表 */
+drop table if exists dbo.T;
+create table dbo.T
+(
+	Name	nvarchar(10) not null,
+	EmpID	int not null,
+	CouID	int not null,
+	Locate	nchar(2) not null,
+	Dist	nchar(1) not null,
+	BDate	datetime not null,
+	Address	nvarchar(100) null,
+	CheckID	int not null
+);
+go
+
+/* 寫入測試資料 */
+insert into dbo.T
+	(Name, EmpID, CouID, Locate, Dist, BDate, Address, CheckID)
+values
+	(N'Daniel',1,950,N'TW',N'M','2020-01-01 00:00:00',N'Taipei City',9);
+go
+
+/* 先取得Page的位置 */
+dbcc ind ('DEMO','dbo.T', -1);
+/* 16776 - 不會一樣, 依照產出的資料配置dbcc page */
+
+/* 查看Page內容 */
+dbcc traceon (3604);
+dbcc page ('DEMO', 1, 16776, 3)
+dbcc traceoff (3604);
+```
+
+PageType – the page type. Some common ones are:
+
+* 1 – data page
+* 2 – index page
+* 3 and 4 – text pages
+* 8 – GAM page
+* 9 – SGAM page
+* 10 – IAM page
+* 11 – PFS page
+
+
+```sql
+dbcc traceon (3604);
+DBCC IND ( { ‘dbname’ | dbid }, { ‘objname’ | objid },{ nonclustered indid | 1 | 0 | -1 | -2 } [, partition_number] )
+```
+
+* 第一個參數是數據庫名或數據庫ID。
+* 第二個參數是數據庫中的對象名或對象ID，對象可以是表或者索引視圖。
+* 第三個參數是一個非聚集索引ID或者 1, 0, 1, or 2. 值的含義：
+    * 0: 只顯示對象的in-row data頁和 in-row IAM 頁。
+    * 1: 顯示對象的全部頁, 包含IAM 頁, in-row數據頁, LOB 數據頁row-overflow 數據頁 . 如果請求的對象含有聚集所以則索引頁也包括。
+    * -1: 顯示全部IAM頁,數據頁, 索引頁 也包括 LOB 和row-overflow 數據頁。
+    * -2: 顯示全部IAM頁。

@@ -1,9 +1,9 @@
 ---
 title: 影響Query Optimizer產生執行計畫的關鍵(統計值)
-date: 2020-02-20 23:10:43
+date: 2020-02-26 23:10:43
 tags: [DataBase,Turning,Sql-server]
 categories: [DataBase,Turning]
---- 
+---
 
 ## 什麼是統計值
 
@@ -16,6 +16,8 @@ QO會依照基數估計(Cardinality estimation)來產生執行計畫，基數估
 SQL Server統計值是對於每個Index或欄位資料分布做紀錄，任何型態都支援統計值資料.
 
 過期的統計值資料導致QO誤判產生不良執行計畫
+
+在我們建立`Index`時，統計值會自動創建。此外當欄位在查詢裡被使用(作為WHERE條件的一部分,group by子句,join條件)統計值會被自動建立
 
 ### 何時建立統計值?
 

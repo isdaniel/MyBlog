@@ -15,8 +15,6 @@ SO 發現蠻多人有遇到 `Gaps and Islands problem`
 
 今天針對發問者實際例子來一步步 解決問題...
 
-###  
-
 提問出處:[count of last continuous inserted records based on date](https://stackoverflow.com/questions/52059682/count-of-last-continuous-inserted-records-based-on-date) 
 
 -----
