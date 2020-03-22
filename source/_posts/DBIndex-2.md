@@ -10,6 +10,7 @@ categories: [DataBase,Turning]
 	- [加入INCLUDE欄位含意](#%e5%8a%a0%e5%85%a5include%e6%ac%84%e4%bd%8d%e5%90%ab%e6%84%8f)
 	- [案例解說](#%e6%a1%88%e4%be%8b%e8%a7%a3%e8%aa%aa)
 - [Filter Index](#filter-index)
+- [filter index的限制](#filter-index%e7%9a%84%e9%99%90%e5%88%b6)
 - [Index Intersection](#index-intersection)
 - [Primary Key](#primary-key)
 
@@ -81,6 +82,8 @@ WHERE id = 10000
 
 ## Filter Index
 
+在SQL-Server 2008之後,支援使用filter index.他可以節省index大小和維護成本
+
 `Filter Index`語法就是在最後寫`where`條件
 
 ```sql
@@ -95,7 +98,41 @@ where UserGroup = 8
 
 上面語法意思是只針對於`UserGroup = 8`的`Row`建立資料在子頁層，`Filter Index`主要是提升維護性和降低`Index`大小.
 
-> 注意:如果有使用到`Filter Index`的`SP`或`Script`，如果沒有加上`SET QUOTED_IDENTIFIER ON`就會造成錯誤，所以在撰寫`Script`時要養成加上上面語法的好習慣.
+## filter index的限制
+
+1. filter index只支援**簡單過濾條件**，在`where`查詢如果有使用到`OR`、function、計算欄位,可能會讓filter index失效
+2. 因為sql-server會cache執行計畫,所以filter index無法在參數化查詢發揮作用
+
+關於第二點我們可以看下面查詢,假如我們建立一個fitler index(`IDX_Data_Unprocessed_Filtered`)因為我們使用參數化查詢所以導致此index無法正常發揮
+
+```sql
+create nonclustered index IDX_Data_Unprocessed_Filtered
+on dbo.Data(RecId)
+include(Processed)
+where Processed = 0;
+
+select top 1000 RecId
+from dbo.Data
+where Processed = @Processed
+order by RecId; 
+```
+
+所以假如此查詢有使用到filter index請在查詢使用硬變數或是可以使用`option(recompile)`不讓執行計畫被cache.
+
+```sql
+select top 1000 RecId
+from dbo.Data
+where Processed = 0
+order by RecId; 
+
+select top 1000 RecId
+from dbo.Data
+where Processed = @Processed
+order by RecId; 
+option(recompile)
+```
+
+> 注意:如果有使用到`Filter Index`的`SP`或`Script`，如果沒有加上`SET QUOTED_IDENTIFIER ON`就會造成錯誤，所以在撰寫`Script`時要養成加上面語法的好習慣.
 
 ## Index Intersection
 
