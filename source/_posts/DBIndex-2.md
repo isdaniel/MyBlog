@@ -56,6 +56,12 @@ CREATE NONCLUSTERED INDEX IX_T_Id_Convering on dbo.T(
 
 > 如果每次只需要`SELECT`少部分欄位且範圍較大又須排序，`Covering Index`執行效率會比`CLUSTERED INDEX`來的快.
 
+`Covering`欄位只會在子頁層儲存資料，並不會在中葉層儲存相關資訊。
+
+儲存方式如下圖會把資料存在子頁層中，並不會把Include資料存在中葉層
+
+![](https://i.imgur.com/8TvUoRY.png)
+
 適合`Covering Index`很適合用在查出來`Column`不需要當作`Key`
 
 ### 案例解說
