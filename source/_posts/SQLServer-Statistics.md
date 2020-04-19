@@ -204,4 +204,4 @@ set statistics time on
 
 ![](https://i.imgur.com/Pjk1vTs.png)
 
-> 因為SQL-Server依照統計值分配不和是記憶體大小,所以需要把資料搬到tempdb
+> 因為SQL-Server依照統計值分配記憶體大小,所以會把統計值預估外資料搬到tempdb資料庫
