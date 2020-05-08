@@ -52,85 +52,106 @@ categories: [C#,DesignPattern]
 
 此範例使用Console來模擬單元測試框架流程：
 
-建立一個 `UnitFlowBase` 抽像類別，裡面有三個方法
+建立一個 `UnitFlowBase` 抽像類別依照`Nunit`生命週期來實現下面方法.
 
-1.  SetUpClass (每個測試類別只都執行一次)
-2.  SetUpUnitTest (每次執行測試方法時都執行一次)
-3.  UnitTest (執行測試方法)
+1.  `OneTimeSetUp` (每個測試類別只都執行一次)
+2.  `Dispose` (每次執行測試方法時都執行一次)
+3.  `SetUp` 每次執行`TestCase`前資料初始化
+4.  `TearDown` 每次執行`TestCase`後釋放資源
 
-此抽象類別提供3個Hock讓子類實做細節。 `UnitFlowBase`只提供框架
+此抽象類別提供幾個Hock讓子類實做細節。 `UnitFlowBase`只提供框架
 
-    public abstract class UnitFlowBase
+`UnitTest`對外提供一個`void UnitTest(IEnumerable<Func<bool>> testCases)`方法.
+
+> 可以傳入要驗證動作一個`IEnumerable<Func<bool>>`型別.
+
+```c#
+public abstract class UnitFlowBase
+{
+    protected virtual void OneTimeSetUp()
     {
-        protected UnitFlowBase()
-        {
-            SetUpClass();
-        }
-
-        protected virtual void SetUpClass()
-        {
-        }
-
-        protected virtual void SetUpUnitTest()
-        {
-        }
-
-        protected abstract bool Execute();
-
-        public void UnitTest()
-        {
-            SetUpUnitTest();
-            Console.WriteLine(Execute() ? "Assert Successful." : "Assert Fail.");
-        }
     }
 
-建立另一個類別`UnitCounter` 實現那三個方法 特別是`Execute`方法 我顯示目前 `ClassCount` 跟 `MethodCount` 執行次數
-
-    public class UnitCounter : UnitFlowBase
+    protected virtual void Dispose()
     {
-        private int _classCounter = 0;
-
-        private int _methodCounter = 0;
-
-        protected override void SetUpClass()
-        {
-            _classCounter++;
-        }
-
-        protected override void SetUpUnitTest()
-        {
-            _methodCounter++;
-        }
-
-        protected override bool Execute()
-        {
-            Console.WriteLine($"ClassCounter : {_classCounter}");
-            Console.WriteLine($"MethodCounter: { _methodCounter}");
-
-            return true;
-        }
     }
 
-呼叫實我們建立一個`UnitCounter`類別，但執行三次`UnitTest`方法
-
-    class Program
+    protected virtual void SetUp()
     {
-        static void Main(string[] args)
-        {
-            UnitCounter unitMock = new UnitCounter();
-            unitMock.UnitTest();
-            unitMock.UnitTest();
-            unitMock.UnitTest();
-
-            Console.ReadKey();
-        }
     }
 
-執行結果如下圖：
+    protected virtual void TearDown()
+    {
+    }
 
-[![img](https://github.com/isdaniel/DesignPattern/raw/master/DesignPattern/img/TemplateMethod/TemplateMethod.PNG)](https://github.com/isdaniel/DesignPattern/blob/master/DesignPattern/img/TemplateMethod/TemplateMethod.PNG)
+    public void UnitTest(IEnumerable<Func<bool>> testCases)
+    {
+        OneTimeSetUp();
+        foreach (var testCase in testCases)
+        {
+            SetUp();
+            Console.WriteLine(testCase() ? "Assert Successful." : "Assert Fail.");
+            TearDown();
+        }
+        Dispose();
+    }
+}
+```
 
-雖然執行3次 `UnitTest` 方法 但 `ClassCounter` 值卻一直是1而 `MethodCounter` 會依照執行幾次就加幾次.
+建立另一個類別`UnitCounter`重載`SetUp`,`OneTimeSetUp`方法.
+
+```c#
+public class UnitCounter : UnitFlowBase
+{
+    protected override void SetUp()
+    {
+        Console.WriteLine("Set up UnitCounter thing.");
+    }
+
+    protected override void OneTimeSetUp()
+    {
+        Console.WriteLine("OneTimeSetUp!!");
+    }
+}
+```
+
+呼叫實我們建立一個`UnitCounter`類別,並傳入一個`IEnumerable<Func<bool>>`的資料集合
+
+```c#
+class Program
+{
+    static void Main(string[] args)
+    {
+        
+        UnitCounter unitCounter = new UnitCounter();
+        unitCounter.UnitTest(new List<Func<bool>>()
+        {
+            ()=>true,
+            ()=>false,
+            ()=>false,
+            ()=>true
+        });
+
+        Console.ReadKey();
+    }
+}
+```
+
+## 實際案例
+
+在我一個開源專案中[ElectronicInvoice_TW](https://github.com/isdaniel/ElectronicInvoice_TW),有使用到`Template Method Pattern`
+
+因為在大平台傳送資料有些固定的流程,這個就很適合使用此Pattern.
+
+1. 參數需要按照字首排序.
+2. 參數製作簽章防偽造.
+3. 利用Http類別請求大平台.
+
+對於每個API來說有一個變化是傳入參數,所以我就把它當作是此系列類別需要`override`方法.
+
+而在`ApiBase.cs`是所有大平台API的`Base`類別在裡面有一個`string ExecuteApi(TModel mode)`方法提供給外部呼叫.
+
+詳細資料可自行參閱我的原始碼.
 
 -----
 
