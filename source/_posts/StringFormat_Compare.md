@@ -80,9 +80,18 @@ class Program
 }
 ```
 
+執行時間如上圖
+
+![img](../images/2020-05-14_152514.png)
+
+[Source Code](https://github.com/isdaniel/BlogSample/tree/master/src/Samples/Box_UnBoxing)
+
 這是為什麼呢??
 
 原因出在Boxing和UnBoxing上...
 
-
 ## Boxing 和 UnBoxing.
+
+在說`Boxing`和`UnBoxing`之前
+
+我們要了解.Net中的Refer Type和Value Type在記憶體存放上差別.
