@@ -29,7 +29,7 @@ categories: [C#,Boxing-UnBoxing]
 
 如下圖
 
-![](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/dc60b613-5aab-4031-b07e-ba95b3eb8c59/1519278342_30764.png)
+![](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/dc60b613-5aab-4031-b07e-ba95b3eb8c59/1519278342_30764.png)
 
 了解`Stack`和`Heap`後
 
@@ -52,7 +52,7 @@ object o=(object)i;
 
 如下圖
 
-![](https://az787680.vo.msecnd.net/user/九桃/62a967a6-4b35-4ca6-a9d1-90318cd12cdc/1556535346_2245.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/62a967a6-4b35-4ca6-a9d1-90318cd12cdc/1556535346_2245.png)
 
 ## UnBoxing:
 
@@ -70,7 +70,7 @@ int j=(int)o;
 
 可以看到原本存在`Heap`上值 我們會把他搬回`Stack`並附值給`J`
 
-![](https://az787680.vo.msecnd.net/user/九桃/62a967a6-4b35-4ca6-a9d1-90318cd12cdc/1556535644_50214.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/62a967a6-4b35-4ca6-a9d1-90318cd12cdc/1556535644_50214.png)
 
 > 把`Heap`上直搬回`Stake`上就會遇到UnBoxing.
 
