@@ -82,7 +82,7 @@ class Program
 
 執行時間如上圖
 
-![img](../images/2020-05-14_152514.png)
+![img](https://i.imgur.com/NzlZgu1.png)
 
 [Source Code](https://github.com/isdaniel/BlogSample/tree/master/src/Samples/Box_UnBoxing)
 
@@ -90,8 +90,53 @@ class Program
 
 原因出在Boxing和UnBoxing上...
 
-## Boxing 和 UnBoxing.
+## Boxing 和 UnBoxing
 
 在說`Boxing`和`UnBoxing`之前
 
-我們要了解.Net中的Refer Type和Value Type在記憶體存放上差別.
+我們要了解.Net中的`Refer Type`和`Value Type`在記憶體存放上差別.
+
+> 想了解`Refer Type`和`Value Type`的人,可以參考我之前寫文章 [【C#】 參考類型 , 值類型 Equals方法 和 ==]().
+
+假如已經了解`Refer Type`和`Value Type`,在.Net中有分Stack記憶體區段和Heap記憶體區段.
+
+* Stack:存放Value Type(struct)資料
+* Heap:存放Refer Type資料
+
+### Boxing
+
+因為在Boxing時我們會把`Value Type`資料**複製**一份資料到`Refer Type`記憶體中.
+
+```c#
+int i=20;
+object o=(object)i;
+```
+
+上面程式碼大概會如下圖操作
+
+![](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/62a967a6-4b35-4ca6-a9d1-90318cd12cdc/1556535346_2245.png)
+
+> int強制轉型為object 因為我們所有物件都是繼承於object物件
+
+### UnBoxing
+
+至於`UnBoxing`動作就如下面程式碼
+
+```c#
+int i=20;
+object o=(object)i;
+int j=(int)o;
+```
+
+`UnBoxing`會將原本存在Heap的值,會把他搬回Stack並附值給`J`
+
+![](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/62a967a6-4b35-4ca6-a9d1-90318cd12cdc/1556535644_50214.png)
+
+> `o Object`強轉成`int`在這個案例不會有問題，但如果是將`o`轉為`char`就會有問題 
+
+## (解答)String.Format兩個範例 效能差異
+
+如果有從頭看到尾小夥伴,相信應該可以了解到問什麼會有沒有`.ToString`會造成差異性了吧.
+
+因為`Boxing`會造成系統無形中消耗,如果我們先把傳入`Value Type`資料轉成`String`再傳入就可以避免`Boxing`問題.
+
