@@ -5,6 +5,8 @@ tags: [SQL-Server,SQL,Merge]
 categories: [SQL-Server]
 ---
 
+## 前言
+
 假如要判斷資料是否存在於資料表中,存在就更新,不存在就新增.
 
 這時我們可以使用`Merge`來幫助我們完成.
@@ -16,6 +18,8 @@ categories: [SQL-Server]
 一切都是這麼完美...
 
 直到到有一天`Merge`在Prod撞到一個問題..
+
+## 問題描述S
 
 使用語法user defined table type & Table如下
 
@@ -83,7 +87,9 @@ END
 
 後來發現此問題在**高併發**時才會發生,所以我們使用[Query Stress](https://www.mssqltips.com/sqlservertip/2730/sql-query-stress-tool/)來幫助我們模擬高併發請求時的狀態.
 
-撰寫了模擬SQL並利用Query Stress達成問題重現.
+### Query Stress重現問題
+
+撰寫了模擬SQL並利用Query Stress重現問題.
 
 模擬SQL腳本
 
