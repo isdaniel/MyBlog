@@ -19,7 +19,7 @@ categories: [SQL-Server]
 
 直到到有一天`Merge`在Prod撞到一個問題..
 
-## 問題描述S
+## 問題描述
 
 使用語法user defined table type & Table如下
 
@@ -168,7 +168,6 @@ END
 
 新寫法的執行計畫在對於大資料表時會很沒效率....
 
-
 #### 改寫後遇到的問題(不好的執行計畫)
 
 一般SP在執行過後都會把使用的執行計畫快取起來,所以我們可以透過DMV來查看執行執行計畫.
@@ -190,19 +189,16 @@ where t2.objectid = object_id('dbo.CalculateStake', 'p')
 
 ![](https://i.imgur.com/gbPva4K.png)
 
+造成上面差異原因，因為新寫法透過統計資訊使用效能較差的執行計畫(能看到上面使用`Merge Join`明明傳入結果集資料並不多)且在`WHEN MATCHED`進行第二次判斷...
 
-會造成上面差異原因,因為新寫法會透過統計資訊判斷找到找較大結果集在`WHEN MATCHED`進行第二次判斷...
+所以效能就變很差,現在已經找到此問題點了，我就在思考那有沒有辦法兼具效能又可解決此問題呢?
 
-所以效能就變很差,現在已經找到此問題點了,我就在思考那有沒有辦法兼具效能又可解決此問題呢?
+### 最終版SP寫法
 
-### 最後誕生出最終版SP寫法
+最後我就思考何不如把傳入參數全部加入`user defined table type`
 
-
-把`user defined table type`跟SP改成如下.
-
-這樣就可以利用傳入參數當作`ON`條件也可以得到精準執行計畫.
-
-> 在跑修改後的SP前記得把Table先Truncate掉
+1. 這樣就可以利用傳入參數當作`ON`條件也可以得到精準執行計畫.
+2. `user defined table type`所有欄位可以跟Table的Clustered Index Match.
 
 ```sql
 drop proc[dbo].[CalculateStake]
@@ -269,6 +265,8 @@ option(MAXRECURSION 0);
 
 exec  [dbo].[CalculateStake] @PriceLimit
 ```
+
+> 請在跑修改後的SP前記得把Table先Truncate掉，這樣可以更精準模擬
 
 使用QueryStress模擬參數
 
