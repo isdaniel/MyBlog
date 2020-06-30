@@ -156,4 +156,73 @@ CREATE CLUSTERED INDEX [CIX_ReportPeriod_StartDate] ON [dbo].[ReportPeriod]
 
 ![](https://i.imgur.com/QGNtlUr.png)
 
-> 原因出在範圍條件.
+> 原因出在範圍條件會因為查找範圍過大導致預估值不準確
+
+甚麼意思? 讓我們看看下圖(代表`ReportPeriod`內含日期資料)
+
+![](https://i.imgur.com/3Z2dy2E.png)
+
+而我們在`JOIN`條件只有`t.CreateDate BETWEEN p.StartDate AND p.EndDate`這就會導致,我們需要查找`ReportPeriod`日期資料在挑出符合的資料
+
+```sql
+JOIN [dbo].[ReportPeriod] p ON t.CreateDate BETWEEN p.StartDate AND p.EndDate
+JOIN @Transaction t1 ON t.TransactionId = t1.TransactionId AND  p.ProductId = t1.ProductId
+```
+
+最後就會看到走針的估計值
+
+![](https://i.imgur.com/QGNtlUr.png)
+
+### 如何優化?
+
+> 效能差問題,選擇對Index和撰寫合理的查詢可以改善40%左右問題
+
+我們思考一下如果可以把範圍條件改成精準`=`查找條件不就可以更精準預估資訊了?
+
+```sql
+t.CreateDate BETWEEN p.StartDate AND p.EndDate
+```
+
+那我們怎麼把上面條件使用`=`取代`BETWEEN`範圍查詢呢?
+
+> 這時我們可以利用空間來換取時間
+
+建立一個新的`COLUMN`運用算法來計算每個期數`StartTime`
+
+例如:`CreateDate = 2020/01/03 10:08:55`會歸類在`2020/01/03 10:05:00`中
+
+```sql
+ALTER TABLE dbo.T99 ADD PeriodDate AS DATEADD(MINUTE,DATEPART(MINUTE,CreateDate) %5 * -1,
+	DATETIMEFROMPARTS(
+	DATEPART(YEAR,CreateDate),
+	DATEPART(MONTH,CreateDate),
+	DATEPART(DAY,CreateDate),
+	DATEPART(HOUR,CreateDate),
+	DATEPART(MINUTE,CreateDate),0,0)
+)
+```
+
+建立完新`COLUMN`後別忘記加入一個`Index`給此`COLUMN`.
+
+```sql
+CREATE INDEX IX_PeriodDate_T99 ON dbo.T99(
+	PeriodDate
+)
+```
+
+最後我們修改一下查詢語法
+
+```sql
+SELECT p.*
+FROM dbo.T99 t 
+JOIN [dbo].[ReportPeriod] p ON p.StartDate = t.PeriodDate
+JOIN @Transaction t1 ON t.TransactionId = t1.TransactionId AND  p.ProductId = t1.ProductId
+```
+
+![](https://i.imgur.com/ZPsyQgH.png)
+
+預估值和讀取值已經可以大幅降低了!!
+
+## 小結:
+
+在`JOIN`範圍條件差效能問題,可以思考一下是否有辦法利用算法或是公式來優化查詢效能，如此次範例一樣.
