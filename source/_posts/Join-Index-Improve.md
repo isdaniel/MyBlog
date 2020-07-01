@@ -13,11 +13,15 @@ categories: [DataBase,Turning]
 
 ## 前文
 
-範圍查詢時`JOIN`統計資訊容易不準確,這也間接導致執行計畫會跑掉.
+`JOIN`條件範圍時,執行計畫**預估值**容易不準確,這也間接導致查詢效能不好.
 
-如果我們想要提升範圍查詢效能並讓Index可以發揮最大最用可以怎麼做?
+> 就算有建立Index也會遇到上述問題
 
-讓我利用一個範例來跟大家分享.
+假如我們想要提升`JOIN`條件範圍效能並讓Index可以發揮最大最用可以怎麼做?
+
+就讓我利用一個範例來跟大家分享.
+
+## 案例
 
 此範例有使用到三張表
 
@@ -71,7 +75,6 @@ INSERT INTO [dbo].[Product] VALUES (10);
 
 declare @FromDate DATETIME2(3) = '2019-08-01'
 declare @ToDate DATETIME2(3) = '2020-07-31'
-
 
 ;WITH CTE AS (
 	SELECT @FromDate fromDt,@ToDate endDt
