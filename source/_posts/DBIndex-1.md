@@ -151,6 +151,8 @@ SET COL2 = 'Test1'
 
 > 這裡的`RID`是指向真實資料位子`RowID`
 
+> 如果Nonclustered index可以建立Unique盡量宣告成Unique,因為Leaf page就可以減少存取`Row-id`欄位,減少儲存空間.
+
 ### RID Lookup
 
 資料表沒有`Clustered Index`且使用`Index`所有查詢欄位不包含在`Converting Index`中就會透過`RID Lookup`查找確切Page上的Row(藉由`Row-Id`)
