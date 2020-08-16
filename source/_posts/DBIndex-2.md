@@ -5,12 +5,12 @@ tags: [DataBase,Turning,Sql-server,Index]
 categories: [DataBase,Turning]
 ---
 # Agenda<!-- omit in toc -->
-- [前文](#%e5%89%8d%e6%96%87)
+- [前文](#前文)
 - [Covering Index](#covering-index)
-	- [加入INCLUDE欄位含意](#%e5%8a%a0%e5%85%a5include%e6%ac%84%e4%bd%8d%e5%90%ab%e6%84%8f)
-	- [案例解說](#%e6%a1%88%e4%be%8b%e8%a7%a3%e8%aa%aa)
+	- [加入INCLUDE欄位含意](#加入include欄位含意)
+	- [案例解說](#案例解說)
 - [Filter Index](#filter-index)
-- [filter index的限制](#filter-index%e7%9a%84%e9%99%90%e5%88%b6)
+- [filter index的限制](#filter-index的限制)
 - [Index Intersection](#index-intersection)
 - [Primary Key](#primary-key)
 
@@ -85,6 +85,19 @@ WHERE id = 10000
 ![](https://i.imgur.com/ivgZPGm.png)
 
 建立完`Convering Index`後我們使用的查詢就會變成只使用`Seek`，而且在執行成本也大幅降低.
+
+Convering Index有幾個缺點
+
+1. 假如在此次update有包含index include columns時,此次修改也會對於Index子頁層進行資料更新，這會增加I/O和Transaction log.
+2. 因為會把include columns增加在NonClustered Index子頁層這會增加硬碟儲存Index的額外空間.
+
+所以建議只新增有用到的include columns.
+
+`Covering`欄位只會在子頁層儲存資料，並不會在中葉層儲存相關資訊。
+
+儲存方式如下圖會把資料存在子頁層中，並不會把Include資料存在中葉層
+
+![](https://i.imgur.com/8TvUoRY.png)
 
 ## Filter Index
 
