@@ -11,6 +11,8 @@ categories: [DataBase,Turning]
 	- [Lock範圍](#lock範圍)
 	- [Lock類型](#lock類型)
 		- [Update Lock 存在的意義](#update-lock-存在的意義)
+- [Lock互斥Demo](#lock互斥demo)
+	- [NoLock的隱憂](#nolock的隱憂)
 - [小結](#小結)
 ## 前文
 
@@ -100,6 +102,10 @@ Where id = 1
 > Shared Lock執行完查詢後立即釋放資源
 > 關鍵在於SLcok不互斥,ULock互斥
 
+## Lock互斥Demo
+
+我們建立一張`T2`資料表
+
 ```sql
 DROP TABLE IF EXISTS T2
 
@@ -107,25 +113,86 @@ CREATE TABLE T2 (Id int)
 
 INSERT INTO T2 VALUES (1)
 INSERT INTO T2 VALUES (2)
+```
 
-CREATE CLUSTERED INDEX CIX_ID ON dbo.T2(ID)
+在使用Transaction + XLOCK hint在查詢語法(這時T2查詢的資料就會被上XLock了)
 
+```sql
 BEGIN TRAN
 
-UPDATE dbo.T2 
-SET ID = ID 
-WHERE ID = 1
+SELECT * 
+FROM T2 WITH(XLOCK) 
+WHERE Id = 1
 
 WAITFOR DELAY '00:00:10'
 
 ROLLBACK TRAN
+```
 
+我們馬上開另一個Session,執行查詢`ID=1`語法
+
+```sql
 SELECT *
 FROM dbo.T2 
 WHERE Id = 1
 ```
 
+會發現我們需要等上面語法執行完才能查出資料,那是因為我們Shared Lock跟X Lock會互斥我們,必須等到XLock執行完我們才可以得到資料.
+
+### NoLock的隱憂
+
+上文有提到Shard Lock會被XLock給Block住,如果我非得在資料上XLock時查詢資料有辦法嗎?
+
+有,我們在第二句查詢加上`With(Nolock)`hint不然Shard Lock會被XLock給Block住.
+
+> 但使用`With(Nolock)` ReadUnCommitted要慎用,因為是髒讀取.
+
+我們試著把上面範例稍微修改一下.
+
+第一個查詢語法
+
+```sql
+
+BEGIN TRAN
+
+UPDATE dbo.T2
+Set id = 100
+where id = 1
+
+WAITFOR DELAY '00:00:10'
+
+ROLLBACK TRAN
+```
+
+第二個查詢語法
+
+```sql
+SELECT *
+FROM dbo.T2 with(nolock)
+WHERE Id = 100
+```
+
+在資料上XLock時使用`with(nolock)`來查詢資料,會發現可以查詢出Id=100資訊
+
+![](https://i.imgur.com/aMvPo4W.png)
+
+但因為第一句語法因為一些原因RollBack,過段時間再查詢
+
+![](https://i.imgur.com/5BqG419.png)
+
+我們會得到空的結果集...那是因為`with(nolock)`是髒讀取,在查詢時他會直接拿取目前資料最新狀態(這個資料狀態可能不一定,最後結果),假如RollBack就會導致資料錯誤問題.
+
+> 所以建議在跟算錢或交易有關程式碼,請別使用`with(nolock)`
 
 ## 小結
+
+本篇對於Lock做了基本介紹
+
+1. Lock範圍
+2. Lock類型
+
+`with(nolock)`記得要慎用,他會造成資料讀取上有誤差,建議在高並法系統且交易有關程式碼,請別使用`with(nolock)`.
+
+日後有機會再慢慢介紹更多Lock運用時間和注意事項.
 
 > https://docs.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide?view=sql-server-2017
