@@ -30,7 +30,7 @@ categories: [DataBase,Turning]
 
 > `B+ tree`是能夠保持資料穩定有序，其插入與修改擁有較穩定的對數時間複雜度。`B+ tree`元素由下而上插入，通過最大化在每個內部節點內的子節點的數目減少樹的高度，平衡操作不經常發生，而且效率增加了。這種價值得以確立通常需要每個節點在次級儲存中占據完整的磁碟塊或近似的大小。
 
-簡白來說`B+ tree`有一個特性是他會把資料存在子頁中並且透過連結把每個子頁串聯起來，提高他的穩定度.
+簡白來說`B+ tree`有一個特性是他會把資料存在子頁(Leaf Page)中透過一個參考把每個子頁串聯起來，提高穩定度.
 
 `B+ tree`資料結構如下圖，這個資料結在在範圍查詢時較`B tree`來的更穩定
 
@@ -44,18 +44,84 @@ Index真正在使用`B+ tree`儲存類似於下圖
 
 ## Index優缺點
 
-建立太多`Index`，小心降低新增、更新效率，`Index`可以加快查詢速度，是`Index`以**空間**換取**時間**。
+`Index`可以加快查詢速度，因為`Index`是以**空間**換取**時間**。
 
 基本上它使用的資源如下:
 
-1. 每個`Index`都會建立一顆 `b+ tree`
-2. 每次新增、更新資料時都會改變 `b+ tree`
+1. 每個`Index`都會建立一顆`b+ tree`
+2. 每次新增、更新資料時都會異動到有使用的`b+ tree`
 
-所以當你`Index`越多時，你需要維護的`Index`越多(代表需要更多資源來維護)
+> 所以當你`Index`越多時，你需要維護的`Index`越多(代表需要更多資源來維護)
+
+建立太多`Index`，小心降低(新增、更新)效率
+
+> 因為SQLServer會對於這次新增、更新使用`Index`做異動
+
+下面有一個`T98`資料表擁有兩個Index
+
+* `CIX_T98` Clustered Index
+* `IX_T98` Convering Index
+
+```sql
+IF EXISTS(
+    SELECT 1
+    FROM sys.tables
+    WHERE name = 'T98'
+)
+BEGIN
+    CREATE TABLE T98(
+        ID int,
+        COL1 VARCHAR(50),
+        COL2 VARCHAR(50)
+    )
+END
+
+insert into T98 VALUES (1,'Hello','Hello1')
+
+CREATE CLUSTERED  INDEX CIX_T98 ON T98(
+    ID 
+)
+
+CREATE INDEX IX_T98 ON T98(
+    ID 
+) INCLUDE (COL1)
+```
+
+當我們要執行更新`COL1`欄位時(打開執行計畫)
+
+```sql
+UPDATE T98
+SET COL1 = 'Test1'
+```
+
+可以發現此次更新,我們會對於這兩個Index異動
+
+* `CIX_T98` Clustered Index
+* `IX_T98` Convering Index
+
+![](https://i.imgur.com/XrVqq2q.png)
+
+```sql
+UPDATE T98
+SET COL1 = 'Test1'
+```
+
+但當我只更新`COL2`時,只會異動`CIX_T98` Index
+
+```sql
+UPDATE T98
+SET COL2 = 'Test1'
+```
+
+![](https://i.imgur.com/iDZPu76.png)
+
+這是為什麼?
+
+> 因為`IX_T98` Index `B+ Tree`沒有包含`COL2`欄位相關資訊,所以不需要更新
 
 ## Clustered Index(叢集索引)
 
-每個資料表只能有一個`Clustered index`，資料表會依照`Clustered index`方式存放排列資料，`Clustered Index`跟資料一起放置在`Left`子頁層
+每個資料表只能有一個`Clustered index`，資料表會依照`Clustered index`方式存放排列資料，`Clustered Index`會把資料放置在`Left`子頁層
 
 > `Cluster index`好比書籍頁碼目錄。每本書只能有一個目錄
 
@@ -84,6 +150,8 @@ Index真正在使用`B+ tree`儲存類似於下圖
 2. 沒有`Clustered Index`，會執行`RID Lookup`
 
 > 這裡的`RID`是指向真實資料位子`RowID`
+
+> 如果Nonclustered index可以建立Unique盡量宣告成Unique,因為Leaf page就可以減少存取`Row-id`欄位,減少儲存空間.
 
 ### RID Lookup
 
@@ -129,7 +197,7 @@ WHERE id = 10000
 ![](https://i.imgur.com/J2BctqU.png)
 ![](https://i.imgur.com/37rnlmn.png)
 
-### 建立一個 NonClustered Index
+## 建立一個 NonClustered Index
 
 我們在表中建立了一個`NonClustered Index`，並利用相同查詢語法查詢資料
 
@@ -145,7 +213,7 @@ CREATE NONCLUSTERED INDEX IX_T_Id on  dbo.T(
 
 ![](https://i.imgur.com/E6WS5qL.png)
 
-## 再建立一個 Clustered Index
+## 建立一個 Clustered Index
 
 我們在`T`資料表中建立一個`Clustered Index`，並且執行相同查詢
 
