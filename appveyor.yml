@@ -8,8 +8,8 @@ environment:
 install:
   - node --version
   - npm --version
-  - npm install
-  - npm install hexo-generator-index2 
+  - npm install -g
+  - npm install hexo-generator-index2 -g
   - npm install hexo-cli -g
 build_script:
   - hexo clean
