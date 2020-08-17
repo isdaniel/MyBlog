@@ -11,7 +11,6 @@ install:
   - npm install -g
   - npm install hexo-generator-index2 -g
   - npm install hexo-cli -g
-  - npm install –unsafe-perm –verbose -g hexo
 build_script:
   - hexo clean
   - hexo generate
