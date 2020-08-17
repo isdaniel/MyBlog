@@ -6,12 +6,12 @@ environment:
   access_token:
     secure: 0ZwRmmbCpax3nuXqwEohKEJtnlgV273cz/gEj6QTvgfaX5+Grv8iRrea6DruLvCU
 install:
-  - npm i -g npm
   - node --version
   - npm --version
   - npm install -g
   - npm install hexo-generator-index2 -g
   - npm install hexo-cli -g
+  - npm install –unsafe-perm –verbose -g hexo
 build_script:
   - hexo clean
   - hexo generate
