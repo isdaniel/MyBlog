@@ -9,8 +9,8 @@ install:
   - node --version
   - npm --version
   - npm install -g
-  - npm install hexo-generator-index2 -g
-  - npm install hexo-cli -g
+  - npm install hexo-generator-index2@0.2.0 -g
+  - npm install hexo-cli@3.1.0 -g
 build_script:
   - hexo clean
   - hexo generate
