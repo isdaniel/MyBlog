@@ -7,8 +7,7 @@ environment:
     secure: 0ZwRmmbCpax3nuXqwEohKEJtnlgV273cz/gEj6QTvgfaX5+Grv8iRrea6DruLvCU
 install:
   - npm cache clean -f
-  - npm install -g n
-  - n stable
+  - npm install -g n stable
   - node --version
   - npm --version
   - npm install -g
