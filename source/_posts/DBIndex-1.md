@@ -151,7 +151,7 @@ SET COL2 = 'Test1'
 
 > 這裡的`RID`是指向真實資料位子`RowID`
 
-> 如果Nonclustered index可以建立Unique盡量宣告成Unique,因為Leaf page就可以減少存取`Row-id`欄位,減少儲存空間.
+> 如果Nonclustered index可以建立Unique盡量宣告成Unique,因為Leaf page就可以減少製造Unique的`Row-id`欄位,減少儲存空間.
 
 ### RID Lookup
 
