@@ -6,7 +6,7 @@ environment:
   access_token:
     secure: 0ZwRmmbCpax3nuXqwEohKEJtnlgV273cz/gEj6QTvgfaX5+Grv8iRrea6DruLvCU
 install:
-  - npm-windows-upgrade -p -v latest
+  - npm i -g npm 
   - node --version
   - npm --version
   - npm install -g
