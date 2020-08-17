@@ -16,6 +16,8 @@ categories: [DataBase,Turning]
 - [小結](#小結)
 ## 前文
 
+之前有跟大家介紹資料庫交易中的[ACID](https://isdaniel.github.io/ACID/),今天我們就來談談常常聽到**Lock**
+
 在討論Lock前我們必須先了解,為什麼會有Lock?
 
 假如你的系統能保證只有一個使用著操作每個資源,其實也就不用lock存在,但現實生活中往往有個命令對於同一個資源操作.這時候我們為了確保資料正確性,必須使用lock來避免[Racing Condition](https://en.wikipedia.org/wiki/Race_condition).
@@ -64,13 +66,17 @@ categories: [DataBase,Turning]
 
 ![](https://i.imgur.com/YaBZcaT.png)
 
-例如:你在使用查詢時除了被上Xlock資源外,其他都可同步被查詢
+例如:你在使用查詢(Shared Lock),除了上XLock資源外其餘資料都可同步被查找出來.
 
 #### Update Lock 存在的意義
 
-其實我們在更新資料時使用Lock類型會如下
+我們在更新資料時使用Lock類型會如下
 
-> S => U => X
+> Shared Lock => Update Lock => XLock
+
+* Shared Lock:查詢更新的資料.
+* Update Lock:更新前把資料改成Update Lock.
+* XLock:確定要更新當下改成XLock.
 
 但為什麼會多一個Update Lock呢?
 
@@ -84,23 +90,23 @@ Set Val = @Val
 Where id = 1
 ```
 
-如果只有 S Lock => X Lock
+如果只有Shared Lock => XLock
 
-1. 語法1 產生SLock
-2. 語法2 產生SLock
-3. 因為SLock 和 XLock 互斥,所以互相等待對方的SLock釋放，造成死結(Dead Lock)
+1. 語法1 產生Shared Lock
+2. 語法2 產生Shared Lock
+3. 因為Shared Lock 和 XLock 互斥,所以互相等待對方Shared Lock釋放，造成死結(Dead Lock)
 
 假如我們多一個ULock會變成
 
-1. 語法1 產生SLock
-2. 語法2 產生SLock
-3. 語法1 產生ULock(釋放SLock)
+1. 語法1 產生Shared Lock
+2. 語法2 產生Shared Lock
+3. 語法1 產生ULock(釋放Shared Lock)
 4. 語法2 想要產生ULock發現語法1已經先產生(ULock)，所以等待語法1執行完畢(Block)
 5. 語法1 Update完後產生XLock直到Commit結束才釋放XLock
 6. 語法2 產生ULock執行後面更新動作.
 
 > Shared Lock執行完查詢後立即釋放資源
-> 關鍵在於SLcok不互斥,ULock互斥
+> 關鍵在於Shared Lcok不互斥,ULock互斥
 
 ## Lock互斥Demo
 
@@ -147,9 +153,7 @@ WHERE Id = 1
 
 > 但使用`With(Nolock)` ReadUnCommitted要慎用,因為是髒讀取.
 
-我們試著把上面範例稍微修改一下.
-
-第一個查詢語法
+我們試著把上面範例稍微修改一下第一個查詢語法
 
 ```sql
 
@@ -195,4 +199,4 @@ WHERE Id = 100
 
 日後有機會再慢慢介紹更多Lock運用時間和注意事項.
 
-> https://docs.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide?view=sql-server-2017
+[Transaction Locking and Row Versioning Guide](https://docs.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide?view=sql-server-2017)
