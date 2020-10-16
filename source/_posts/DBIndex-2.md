@@ -170,7 +170,7 @@ CREATE CLUSTERED INDEX IX_T_UserId_Id on dbo.T(
 
 我們就可以考慮把這個`Index`拆開成兩個，這樣可以提高索引使用率（因為執行計畫透過統計值來產生，而`Index`統計值計算是由`Index`第一個Column來當計算）
 
-> 注意:把`Index`猜成兩個或許可以增加查詢效率，但每個`Index`就是一個`B+ Tree`這會造成
+> 注意:把`Index`拆成兩個或許可以增加查詢效率，但每個`Index`就是一個`B+ Tree`,這會造成維護上成本
 
 ```sql
 CREATE CLUSTERED INDEX IX_T_UserId on dbo.T(
