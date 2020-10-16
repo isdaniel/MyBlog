@@ -4,7 +4,7 @@ branches:
   - master
 environment:
   access_token:
-    secure: 0ZwRmmbCpax3nuXqwEohKEJtnlgV273cz/gEj6QTvgfaX5+Grv8iRrea6DruLvCU
+    secure: 460dae038988b5de56efd7733c6a42af27c8b154
 install:
   - node --version
   - npm --version
@@ -28,7 +28,7 @@ on_success:
   - SETLOCAL EnableDelayedExpansion & robocopy "%APPVEYOR_BUILD_FOLDER%\public" "%TEMP%\static-site" /e & IF !ERRORLEVEL! EQU 1 (exit 0) ELSE (IF !ERRORLEVEL! EQU 3 (exit 0) ELSE (exit 1))
   - git add -A
   - git commit -m "Update Static Site"
-  - git push %PUSH_REPO% --all
+  - git push origin %TARGET_BRANCH%
 notifications:
 - provider: Email
   to:
