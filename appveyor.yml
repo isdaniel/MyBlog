@@ -4,7 +4,7 @@ branches:
   - master
 environment:
   access_token:
-    secure: 460dae038988b5de56efd7733c6a42af27c8b154
+    secure: 9RuHrfPBM3Rc10unrb/g0ODvxW/jQ2s4e5d+6x79OMfwKeQK/HbrkjNCdnjMWA8m
 install:
   - node --version
   - npm --version
