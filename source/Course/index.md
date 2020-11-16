@@ -1,12 +1,18 @@
 ---
 title: Course Cooperation
 date: 2019-05-27 22:31:48
-comments: false
+comments: true
 ---
 
-下方是石頭開設程式課程，如有需要可以內洽石頭！
+本頁是石頭開設程式課程，如有需要可以內洽石頭！
 
 # 設計模式
+
+## 介紹
+
+1. 了解物件導向與抽象精髓
+2. 設計模式實踐，為何使用設計模式IoC，Factory Pattern，Singleton Pattern...
+3. 在實戰中重構結合設計模式
 
 ### 抽象通論
 * 定義抽象

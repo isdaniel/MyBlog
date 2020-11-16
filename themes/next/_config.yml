@@ -159,7 +159,7 @@ baidu_push: false
 menu:
   home: / || home
   about: /about/ || user
-  Course: /Course/ || Course
+  Course: /Course/ || book
   tags: /tags/ || tags
   categories: /categories/ || th
   archives: /archives/ || archive
@@ -224,7 +224,7 @@ links:
   #Title: http://example.com
 
 # Sidebar Avatar
-avatar: 
+avatar:
   # In theme directory (source/images): /images/avatar.gif
   # In site directory (source/uploads): /uploads/avatar.gif
   # You can also use other linking images.
@@ -828,7 +828,7 @@ busuanzi_count:
   total_views_icon: eye
   post_views: true
   post_views_icon: eye
- 
+
 
 # Tencent analytics ID
 #tencent_analytics:
@@ -1165,8 +1165,8 @@ vendors:
 
 reading_progress:
   enable: true
-  color: "#37c6c0" 
-  height: 3px 
+  color: "#37c6c0"
+  height: 3px
 
   # leancloud-storage
   # See: https://www.npmjs.com/package/leancloud-storage
