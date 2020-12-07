@@ -149,9 +149,11 @@ WHERE Id = 1
 
 上文有提到Shard Lock會被XLock給Block住,如果我非得在資料上XLock時查詢資料有辦法嗎?
 
-有,我們在第二句查詢加上`With(Nolock)`hint不然Shard Lock會被XLock給Block住.
+有,我們在第二句查詢加上`With(Nolock)`hint或者是(設定`SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED`)不然Shard Lock會被XLock給Block住.
 
-> 但使用`With(Nolock)` ReadUnCommitted要慎用,因為是髒讀取.
+> 但使用`With(Nolock)` Read Uncommitted要慎用,因為是髒讀取,(Read Uncommitted顧名思義就是讀取未`commite`資料)
+
+#### Read Uncommitted 髒讀取
 
 我們試著把上面範例稍微修改一下第一個查詢語法
 
@@ -186,6 +188,7 @@ WHERE Id = 100
 
 我們會得到空的結果集...那是因為`with(nolock)`是髒讀取,在查詢時他會直接拿取目前資料最新狀態(這個資料狀態可能不一定,最後結果),假如RollBack就會導致資料錯誤問題.
 
+> 有時候NoLock會讀到重複資料
 > 所以建議在跟算錢或交易有關程式碼,請別使用`with(nolock)`
 
 ## 小結
@@ -195,7 +198,7 @@ WHERE Id = 100
 1. Lock範圍
 2. Lock類型
 
-`with(nolock)`記得要慎用,他會造成資料讀取上有誤差,建議在高並法系統且交易有關程式碼,請別使用`with(nolock)`.
+`with(nolock)`記得要慎用,他會造成資料讀取上有誤差,建議在高併發系統且交易有關程式碼,請別使用`with(nolock)`,這會造成資料不正確(有資料執行到一半RollBack,剛好被NoLock查詢讀到)
 
 日後有機會再慢慢介紹更多Lock運用時間和注意事項.
 
