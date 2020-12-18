@@ -42,11 +42,17 @@ CREATE TABLE [dbo].[PriceLimitation](
 GO
 
 CREATE TYPE [dbo].[uftt_PriceLimit] AS TABLE(
+	[CategoryID] [int] NOT NULL,
+	[ProdcutGroupID] [smallint] NOT NULL,
 	[UserID] [int] NOT NULL,
 	[StakeAmount] [numeric](18, 4) NOT NULL,
+	[ProductID] [smallint] NOT NULL,
 	PRIMARY KEY CLUSTERED 
 (
-	[UserID] ASC
+	[UserID] ASC,
+	[CategoryID] ASC,
+	[ProductID] ASC,
+	[ProdcutGroupID] ASC
 )WITH (IGNORE_DUP_KEY = OFF)
 )
 ```
@@ -218,6 +224,8 @@ CREATE TYPE [dbo].[uftt_PriceLimit] AS TABLE(
 	[ProdcutGroupID] ASC
 )WITH (IGNORE_DUP_KEY = OFF)
 )
+
+GO
 
 CREATE OR ALTER PROC [dbo].[CalculateStake]
 	@PriceLimit [uftt_PriceLimit] readonly
