@@ -19,7 +19,7 @@ categories: [C#,Lock]
 
 我們只需要做幾個步驟:
 
-1. 在使用Lock類別上掛`LockerInterceptor`攔截器標籤.  
+1. 在使用Lock類別上掛`LockerInterceptor`攔截器標籤.
 2. 使用Lock方法上使用`LockAttribute`標籤`[Lock(LockKey = "Your lock Key")]`(`Key`屬性是必填的)
 3. 設定Lock屬性.
 
@@ -122,7 +122,7 @@ public void Intercept(IInvocation invocation)
     {
         invocation.Proceed();
     }
-    
+
 }
 ```
 
@@ -179,9 +179,9 @@ public interface ILockerContext
 {
     void MethodA();
     void MethodA1();
-    
+
     void MethodB_A();
-    
+
     void MethodB();
 }
 
@@ -211,16 +211,16 @@ public class LockerTest
 
     [Test]
     public void LockGroupTest()
-    { 
+    {
         var lockerContext= AutofacConfig.Container.Resolve<ILockerContext>();
-        
+
         List<Task> taskList =new List<Task>();
 
         for (int i = 0; i < 10; i++)
         {
             taskList.Add(Task.Factory.StartNew(() => { lockerContext.MethodA(); }));
             taskList.Add(Task.Factory.StartNew(() => { lockerContext.MethodA1(); }));
-            taskList.Add(Task.Factory.StartNew(() => { lockerContext.MethodB_A(); }));                
+            taskList.Add(Task.Factory.StartNew(() => { lockerContext.MethodB_A(); }));
             taskList.Add(Task.Factory.StartNew(() => { lockerContext.MethodB(); }));
 
         }
