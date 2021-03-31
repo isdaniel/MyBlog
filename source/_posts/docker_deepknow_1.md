@@ -21,6 +21,8 @@ docker透過指令能快速建立相同執行環境並比起VM減少電腦資源
 
 ## 關於Window中的Docker
 
+如果我們需要在Prod運行一個系統可能需要許多不同的程式架構和語言才能完成(甚至有OS限制),在傳統我們選擇使用VM來幫建立不同環境來承載不同程式架構，但VM會模擬OS導致非常肥大,安裝使用資源較大,而Container的Image可以依照我們需求來客製我們需要核心並且Container可以宿主核心達到效能較佳的利用
+
 在Window10 我們可以利用HyperV來跑Docker,原因是HyperV類似一個虛擬機幫我們模擬Linux並且運行Docker Daemon來控管docker container.
 
 > Docker需要在Linux中執行,Docker Daemon幫助Client透過命令來操作Docker,如果沒有Docker Daemon我們就無法執行Docker搂.
