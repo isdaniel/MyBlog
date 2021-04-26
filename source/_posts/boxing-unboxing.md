@@ -13,13 +13,13 @@ categories: [C#,Boxing-UnBoxing]
 
 在.NET有分兩種類型
 
-1.  值類型(int,double,char....)
-2.  參考類型(自行宣告的類別,string....)
+1. 值類型(int,double,char....)
+2. 參考類型(自行宣告的類別,string....)
 
 而存放資料的方式也有兩種:
 
-1.  堆疊Stack  
-2.  堆積Heap
+1. 堆疊Stack  
+2. 堆積Heap
 
 談談Boxing和UnBoxing之前，我們先來了解`Stack`和`Heap`
 
@@ -64,9 +64,8 @@ object o=(object)i;
 int j=(int)o;
 ```
 
-將`Object`強轉成`int`在這個案例不會有問題，但如果是將o轉為char就會有問題 
-
-在執行`UnBoxing`如下圖 
+將`Object`強轉成`int`在這個案例不會有問題，但如果是將o轉為char就會有問題
+在執行`UnBoxing`如下圖
 
 可以看到原本存在`Heap`上值 我們會把他搬回`Stack`並附值給`J`
 
@@ -105,6 +104,94 @@ dt.Rows[0]["col1"] //返回一個object型態的物件
 ```
 
 > 所以我在讀取DB資料時建議使用`DataReader`而不是使用`DataTable`,因為使用DataReader可以直接去得使用型態(避免Boxing and UnBoxing).
+
+### 常使用誤區string.format Boxing UnBoxing
+
+在開始說明之前先問問大家兩個問題
+
+下面兩段程式碼是否是一樣?
+
+如果不一樣是哪裡不一樣?
+
+> `$""`是`string.format`語法糖.
+
+```c#
+int intVal = 1;
+int intVal1 = 2;
+int intVal2 = 2;
+int intVal3 = 3;
+$"{intVal.ToString()} {intVal2.ToString()} {intVal3.ToString()}";
+```
+
+```c#
+int intVal = 1;
+int intVal1 = 2;
+int intVal2 = 2;
+int intVal3 = 3;
+$"{intVal} {intVal2} {intVal3}";
+```
+
+上面答案非常明顯是不一樣,但不一樣在哪裡呢?
+
+> Boxing和UnBoxing.
+
+要了解`String.Format` Boxing和UnBoxing之前我們要先了解function是如何傳參數的.
+
+#### Function如何傳參數
+
+在.net我們常常在寫function但你有注意參數是如何被傳的嗎?
+
+```c#
+static void Main(string[] args)
+{
+    var a = new A()
+    {
+        Age = 100
+    };
+
+    FunctionA(a);
+    Console.WriteLine($"main a.Age {a.Age}");
+
+    var i = 100;
+    FunctionInt(i);
+    Console.WriteLine($"main i {i}"); 
+
+    Console.Read();
+}
+
+public static void FunctionA(A a)
+{
+    Console.WriteLine($"FunctionA {a.Age}");
+    a.Age = 0;
+}
+
+public static void FunctionInt(int a)
+{
+    Console.WriteLine($"FunctionInt {a}");
+    a = 0;
+}
+```
+
+執行結果如下圖
+
+![alt](https://i.imgur.com/7aGOpZJ.png)
+
+那是因為.net在傳參數時
+
+* 如果**方法參數**是Ref Type會copy address當作參數進去
+* 如果**方法參數**是Value Type會copy value當作參數進去
+
+我們看`String.Format`其中一個重載方法,是傳入`object[]`當作參數.
+
+```c#
+public static string Format(string format, params object[] args) => args != null ? string.FormatHelper((IFormatProvider) null, format, new ParamsArray(args)) : throw new ArgumentNullException(format == null ? nameof (format) : nameof (args));
+```
+
+因為單純傳入value type會導致參數需要boxing(因為方法參數吃`object`)
+
+所以value type使用`ToString`方法傳入`String.Format`方法,先把value type轉成refer type的`string`就不會造成boxing unboxing效能問題了.
+
+[Box_UnBoxing Sample Code](https://github.com/isdaniel/BlogSample/tree/master/src/Samples/Box_UnBoxing)
 
 ## 小結
 
