@@ -16,13 +16,12 @@ categories: [C#,SourceCode]
 簡單說明：
 Http協議是一個無狀態協議。
 
-> 核心是 請求=>處理=>回應 
+> 核心是 請求=>處理=>回應
 
 每次請求都是獨立不會記住上一次做了甚麼
 Session可以幫我們把資料存在Server記憶體，方便我們下次請求使用
 上網連線眾多使用者，Server怎麼知道哪份資料,屬於哪個使用者的? 這就要依靠 **SessonID**
 **SessionID**就像使用者的號碼牌，可以到Server拿相對應的資料
-
 
 分析：
 
@@ -39,11 +38,11 @@ Session可以幫我們把資料存在Server記憶體，方便我們下次請求�
 我們作出幾個核心來完成模擬Session:
 1. SessionPool來存放目前所有Session
 2. SessionObject (支援快取在系統記憶體中)
-   模擬HttpContext封裝Session   
-   
+   模擬HttpContext封裝Session
+
 實作：
 我要簡單呈現就選擇使用輕便 [泛型處理常式]
-![](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/0a757091-7057-47ec-aea7-b2d712631a2c/1510058340_10833.PNG)
+![alt](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/0a757091-7057-47ec-aea7-b2d712631a2c/1510058340_10833.PNG)
 
 **ApplicationContext** 模擬HttpContext封裝SessionPool
 創建一個靜態的SessionPool物件，因為程式都共用此SessionPool
@@ -240,6 +239,5 @@ public void ProcessRequest(HttpContext context)
 上面程式是簡單模擬Session核心作用的程式
 
 但並未處理多執行緒並發讀寫...等等問題，所以建議別再實際專案中使用XD!!
-
 
 專案使用 VS2015 [GitHub原始碼](https://github.com/isdaniel/OwnSession)
