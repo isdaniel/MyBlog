@@ -22,7 +22,7 @@ A物件程式內部需要使用B物件 A,B物件中有依賴的成份
 
 * 反轉概念如下圖
 
-![pic](https://az787680.vo.msecnd.net/user/九桃/493ce9d9-64bd-4343-a145-16ab21f3c695/1555312814_72597.png)
+![pic](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/493ce9d9-64bd-4343-a145-16ab21f3c695/1555312814_72597.png)
 
 >我們可發現有兩點差異
 
