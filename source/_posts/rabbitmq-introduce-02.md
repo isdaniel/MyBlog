@@ -1,100 +1,70 @@
 ---
-title: Sqlserver不可不知道Heap Table.
-date: 2021-06-19 22:30:11
-tags: [Sql-server,DataBase,table]
-categories: [Sql-server]
+title: RabbitMQ (一) 安裝介紹
+date: 2019-06-03 22:30:11
+tags: [C#,RabbitMQ,MQ]
+categories: [C#]
 ---
 
-## Heap 資料表
+## RabbitMQ是什麼?
 
-如果資料表沒有`Clustered Index`那此表就會是Heap資料表
+RabbitMQ是一個訊息中介軟體 (broker), 他實作​[AMQP標準](https://zh.wikipedia.org/zh-tw/%E9%AB%98%E7%BA%A7%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%8D%8F%E8%AE%AE), 特點是消息轉發是非同步並且可靠.
 
-Heap資料表有個特性是`Insert`資料快比較快，因為插入資料不需要考慮排序。
+主要用來處理應用程序之間消息的儲存與轉發可讓消費者和生產者解耦合, 消息是基於二進制
 
-適合使用在Log資料表、Event資料表、稽核資料表....一直新增資料，但比較少查詢或更新的表
+因為RabbitMQ Server是用[Erlang](https://zh.wikipedia.org/wiki/Erlang "Erlang")語言編寫，所以在安裝RabbitMQ Server前須先安裝[Erlang](https://zh.wikipedia.org/wiki/Erlang "Erlang")[環境](https://www.erlang.org/downloads)
 
-> 一般來說Heap資料表很少見,因為都會建議每張表都要有Clustered Index.
+安裝完後可到[RabbitMq](https://www.rabbitmq.com/download.html)官網下載安裝Server .
 
-另外Heap資料表Data Page沒有像其他B+Tree Index有對於左右Page連結Reference.
+以下是常用在CMD使用的使令
 
-### Heap資料表中不得不知(forwarding pointer)
+* 開啟RabbitMq Server. 
 
-假如在Heap資料表更新欄位資料，就可能會造成`forwarding pointer`如果你資料表有許多`forwarding pointer`可能就要考慮是否要優化調整....
+    rabbitmq-server -detached
 
-> forwarding pointer會造成Logic read增加,因為在Heap讀取資料使用`Allocation scan`(依照儲存page順序讀取資料,讀到page有forwarding pointer就會多讀取資料頁)
+* 查看RabbitMq狀態 
 
-`forwarding pointer`是因為原本`Page`(8KB)塞不下更新後資料就會先把資料搬到另一個新建立`Page`上並在原本`Page`建立一個類似指標東西指向它.
+    rabbitmqctl status
 
-> `forwarding pointer`指標會存在原本的Page大小是16 byte
+* 查看Queue列表狀態
 
-簡單來說就是更新後資料後發現原本`Page`塞不下更新後資料就會先把資料搬到另一個新建立`Page`上並在原本`Page`建立一個類似指標東西指向它.
+    rabbitmqctl list_queues
 
-> 這個指標會存在原本的Page大小是16 byte
+* 查看交換器(Exchange)
 
-`forwarding pointer` Page產生和概念如下圖
+    rabbitmqctl list_exchanges
 
-![](https://i.imgur.com/5drfCFZ.png)
+* 查看綁定狀態
 
-讀取`forwarding pointer`執行動作如下圖所示
+    rabbitmqctl list_bindings
 
-假如我們有一個Scan的需求
+## RabbitMQ Server UI
 
-1. 讀取要讀`Page1`發現有些資料在其他(`Page2`,`Page3`)
-2. 所以到`forwarding pointer` (`Page2`,`Page3`)搜索資料
-3. 搜尋完`Page1`接者搜尋`Page2`,`Page3`
+RabbitMq Server 很貼心也有UI版的控制面板,只需在CMD中輸入這個指令 啟用Server UI套件
 
-![](https://i.imgur.com/HT0bui0.png)
+### rabbitmq-plugins enable rabbitmq_management
 
-上面因為Page1資料`forwarding pointer`到其他Page導致Scan資料時多了2個page read,如果`forwarding pointer`數量一多對於讀的效能可想而知....
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/9f6dc914-dd2d-44b0-b8e4-7a3f93d200d2/1547823390_90475.png)
 
-### IAM(index allocation map)
+再訪問 [http://localhost:15672/ ](http://localhost:15672/)URL,就可進入這個頁面
 
-當Heap要搜尋資料`SQL-Server`透過IAM(index allocation map)去尋要掃描Page範圍，因為`IAM`會以範圍存在於檔案中的順序來表示它們，這代表循序的堆積掃描都將依檔案順序進行。
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/9f6dc914-dd2d-44b0-b8e4-7a3f93d200d2/1547823535_62339.png)
 
-> 表示 IAM 掃描順序Heap中資料Row通常不會依插入順序傳回。
+預設帳號密碼都是guest.
 
-IAM Page在讀取資料的示意圖如下，可以看到讀取Page中資料順序和新增資料順序不一樣.
+#### Rabbitmq run in Docker
 
-> 因為透過IAM Page搜索資料是在做**Allocation order scan**,這也是為什麼Heap資料表和使用`With NOLOCK`查詢資料時,如果沒有使用`ORDER BY`順序會不如預期
+使用Docker可以方便建立我們的[Rabbitmq](https://hub.docker.com/_/rabbitmq)
 
-![](https://i.imgur.com/Qw8Kx1q.png)
+在你電腦安裝完Docker後,只需使用下面指令
 
-### Allocation order scan & Range scan
+```
+docker run -d --hostname myrabbit --name RabbitMQ -p 8080:15672 rabbitmq:3-management
+```
 
-在sqlserver底層有隱藏兩種Scan方式
+再訪問 [http://localhost:15672/](http://localhost:15672/)URL,就可進入這個頁面
 
-* Allocation order scan: 使用with(nolock) or 查詢Heap table 使用(IAM)找尋Page和Extents
+**Web UI**和Server都會幫我們運行起來
 
-> With(Nolock)可能會遇到Dirty Read意思是讀取重覆兩筆資料,原因Nolock是sch-S lock + Allocation scan一開始讀去到資料A,讀完同時有人更新資料且資料大小大於8K造成page split,因為Allocation scan會依照(IAM)存取順序讀取,就造成資料重複讀取.
+## 小結:
 
-* Range scan(b-tree scan): 沒使用(IAM),靠著Clustered Index or NonClustered Index來查找資料.
-
-### GAM & SGAM
-
-SQL-Server會依照Mixed或Uniforms來分配Extent使用(1個Extent可以管理8個page)
-
-SQL Server 有兩種Allocate extend的方法，而SGAM /GAM Page就是用來計錄File中每
-個Extent的使用方法及狀況,SQL Server在藉此決定資料要落地的extent位置
-
-* GAM(Global Allocation Map):計錄哪些Extent尚未配置，會存放一個bit值對應到一個extent，如果是1就是extent not allocated。
-
-* SGAM(Shared Global Allocation Map):計錄Extent是Mixed extent且還有Free space，會存放一個bit值對應到一個extent，如果是1代表
-
-![](https://i.imgur.com/m4tTh7z.png)
-
-一個GAM page可以存64K Extend使用資訊,所以一個GAM Extent可以存放4GB資料Extent資訊
-
-> 64k * 8k(page size) * 8 (page count)  ~= 4GB
-
-## 小結
-
-今天對於Heap資料表有比較多深入探討,也對於Allocation order scan & Range scan做了些介紹
-
-> 之前有跟大家說小心使用(WITH NOLOCK),就是因為With Nolock使用Allocation order scan,在高併發系統很有機會遇到Dirty Read會造成資料不如預期.
-
-所以`WITH NOLOCK`要慎用,特別是交易系統就不要用`WITH NOLOCK`太害人了....
-
-日後有空我會再跟大家分享Page底層的一些細節,如果要學會效能調教這些資料庫原理的事物必須學會.
-
-雖然可能有些深澀但學成一定會有所幫助.
-
+安裝RabbitMQ步驟就這幾步而已 ^^,之後會跟大家分享如何在.Net使用RabbitMQ.

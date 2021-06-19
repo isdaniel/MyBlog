@@ -1,205 +1,102 @@
 ---
-title: 淺談SqlServer Lock(一)
-date: 2020-08-16 11:12:43
-tags: [DataBase,Turning,Sql-server,Lock]
-categories: [DataBase,Turning]
+title: Sqlserver不可不知道Heap Table.
+date: 2021-06-19 22:30:11
+tags: [Sql-server,DataBase,table]
+categories: [Sql-server]
 ---
 
-# Agenda<!-- omit in toc -->
-- [前文](#前文)
-- [兩種圍度的Lock](#兩種圍度的lock)
-	- [Lock範圍](#lock範圍)
-	- [Lock類型](#lock類型)
-		- [Update Lock 存在的意義](#update-lock-存在的意義)
-- [Lock互斥Demo](#lock互斥demo)
-	- [NoLock的隱憂](#nolock的隱憂)
-- [小結](#小結)
-## 前文
+## Heap 資料表
 
-之前有跟大家介紹資料庫交易中的[ACID](https://isdaniel.github.io/ACID/),今天我們就來談談常常聽到**Lock**
+如果資料表沒有`Clustered Index`那此表就會是Heap資料表
 
-在討論Lock前我們必須先了解,為什麼會有Lock?
+Heap資料表有個特性是`Insert`資料快比較快，因為插入資料不需要考慮排序。
 
-假如你的系統能保證只有一個使用著操作每個資源,其實也就不用lock存在,但現實生活中往往有個命令對於同一個資源操作.這時候我們為了確保資料正確性,必須使用lock來避免[Racing Condition](https://en.wikipedia.org/wiki/Race_condition).
+適合使用在Log資料表、Event資料表、稽核資料表....一直新增資料，但比較少查詢或更新的表
 
-在早期系統我們要儲存資料會存放檔案在Disk並使用類似Excel方式來儲存,但這會導致每次讀取只有有一個使用者(因為對於檔案上Lock),被lock資源其他人就無法存入
+> 一般來說Heap資料表很少見,因為都會建議每張表都要有Clustered Index.
 
-## 兩種圍度的Lock
+另外Heap資料表Data Page沒有像其他B+Tree Index有對於左右Page連結Reference.
 
-在`Sql-Server` Lock有分兩種圍度
+### Heap資料表中不得不知(forwarding pointer)
 
-1. Lock範圍
-2. Lock類型
+假如在Heap資料表更新欄位資料，就可能會造成`forwarding pointer`如果你資料表有許多`forwarding pointer`可能就要考慮是否要優化調整....
 
-### Lock範圍
+> forwarding pointer會造成Logic read增加,因為在Heap讀取資料使用`Allocation scan`(依照儲存page順序讀取資料,讀到page有forwarding pointer就會多讀取資料頁)
 
-`Sql-Server`支援我們在同一時間能建立不同交易執行命令
-是因為`Sql-Server`有許多不一樣力度範圍Lock.
+`forwarding pointer`是因為原本`Page`(8KB)塞不下更新後資料就會先把資料搬到另一個新建立`Page`上並在原本`Page`建立一個類似指標東西指向它.
 
-> 下表表示鎖範圍等級由上到下越來越大. 
+> `forwarding pointer`指標會存在原本的Page大小是16 byte
 
-* Row (•RID) 
-* Key (•KEY) 
-* Page (•PAG) 
-* Extent (•	EXT) 
-* Heap or B-tree (•	HoBT) 
-* Table (•	TAB) 
-* File (•	FIL) 
-* Application (•	APP) 
-* MetaData (•	MDT) 
-* Allocation Unit (•	AU) 
-* Database (•DB)
+簡單來說就是更新後資料後發現原本`Page`塞不下更新後資料就會先把資料搬到另一個新建立`Page`上並在原本`Page`建立一個類似指標東西指向它.
 
-### Lock類型
+> 這個指標會存在原本的Page大小是16 byte
 
-在SqlServer有許多類型Lock
+`forwarding pointer` Page產生和概念如下圖
 
-* Shared Locks (s)
-* Update Locks (U)
-* Exclusive Locks (X)
-* Intent Locks (I)
-* Schema Locks (Sch)
-* Bulk Update Locks (BU)
-* Key-range
+![](https://i.imgur.com/5drfCFZ.png)
 
-下表是Lock類型互斥或相容對應表
+讀取`forwarding pointer`執行動作如下圖所示
 
-![](https://i.imgur.com/YaBZcaT.png)
+假如我們有一個Scan的需求
 
-例如:你在使用查詢(Shared Lock),除了上XLock資源外其餘資料都可同步被查找出來.
+1. 讀取要讀`Page1`發現有些資料在其他(`Page2`,`Page3`)
+2. 所以到`forwarding pointer` (`Page2`,`Page3`)搜索資料
+3. 搜尋完`Page1`接者搜尋`Page2`,`Page3`
 
-#### Update Lock 存在的意義
+![](https://i.imgur.com/HT0bui0.png)
 
-我們在更新資料時使用Lock類型會如下
+上面因為Page1資料`forwarding pointer`到其他Page導致Scan資料時多了2個page read,如果`forwarding pointer`數量一多對於讀的效能可想而知....
 
-> Shared Lock => Update Lock => XLock
+### IAM(index allocation map)
 
-* Shared Lock:查詢更新的資料.
-* Update Lock:更新前把資料改成Update Lock.
-* XLock:確定要更新當下改成XLock.
+當Heap要搜尋資料`SQL-Server`透過IAM(index allocation map)去尋要掃描Page範圍，因為`IAM`會以範圍存在於檔案中的順序來表示它們，這代表循序的堆積掃描都將依檔案順序進行。
 
-但為什麼會多一個Update Lock呢?
+> 表示 IAM 掃描順序Heap中資料Row通常不會依插入順序傳回。
 
-> 因為可以避免DeadLock產生機率.
+IAM Page在讀取資料的示意圖如下，可以看到讀取Page中資料順序和新增資料順序不一樣.
 
-假如有一個Update語法同時被執行.
+> 因為透過IAM Page搜索資料是在做**Allocation order scan**,這也是為什麼Heap資料表和使用`With NOLOCK`查詢資料時,如果沒有使用`ORDER BY`順序會不如預期
 
-```sql
-Update T
-Set Val = @Val
-Where id = 1
-```
+![](https://i.imgur.com/Qw8Kx1q.png)
 
-如果只有Shared Lock => XLock
+### Allocation order scan & Range scan
 
-1. 語法1 產生Shared Lock
-2. 語法2 產生Shared Lock
-3. 因為Shared Lock 和 XLock 互斥,所以互相等待對方Shared Lock釋放，造成死結(Dead Lock)
+在sqlserver底層有隱藏兩種Scan方式
 
-假如我們多一個ULock會變成
+* Allocation order scan: 使用with(nolock) or 查詢Heap table 使用(IAM)找尋Page和Extents
 
-1. 語法1 產生Shared Lock
-2. 語法2 產生Shared Lock
-3. 語法1 產生ULock(釋放Shared Lock)
-4. 語法2 想要產生ULock發現語法1已經先產生(ULock)，所以等待語法1執行完畢(Block)
-5. 語法1 Update完後產生XLock直到Commit結束才釋放XLock
-6. 語法2 產生ULock執行後面更新動作.
+> With(Nolock)可能會遇到Dirty Read意思是讀取重覆兩筆資料,原因Nolock是sch-S lock + Allocation scan一開始讀去到資料A,讀完同時有人更新資料且資料大小大於8K造成page split,因為Allocation scan會依照(IAM)存取順序讀取,就造成資料重複讀取.
 
-> Shared Lock執行完查詢後立即釋放資源
-> 關鍵在於Shared Lcok不互斥,ULock互斥
+* Range scan(b-tree scan): 沒使用(IAM),靠著Clustered Index or NonClustered Index來查找資料.
 
-## Lock互斥Demo
+## GAM & SGAM
 
-我們建立一張`T2`資料表
+GAM和SGAM Page可以讓SqlServer管理Page更有效率.
 
-```sql
-DROP TABLE IF EXISTS T2
+SQL-Server會依照Mixed或Uniforms來分配Extent使用(1個Extent可以管理8個page)
 
-CREATE TABLE T2 (Id int)
+SQL Server 有兩種Allocate extend的方法，而SGAM /GAM Page就是用來計錄File中每
+個Extent的使用方法及狀況,SQL Server在藉此決定資料要落地的extent位置
 
-INSERT INTO T2 VALUES (1)
-INSERT INTO T2 VALUES (2)
-```
+* GAM(Global Allocation Map):計錄哪些Extent尚未配置，會存放一個bit值對應到一個extent，如果是1就是extent not allocated。
 
-在使用Transaction + XLOCK hint在查詢語法(這時T2查詢的資料就會被上XLock了)
+* SGAM(Shared Global Allocation Map):計錄Extent是Mixed extent且還有Free space，會存放一個bit值對應到一個extent，如果是1代表
 
-```sql
-BEGIN TRAN
+![](https://i.imgur.com/m4tTh7z.png)
 
-SELECT * 
-FROM T2 WITH(XLOCK) 
-WHERE Id = 1
+一個GAM page可以存64K Extend使用資訊,所以一個GAM Extent可以存放4GB資料Extent資訊
 
-WAITFOR DELAY '00:00:10'
-
-ROLLBACK TRAN
-```
-
-我們馬上開另一個Session,執行查詢`ID=1`語法
-
-```sql
-SELECT *
-FROM dbo.T2 
-WHERE Id = 1
-```
-
-會發現我們需要等上面語法執行完才能查出資料,那是因為我們Shared Lock跟X Lock會互斥我們,必須等到XLock執行完我們才可以得到資料.
-
-### NoLock的隱憂
-
-上文有提到Shard Lock會被XLock給Block住,如果我非得在資料上XLock時查詢資料有辦法嗎?
-
-有,我們在第二句查詢加上`With(Nolock)`hint或者是(設定`SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED`)不然Shard Lock會被XLock給Block住.
-
-> 但使用`With(Nolock)` Read Uncommitted要慎用,因為是髒讀取,(Read Uncommitted顧名思義就是讀取未`commite`資料)
-
-#### Read Uncommitted 髒讀取
-
-我們試著把上面範例稍微修改一下第一個查詢語法
-
-```sql
-
-BEGIN TRAN
-
-UPDATE dbo.T2
-Set id = 100
-where id = 1
-
-WAITFOR DELAY '00:00:10'
-
-ROLLBACK TRAN
-```
-
-第二個查詢語法
-
-```sql
-SELECT *
-FROM dbo.T2 with(nolock)
-WHERE Id = 100
-```
-
-在資料上XLock時使用`with(nolock)`來查詢資料,會發現可以查詢出Id=100資訊
-
-![](https://i.imgur.com/aMvPo4W.png)
-
-但因為第一句語法因為一些原因RollBack,過段時間再查詢
-
-![](https://i.imgur.com/5BqG419.png)
-
-我們會得到空的結果集...那是因為`with(nolock)`是髒讀取,在查詢時他會直接拿取目前資料最新狀態(這個資料狀態可能不一定,最後結果),假如RollBack就會導致資料錯誤問題.
-
-> 有時候NoLock會讀到重複資料
-> 所以建議在跟算錢或交易有關程式碼,請別使用`with(nolock)`
+> 64k * 8k(page size) * 8 (page count)  ~= 4GB
 
 ## 小結
 
-本篇對於Lock做了基本介紹
+今天對於Heap資料表有比較多深入探討,也對於Allocation order scan & Range scan做了些介紹
 
-1. Lock範圍
-2. Lock類型
+> 之前有跟大家說小心使用(WITH NOLOCK),就是因為With Nolock使用Allocation order scan,在高併發系統很有機會遇到Dirty Read會造成資料不如預期.
 
-`with(nolock)`記得要慎用,他會造成資料讀取上有誤差,建議在高併發系統且交易有關程式碼,請別使用`with(nolock)`,這會造成資料不正確(有資料執行到一半RollBack,剛好被NoLock查詢讀到)
+所以`WITH NOLOCK`要慎用,特別是交易系統就不要用`WITH NOLOCK`太害人了....
 
-日後有機會再慢慢介紹更多Lock運用時間和注意事項.
+日後有空我會再跟大家分享Page底層的一些細節,如果要學會效能調教這些資料庫原理的事物必須學會.
 
-[Transaction Locking and Row Versioning Guide](https://docs.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide?view=sql-server-2017)
+雖然可能有些深澀但學成一定會有所幫助.
+
