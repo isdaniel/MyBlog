@@ -3,6 +3,9 @@ title: Docker深入淺出(一)
 date: 2021-03-26 05:30:11
 tags: [Docker,Container]
 categories: [Docker]
+top:
+photos: 
+    - "https://gblobscdn.gitbook.com/assets%2F-LvLdlWILWa_WXgBI_eY%2F-LvLdmMmmDnQXr_Axo0l%2F-LvLdnbuSZ5KOT0JxN9C%2Fcmd_logic.png?alt=media"
 ---
 
 ## 前言:
@@ -10,8 +13,6 @@ categories: [Docker]
 docker透過指令能快速建立相同執行環境並比起VM減少電腦資源消耗.
 
 依照上面優點這就是為什麼docker可以在短時間內快速串紅.
-
-![img](https://gblobscdn.gitbook.com/assets%2F-LvLdlWILWa_WXgBI_eY%2F-LvLdmMmmDnQXr_Axo0l%2F-LvLdnbuSZ5KOT0JxN9C%2Fcmd_logic.png?alt=media)
 
 > 上圖來源[《Docker —— 從入門到實踐­》正體中文版](https://philipzheng.gitbook.io/docker_practice/appendix_command/)
 
