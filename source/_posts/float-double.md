@@ -101,13 +101,13 @@ categories: [C#]
 
 他很貼心幫我們列出 ** Sign(符號), Exponent(**指數**), Mantissa(**尾數**) ** 位置給我們對應
 
-![](https://az787680.vo.msecnd.net/user/九桃/5645fb7b-dab2-478f-b703-5fc7ffbc3ecf/1541866994_04424.png)
+![](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/5645fb7b-dab2-478f-b703-5fc7ffbc3ecf/1541866994_04424.png)
 
 ### 四,為什麼會不精準
 
 現在我們知道計算 `Exponent(指數)`​​ 需要將值轉成二進制 ,但如果是12.53f 轉成二進制會變成這樣`1100.100000111100111.......` 極限值就會和原本的值出現誤差
 
-![](https://az787680.vo.msecnd.net/user/九桃/5645fb7b-dab2-478f-b703-5fc7ffbc3ecf/1541867579_90869.png)
+![](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/5645fb7b-dab2-478f-b703-5fc7ffbc3ecf/1541867579_90869.png)
 
 如圖 我們可以看到 `12.53f` 其實會變成 `1.252999973297119140625E1`  這就是float不準確的原因
 
