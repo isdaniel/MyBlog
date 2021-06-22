@@ -101,7 +101,7 @@ categories: [C#]
 
 他很貼心幫我們列出 ** Sign(符號), Exponent(**指數**), Mantissa(**尾數**) ** 位置給我們對應
 
-![](https://az787680.vo.msecnd.net/user/九桃/5645fb7b-dab2-478f-b703-5fc7ffbc3ecf/1541866994_04424.png)
+![](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/5645fb7b-dab2-478f-b703-5fc7ffbc3ecf/1541867579_90869.png)
 
 ### 四,為什麼會不精準
 
