@@ -3,7 +3,11 @@ title: 【深入淺出】Base編碼 (Base64為例子)
 date: 2019-05-29 22:39:17
 tags: [WebDesign,Base64,Encoding]
 categories: WebDesign
+top:
+photos: 
+    - "http://i.imgur.com/4wh9OVF.png"
 ---
+
 Base家族以Base64最為出名，這邊會用Base64編碼來做介紹
 
 寫網站應該都用過Base64但你對於他的原理了解嗎?
