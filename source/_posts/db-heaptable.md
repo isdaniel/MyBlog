@@ -3,6 +3,9 @@ title: Sqlserver不可不知道Heap Table.
 date: 2021-06-19 22:30:11
 tags: [Sql-server,DataBase,table]
 categories: [Sql-server]
+top:
+photos: 
+    - "https://i.imgur.com/HT0bui0.png"
 ---
 
 ## Heap 資料表
