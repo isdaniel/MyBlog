@@ -3,7 +3,11 @@ title: 淺談SqlServer Lock(一)
 date: 2020-08-16 11:12:43
 tags: [DataBase,Turning,Sql-server,Lock]
 categories: [DataBase,Turning]
+top:
+photos: 
+    - "https://i.imgur.com/3WWvSXp.png"
 ---
+
 
 # Agenda<!-- omit in toc -->
 - [前文](#前文)
