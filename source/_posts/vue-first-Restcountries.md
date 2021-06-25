@@ -3,6 +3,9 @@ title: Restcountries
 date: 2021-06-25 22:30:52
 tags: [javascript,vue.js,Restcountries]
 categories: [javascript,vue.js]
+top:
+photos: 
+    - "https://i.imgur.com/vSRIciN.png"
 ---
 
 ## 前文
@@ -45,6 +48,8 @@ categories: [javascript,vue.js]
 * 一個是Detail Page
 
 ### Master page 
+
+![](https://i.imgur.com/Sj52iBe.png)
 
 在Javascript code我主要介紹流程
 
@@ -166,6 +171,8 @@ var app = new Vue({
 ```
 
 ### Detail Page
+
+![](https://i.imgur.com/PLnxUIn.png)
 
 Detail我使用[FULL NAME](https://restcountries.eu/rest/v2/name/aruba?fullText=true)來查找我要的國家明細
 
