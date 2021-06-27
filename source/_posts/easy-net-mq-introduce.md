@@ -1,6 +1,6 @@
 ---
-title: 
-date: 2021-06-25 22:30:52
+title: .Net使用RabbitMq EasyNetQ介紹
+date: 2021-06-27 22:30:52
 tags: [javascript,vue.js,Restcountries]
 categories: [javascript,vue.js]
 top:
