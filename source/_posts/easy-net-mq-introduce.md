@@ -1,215 +1,204 @@
 ---
-title: 串接 Restcountries By Vue.js
+title: 
 date: 2021-06-25 22:30:52
 tags: [javascript,vue.js,Restcountries]
 categories: [javascript,vue.js]
 top:
 photos: 
-    - "https://i.imgur.com/vSRIciN.png"
+    - "https://i.imgur.com/YEzuPKY.png"
 ---
 
 ## 前文
 
-最近面試有一間公司要求使用[Restcountries API](https://restcountries.eu/)使用CRUD前端Html串接API，有看我文章的夥伴應該知道我大多是研究後端或CI/CD相關技術，對於前端技術較少研究，這次我打算使用vue.js來完成此次需求.
+現今越來越多系統使用MQ來達成非同步並來提升系統吞吐量，我今天想要介紹的是[EasyNetQ](https://easynetq.com/)一個封裝RabbitMq Client .net框架
 
-需求如下
+* 小型DI容器
+* 對於RabbitMq封裝
+* 對於連接使用lazy connection連接RabbitMq
 
-1. 分頁
-2. 顯示國家相關資訊
-3. 排序效果
-4. 點選國家名稱進入Detail頁面
+> If the server disconnects for any reason (maybe a network fault, maybe the RabbitMQ server itself has been bounced), EasyNetQ will revert to polling the endpoint until it can reconnect.
 
-因為以上幾點都是CRUD相關操作，關於CRUD相關操作使用三大框架就很適合(所以我選擇使用Vue)
+使用EasyNetQ來操作RabbitMq簡單很多，但在使用上有些地方需要注意
 
-話不多說先給大家看看成品 [RestcountriesSample](https://isdaniel.github.io/RestcountriesSample/)
+本篇會再跟大家分享
 
-[Source Code](https://github.com/isdaniel/RestcountriesSample)
+## RabbitMq Client vs EasyNetQ程式碼比較
 
-## 要使用的API介紹
+我會使用之前使用RabbitMq Client寫的範例利用EasyNetQ來改寫一次.
 
-雖然官網對於API介紹雖少，但我相信只要有常串API的人應該可以很快猜出每個API作用.
+程式原始碼 [Sample Code](https://github.com/isdaniel/BlogSample/tree/master/src/Samples)
 
-* [All](https://restcountries.eu/rest/v2/all):請求所有國家資訊
-* [FULL NAME](https://restcountries.eu/rest/v2/name/aruba?fullText=true):查找國家By名子.
+### Publisher程式碼
 
-> 而且我發現大部分API都可以用GET來請求.
+這是使用RabbitMq Client寫的版本
 
-只要用這兩個就可以完成我們的需求
+```c#
+//建立連接工廠
+ConnectionFactory factory = new ConnectionFactory
+{
+    UserName = "guest",
+    Password = "guest",
+    HostName = "localhost"
+};
 
-## Code解說與問題分析
+string exchangeName = "my.Exchange";
+string routeKey = "my.routing";
+string queueName = "my.queue";
 
-一開始我在分析問題是要找尋合適的API後面經過塞選挑出上面兩個API.
+using (var connection = factory.CreateConnection())//创建通道
+using (var channel = connection.CreateModel())
+{
+    #region 如果在RabbitMq手動建立可以忽略這段程式
+    //建立一個Queue
+    channel.QueueDeclare(queueName, true, false, false, null);
+    //建立一個Exchange
+    channel.ExchangeDeclare(exchangeName, ExchangeType.Direct, true, false, null);
+    //把Queue跟Exchange
+    channel.QueueBind(queueName, exchangeName, routeKey); 
+    #endregion
 
-接下來我就考慮把畫面用Table + 分頁方式呈現,而Detail Page利用Query String方式傳Country Name來看明細資料.
+    Console.WriteLine("\nRabbitMQ連接成功,如需離開請按下Escape鍵");
 
-我用Pure前端串接API，所以我建立兩個Html頁面
+    string input = string.Empty;
+    do
+    {
+        input = Console.ReadLine();
 
-* 一個是Master Page
-* 一個是Detail Page
+        var messageBytes = Encoding.UTF8.GetBytes(input);
+        channel.BasicPublish(exchange: exchangeName,
+                              routingKey: routeKey,
+                              body: messageBytes);
 
-### Master page 
-
-![](https://i.imgur.com/Sj52iBe.png)
-
-在Javascript code我主要介紹流程
-
-主要在一開始頁面建立時去Load [All](https://restcountries.eu/rest/v2/all) 資料並把資料binding在`rows`陣列物件
-
-`orderBy`方法，提供一個排序實現這邊可以讓Page呼叫時傳入要排的欄位名稱就可以不用HardCode(使用類似`@click="orderBy('name'),ASC *= -1"`)傳入Name就可以對於Name來排序，提高程式碼可用性
-
-因為API請求有時候會比較久，所以我這邊使用[vue-loading-overlay](https://www.npmjs.com/package/vue-loading-overlay)來當Loading Page(有興趣的可以在查閱此連結的API)
-
-```html
-<div id="app">
-<template>
-    <div class="vld-parent">
-    <loading :active.sync="isLoading" :is-full-page="true"></loading>
-    </div>
-</template>
-<div><b>Search Country Name:</b> <input type="text" v-model="countryName"></div>
-<div v-if="filteredRows.length === 0">No Data Display!!</div>
-<table v-if="filteredRows.length > 0" class="table table-condensed">
-    <thead>
-    <tr>
-        <th>國旗</th>
-        <th @click="orderBy('name'),ASC *= -1">國家名稱
-        <span class="icon" :class="{'Reverse':ASC==1}">
-            <i class="fa fa-angle-up"></i>
-        </span>
-        </th>
-        <th>2位國家代碼</th>
-        <th>3位國家代碼</th>
-        <th>母語名稱</th>
-        <th>替代國家名稱</th>
-        <th>國際電話區號</th>
-    </tr>
-    </thead>
-    <tr v-for="item in filteredRows.slice(pageStart, pageStart + pageSize)">
-    <td><img v-bind:src=item.flag style='height:150px'></td>
-    <td>
-        <a target="_blank" :href="'./CountryModel.html?countryName=' + item.name">
-        {{ item.name }}
-        </a>
-    </td>
-    <td>{{ item.alpha2Code }}</td>
-    <td>{{ item.alpha3Code }}</td>
-    <td>{{ item.nativeName }}</td>
-    <td>{{ item.altSpellings[0] }}</td>
-    <td>{{ item.callingCodes[0] }}</td>
-    </tr>
-</table>
-<div class="pagination">
-    <ul>
-    <li v-bind:class="{'disabled': (currPage === 1)}" @click.prevent="setPage(currPage-1)"><a href="#">Prev</a></li>
-    <li v-for="n in totalPage" v-bind:class="{'active': (currPage === (n))}" @click.prevent="setPage(n)"><a
-        href="#">{{n}}</a></li>
-    <li v-bind:class="{'disabled': (currPage === totalPage || totalPage === 0)}"
-        @click.prevent="setPage(currPage+1)"><a href="#">Next</a></li>
-    </ul>
-</div>
-</div>
+    } while (Console.ReadKey().Key != ConsoleKey.Escape);
+}
 ```
 
-```javascript
-var app = new Vue({
-    el: '#app',
-    data: {
-      rows: [],
-      pageSize: 25,
-      currPage: 1,
-      countryName: '',
-      ASC: 1,
-      isLoading: true
-    },
-    computed: {
-      filteredRows: function () {
-        var self = this;
-        return self.rows.filter(x=> !self.countryName || x.name.search(self.countryName) != -1);
-      },
-      pageStart: function () {
-        return (this.currPage - 1) * this.pageSize;
-      },
-      totalPage: function () {
-        return Math.ceil(this.filteredRows.length / this.pageSize);
-      }
-    },
-    methods: {
-      setPage: function (index) {
-        if (index <= 0 || index > this.totalPage) {
-          return;
+我在利用EasyNetQ改寫後變的如下，是不是簡潔很多?
+
+> 因為EasyNetQ幫我們把一些程式封裝起來讓我們關注發送訊息
+
+```c#
+string exchangeName = "my.Exchange";
+string routeKey = "my.routing";
+string queueName = "my.queue";
+
+
+using (var bus = RabbitHutch.CreateBus("host=127.0.0.1;port=5672;username=guest;password=guest").Advanced)
+{
+    var exchange = bus.ExchangeDeclare(exchangeName, ExchangeType.Direct);
+    var queue = bus.QueueDeclare(queueName);
+    bus.Bind(exchange, queue, routeKey);
+
+    Console.WriteLine("請輸入訊息!");
+
+    do
+    {
+        string input = Console.ReadLine();
+
+        bus.Publish(exchange, "my.routing", false, new Message<string>(input));
+
+    } while (Console.ReadKey().Key != ConsoleKey.Escape);
+}
+```
+
+如果你是用RabbitMQ Client可以正常收訊息EasyNetQ發送訊息，但如果使用EasyNetQ收RabbitMQ Client發送的訊息就會有問題是為什麼呢？
+
+稍後會跟大家揭密.
+
+### RabbitMQ Consumer 程式碼
+
+```c#
+ConnectionFactory factory = new ConnectionFactory
+{
+    UserName = "guest",
+    Password = "guest",
+    HostName = "127.0.0.1",
+    Port = 5672
+};
+
+string queueName = "DirectQueue";
+
+using (var connection = factory.CreateConnection())
+using (var channel = connection.CreateModel())
+{
+    //channel.QueueBind
+    EventingBasicConsumer consumer = new EventingBasicConsumer(channel);
+    channel.BasicQos(0, 1, false);
+    //接收到消息事件 consumer.IsRunning
+    consumer.Received += (ch, ea) =>
+    {
+        var message = Encoding.UTF8.GetString(ea.Body);
+
+        Console.WriteLine($"Queue:{queueName}收到資料： {message}");
+        channel.BasicAck(ea.DeliveryTag, false);
+    };
+
+    channel.BasicConsume(queueName, false, consumer); 
+    Console.WriteLine("接收訊息");
+    Console.ReadKey();
+}
+```
+
+我在利用EasyNetQ改寫後變如下
+
+```c#
+string queueName = "my.queue";
+
+using (var bus = RabbitHutch.CreateBus("host=127.0.0.1;port=5672;username=guest;password=guest"))
+{
+    Task.Run(() =>
+    {
+        while (true)
+        {
+            bus.SendReceive.Receive<string>(queueName, (m) =>
+            {
+                Console.WriteLine(m);
+            });
         }
-        this.currPage = index;
-      },
-      orderBy: function (item) {
-        var self = this;
-        return self.rows.sort(function (obj1, obj2) {
-          var obj1 = obj1[item]
-          var obj2 = obj2[item]
-
-          if (obj1 === obj2)
-            return 0;
-          else if (obj1 > obj2)
-            return self.ASC;
-          else
-            return self.ASC * -1;
-        });
-      }
-    },
-    created: function () {
-      var self = this;
-      $.get('https://restcountries.eu/rest/v2/all', function (data) {
-        self.rows = data;
-        self.isLoading = false;
-      });
-    },
-    watch:{
-      countryName:function(newValue){
-        this.currPage = 1;
-      }
-    }
-});
+    });
+    Console.WriteLine("開始接收訊息");
+    Console.ReadKey();
+}
 ```
 
-### Detail Page
+可以看到EasyNetQ在API資料封裝幫我們做了些事情(原本RabbitMQ Client使用`byte[]`來傳輸資料，而EasyNetQ幫我們提供可以使用泛型或物件的方式傳遞)
 
-![](https://i.imgur.com/PLnxUIn.png)
+> 但EasyNetQ部分功能也不會平白產生，在MQ Header那邊有做些手腳.還記得我前面說的那個問題嗎?
+> 如果你是用RabbitMQ Client可以正常收訊息EasyNetQ發送訊息，但如果使用EasyNetQ收RabbitMQ Client發送的訊息就會有問題是為什麼呢？
 
-Detail我使用[FULL NAME](https://restcountries.eu/rest/v2/name/aruba?fullText=true)來查找我要的國家明細
+## EasyNetQ小秘密
 
-Detail Html畫面，我就不多說可以看原始碼
+上面我有留一個問題
 
-因為我在設計時想要使用QueryString來傳送CountryName，所以我利用`URLSearchParams`來取得QueryString `countryName`資料並使用Ajax查詢API
+> 如果你是用RabbitMQ Client可以正常收訊息EasyNetQ發送訊息，但如果使用EasyNetQ收RabbitMQ Client發送的訊息就會有問題是為什麼呢？
 
-如果查不到資料或使用者傳送一個不存在的資訊，我就會顯示`No Data Display!!`
+如果你用EasyNetQ收RabbitMQ Client發送的訊息會發現Queue中會多出`EasyNetQ_Default_Error_Queue`(這個是收集`EasyNetQ`錯誤的Queue).
 
-```javascript
-var app = new Vue({
-    el: '#app',
-    data: {
-      vm: {},
-      isLoading : true
-    },
-    created: function () {
-      var self = this;
-      let urlParams = new URLSearchParams(window.location.search);
-      var countryName = urlParams.has('countryName') ? urlParams.get('countryName') : '';
-      var url = 'https://restcountries.eu/rest/v2/name/'+encodeURI(countryName)+'?fullText=true'
-      $.get(url, function (data) {
-        self.vm = data[0];
-        self.isLoading = false;
-      }).fail(function() {
-        document.write('No Data Display!!');
-      });
-    }
-  });
-```
+錯誤訊息如下圖
+
+![](https://i.imgur.com/FCB5JZp.png)
+
+如果知道的小夥伴可以忽略此節，但如果不知道的人我推薦你要來了解一下
+
+我們先利用EasyNetQ Publisher送一些訊息，再RabbitMq瀏覽畫面點選Queue
+
+![](https://i.imgur.com/aVgYaQg.png)
+
+點選**Get messages**並按下Get Message按鈕，能看到`Properties`中有`type:System.String, System.Private.CoreLib`.
+
+![https://i.imgur.com/5xoyQ0E.png](https://i.imgur.com/5xoyQ0E.png)
+
+聰明如你應該可以猜到原來EasyNetQ之所以可以在Publisher和Comsumer之間使用泛型是因為EasyNetQ在Property使用type來傳輸使用Type資訊.
+
+在Comsumer可以利用這些資訊來組裝物件.
+
+> 這邊有點要注意，因為她是傳送Type資訊，假如你兩個lib都有一個`Person`類別且裡面`Property`名稱,類型都一樣，但Publisher和Comsumer之間利用泛型轉換會報錯
+> 因為兩個lib的`Person`類別Type的metadata資訊不一樣
 
 ## 小結
 
-這次題目我前後大約花半天就把東西從無到有完成，個人覺得還算蠻順利的，但我寫的Front Code可能不太標準(因為我很少寫Js XDD)
+有了EasyNetQ操作RabbitMq就簡單許多，但我個人覺得目前API還可以再加強多封裝些不一樣的情境，目前提供API有點少.
 
-如果有寫得不好的地方在歡迎指教
+> 目前如果要用特別一點的需求可以利用`IAdvancedBus`來完成
 
-不得不說我覺得Vuejs寫起來真的蠻直覺，而且很多資源可以查閱學習來相對蠻容易的
-
-相是Loading Page就有很多不同的樣式可以挑選.
+另外EasyNetQ也有DI Container只是我還沒研究，等之後研究在跟大家分享
