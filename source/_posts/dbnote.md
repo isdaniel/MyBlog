@@ -1,7 +1,7 @@
 ---
 title: 撰寫SQL的建議
 date: 2020-01-26 23:10:43
-tags: [DataBase,Turning,Sql-server]
+tags: [DataBase,Turning,sql-server]
 categories: [DataBase,Turning]
 ---
 # Agenda<!-- omit in toc -->

@@ -1,20 +1,10 @@
 ---
 title: 資料庫索引深入淺出(一)
 date: 2020-01-20 11:12:43
-tags: [DataBase,Turning,Sql-server,Index]
+tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
 ---
-# Agenda<!-- omit in toc -->
-- [前文](#%e5%89%8d%e6%96%87)
-- [Index使用的資料結構(B+ tree)](#index%e4%bd%bf%e7%94%a8%e7%9a%84%e8%b3%87%e6%96%99%e7%b5%90%e6%a7%8bb-tree)
-- [Index優缺點](#index%e5%84%aa%e7%bc%ba%e9%bb%9e)
-- [Clustered Index(叢集索引)](#clustered-index%e5%8f%a2%e9%9b%86%e7%b4%a2%e5%bc%95)
-- [NonClustered Index(非叢集索引)](#nonclustered-index%e9%9d%9e%e5%8f%a2%e9%9b%86%e7%b4%a2%e5%bc%95)
-	- [RID Lookup](#rid-lookup)
-	- [Key Lookup](#key-lookup)
-- [範例演示](#%e7%af%84%e4%be%8b%e6%bc%94%e7%a4%ba)
-	- [建立一個 NonClustered Index](#%e5%bb%ba%e7%ab%8b%e4%b8%80%e5%80%8b-nonclustered-index)
-- [再建立一個 Clustered Index](#%e5%86%8d%e5%bb%ba%e7%ab%8b%e4%b8%80%e5%80%8b-clustered-index)
+
 
 ## 前文
 

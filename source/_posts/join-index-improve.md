@@ -1,18 +1,9 @@
 ---
 title: JOIN範圍條件Index優化
 date: 2020-06-28 23:10:43
-tags: [DataBase,Turning,Sql-server,Index]
+tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
 ---
-
-# Agenda<!-- omit in toc -->
-- [前文](#前文)
-- [案例](#案例)
-	- [資料初始化](#資料初始化)
-	- [建立Index](#建立index)
-	- [查詢語法](#查詢語法)
-	- [如何優化?](#如何優化)
-- [小結:](#小結)
 
 ## 前文
 

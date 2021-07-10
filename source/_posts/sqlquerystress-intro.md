@@ -1,7 +1,7 @@
 ---
 title: 資料庫壓測好工具-SQLQueryStress
 date: 2020-12-15 23:10:43
-tags: [DataBase,Turning,Sql-server,Index]
+tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
 ---
 

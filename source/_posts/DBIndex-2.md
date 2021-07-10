@@ -1,7 +1,7 @@
 ---
 title: 資料庫索引深入淺出(二)
 date: 2020-01-20 23:10:43
-tags: [DataBase,Turning,Sql-server,Index]
+tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
 ---
 # Agenda<!-- omit in toc -->
