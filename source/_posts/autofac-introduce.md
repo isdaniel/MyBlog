@@ -96,7 +96,7 @@ categories: [C#,IOC]
 
 目前模組依賴關係 如下UML圖
 
-![](https://az787680.vo.msecnd.net/user/九桃/c59c2248-a535-431f-b1ca-a17372438940/1555298305_13744.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/c59c2248-a535-431f-b1ca-a17372438940/1555298305_13744.png)
 
 模組複雜程度像下圖 如果沒有容器幫我們做物件控制管理,想想就覺得可怕
 
@@ -126,15 +126,15 @@ categories: [C#,IOC]
 
 ### constructor injection
 
-![](https://az787680.vo.msecnd.net/user/九桃/c59c2248-a535-431f-b1ca-a17372438940/1555387105_48127.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/c59c2248-a535-431f-b1ca-a17372438940/1555387105_48127.png)
 
 ### Property injection
 
-![](https://az787680.vo.msecnd.net/user/九桃/c59c2248-a535-431f-b1ca-a17372438940/1555387131_13945.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/c59c2248-a535-431f-b1ca-a17372438940/1555387131_13945.png)
 
 ### Method injection
 
-![](https://az787680.vo.msecnd.net/user/九桃/c59c2248-a535-431f-b1ca-a17372438940/1555387134_01082.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/c59c2248-a535-431f-b1ca-a17372438940/1555387134_01082.png)
 
 -----
 

@@ -32,17 +32,18 @@ Session可以幫我們把資料存在Server記憶體，方便我們下次請求�
 
 分析如下圖：
 
-![圖](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/0a757091-7057-47ec-aea7-b2d712631a2c/1510120621_28488.png)
-
+![](https://i.imgur.com/FUmkKyI.png)
 
 我們作出幾個核心來完成模擬Session:
+
 1. SessionPool來存放目前所有Session
 2. SessionObject (支援快取在系統記憶體中)
    模擬HttpContext封裝Session
 
 實作：
 我要簡單呈現就選擇使用輕便 [泛型處理常式]
-![alt](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/0a757091-7057-47ec-aea7-b2d712631a2c/1510058340_10833.PNG)
+
+![](https://i.imgur.com/K6FlxMp.png)
 
 **ApplicationContext** 模擬HttpContext封裝SessionPool
 創建一個靜態的SessionPool物件，因為程式都共用此SessionPool

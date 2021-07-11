@@ -29,7 +29,7 @@ categories: [C#]
 
 下載 `reflexil.for.ILSpy.2.2.bin.zip`，不用下載AIO
 
-![](https://az787680.vo.msecnd.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545445075_84536.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545445075_84536.png)
 
 作者有說
 
@@ -39,15 +39,15 @@ categories: [C#]
 
 ## ILSpy 3.2 下載
 
-![](https://az787680.vo.msecnd.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545445185_3282.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545445185_3282.png)
 
 下載完後就把全部的DLL放在同一個資料夾下,並開啟 `ILSpy.exe`
 
-![](https://az787680.vo.msecnd.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545445435_24298.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545445435_24298.png)
 
 按下上方的齒輪UI 就可獲得下方藍色的Reflexil 修改框框.
 
-![](https://az787680.vo.msecnd.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545445493_79646.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545445493_79646.png)
 
 -----
 -----
@@ -57,30 +57,30 @@ categories: [C#]
 
 目前組件 有個ClassA 類別,裡面有一個prop1屬性 型態是string, 我們希望在這新增另一個屬性
 
-![](https://az787680.vo.msecnd.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545446072_21457.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545446072_21457.png)
 
 使用滑鼠右鍵點擊類別`ClassA`,我們可以看到很多方式可以注入新的程式碼
 
 在這我們選擇`inject property`. 
 
-![](https://az787680.vo.msecnd.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545446266_25885.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545446266_25885.png)
 
 我們需要修改的是
 
 *   Item Name (使用屬性的名稱)
 *   Property Type(使用屬性類別)
 
-![](https://az787680.vo.msecnd.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545446422_66604.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545446422_66604.png)
 
 選擇完後按下OK,我們就會發現`prop2`新屬性會出現在`ClassA`中.
 
 <div class="note note--danger">新增完後不代表已經將修改儲存!!</div>
 
-![](https://az787680.vo.msecnd.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545446504_58205.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545446504_58205.png)
 
 我們需要點選組件，之後再按下`Save AS` 把本次修改儲存
 
-![](https://az787680.vo.msecnd.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545446789_43637.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/68939397-ab27-4f33-9bff-a6e1fe570acb/1545446789_43637.png)
 
 日後我們就可以使用新的屬性在我們程式中了!!
 

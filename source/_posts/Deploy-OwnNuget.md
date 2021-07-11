@@ -21,17 +21,17 @@ categories: [C#]
 
 [下載Nuget Commandline Tool](https://www.nuget.org/downloads)
 
-![](https://az787680.vo.msecnd.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543152784_97518.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543152784_97518.png)
 
 之後你會取得 `nuget.exe` 這個檔案
 
 把它放到你要打包Nuget的專案資料夾中
 
-![](https://az787680.vo.msecnd.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543152541_67261.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543152541_67261.png)
 
 之後打開cmd 並在專案資料夾打上 `nuget spce`
 
-![](https://az787680.vo.msecnd.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543152985_63932.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543152985_63932.png)
 
 之後在你資料夾中會出現 `xxxx.nuspec`的XML檔案,這個檔案是描述你要打包的專案
 
@@ -68,15 +68,15 @@ categories: [C#]
 
 填完資料後就可以回到commandline 並打另一個指令`nuget pack `將專案打包成 `xxx.nupkg` 檔案 以提供上傳
 
-![](https://az787680.vo.msecnd.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543153426_68079.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543153426_68079.png)
 
 之後申辦一個Nuget帳號,並產生一個API Key
 
-![](https://az787680.vo.msecnd.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543153601_8669.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543153601_8669.png)
 
 產生完後在上面的選單選擇 `Upload` 按鈕
 
-![](https://az787680.vo.msecnd.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543153522_96047.png)之後按下Browse按鈕並上傳你的 `xxxx.nupkg`檔案,上傳完畢後就按下Submit按鈕 將此專案提交上去
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/a236f1fa-ad61-4d1e-a547-873093f89865/1543153522_96047.png)之後按下Browse按鈕並上傳你的 `xxxx.nupkg`檔案,上傳完畢後就按下Submit按鈕 將此專案提交上去
 
 上傳完畢後Nuget他會審核你的專案,等審核完後大家就可以下載使用你的專案摟^^
 

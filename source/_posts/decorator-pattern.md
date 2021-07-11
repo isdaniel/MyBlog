@@ -32,14 +32,14 @@ categories: [C#,DesignPattern]
 
 被裝飾物件(Decorated)如下圖  蛋糕的原型
 
-![](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/4bc56f03-a1e1-4504-bea3-7cb02a8aaa21/1522894727_00158.jpg)
+![](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/4bc56f03-a1e1-4504-bea3-7cb02a8aaa21/1522894727_00158.jpg)
 
 [圖片來源](http://www.chuyixuexi.com/caipu/2016/02/01/288202.html)
 
 * 將物件有效的往上附加職責,不動到內部的程式碼, 在原來職責上附加額外的職責
 * 裝飾者模式運作就像 俄羅斯娃娃一樣 一層包一層
 
-![https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/4bc56f03-a1e1-4504-bea3-7cb02a8aaa21/1522826815_28596.jpg](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/4bc56f03-a1e1-4504-bea3-7cb02a8aaa21/1522826815_28596.jpg)
+![https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/4bc56f03-a1e1-4504-bea3-7cb02a8aaa21/1522826815_28596.jpg](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/4bc56f03-a1e1-4504-bea3-7cb02a8aaa21/1522826815_28596.jpg)
 
 [圖片來源](http://www.52toys.com/post/1009306.html)
 
@@ -327,7 +327,7 @@ public class DecorateFactory
 
 如下圖
 
-![](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/4bc56f03-a1e1-4504-bea3-7cb02a8aaa21/1522828936_73575.png)
+![](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/4bc56f03-a1e1-4504-bea3-7cb02a8aaa21/1522828936_73575.png)
 
 
 使用就可很清晰來用

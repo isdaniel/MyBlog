@@ -47,7 +47,7 @@ DependencyResolver.SetResolver(container);
 
 上面說明太抽象嗎? 可以看一下下面這張圖.
 
-![img](https://az787680.vo.msecnd.net/user/九桃/493ce9d9-64bd-4343-a145-16ab21f3c695/1555312814_72597.png)
+![img](https://dotblogsfile.blob.core.windows.net/user/九桃/493ce9d9-64bd-4343-a145-16ab21f3c695/1555312814_72597.png)
 
 > 最後對於使用者來說,我只需要認識這個第三方容器並跟這個容器取得我要A物件,至於A物件和其他物件關係使用者不用瞭解
 
@@ -60,7 +60,7 @@ IOC容器框架有很多種但基本上都有下面兩個功能
 
 我們依照此圖做一個簡單範例**by Autofac**
 
-![img](https://az787680.vo.msecnd.net/user/九桃/493ce9d9-64bd-4343-a145-16ab21f3c695/1555312814_72597.png)
+![img](https://dotblogsfile.blob.core.windows.net/user/九桃/493ce9d9-64bd-4343-a145-16ab21f3c695/1555312814_72597.png)
 
 `A`物件會直接引用於`B`和`C`物件這導致`A`**掌控**`B`和`C`物件創建和銷毀
 

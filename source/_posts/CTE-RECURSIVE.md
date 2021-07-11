@@ -7,11 +7,11 @@ categories: SQL
 
 如果要製作月報...但只有給起訖日
 
-![pic](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521377514_65506.PNG)
+![pic](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521377514_65506.PNG)
 
 要產生出如下的列表 要怎麼辦...
 
-![pic](https://az787680.vo.msecnd.net/user/九桃/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521377621_11696.PNG)
+![pic](https://dotblogsfile.blob.core.windows.net/user/九桃/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521377621_11696.PNG)
 
 第一個想到的解法 會使用 `WHILE  +  [暫存表] `迴圈遍歷 把每個月新增入暫存表中
 
@@ -91,7 +91,7 @@ FROM CTE
 
 接下來解說 CTE遞迴原理 :
 
-![PIC](https://az787680.vo.msecnd.net/user/九桃/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521379674_85716.PNG)
+![PIC](https://dotblogsfile.blob.core.windows.net/user/九桃/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521379674_85716.PNG)
 
 可看到CTE中最主要執行四個步驟
 
@@ -104,7 +104,7 @@ FROM CTE
  
 
 最後CTE結果集就會呈現如下^^ 
-![https://az787680.vo.msecnd.net/user/九桃/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521377621_11696.PNG](https://az787680.vo.msecnd.net/user/九桃/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521377621_11696.PNG)
+![https://dotblogsfile.blob.core.windows.net/user/九桃/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521377621_11696.PNG](https://dotblogsfile.blob.core.windows.net/user/九桃/5cb059bd-5868-490a-a5fc-3b8f69aec405/1521377621_11696.PNG)
 
 
 **補充 oracle解法**

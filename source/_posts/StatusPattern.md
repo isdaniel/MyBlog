@@ -19,7 +19,7 @@ categories: [C#,DesignPattern]
 
 這是一個簡單的訂單流程圖
 
-![](https://az787680.vo.msecnd.net/user/九桃/c83df7da-1425-4410-9df3-a45bf9e35c1a/1542429110_98117.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/c83df7da-1425-4410-9df3-a45bf9e35c1a/1542429110_98117.png)
 
 我們可看到從建立訂單開始->最後判斷成功或取消訂單 看似簡單但需要寫一定程度的判斷條件式,而且也要做一定程度的逆向流程防呆.
 

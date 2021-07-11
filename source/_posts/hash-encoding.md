@@ -43,7 +43,7 @@ categories: WebDesign
     Hello Daniel　=>  SGVsbG8gRGFuaWVs
 如果我們想要把`SGVsbG8gRGFuaWVs` 變回 `Hello Daniel` 只需進行`Base64`解碼即可
 
-![](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557148998_19694.png)
+![](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557148998_19694.png)
 
 編碼是將原本的資料經過一個運算轉換成另一組資料,如果要還原成原本資料解碼
 
@@ -61,7 +61,7 @@ categories: WebDesign
 
 這邊以`AES`來介紹，我們可以看到下圖資料轉換是雙向，但會透過一個Key來做轉換(這邊是和編碼最大的差別)
 
-![](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557149615_79307.png)
+![](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557149615_79307.png)
 
 要還原成原始資料我們只能透過一樣的Key才可以達成，就像一個寶相只有唯一一把鑰匙可以打開一樣．
 
@@ -90,7 +90,7 @@ Hash有幾個特點
 4. 相同的值用SHA運算過後值都是一樣的
 
 
-![](https://az787680.vo.msecnd.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557152092_14191.png)
+![](https://dotblogsfile.blob.core.windows.net/user/%E4%B9%9D%E6%A1%83/be1dd9ce-3ce4-4404-ac0a-fe66ae2c64c1/1557152092_14191.png)
 
 一定會有小夥伴好奇,運算完都是固定長度 那會不會出現一個情況,原始資料不一樣但算完`Hash`結果是一樣的
 

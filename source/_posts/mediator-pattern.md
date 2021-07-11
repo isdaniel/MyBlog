@@ -12,13 +12,13 @@ categories: [C#,DesignPattern]
 
 在現實中如果組織有一定規模可能構通如下圖那般複雜
 
-![](https://az787680.vo.msecnd.net/user/九桃/f718d961-2f8b-46ac-a2f7-b95af802f23a/1549790323_53498.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/f718d961-2f8b-46ac-a2f7-b95af802f23a/1549790323_53498.png)
 
 如果有一個人或組織負責幫大家協助溝通，就可解決上面複雜問題
 
 這就是我們這次的核心中介者
 
-![](https://az787680.vo.msecnd.net/user/九桃/f718d961-2f8b-46ac-a2f7-b95af802f23a/1549790493_52417.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/f718d961-2f8b-46ac-a2f7-b95af802f23a/1549790493_52417.png)
 
 ### 中介者模式有幾個角色
 
@@ -128,7 +128,7 @@ DBA1.Requirement("DB Process doing.");
 2. PM(中介者)知道DBA和RD(同事者)存在
 3. ㄋDBA和RD不用知道對方存在但卻可以互相傳遞訊息(因為PM已經幫助我們解耦合了)
 
-![](https://az787680.vo.msecnd.net/user/九桃/f718d961-2f8b-46ac-a2f7-b95af802f23a/1549792143_37531.png)
+![](https://dotblogsfile.blob.core.windows.net/user/九桃/f718d961-2f8b-46ac-a2f7-b95af802f23a/1549792143_37531.png)
 
 UML圖 (有標示相對應的角色關係)
 
