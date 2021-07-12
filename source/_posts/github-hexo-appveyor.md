@@ -22,6 +22,7 @@ categories: WebDesign
 1. 完全免費
 2. 使用MarkDown撰寫Blog就是爽.
 3. 練習使用CICD線上工具.
+4. Hexo有許多不一樣絢麗的Theme可以更換且更換方式簡單
 
 撰寫發布流程大概如下圖
 
