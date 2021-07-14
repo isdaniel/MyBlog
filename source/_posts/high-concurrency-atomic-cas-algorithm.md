@@ -11,7 +11,7 @@ categories: [C#,atomic]
 
 假如我們系統是一個多執行續高併發系統也要注意Atomic不然會造成資料會有Data Racing導致bug產生..
 
-本文使用範例在
+本文使用範例在我github上[CAS_Lock](https://github.com/isdaniel/BlogSample/tree/master/src/Samples/CAS_Lock)有興趣的人可以參考.
 
 ## 沒有注意Atomic會導致的問題
 
