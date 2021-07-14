@@ -240,6 +240,10 @@ public class Member {
 }
 ```
 
+下圖是比較兩者執行時間還有併發計算數值，能發現數值兩個都正確計算出0，但Interlocked執行時間少於lock版本.
+
+![](https://i.imgur.com/eMjYN6P.png)
+
 Interlocked效率會比較高是因為block會造成Thread的blocking等待浪費,但Interlocked核心概念是在這段話Atomic**取得資料跟原職比較(如果資料還沒改就把值修改進Memory中)**
 
 所以效率就會比lock好很多
