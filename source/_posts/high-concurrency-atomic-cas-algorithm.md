@@ -175,6 +175,30 @@ balance = temp;
 
 對於`Int`,`Long`相關操作都有封裝成method.
 
+下面這段虛擬碼解釋`balance -= 10;`CAS中類似下面效果
+
+```c#
+//original
+int temp = balance;
+temp = temp -10;
+balance = temp;
+
+//CAS 
+int oldValue = balance;
+int newValue = oldValue - 1;
+//compare value source and set
+Interlocked.CompareExchange(ref balance,newValue,oldValue);
+
+//Interlocked.CompareExchange類似下面做法，但具有Atomic
+//if(ref balance == oldValue){
+//	balance = newValue;
+//}
+```
+
+主要是把compare value source and set這段包成一個不可分割區段達到Atomic.
+
+＞ 我上面用`ref`來表示從記憶體位置取得`balance`原始資料
+
 * `Exchange`:把值改成另一個數值 具有Atomic
 * `Decrement`:把數值-- 具有Atomic
 * `Increment`:把數值++ 具有Atomic
