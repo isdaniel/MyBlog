@@ -147,11 +147,31 @@ Thread2取得lock在操作Thread1就必須等待Thread2執行完,在取值=>改�
 
 [CAS](https://zh.wikipedia.org/zh-tw/%E6%AF%94%E8%BE%83%E5%B9%B6%E4%BA%A4%E6%8D%A2)是利用compare and swap來確保資料Atomic.
 
-在不同的語言
+前面有說過在`Balance -= 10;`這段程式碼會拆成下面動作
+
+1. 將執行個體變數中的值載入至register。
+2. 將載入值減10
+3. 將異動後值放回原本值的Memory。
+
+```c#
+balance -= 10;
+```
+
+會拆解成類似下面動作
+
+```c#
+int temp = balance;
+temp = temp -10;
+balance = temp;
+```
+
+假如在取balance(附值給temp)跟把值重新寫入balance中間有其他Thread來操作，就會造成所謂Data Racing，因為對於我們來說上面後兩部有不可分割性(Atomic).
+
+而這時候我們就可以使用CAS算法來幫我們解決問題，在C#如果我們想要達成變數修改的Atomic可以透過`Interlocked`類別
 
 ### 使用Interlocked提高效率
 
-在C#中我們可以使用 [Interlocked](https://docs.microsoft.com/zh-tw/dotnet/api/system.threading.interlocked?view=net-5.0)這個類別
+在C#中我們可以使用[Interlocked](https://docs.microsoft.com/zh-tw/dotnet/api/system.threading.interlocked?view=net-5.0)這個類別
 
 對於`Int`,`Long`相關操作都有封裝成method.
 
