@@ -1,10 +1,12 @@
 ---
-title: Asp.net HttpHandler vs HttpModule 詳細解說.
-date: 2019-06-11 19:16:37
+title: 高併發系統系列-多執行緒中順序 by EventWaitHandle
+date: 2021-07-17 19:16:37
 tags: [C#,thread,concurrent]
 categories: [C#,thread]
 ---
 ## 前言
+
+在多執行緒系統中，Thread的執行和長短是交由OS來幫我處理了
 
 假如有一個面試題目是
 
