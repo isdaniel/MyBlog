@@ -147,6 +147,8 @@ Thread2取得lock在操作Thread1就必須等待Thread2執行完,在取值=>改�
 
 [CAS](https://zh.wikipedia.org/zh-tw/%E6%AF%94%E8%BE%83%E5%B9%B6%E4%BA%A4%E6%8D%A2)是利用compare and swap來確保資料Atomic.
 
+> 因為CAS可以取得數值記憶體空間來比較給值並且他也是一條CPU原語具有原子性 [cpu 硬體同步原語](https://www.itsfun.com.tw/CAS/wiki-5145541-4270731)
+
 前面有說過在`Balance -= 10;`這段程式碼會拆成下面動作
 
 1. 將執行個體變數中的值載入至register。
