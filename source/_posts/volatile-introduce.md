@@ -214,12 +214,14 @@ public class NoAtomicMember{
 public static Object VolatileRead(ref Object address)
 {
     Object ret = address;
+    //呼叫組語load 禁止指令重排  從Memory拿到最新資料
     MemoryBarrier(); // Call MemoryBarrier to ensure the proper semantic in a portable way.
     return ret;
 }
 
 public static void VolatileWrite(ref Object address, Object value)
 {
+    //呼叫組語store 禁止指令重排
     MemoryBarrier(); // Call MemoryBarrier to ensure the proper semantic in a portable way.
     address = value;
 }
