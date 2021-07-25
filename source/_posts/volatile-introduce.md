@@ -197,11 +197,42 @@ public class NoAtomicMember{
 
 ![](https://i.imgur.com/fszxx6X.png)
 
+## 區域變數或參考型別使用volatile
+
+如果是區域變數或參考型別`volatile`關鍵字就無法使用,這時候我們可以使用下面兩個method來替代使用.
+
+* `Thread.VolatileRead`
+* `Thread.VolatileWrite`
+
+下面是`VolatileRead`,`VolatileWrite`原始碼
+
+能發現在裡面都有呼叫`MemoryBarrier`方法.
+
+> `MemoryBarrier`保證我們程式可見性，概念跟volatile一樣清除cache直接讀取主要Memory資料.
+
+```c#
+public static Object VolatileRead(ref Object address)
+{
+    Object ret = address;
+    MemoryBarrier(); // Call MemoryBarrier to ensure the proper semantic in a portable way.
+    return ret;
+}
+
+public static void VolatileWrite(ref Object address, Object value)
+{
+    MemoryBarrier(); // Call MemoryBarrier to ensure the proper semantic in a portable way.
+    address = value;
+}
+```
+
 ## 小結
 
 在多執行緒系統中我建議常異動的變數要使用`volatile`來保證每個Thread讀,寫資料是正確
 
+![](https://i.imgur.com/lMx2FJI.png)
+
+發現在我們常用的Console類別,運用許多`volatile`來達到Thread互相資料可見性.
+
 但也要注意`volatile`**不保證Atomic**，所以如果有Atomic需求記得要使用CAS或Lock來處理.
 
 另外`volatile`也不是萬靈丹,既然可以提高可見性想必對於系統會有多一些負擔,所以還是要看情況來使用.
-
