@@ -1,5 +1,5 @@
 ---
-title: '404 - 真巧，竟然在這裡遇到你！'
+title: '404 - 連結遺失'
 date: 2021-07-31 00:01:35
 comments: false
 permalink: /404.html
