@@ -14,7 +14,7 @@ permalink: /404.html
 如果你很急著想看文章，你可以 **[點這裡](https://isdaniel.github.io//)** 返回首頁。
 
 <script>
-let countTime = 3;
+let countTime = 5;
 
 function count() {
   
@@ -28,5 +28,18 @@ function count() {
   }, 1000);
 }
 
-count();
+$(function(){
+  var urlLowerCase = window.location.href.toLowerCase();
+  $.ajax(urlLowerCase, {
+   type: "GET",
+   statusCode: {
+      200: function (response) {
+        location.href = urlLowerCase;
+      },
+      404: function (response) {
+         count();
+      }
+   }
+});
+})
 </script>
