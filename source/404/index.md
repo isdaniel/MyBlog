@@ -13,6 +13,7 @@ permalink: /404.html
 
 如果你很急著想看文章，你可以 **[點這裡](https://isdaniel.github.io//)** 返回首頁。
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 let countTime = 5;
 
@@ -40,6 +41,6 @@ $(function(){
          count();
       }
    }
+  });
 });
-})
 </script>
