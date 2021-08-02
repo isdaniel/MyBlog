@@ -227,6 +227,41 @@ public static void VolatileWrite(ref Object address, Object value)
 }
 ```
 
+[MSDN Thread.MemoryBarrier](https://docs.microsoft.com/zh-tw/dotnet/api/system.threading.thread.memorybarrier?view=net-5.0#System_Threading_Thread_MemoryBarrier)其中有段說明
+
+> 同步處理記憶體存取，如下所示：執行目前執行緒的處理器無法以下列方式重新排列指示
+
+### IL中使用volatile差異
+
+我們知道C#是透過CLR來運行IL中繼語言，我們可以透過`ILSpy`來查看上面使用volatile和沒使用volatile差異
+
+#### 沒使用volatile
+
+Main function:
+
+![](https://i.imgur.com/Id8xPz6.png)
+
+Member Class:
+
+![](https://i.imgur.com/UHkm2RQ.png)
+
+#### 使用volatile
+
+Main function:
+
+![](https://i.imgur.com/iJoRJnM.png)
+
+Member Class:
+
+![](https://i.imgur.com/qM7RtEF.png)
+
+
+上面IL能發現有使用volatile差異在一個指令[OpCodes.Volatile]([OpCodes.Volatile](https://docs.microsoft.com/zh-tw/dotnet/api/system.reflection.emit.opcodes.volatile?view=net-5.0))
+
+> 指定目前在評估Heap頂端的位址可能是volatile，並且**無法快取讀**取該位置的結果，或者無法隱藏存放該位置的多個存放區。
+
+上面是MSDN解釋 主要是說使用volatile在Thread中就無法cache該變數資料每次讀取都必須回Memory中讀.
+
 ## 小結
 
 在多執行緒系統中我建議常異動的變數要使用`volatile`來保證每個Thread讀,寫資料是正確
