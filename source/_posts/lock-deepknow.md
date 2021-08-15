@@ -95,9 +95,64 @@ syncBlock中會存放幾個重要成員變數
 * ThreadID:當前佔有的ThreadID
 * m_Recursion:當前佔有的ThreadID獲取幾次Lock
 * m_appDomainIndex:當前AppDomain標示
-* m_lockState:目前lock佔有狀態(bool true代表可用，false代表不可用)
+* m_lockState:目前lock佔有狀態(int 0代表可用，1代表不可用)
 
-下面部分會跟大家介紹cpp核心解鎖，上鎖原始碼.
+下面部分會跟大家介紹cpp核心解鎖
+
+## LockState object
+
+m_lockState這個變數帳管syncblk鎖狀態，對於Lock來說至關重要
+
+下面是原始碼，裡面涉及許多邏輯運算我不打算一一解說 有興趣的可以自行查看
+
+主要可以看到`LockState.m_state`初始值設定成0
+
+```cpp
+    class LockState
+    {
+    private:
+        // Layout constants for m_state
+        static const UINT32 IsLockedMask = (UINT32)1 << 0; // bit 0
+        static const UINT32 ShouldNotPreemptWaitersMask = (UINT32)1 << 1; // bit 1
+        static const UINT32 SpinnerCountIncrement = (UINT32)1 << 2;
+        static const UINT32 SpinnerCountMask = (UINT32)0x7 << 2; // bits 2-4
+        static const UINT32 IsWaiterSignaledToWakeMask = (UINT32)1 << 5; // bit 5
+        static const UINT8 WaiterCountShift = 6;
+        static const UINT32 WaiterCountIncrement = (UINT32)1 << WaiterCountShift;
+        static const UINT32 WaiterCountMask = (UINT32)-1 >> WaiterCountShift << WaiterCountShift; // bits 6-31
+
+    private:
+        UINT32 m_state;
+
+    public:
+        LockState(UINT32 state = 0) : m_state(state)
+        {
+            LIMITED_METHOD_CONTRACT;
+        }
+
+    public:
+        UINT32 GetState() const
+        {
+            LIMITED_METHOD_CONTRACT;
+            return m_state;
+        }
+
+        UINT32 GetMonitorHeldState() const
+        {
+            LIMITED_METHOD_CONTRACT;
+            static_assert_no_msg(IsLockedMask == 1);
+            static_assert_no_msg(WaiterCountShift >= 1);
+
+            // Return only the locked state and waiter count in the previous (m_MonitorHeld) layout for the debugger:
+            //   bit 0: 1 if locked, 0 otherwise
+            //   bits 1-31: waiter count
+            UINT32 state = m_state;
+            return (state & IsLockedMask) + (state >> WaiterCountShift << 1);
+        }
+//..
+```
+
+[source code](https://github.com/dotnet/runtime/blob/6ebdf247cf9f99ee70bad0db8dd7abdcba993496/src/coreclr/vm/syncblk.h#L183-L225)
 
 ## Entry Lock cpp code
 
@@ -108,7 +163,7 @@ syncBlock中會存放幾個重要成員變數
 > `InterlockedTryLock_Or_RegisterWaiter`呼叫此方法內部會做CAS所以狀態具有Atomic.
 > 使用CAS & Volatile來達到變數Atomic & 可見性
 
-* 當前sync block物件是上鎖狀態但佔有Thread不是自己就會呼叫`EnterEpilog`方法會執行把此Thread排進等待對列中.
+* 當前sync block物件是上鎖狀態但佔有Thread不是自己就會呼叫`EnterEpilog`方法會執行把此Thread使用[PalYieldProcessor](https://docs.microsoft.com/zh-tw/windows/win32/api/winnt/nf-winnt-yieldprocessor?redirectedfrom=MSDN)自旋等待(使用`mm_pause`指令)具有FIFO.
 * 當前sync block物件事由當前Thread擁有還在上鎖中，就把m_Recursion++(註記目前重入幾次，需要在釋放把m_Recursion設定成0才會釋放sync block)
 
 ```c++
@@ -230,13 +285,51 @@ FORCEINLINE AwareLock::LeaveHelperAction AwareLock::LeaveHelper(Thread* pCurThre
 
 [syncblk source code(AwareLock::LeaveHelper)](https://github.com/dotnet/runtime/blob/57bfe474518ab5b7cfe6bf7424a79ce3af9d6657/src/coreclr/vm/syncblk.inl#L665-L700)
 
+## LockState::InterlockedUnlock
+
+`InterlockedUnlock`方法會將`LockState.m_state`減1(具有Atomic)，把狀態設定成0讓其他人可以獲得此物件.
+
+```cpp
+FORCEINLINE bool AwareLock::LockState::InterlockedUnlock()
+{
+    WRAPPER_NO_CONTRACT;
+
+    LockState state = InterlockedDecrementRelease((LONG *)&m_state);
+    while (true)
+    {
+        // Keep track of whether a thread has been signaled to wake but has not yet woken from the wait.
+        // IsWaiterSignaledToWakeMask is cleared when a signaled thread wakes up by observing a signal. Since threads can
+        // preempt waiting threads and acquire the lock (see InterlockedTryLock()), it allows for example, one thread to acquire
+        // and release the lock multiple times while there are multiple waiting threads. In such a case, we don't want that
+        // thread to signal a waiter every time it releases the lock, as that will cause unnecessary context switches with more
+        // and more signaled threads waking up, finding that the lock is still locked, and going right back into a wait state.
+        // So, signal only one waiting thread at a time.
+        if (!state.NeedToSignalWaiter())
+        {
+            return false;
+        }
+
+        LockState newState = state;
+        newState.InvertIsWaiterSignaledToWake();
+
+        LockState stateBeforeUpdate = CompareExchange(newState, state);
+        if (stateBeforeUpdate == state)
+        {
+            return true;
+        }
+
+        state = stateBeforeUpdate;
+    }
+}
+```
+
 ## 小結
 
-經過上面說明相信大家對於一開始說的可重入鎖原理應該有些許了解
+經過上面說明相信大家對於一開始說的可重入鎖，上鎖原理有了些許了解
 
 下面是我畫出上鎖還有syncblk物件狀態改變圖.
 
-![](https://i.imgur.com/qer52v0.png)
+![](https://i.imgur.com/gocsWQc.png)
 
 在object Instance的sync block index區塊除了會存放lock使用Thread(sync table index)外，HashCode也是存在上面(此區塊共有32 bit，其中26 bit，有時會給呼叫GetHashCode時存放)因為不是這次主題我就不多說了.
 
