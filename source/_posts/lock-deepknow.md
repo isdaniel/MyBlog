@@ -1,0 +1,245 @@
+---
+title: CLR系列-Lock深入淺出
+date: 2021-08-15 21:13:34
+tags: [C#,lock,CLR]
+categories: [C#,CLR]
+top:
+photos: 
+    - "https://i.imgur.com/dWZF6DH.png"
+---
+
+## 前言
+
+你知道object lock底層怎麼實作，可重入鎖是底層是怎麼運作的嗎?
+
+本篇就跟大家分享這些細節.
+
+## 可重入鎖Demo
+
+```c#
+class Program
+{
+    static object _object = new object();
+
+    static void Main(string[] args)
+    {
+        Task.WaitAll(Task.Run(() => { TryLockDemo(); }), Task.Run(() => { TryLockDemo(); }));
+
+        Console.WriteLine("Hello World!");
+    }
+
+    public static void TryLockDemo() {
+        var threadId = Thread.CurrentThread.ManagedThreadId;
+        Console.WriteLine($"[{threadId}] {DateTime.Now:HH:mm:ss} TryLockDemo Start");
+        try
+        {
+            Monitor.Enter(_object);
+            Console.WriteLine($"[{threadId}] {DateTime.Now:HH:mm:ss} get first lock");
+            try
+            {
+                Thread.Sleep(3000);
+                Monitor.Enter(_object);
+                Console.WriteLine($"[{threadId}] {DateTime.Now:HH:mm:ss} get second lock");
+            }
+            finally
+            {
+                Monitor.Exit(_object);
+                Console.WriteLine($"[{threadId}] {DateTime.Now:HH:mm:ss} release second lock");
+            }
+        }
+        finally
+        {
+            Thread.Sleep(3000);
+            Monitor.Exit(_object);
+            Console.WriteLine($"[{threadId}] {DateTime.Now:HH:mm:ss} release first lock");
+        }
+    }
+}
+```
+
+上面這段程式碼，同時間會由2個Thread來呼叫處理`TryLockDemo`方法.
+
+主要是演示lock中在對於同一個object lock一次且在multiple-Thread中會怎麼運作
+
+為什麼Thread 1釋放first lock時，Thread 2會繼續blocking並等待Thread 1釋放second lock?
+
+![](https://i.imgur.com/gKt8aY4.png)
+
+## object中Syncblk
+
+在回答上面問題前，我們必須先了解Syncblk這個區塊
+
+每個Object Instance都有的底層資訊
+
+* Syncblk:掌管指向Syncblk Entry Index和HashCode資料
+* TypeHandle:存放對應Method Table資訊
+
+TypeHandle不是本次介紹範疇就不多說了
+
+> 每個Object都有Object Header (syncblk + TypeHandle) 8 bytes
+
+在MSDN有一張圖詳細描述Syncblk
+
+![](https://images2015.cnblogs.com/blog/250417/201706/250417-20170615102713837-696225938.png)
+
+下圖是我畫重點流程和關係
+
+![](https://i.imgur.com/dWZF6DH.png)
+
+如果對於物件使用lock Syncblk會存放本次使用TheadID，存放指向Syncblk Entry Table.
+
+Syncblk Entry Table是一個全域的物件，掌管物件跟syncblk對應資訊(串聯lock中繼資料表)，用指針指向物件所屬的syncBlock.
+
+syncBlock中會存放幾個重要成員變數
+
+* ThreadID:當前佔有的ThreadID
+* m_Recursion:當前佔有的ThreadID獲取幾次Lock
+* m_appDomainIndex:當前AppDomain標示
+* m_lockState:目前lock佔有狀態(bool true代表可用，false代表不可用)
+
+下面部分會跟大家介紹cpp核心解鎖，上鎖原始碼.
+
+## Entry Lock cpp code
+
+下面是CLR獲取Lock時核心程式碼
+
+* 當前sync block物件**沒有任何Thread佔有**且**是未上鎖**狀態才會進入上鎖環節.
+
+> `InterlockedTryLock_Or_RegisterWaiter`呼叫此方法內部會做CAS所以狀態具有Atomic.
+> 使用CAS & Volatile來達到變數Atomic & 可見性
+
+* 當前sync block物件是上鎖狀態但佔有Thread不是自己就會呼叫`EnterEpilog`方法會執行把此Thread排進等待對列中.
+* 當前sync block物件事由當前Thread擁有還在上鎖中，就把m_Recursion++(註記目前重入幾次，需要在釋放把m_Recursion設定成0才會釋放sync block)
+
+```c++
+void AwareLock::Enter()
+{
+    CONTRACTL
+    {
+        INSTANCE_CHECK;
+        THROWS;
+        GC_TRIGGERS;
+        MODE_ANY;
+        INJECT_FAULT(COMPlusThrowOM(););
+    }
+    CONTRACTL_END;
+
+    Thread *pCurThread = GetThread();
+    LockState state = m_lockState.VolatileLoadWithoutBarrier();
+    if (!state.IsLocked() || m_HoldingThread != pCurThread)
+    {
+        if (m_lockState.InterlockedTryLock_Or_RegisterWaiter(this, state))
+        {
+            // We get here if we successfully acquired the mutex.
+            m_HoldingThread = pCurThread;
+            m_Recursion = 1;
+            pCurThread->IncLockCount();
+            return;
+        }
+
+        // Lock was not acquired and the waiter was registered
+
+        // Didn't manage to get the mutex, must wait.
+        // The precondition for EnterEpilog is that the count of waiters be bumped
+        // to account for this thread, which was done above.
+        EnterEpilog(pCurThread);
+        return;
+    }
+
+    // Got the mutex via recursive locking on the same thread.
+    _ASSERTE(m_Recursion >= 1);
+    m_Recursion++;
+}
+```
+
+[source code](https://github.com/dotnet/coreclr/blob/master/src/vm/syncblk.cpp#L2376-L2429)
+
+## Release Lock cpp code
+
+在呼叫syncblk物件`AwareLock::Leave`方法，主要是透過`LeaveHelper`來判定解鎖是否成功.
+
+```c++
+BOOL AwareLock::Leave()
+{
+    CONTRACTL
+    {
+        INSTANCE_CHECK;
+        NOTHROW;
+        GC_NOTRIGGER;
+        MODE_ANY;
+    }
+    CONTRACTL_END;
+
+    Thread* pThread = GetThread();
+
+    AwareLock::LeaveHelperAction action = LeaveHelper(pThread);
+
+    switch(action)
+    {
+    case AwareLock::LeaveHelperAction_None:
+        // We are done
+        return TRUE;
+    case AwareLock::LeaveHelperAction_Signal:
+        // Signal the event
+        Signal();
+        return TRUE;
+    default:
+        // Must be an error otherwise
+        _ASSERTE(action == AwareLock::LeaveHelperAction_Error);
+        return FALSE;
+    }
+}
+```
+
+[syncblk.cpp (AwareLock::Leave)](https://github.com/dotnet/coreclr/blob/master/src/vm/syncblk.cpp#L2741-L2770)
+
+一開始要先判斷目前解鎖的Thread是否和syncblk佔有的Thread相同，如果不同就回傳`AwareLock::LeaveHelperAction_Error`
+
+後續會判斷是否所有重入鎖都是放完畢(`if (--m_Recursion == 0)`)，如果都是放完畢就會把`m_HoldingThread`釋放，讓其他Thread可以擁有並接續判斷是否有其他Thread在等待此資源，有的話回傳`AwareLock::LeaveHelperAction_Signal`代表要通知其他Thread爭取此syncblk物件
+
+```c++
+FORCEINLINE AwareLock::LeaveHelperAction AwareLock::LeaveHelper(Thread* pCurThread)
+{
+    CONTRACTL {
+        NOTHROW;
+        GC_NOTRIGGER;
+        MODE_ANY;
+    } CONTRACTL_END;
+
+    if (m_HoldingThread != pCurThread)
+        return AwareLock::LeaveHelperAction_Error;
+
+    //省略一些程式碼
+    if (--m_Recursion == 0)
+    {
+        m_HoldingThread = NULL;
+
+        // Clear lock bit and determine whether we must signal a waiter to wake
+        if (!m_lockState.InterlockedUnlock())
+        {
+            return AwareLock::LeaveHelperAction_None;
+        }
+
+        // There is a waiter and we must signal a waiter to wake
+        return AwareLock::LeaveHelperAction_Signal;
+    }
+
+    return AwareLock::LeaveHelperAction_None;
+}
+```
+
+[syncblk source code(AwareLock::LeaveHelper)](https://github.com/dotnet/runtime/blob/57bfe474518ab5b7cfe6bf7424a79ce3af9d6657/src/coreclr/vm/syncblk.inl#L665-L700)
+
+## 小結
+
+經過上面說明相信大家對於一開始說的可重入鎖原理應該有些許了解
+
+下面是我畫出上鎖還有syncblk物件狀態改變圖.
+
+![](https://i.imgur.com/qer52v0.png)
+
+在object Instance的sync block index區塊除了會存放lock使用Thread(sync table index)外，HashCode也是存在上面(此區塊共有32 bit，其中26 bit，有時會給呼叫GetHashCode時存放)因為不是這次主題我就不多說了.
+
+本次使用sample在 
+
+https://github.com/isdaniel/BlogSample/tree/master/src/Samples/DeepKnowLock
