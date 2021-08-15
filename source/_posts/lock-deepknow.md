@@ -163,8 +163,9 @@ m_lockState這個變數帳管syncblk鎖狀態，對於Lock來說至關重要
 > `InterlockedTryLock_Or_RegisterWaiter`呼叫此方法內部會做CAS所以狀態具有Atomic.
 > 使用CAS & Volatile來達到變數Atomic & 可見性
 
-* 當前sync block物件是上鎖狀態但佔有Thread不是自己就會呼叫`EnterEpilog`方法會執行把此Thread使用[PalYieldProcessor](https://docs.microsoft.com/zh-tw/windows/win32/api/winnt/nf-winnt-yieldprocessor?redirectedfrom=MSDN)自旋等待(使用`mm_pause`指令)具有FIFO.
+* 當前sync block物件是上鎖狀態但佔有Thread不是自己就會呼叫`EnterEpilog`方法會執行把此Thread加入`ThreadQueue`等待(FIFO)，lock Thread完成發出signal讓後續Threads可以繼續動作.
 * 當前sync block物件事由當前Thread擁有還在上鎖中，就把m_Recursion++(註記目前重入幾次，需要在釋放把m_Recursion設定成0才會釋放sync block)
+
 
 ```c++
 void AwareLock::Enter()
@@ -320,6 +321,119 @@ FORCEINLINE bool AwareLock::LockState::InterlockedUnlock()
 
         state = stateBeforeUpdate;
     }
+}
+```
+
+## 補充說明 Lock Wait環節
+
+SyncBlock內部維護一個重要成員變數`SLink`當作指針，指向`WaitEventLink`使用鏈結表.
+
+![](https://i.imgur.com/q4o9SML.png)
+
+```cpp
+// We can't afford to use an SList<> here because we only want to burn
+// space for the minimum, which is the pointer within an SLink.
+SLink       m_Link;
+```
+
+`WaitEventLink`程式碼
+
+```cpp
+// Used inside Thread class to chain all events that a thread is waiting for by Object::Wait
+struct WaitEventLink {
+    SyncBlock         *m_WaitSB;
+    CLREvent          *m_EventWait;
+    PTR_Thread         m_Thread;       // Owner of this WaitEventLink.
+    PTR_WaitEventLink  m_Next;         // Chain to the next waited SyncBlock.
+    SLink              m_LinkSB;       // Chain to the next thread waiting on the same SyncBlock.
+    DWORD              m_RefCount;     // How many times Object::Wait is called on the same SyncBlock.
+};
+```
+
+下面是ThreadQueue的`DequeueThread` & `EnqueueThread`實作
+
+`DequeueThread`:透過`SLink`取得下一個等待的Wait Thread.
+`EnqueueThread`:把新加入等待Thread透過Link reference point，加入到WaitQueue節點之後
+
+```cpp
+// Unlink the head of the Q.  We are always in the SyncBlock's critical
+// section.
+/* static */
+inline WaitEventLink *ThreadQueue::DequeueThread(SyncBlock *psb)
+{
+    CONTRACTL
+    {
+        NOTHROW;
+        GC_NOTRIGGER;
+        MODE_ANY;
+        CAN_TAKE_LOCK;
+    }
+    CONTRACTL_END;
+
+    // Be careful, the debugger inspects the queue from out of process and just looks at the memory...
+    // it must be valid even if the lock is held. Be careful if you change the way the queue is updated.
+    SyncBlockCache::LockHolder lh(SyncBlockCache::GetSyncBlockCache());
+
+    WaitEventLink      *ret = NULL;
+    SLink       *pLink = psb->m_Link.m_pNext;
+
+    if (pLink)
+    {
+        psb->m_Link.m_pNext = pLink->m_pNext;
+#ifdef _DEBUG
+        pLink->m_pNext = (SLink *)POISONC;
+#endif
+        ret = WaitEventLinkForLink(pLink);
+        _ASSERTE(ret->m_WaitSB == psb);
+    }
+    return ret;
+}
+
+// Enqueue is the slow one.  We have to find the end of the Q since we don't
+// want to burn storage for this in the SyncBlock.
+/* static */
+inline void ThreadQueue::EnqueueThread(WaitEventLink *pWaitEventLink, SyncBlock *psb)
+{
+    CONTRACTL
+    {
+        NOTHROW;
+        GC_NOTRIGGER;
+        MODE_ANY;
+        CAN_TAKE_LOCK;
+    }
+    CONTRACTL_END;
+
+    _ASSERTE (pWaitEventLink->m_LinkSB.m_pNext == NULL);
+
+    // Be careful, the debugger inspects the queue from out of process and just looks at the memory...
+    // it must be valid even if the lock is held. Be careful if you change the way the queue is updated.
+    SyncBlockCache::LockHolder lh(SyncBlockCache::GetSyncBlockCache());
+
+    SLink       *pPrior = &psb->m_Link;
+
+    while (pPrior->m_pNext)
+    {
+        // We shouldn't already be in the waiting list!
+        _ASSERTE(pPrior->m_pNext != &pWaitEventLink->m_LinkSB);
+
+        pPrior = pPrior->m_pNext;
+    }
+    pPrior->m_pNext = &pWaitEventLink->m_LinkSB;
+}
+```
+
+之前有說到Thread`ret = m_SemEvent.Wait(timeOut, TRUE);`會等待訊號發出，假如不幸同時間有多個Thread在爭搶又搶輸了，就會進入SpinLock等待會透過[CLREventBase::WaitEX](https://github.com/dotnet/runtime/blob/57bfe474518ab5b7cfe6bf7424a79ce3af9d6657/src/coreclr/vm/synch.cpp#L416-L469)，最後呼叫[PalRedhawkUnix](https://github.com/dotnet/corert/blob/c6af4cfc8b625851b91823d9be746c4f7abdc667/src/Native/Runtime/unix/PalRedhawkUnix.cpp#L990-L999)等待再進入Wait環節.
+
+```cpp
+extern "C" UInt32 WaitForSingleObjectEx(HANDLE handle, UInt32 milliseconds, UInt32_BOOL alertable)
+{
+    // The handle can only represent an event here
+    // TODO: encapsulate this stuff
+    UnixHandleBase* handleBase = (UnixHandleBase*)handle;
+    ASSERT(handleBase->GetType() == UnixHandleType::Event);
+    EventUnixHandle* unixHandle = (EventUnixHandle*)handleBase;
+
+    return unixHandle->GetObject()->Wait(milliseconds);
 }
 ```
 
