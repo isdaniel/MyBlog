@@ -97,6 +97,8 @@ syncBlock中會存放幾個重要成員變數
 * m_appDomainIndex:當前AppDomain標示
 * m_lockState:目前lock佔有狀態(int 0代表可用，1代表不可用)
 
+> syncBlock內置有一個FIFO等待鏈結表的排隊隊列，將每個等待獲取lock的Thread封裝成一個Node
+
 下面部分會跟大家介紹cpp核心解鎖
 
 ## LockState object
