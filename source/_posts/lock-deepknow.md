@@ -80,7 +80,7 @@ TypeHandle不是本次介紹範疇就不多說了
 
 在MSDN有一張圖詳細描述Syncblk
 
-![](https://images2015.cnblogs.com/blog/250417/201706/250417-20170615102713837-696225938.png)
+![](https://i.imgur.com/Mj8HoFC.png)
 
 下圖是我畫重點流程和關係
 
@@ -328,7 +328,9 @@ FORCEINLINE bool AwareLock::LockState::InterlockedUnlock()
 
 ## 補充說明 Lock Wait環節
 
-SyncBlock內部維護一個重要成員變數`SLink`當作指針，指向`WaitEventLink`使用鏈結表.
+上面有說假如有一個`SyncBlock`目前已經有Thread在使用中，其他Thread如果要嘗試存取會進入等待鏈結表進行等待.
+
+`SyncBlock`內部維護一個重要成員變數`SLink`當作指針，指向`WaitEventLink`使用鏈結表.
 
 ![](https://i.imgur.com/q4o9SML.png)
 
