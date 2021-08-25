@@ -80,7 +80,7 @@ TypeHandle不是本次介紹範疇就不多說了
 
 在MSDN有一張圖詳細描述Syncblk
 
-![](https://images2015.cnblogs.com/blog/250417/201706/250417-20170615102713837-696225938.png)
+![](https://i.imgur.com/Mj8HoFC.png)
 
 下圖是我畫重點流程和關係
 
@@ -328,7 +328,9 @@ FORCEINLINE bool AwareLock::LockState::InterlockedUnlock()
 
 ## 補充說明 Lock Wait環節
 
-SyncBlock內部維護一個重要成員變數`SLink`當作指針，指向`WaitEventLink`使用鏈結表.
+上面有說假如有一個`SyncBlock`目前已經有Thread在使用中，其他Thread如果要嘗試存取會進入等待鏈結表進行等待.
+
+`SyncBlock`內部維護一個重要成員變數`SLink`當作指針，指向`WaitEventLink`使用鏈結表.
 
 ![](https://i.imgur.com/q4o9SML.png)
 
@@ -443,7 +445,7 @@ extern "C" UInt32 WaitForSingleObjectEx(HANDLE handle, UInt32 milliseconds, UInt
 
 經過上面說明相信大家對於一開始說的可重入鎖，上鎖原理有了些許了解
 
-下面是我畫出上鎖還有syncblk物件狀態改變圖.
+下面是我畫出上鎖對於重入鎖syncblk物件狀態圖流程圖
 
 ![](https://i.imgur.com/gocsWQc.png)
 
