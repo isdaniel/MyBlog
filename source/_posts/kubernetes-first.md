@@ -12,15 +12,12 @@ photos:
 
 k8s前身是Google開發borg系統，用於管理Google系統，後面由許多borg核心開發人用利用Go語言改寫就造就Kubernetes
 
-能根據聲明式的設定，管理、擴展的容器化應用編排系統
+可以根據[聲明式](https://zh.wikipedia.org/zh-hant/%E5%AE%A3%E5%91%8A%E5%BC%8F%E7%B7%A8%E7%A8%8B)設定，管理、擴展我們的容器化應用編排系統
 
-* 支援大規模的擴展與調度
-* 服務的自動 rollout 與 rollback
-* 資源的邏輯隔離
-* 提供硬體資源的有效利用
-* 提供 service discovery 與負載平衡
-* 自我修復：根據用戶的 health check 導入流量或重啟應用
-* 高度的功能擴展性: Custom Resource Definition & Operator
+* 有效安全幫我們執行Container Rollout
+* 能夠因應系統流量變化，進行伸縮擴容（Scaling）
+* Health check實現自動偵測故障及重啟功能
+* 透過Namespace有效幫我們做資源隔離
 
 k8s協助我們方便掌控複雜容器系統架構，具有良好伸縮性
 
@@ -42,23 +39,20 @@ developer 用 kubectl 利用（http restful API） 打到master node 中的 API 
 
 master node 又可以稱 control plan，存儲跟掌控Node就像是人類的大腦，所以裡面有些重要成員要跟大家介紹
 
-* kube-apiserver:接收使用者指令來操作Node or Pod.(唯一接受命令的服務)
-* etcd:可信賴的分布式key/value存儲服務，保存k8s需要持久化的配置資訊
-* kube-scheduler:監控Pod建立，負責調度至對應Node上
-* kube-controller-manager:
-  * Controller會監控cluster中狀態，透過control loop維持期望狀態，kube-controller-manager是多個內建controller集合體.
-    * Node Controller會監控Node存活狀態
-    * Deployment Controller會將對應的workload維持在期望狀態（e.g. 10個replica）
+* kube-apiserver：接收使用者指令來操作Node or Pod.(唯一接受命令的服務)
+* etcd：可信賴的分布式key/value存儲服務，保存k8s需要持久化的配置資訊
+* kube-scheduler：負責調度Pod至Node並監控
+* kube-controller-manager：
+  * 透過control loop監控cluster狀態並嘗試維持預期狀態，內建由多個controller集合體組成
 
 ### kubectl
 
-kubectl: 使用者操作 k8s cluster control plan 所使用command line tool，透過 RESTful API 對 master node 進行一切操作 (需要有相應權限)
+kubectl 封裝成CLI方便我們下達命令操作我們 k8s cluster control plan，經由 RESTful API 對 master node 進行操作 (需要有相應權限)
 
-* 建立、更新及刪除 Pod, deployment, config map, service...etc
-* 需要先透過 ~/.kube/config 設定 cluster, context 及 user
-  * 設定檔路徑可透過 KUBECONFIG env 或 --kubeconfig 複寫
+我們須先透過 `~/.kube/config` 設定使用 cluster, context 及 user，建立完成後我們就可以對於Pod、deployment、 config map、service進行建立、更新，刪除..動作.
 
 > 透過`cat ~/.kube/config`或`kubectl config view`查看目前 kubectl 設定
+> 在config中`current-context`存放當前操作哪個k8s cluster
 
 ### Pods
 
@@ -66,26 +60,24 @@ Pod是存放container程式(可以多個Container)，是k8s調度中最小單位
 
 一開始準備建立一個Pod會依序執行下面Container，在所有Init Container沒有執行成功前，Pod不會變成Ready狀態，Pod會處於Pedding狀態.
 
-* Pause Container => Init Containers => Main Container.
+Pod執行Container順序為Pause Container => Init Containers => Main Container
 
-如果Pod重啟，所有Init Container必須可重新執行.
+> Main Container為我們主要運作Container，如果Pod重啟，所有Init Container必須可重新執行.
 
 * Pod 具有自己的生命週期及階段 (Pending, Running, Succeed, Failed, Unknown)
-* 一般不會直接建立 Pod，而是由更高階的 controller 負責控制
-  * e.g. Deployment, CronJob, etc
+* 一般不建議直接建立 Pod，而是由更高階 controller 負責控制(ex：Deployment)，達到更方便的控管
 
 ![](https://i.imgur.com/A8YNvJV.png)
 
-### Work Node
+### WorkNode
 
-* 提供CPU，Memory，NetWork...資源
-* 裡面可以存放許多Pod來執行Container
+WorkNode裡面存放許多Pod來執行Container，提供資源來執行我們Pod
 
-每個work node都有下面兩個重要組件
+每個WorkNode都有下面兩個重要組件
 
-* kubelet:每一個Node上都有個kubelet(Node上的Agent)，負責與API Server 溝通，管理container生命週期(health check node)，定時和Control plane報平安(heartbeat)
+* Kubelet：負責與API Server 溝通，管理container生命週期(health check建立Pod)，利用heartbeat定期跟Control plane說我還活著(有點類似Node的管家)
 
-* kubeproxy:控制Pod和load balance相關網路
+* Kubeproxy:負責更新 Node 的 iptables，控制Pod跟load balance相關網路(有點類似Node的通訊兵)
 
 ## k3d (Kubernetes in docker)
 
@@ -179,4 +171,3 @@ kubectl port-forward nginx 8888:80
 今天對於k8s簡單介紹幾個重要成員還有使用，希望對於想要入門k8s的人會有幫助.
 
 日後有機會在寫其他k8s相關的文章.
-
