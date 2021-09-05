@@ -148,7 +148,7 @@ NumStaticFields:     0
 
 下面是EEClass加載進Memory時使用狀況
 
-![](https://images2015.cnblogs.com/blog/250417/201706/250417-20170615105045915-1137411682.png)
+![](https://i.imgur.com/BUaTFeo.png)
 
 > 在GC Heap建立一個物件時就會透過EEClass描述來建立物件
 
@@ -205,7 +205,7 @@ MethodDesc在CLR運行時作為最基礎的服務，方法實現封裝
 
 每個Object都有Object Header (syncblk + TypeHandle) 8 bytes
 
-![](https://images2015.cnblogs.com/blog/250417/201706/250417-20170615102713837-696225938.png)
+![](https://i.imgur.com/3zWbVCg.png)
 
 ## WinDbg clr 指令筆記
 
