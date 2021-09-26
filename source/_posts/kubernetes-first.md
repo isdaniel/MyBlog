@@ -49,7 +49,7 @@ master node 又可以稱 control plan，存儲跟掌控Node就像是人類的大
 
 kubectl 封裝成CLI方便我們下達命令操作我們 k8s cluster control plan，經由 RESTful API 對 master node 進行操作 (需要有相應權限)
 
-我們須先透過 `~/.kube/config` 設定使用 cluster, context 及 user，建立完成後我們就可以對於Pod、deployment、 config map、service進行建立、更新，刪除..動作.
+我們須先透過 `~/.kube/config` 設定使用 cluster, context 及 user，建立完成後我們就可以對於Pod、deployment、 config map、service 進行建立、更新，刪除..動作.
 
 > 透過`cat ~/.kube/config`或`kubectl config view`查看目前 kubectl 設定
 > 在config中`current-context`存放當前操作哪個k8s cluster
@@ -66,18 +66,41 @@ Pod執行Container順序為Pause Container => Init Containers => Main Container
 
 * Pod 具有自己的生命週期及階段 (Pending, Running, Succeed, Failed, Unknown)
 * 一般不建議直接建立 Pod，而是由更高階 controller 負責控制(ex：Deployment)，達到更方便的控管
+* 一個 Pod 內的容器共享同一個網路
 
 ![](https://i.imgur.com/A8YNvJV.png)
 
 ### WorkNode
 
-WorkNode裡面存放許多Pod來執行Container，提供資源來執行我們Pod
+WorkNode 裡面存放許多 Pod 來執行 Container，提供資源來執行我們Pod
 
 每個WorkNode都有下面兩個重要組件
 
 * Kubelet：負責與API Server 溝通，管理container生命週期(health check建立Pod)，利用heartbeat定期跟Control plane說我還活著(有點類似Node的管家)
 
 * Kubeproxy:負責更新 Node 的 iptables，控制Pod跟load balance相關網路(有點類似Node的通訊兵)
+
+#### kube controller manager
+
+Controller 用更高層次來對待 Pod ，一般來說我們不會手動來管理 Pod 會交由 Controller 來幫我們管理完成.
+
+在 Controller 種有下面幾中 Kind
+
+* ReplicaSet：確保並掌控預期 Pod 數量
+* Deployment：確保並掌控預期 Pod 數量，無狀態部屬，(一般我蠻常使用此模式)方便紅藍部屬
+* StatefulSet：有狀態的部屬
+* DaemonSet：確保 Node ，都運作指定 Pod (可以當作程式中 單例模式)
+* Job：執行一次性任務
+* Cronjob：定時執行任務
+
+#### Service
+
+* 定義一組 Pods 訪問方式 (使用 lable 來圈定服務)
+* 提供 Pod Load Balance，支援多種方式（ClusterIP,NodePort,LoadBalance）
+
+> 通常 Service 可以透過 Ingress 來將此組服務暴露給外部作 Http 請求
+
+> Label 用於對於資源塞選使用
 
 ## k3d (Kubernetes in docker)
 
@@ -162,7 +185,7 @@ kubectl apply -f .\pods.yaml
 kubectl port-forward nginx 8888:80
 ```
 
-> 一般我們會透過Service資源來管理port 相關事情，日後有機會再跟大家說
+> 一般我們會透過 Service 資源來管理port 相關事情，日後有機會再跟大家說
 
 ![](https://i.imgur.com/2Ktnj3a.png)
 
