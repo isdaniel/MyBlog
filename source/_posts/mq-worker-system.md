@@ -426,7 +426,7 @@ public class ProcessPool : IWorkerPool
 
 `BlockingCollection` 使用上就如下圖
 
-[](https://i.imgur.com/rELGkbs.png)
+![](https://i.imgur.com/rELGkbs.png)
 
 我們可以用停車場的案例來理解:
 
