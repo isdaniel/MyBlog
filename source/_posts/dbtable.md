@@ -1,8 +1,8 @@
 ---
 title: SqlServer資料表深入淺出
 date: 2020-01-26 23:10:43
-tags: [DataBase,Turning,Sql-server]
-categories: [DataBase,Turning]
+tags: [DataBase,Turning,sql-server]
+categories:  [Turning,sql-server]
 ---
 
 ## 前文

@@ -1,0 +1,162 @@
+---
+title: postgresql Page 深入淺出
+date: 2021-09-28 00:30:11
+tags: [DataBase,Turning,postgresql]
+categories: [Turning,postgresql]
+---
+
+## 前言
+
+在postgresql DB Page size 預設是 8KB
+
+我們想要看page使用大小在 Sql-Server 可以用 `DBCC`命令在 postgresql DB 沒有 `DBCC` 還好有其他方式可以查看 Page 儲存原理
+
+如果要了解存儲怎麼辦呢?
+
+## 關於 page 存儲
+
+使用sample data
+
+```sql
+CREATE TABLE t1 (id int PRIMARY KEY);
+
+insert into t1 select generate_series(1,2000);
+insert into t1 select generate_series(2001,4000);
+```
+
+建立完表後我們透過 `\d+ t1` 指令查看資料表訊息，可以看到PK成功被建立
+
+```cmd
+postgres=# \d+ t1
+                                    Table "public.t1"
+ Column |  Type   | Collation | Nullable | Default | Storage | Stats target | Description
+--------+---------+-----------+----------+---------+---------+--------------+-------------
+ id     | integer |           | not null |         | plain   |              |
+Indexes:
+    "t1_pkey" PRIMARY KEY, btree (id)
+```
+
+查看 `pg_class` 儲存訊息發現，我明明是儲存 4000 筆 int 資料，理論上會存放 2 左右的Page number (int 4 byte)
+
+4 byte * 4000 ~= 16kB
+
+為什麼數量分別是 table page = 18,index page = 13
+
+```sql=
+SELECT reltuples,relpages,relname
+FROM pg_class
+WHERE  relname IN ('t1','t1_pkey');
+```
+
+查詢結果如下圖
+
+![](https://i.imgur.com/BG5gFsL.png)
+
+### pageinspect extension
+
+想要查看 postgresql DB 底層 Page [pageinspect](https://www.postgresql.org/docs/12/pageinspect.html) extension.
+
+如下語法
+
+```sql
+create extension pageinspect -- 打開可以查看底層 Page 功能，需要有 admin 權限
+
+SELECT *
+FROM bt_page_stats('ix_t2', 1); --查看 Index 統計資訊分佈
+
+SELECT *
+FROM bt_page_items('ix_t2', 1); --查看 Index 儲存 Data & Refer to Heap Data Address Info
+
+SELECT * 
+FROM heap_page_items(get_raw_page('t2', 0)); --查看Heap Table 資料
+```
+
+pageinspect extension 說明如下，可以查看底層 page 資料
+
+>　The pageinspect module provides functions that allow you to inspect the contents of database pages at a low level, which is useful for debugging purposes. All of these functions may be used only by superusers.
+
+```sql
+SELECT * 
+FROM heap_page_items(get_raw_page('t1', 0));
+```
+
+我們使用 `heap_page_items` function就可以查看底層heap page 資訊.
+
+能發現每一個 Page 都只存 226 個 int，但226 * 4 只等於 904
+
+![](https://user-images.githubusercontent.com/9159452/134297549-de401b2f-3099-45ed-8520-18c50ff0a115.png)
+
+接著我們利用 `bt_page_items` 查看 b+tree Page 內部儲存資料
+
+```sql
+SELECT * 
+FROM bt_page_items('t1_pkey', 1);
+```
+
+b+tree 有幾個重要欄位
+
+* t_data：欄位是存放 Index key 資料
+* t_ctid：欄位是存放 lookup 回 heap table 位置
+
+![](https://user-images.githubusercontent.com/9159452/134297563-dfebcaf3-1bd4-4a4c-8766-8636fce4e80b.png)
+
+![](https://i.imgur.com/yX4Uzty.png)
+
+我們可以利用 postgresql DB table 的 CTID 欄位來查詢.
+
+發現 `CTID = '(1,1)'` 的確是 227 證實我上面說的
+
+```sql
+SELECT CTID,*
+FROM t1 
+WHERE CTID = '(1,1)';
+```
+
+這邊介紹 Page 存放資訊原理想要知道 為什麼 Page 明明是8KB但存的資料卻不到，這邊就要來說明 postgresql 對於 tuple 儲存方式
+
+### Database Page Layout
+
+這邊我們要介紹 Page 中兩種重要的 metadata
+
+
+* PageHeaderData Layout：每張 page 都有一份資料
+ ![](https://i.imgur.com/CXzHfHU.png)
+8 + 12 `(2*6)` + 4 = 24 bytes
+* HeapTupleHeaderData Layout：每個 tuple row 都有自己的 Header metadata
+ ![](https://i.imgur.com/bdl4SrM.png)
+16 `(4*4)` + 6 + 4 + 1 + 1 `(NullBitMap)` = 28
+
+![](https://i.imgur.com/qPYa76M.png)
+
+> ItemIdData : Array of item identifiers pointing to the actual items. Each entry is an (offset,length) pair. 4 bytes per item.
+
+tuple 除了有 TupleHeader + RealData + ItemIdData
+
+我們可以利用 `SELECT pg_column_size(row(1));` 查看
+
+![](https://i.imgur.com/0FTwHHe.png)
+
+> `ItemIdData (4) + TupleHeader (28) + RealData (4)`
+
+經過上面資訊我們可以推導出 `36 * 226 + 24 = 8160`
+
+證明226列tuple的原理
+
+## TOAST
+
+TOAST 壓縮資料的壓縮技術是 LZ 系列壓縮技術中相當簡單且非常快速的方法
+
+儲存 TOAST 欄位有四種不同策略：
+
+* PLAIN
+* EXTENDED
+* EXTERNAL
+* MAIN
+
+我們這邊新增4筆 2100 byte 的資料，因為 postgresql toast 預設使用 2KB 就會切片
+
+## 小結
+
+經過本篇文章希望可以幫助大家了解 postgresql DB block (Page) 儲存原理，沒想到 MVCC 會造成儲存上那麼大消耗.
+
+會有本篇文章是因為之前對於sql server page 有一定了解，但最近在使用 postgresql DB 的 Page 發現跟 sqlserver 有差異，所以在[網路上詢問](https://www.facebook.com/groups/pgsql.tw/posts/2648311168807477/?comment_id=2648357518802842&reply_comment_id=2653135421658385&notif_id=1631765518157440&notif_t=group_comment&ref=notif)，感協 張友謙大大 熱心回答釐清整個脈絡.

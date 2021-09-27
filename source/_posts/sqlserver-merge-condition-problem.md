@@ -1,8 +1,8 @@
 ---
 title: SQL Server Merge condition on declare value problem
 date: 2020-06-21 22:30:11
-tags: [SQL-Server,SQL,Merge]
-categories: [SQL-Server]
+tags: [sql-server,SQL,Merge]
+categories: [Turning,sql-server]
 ---
 
 ## 前言
