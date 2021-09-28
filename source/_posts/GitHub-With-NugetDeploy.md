@@ -1,8 +1,8 @@
 ---
 title: Appveyor搭配Github自動化上傳Nuget
 date: 2020-01-27 23:10:43
-tags: [CICD,Appveyor,C#,.netcore]
-categories: [CICD,netcore]
+tags: [CICD,Appveyor,C#,netcore]
+categories: [CICD]
 ---
 
 ## 前文

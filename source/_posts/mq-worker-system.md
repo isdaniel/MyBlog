@@ -2,7 +2,7 @@
 title: 高併發系統系列-非同步 MQ-WorkerPool 架構 Poc
 date: 2021-09-25 23:10:43
 tags: [c#,RabbitMq,ThreadPool,SystemDesign]
-categories: [c#,RabbitMq]
+categories: [C#]
 ---
 
 ## 前文

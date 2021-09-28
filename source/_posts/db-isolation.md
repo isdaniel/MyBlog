@@ -1,8 +1,8 @@
 ---
 title: 高併發系統系列-不得不了解的Isolation Level(by 錢包被扣到變負值)
 date: 2021-07-10 10:54:52
-tags: [DB,Isolation]
-categories: [DB,sql-server,Isolation,Racing Condition]
+tags: [DB,Isolation,sql-server,Isolation,Racing Condition]
+categories: [Turning,sql-server]
 photos: 
     - "https://i.imgur.com/K9h9Knl.png"
 ---
