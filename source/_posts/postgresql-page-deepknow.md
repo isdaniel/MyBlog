@@ -144,7 +144,54 @@ tuple 除了有 TupleHeader + RealData + ItemIdData
 
 ## TOAST
 
-TOAST 壓縮資料的壓縮技術是 LZ 系列壓縮技術中相當簡單且非常快速的方法
+下面有個案例關於 `text` 儲存 Pages 上
+
+```sql
+CREATE TABLE t8 (id char(2100) PRIMARY KEY);
+
+CREATE UNIQUE INDEX  ix_t8 on t8(id);
+
+insert into t8 (id) values (repeat('A',2100));
+insert into t8 (id) values (repeat('B',2100));
+insert into t8 (id) values (repeat('C',2100));
+insert into t8 (id) values (repeat('D',2100));
+insert into t8 (id) values (repeat('E',2100));
+insert into t8 (id) values (repeat('F',2100));
+insert into t8 (id) values (repeat('G',2100));
+insert into t8 (id) values (repeat('H',2100));
+
+--更新統計資訊
+analyze t8;
+```
+
+利用 `pg_class` 資料表查詢我們資料 Pages 分布，看到明明已經新增8筆 2100 bytes char資料
+
+`8 * 2100 byte = 16.8 Kb ~= 3 page` 才對，但下圖顯示不管是 heap table 還是 b+tree 都不到3 pages.
+
+這是因為在
+
+```sql
+select relname,relpages,reltuples,relkind,oid  
+from pg_class 
+where relname in ('t8','t8_pkey');
+```
+
+![](https://i.imgur.com/3nvd96Y.png)
+
+我們利用`\d+`查詢一下，能發現資料表 `char(2100)` 使用 Storage = extended
+
+```cmd
+postgres-# \d+ t8
+                                         Table "public.t8"
+ Column |      Type       | Collation | Nullable | Default | Storage  | Stats target | Description
+--------+-----------------+-----------+----------+---------+----------+--------------+-------------
+ id     | character(2100) |           | not null |         | extended |              |
+Indexes:
+    "t8_pkey" PRIMARY KEY, btree (id)
+    "ix_t8" UNIQUE, btree (id)
+```
+
+因為 postgresql DB 不支援跨表存放 tuple(不像是 sql-server 有 Forwarding Pointers )，所以對於大資料儲存衍伸出 `TOAST` 概念，`TOAST`壓縮資料的壓縮技術是 LZ 系列壓縮技術中相當簡單且非常快速的方法
 
 儲存 TOAST 欄位有四種不同策略：
 
@@ -153,7 +200,56 @@ TOAST 壓縮資料的壓縮技術是 LZ 系列壓縮技術中相當簡單且非�
 * EXTERNAL
 * MAIN
 
-我們這邊新增4筆 2100 byte 的資料，因為 postgresql toast 預設使用 2KB 就會切片
+因為預設使用 extended 會幫我們壓縮並存放在 toast 資料表區段，不方便我們查看資料存儲原理
+
+我們可以透過下面語法查詢 t8 資料表上 toast 資訊
+
+```sql
+SELECT oid::regclass,
+       reltoastrelid::regclass,
+       pg_relation_size(reltoastrelid) AS toast_size
+FROM pg_class
+WHERE relkind = 'r'
+  AND reltoastrelid <> 0
+  AND oid::regclass = 't8'::regclass;
+```
+
+所以這邊我會建議大家改成使用 external 儲存 id 欄位，因為這個模式會把資料存在 toast 且不會壓縮資料.
+
+> 修改 column 儲存模式不會回朔修改之前的資料，所以在下面範例中我把資料清除改完模式再重新塞入
+
+```sql
+alter table t8 alter id set storage external;
+
+truncate t8;
+
+insert into t8 (id) values (repeat('A',2100));
+insert into t8 (id) values (repeat('B',2100));
+insert into t8 (id) values (repeat('C',2100));
+insert into t8 (id) values (repeat('D',2100));
+insert into t8 (id) values (repeat('E',2100));
+insert into t8 (id) values (repeat('F',2100));
+insert into t8 (id) values (repeat('G',2100));
+insert into t8 (id) values (repeat('H',2100));
+```
+
+一樣透過下面語法查詢
+
+```sql
+SELECT oid::regclass,
+       reltoastrelid::regclass,
+       pg_relation_size(reltoastrelid) AS toast_size
+FROM pg_class
+WHERE relkind = 'r'
+  AND reltoastrelid <> 0
+  AND oid::regclass = 't8'::regclass;
+```
+
+我們會發現在 `pg_toast` 中的資料只要超過 2KB 就會自動幫我們切割，切割完的資料會規在同一個 `chunk_id` 中並利用 `chunk_seq` 來還原原始資料.
+
+> 我們這邊新增8筆 2100 byte 的資料，因為 postgresql toast 預設使用 2KB 就會切片
+
+![](https://i.imgur.com/r8lkQvi.png)
 
 ## 小結
 
