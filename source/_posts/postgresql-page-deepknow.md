@@ -3,6 +3,8 @@ title: postgresql Page 深入淺出
 date: 2021-09-28 00:30:11
 tags: [DataBase,Turning,postgresql]
 categories: [Turning,postgresql]
+photos: 
+    - "https://i.imgur.com/mYYjXFg.jpg"
 ---
 
 ## 前言
