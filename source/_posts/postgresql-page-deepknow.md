@@ -9,6 +9,8 @@ photos:
 
 ## 前言
 
+因為工作需要最近在研究 postgresql DB，發現跟 sql-server 相比有許多不同之處，所以一開始就先研究 Page 差別，沒想到還真的有不少細節上的差異
+
 在postgresql DB Page size 預設是 8KB
 
 我們想要看page使用大小在 Sql-Server 可以用 `DBCC`命令在 postgresql DB 沒有 `DBCC` 還好有其他方式可以查看 Page 儲存原理
@@ -247,6 +249,17 @@ WHERE relkind = 'r'
   AND oid::regclass = 't8'::regclass;
 ```
 
+利用完語法查完，在我電腦上儲存 t8的toast 是 `pg_toast_34504` 資料表
+
+![](https://i.imgur.com/FKDZFFz.png)
+
+所以我們可以利用下面語法查詢 toast 資料表資訊
+
+```sql
+select chunk_id,chunk_seq,length(chunk_data)
+from pg_toast.pg_toast_34504
+```
+
 我們會發現在 `pg_toast` 中的資料只要超過 2KB 就會自動幫我們切割，切割完的資料會規在同一個 `chunk_id` 中並利用 `chunk_seq` 來還原原始資料.
 
 > 我們這邊新增8筆 2100 byte 的資料，因為 postgresql toast 預設使用 2KB 就會切片
@@ -256,5 +269,9 @@ WHERE relkind = 'r'
 ## 小結
 
 經過本篇文章希望可以幫助大家了解 postgresql DB block (Page) 儲存原理，沒想到 MVCC 會造成儲存上那麼大消耗.
+
+用開車來比較 sql-server 和 postgresql DB 我個人感覺 sql-server 像是自排車很多東西幫你封裝好不能動使用起來比較簡單，postgresql DB 像是手排車可以調整的地方必較多，效能就取決於操作者用的好效能可以很棒，用的不好會很慘...
+
+> 我上面說的是成本因子部分
 
 會有本篇文章是因為之前對於sql server page 有一定了解，但最近在使用 postgresql DB 的 Page 發現跟 sqlserver 有差異，所以在[網路上詢問](https://www.facebook.com/groups/pgsql.tw/posts/2648311168807477/?comment_id=2648357518802842&reply_comment_id=2653135421658385&notif_id=1631765518157440&notif_t=group_comment&ref=notif)，感協 張友謙大大 熱心回答釐清整個脈絡.
