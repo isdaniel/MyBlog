@@ -122,7 +122,6 @@ WHERE CTID = '(1,1)';
 
 這邊我們要介紹 Page 中兩種重要的 metadata
 
-
 * PageHeaderData Layout：每張 page 都有一份資料
  ![](https://i.imgur.com/CXzHfHU.png)
 8 + 12 `(2*6)` + 4 = 24 bytes
@@ -145,6 +144,46 @@ tuple 除了有 TupleHeader + RealData + ItemIdData
 經過上面資訊我們可以推導出 `36 * 226 + 24 = 8160`
 
 證明226列tuple的原理
+
+### 關於 lp_len
+
+所以每個 tuple 會存放 16 `(4*4)` + 6 + 4 + 1 + 1 `(NullBitMap)` + 4 `(RealDat)` = 32
+
+> 此外 postgressql DB 用 t_bits 來儲存 null 數值，另外 tuple 大小會對於 8 bit 倍數進行對齊
+
+關鍵資訊我在這邊標註跟提供連結有興趣的在自己研究
+
+```c
+#define MAXALIGN(LEN) TYPEALIGN(MAXIMUM_ALIGNOF, (LEN))
+//....
+MAXIMUM_ALIGNOF                          => 8,
+```
+
+> https://github.com/postgres/postgres/blob/e529b2dc37ac80ccebd76cdbb14966d3b40819c9/src/tools/msvc/Solution.pm#L457
+> https://github.com/postgres/postgres/blob/c30f54ad732ca5c8762bb68bbe0f51de9137dd72/src/include/c.h#L745-L757
+
+我們再使用一個例子來了解
+
+```sql
+CREATE TABLE tt1 (a char(2),b int,c char(1));
+
+INSERT INTO tt1 (a,b,c) 
+SELECT 'aa',id,'c'
+FROM generate_series(1,2000) v(id);
+```
+
+使用 `heap_page_items` 查詢如下圖
+
+```sql
+SELECT *                                
+FROM heap_page_items(get_raw_page('tt1', 0));
+```
+
+![](https://i.imgur.com/corjLq6.png)
+
+`lp_len` = 27 (tupleHeader) + 7 = 34 + 6 (NullBitMap) => 40
+
+> `lp_len` 下一個 8 倍數就是 40 byte，8152-8112 = 40 就能證明我上面說的
 
 ## TOAST
 
