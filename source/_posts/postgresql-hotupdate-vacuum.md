@@ -423,6 +423,8 @@ postgres=# SELECT * FROM heap_page_items(get_raw_page('tt2', 0));
 
 HOT Update 機制對於我們在 Postgres DB 更新寫入資料上有效能提升（減少IO操作），但就變成我們在設計 Index 需要慎思考慮不要把資料建立在太常更新的欄位.
 
+這個就跟在 Sql-Server 我們查看 Update 執行計畫，可以發現 update 會吃 Index 但也會對於所有更新相關的 Index column 異動.
+
 另外我們可以理解用下面介紹理解`vacuum`和`vacuum full`動作
 
 * `vacuum`：像把東西暫時整理但垃圾還是放在家裡
