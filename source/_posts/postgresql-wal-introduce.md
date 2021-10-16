@@ -4,7 +4,7 @@ date: 2021-10-07 20:30:11
 tags: [DataBase,Turning,postgresql,WAL]
 categories: [Turning,postgresql]
 keywords: DataBase,Turning,postgresql,WAL
-description: WAL 是一種 Tx Log實踐機制，WAL 核心概念是先寫 tx log，在把資料寫資料，資料的修改必须發生在**寫入** Tx Log之後，使用 WAL 紀錄資料庫系統在commit transaction，使用 WAL 機制後我們不需要在每次 Commit Transaction 後就把資料 flush 到 Disk 上(提高IO效率)， WAL 需要保證 Dirty Block flush 到 Disk 之前，該 Block 對應 Tx log 紀錄已經 flush 到 Disk 中
+description: postgresql WAL (Write-Ahead Logging) 機制，WAL 是一種 Tx Log實踐機制，WAL 核心概念是先寫 tx log，在把資料寫資料，資料的修改必须發生在**寫入** Tx Log之後，使用 WAL 紀錄資料庫系統在commit transaction，使用 WAL 機制後我們不需要在每次 Commit Transaction 後就把資料 flush 到 Disk 上(提高IO效率)， WAL 需要保證 Dirty Block flush 到 Disk 之前，該 Block 對應 Tx log 紀錄已經 flush 到 Disk 中
 ---
 
 ## 前言
