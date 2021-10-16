@@ -4,8 +4,6 @@ date: 2021-10-03 20:30:11
 tags: [DataBase,Turning,postgresql]
 categories: [Turning,postgresql]
 keywords: DataBase,Turning,postgresql
-description: ostgresql HOT (heap only tuple) update 深入淺出，
-Postgresql DB 目前預設在更新資料時會在 Heap Table 新增一條新版本資料，舊版本會先存在直到使用 VACUUM 回收，HOT update 作用在，當資料更新時通過 Heap Block 內部串聯所有 tuple 版本，則 Index 索引不變
 ---
 
 ## 前言
