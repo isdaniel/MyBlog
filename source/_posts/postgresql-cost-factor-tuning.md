@@ -152,7 +152,7 @@ postgreSQL 預設給的成本因子並不能符合所有機器算法．不同的
 本次我們要調教的成本因子有下面五個，關於每個成本的意涵我都有說明
 
 * seq_page_cost : 1 -- Table Scan 每個 Block 成本因子
-*   : 4   -- Index Scan Block 成本因子
+* random_page_cost : 4   -- Index Scan Block 成本因子
 * cpu_tuple_cost : 0.01   -- CPU 處理每個 tuple 成本因子
 * cpu_index_tuple_cost : 0.005   -- Index scan tuple 成本因子
 * cpu_operator_cost : 0.0025   -- 操作符或函数成本因子
