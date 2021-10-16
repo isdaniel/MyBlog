@@ -4,6 +4,7 @@ date: 2020-01-20 23:10:43
 tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
 keywords: DataBase,Turning,sql-server,Index
+description: Index 第一個欄位至關重要它會影響資料統計值結果， Index 一般建立在查詢條件的欄位
 ---
 # Agenda<!-- omit in toc -->
 - [前文](#前文)

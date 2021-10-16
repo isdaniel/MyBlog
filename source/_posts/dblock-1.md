@@ -7,6 +7,7 @@ top:
 photos: 
     - "https://i.imgur.com/3WWvSXp.png"]
 keywords: DataBase,Turning,sql-server,Index
+description: 假如你的系統能保證只有一個使用著操作每個資源,其實也就不用lock存在,但現實生活中往往有個命令對於同一個資源操作.這時候我們為了確保資料正確性,必須使用 lock 來避免 Racing Condition
 ---
 
 
