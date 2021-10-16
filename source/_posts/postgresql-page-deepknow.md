@@ -6,7 +6,6 @@ categories: [Turning,postgresql]
 photos: 
     - "https://i.imgur.com/mYYjXFg.jpg"
 keywords: DataBase,Turning,postgresql
-description: postgresql Page 深入淺出，因為工作需要最近在研究 postgresql DB，發現跟 sql-server 相比有許多不同之處，所以一開始就先研究 Page 差別，沒想到還真的有不少細節上的差異，在postgresql DB Page size 預設是 8KB
 ---
 
 ## 前言
