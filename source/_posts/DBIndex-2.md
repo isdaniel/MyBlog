@@ -3,6 +3,7 @@ title: 資料庫索引深入淺出(二)
 date: 2020-01-20 23:10:43
 tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
+keywords: DataBase,Turning,sql-server,Index
 ---
 # Agenda<!-- omit in toc -->
 - [前文](#前文)

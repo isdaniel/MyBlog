@@ -3,6 +3,7 @@ title: postgresql HOT (heap only tuple) update 深入淺出
 date: 2021-10-03 20:30:11
 tags: [DataBase,Turning,postgresql]
 categories: [Turning,postgresql]
+keywords: DataBase,Turning,postgresql
 ---
 
 ## 前言

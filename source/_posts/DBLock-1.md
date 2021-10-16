@@ -5,7 +5,8 @@ tags: [DataBase,Turning,Sql-server,Lock]
 categories: [DataBase,Turning]
 top:
 photos: 
-    - "https://i.imgur.com/3WWvSXp.png"
+    - "https://i.imgur.com/3WWvSXp.png"]
+keywords: DataBase,Turning,sql-server,Index
 ---
 
 
@@ -17,6 +18,7 @@ photos:
 		- [Update Lock 存在的意義](#update-lock-存在的意義)
 - [Lock互斥Demo](#lock互斥demo)
 	- [NoLock的隱憂](#nolock的隱憂)
+		- [Read Uncommitted 髒讀取](#read-uncommitted-髒讀取)
 - [小結](#小結)
 ## 前文
 

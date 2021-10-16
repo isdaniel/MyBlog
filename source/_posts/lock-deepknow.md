@@ -6,6 +6,7 @@ categories: [C#,CLR]
 top:
 photos: 
     - "https://i.imgur.com/dWZF6DH.png"
+keywords: C#,lock,CLR
 ---
 
 ## 前言

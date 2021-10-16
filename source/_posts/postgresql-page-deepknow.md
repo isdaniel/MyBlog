@@ -5,6 +5,7 @@ tags: [DataBase,Turning,postgresql]
 categories: [Turning,postgresql]
 photos: 
     - "https://i.imgur.com/mYYjXFg.jpg"
+keywords: DataBase,Turning,postgresql
 ---
 
 ## 前言

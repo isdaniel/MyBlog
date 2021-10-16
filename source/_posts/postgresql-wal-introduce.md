@@ -3,6 +3,7 @@ title: postgresql WAL (Write-Ahead Logging) 機制
 date: 2021-10-07 20:30:11
 tags: [DataBase,Turning,postgresql,WAL]
 categories: [Turning,postgresql]
+keywords: DataBase,Turning,postgresql,WAL
 ---
 
 ## 前言
