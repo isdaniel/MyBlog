@@ -5,7 +5,7 @@ tags: [DataBase,Turning,Sql-server,Lock]
 categories: [DataBase,Turning]
 top:
 photos: 
-    - "https://i.imgur.com/3WWvSXp.png"]
+    - "https://i.imgur.com/3WWvSXp.png"
 keywords: DataBase,Turning,sql-server,Index
 ---
 
