@@ -45,6 +45,8 @@ public string Get()
 
 ![](https://i.imgur.com/nt8Q9Sv.png)
 
+原始碼位置 [Redlock-Csharp](https://github.com/isdaniel/Redlock-Csharp)
+
 ## How to Run
 
 在根目錄使用 `docker-compose up -d` 跑起來後應該會有下面五個組件
