@@ -14,23 +14,24 @@ keywords: DataBase,Turning,sql-server,Index
 - [filter index的限制](#filter-index的限制)
 - [Index Intersection](#index-intersection)
 - [Primary Key](#primary-key)
+- [選擇Clustered Index要訣](#選擇clustered-index要訣)
 
 ## 前文
 
 本系列文章
 
-* [資料庫索引深入淺出(一)](https://isdaniel.github.io/DBIndex-1/)
-* [資料庫索引深入淺出(二)](https://isdaniel.github.io/DBIndex-2/)
+- [資料庫索引深入淺出(一)](https://isdaniel.github.io/dbindex-1/)
+- [資料庫索引深入淺出(二)](https://isdaniel.github.io/dbindex-2/)
 
 兩種基本索引
 
-* Clustered Index(叢集索引)
-* NonClustered Index(非叢集索引)
+- Clustered Index(叢集索引)
+- NonClustered Index(非叢集索引)
 
 兩種`Lookup`(如果`NonClustered Index`無法滿足查詢結果執行)
 
-* RID Lookup
-* Key Lookup
+- RID Lookup
+- Key Lookup
 
 本篇會介紹其他種類`Index`
 
@@ -54,7 +55,6 @@ CREATE NONCLUSTERED INDEX IX_T_Id_Convering on dbo.T(
 在`NONCLUSTERED INDEX`把`Column`加入`INCLUDE`區域後此`NONCLUSTERED INDEX`會把此欄位資料加入至子頁層.之後如果要查找資料時就不用在`Lookup`回去
 
 > 所以我們可以把`Covering Index`當作是偽`CLUSTERED INDEX`.
-
 > 如果每次只需要`SELECT`少部分欄位且範圍較大又須排序，`Covering Index`執行效率會比`CLUSTERED INDEX`來的快.
 
 `Covering`欄位只會在子頁層儲存資料，並不會在中葉層儲存相關資訊。
@@ -207,3 +207,32 @@ CREATE TABLE T(
     )
 )
 ```
+
+## 選擇Clustered Index要訣
+
+在 SQL-Server 每張資料表只有一個 Clustered Index，每個資料表只能有一個`Cluster index`，資料表會依照`cluster index`方式排列，`Clustered Index`跟資料一起放置在`left pag`子頁層，`Cluster index`好比書籍目錄。每本書只能有一個目錄
+
+所以選擇合適 Clustered Index 就尤為重要
+
+建立`Clustered Index`欄位有幾個重點
+
+1. 常用於查詢欄位
+2. 可識別度高(唯一性較高 or 密度高)
+3. 避免過多欄位在Clustered Index中(因為NonClustered會包含Clustered Index Key)
+
+我個人建議選擇 Clustered Index 可以依照下面幾個準則
+
+- 最好是唯一性：提高查詢效率
+- 寬度窄或窄複合組成：因為NonClustered Index中頁層會包含Clustered Index資訊，如果Clustered Index太肥會造成NonClustered Index page變多.
+- 靜態性：Clustered Index盡量少被Update(更新時需要一併更新NonClustered Index中Clustered Key資料,會造成I/O效能消耗)
+- 連續性佳：避免索引破碎(能避免就避免使用GUID當Clustered Index)
+
+假如確定建立的Clustered index資料是唯一的,請加上`Unique`,因為沒加上`Unique`的`Clustered index`會在Page中的每列資料加上一個`uniquifiers` 2 bytes的Column
+
+下圖是我使用`DBCC PAGE`查看三種不一樣的`Clustered Index`結果
+
+其中第一,第二個結果集顯示就算`Clustered Index`資料不重複沒加上`Unique`對於儲存上會有差異
+
+![](https://i.imgur.com/6y3XwDz.png)
+
+> 所以確定建立的Clustered index資料是唯一的,請加上`Unique`

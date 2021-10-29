@@ -154,9 +154,48 @@ SET COL2 = 'Test1'
 
 > 沒有`Clustered Index`的資料表我們稱為`Heap`資料表
 
+![](https://i.imgur.com/e87YROd.png)
+
+我們可以透過下面語法利用上圖 `HEAP RID` 找到資料儲存位置
+
+```sql
+--HEAP RID:0x40110F0001002900
+--共8 bytes FID（2 bytes）,PID（4 bytes）,slot（2 bytes）。
+
+--轉換RID為 FID:PID:slot格式
+declare @Heaprid binary(8)
+set @Heaprid = 0x40110F0001002900
+select [FID:PID:Slot]=      
+       CONVERT (VARCHAR(5),
+       CONVERT(INT, SUBSTRING(@Heaprid, 6, 1)
+       + SUBSTRING(@Heaprid, 5, 1)))
+     + ':'
+     + CONVERT(VARCHAR(10),
+       CONVERT(INT, SUBSTRING(@Heaprid, 4, 1)
+        + SUBSTRING(@Heaprid, 3, 1)
+        + SUBSTRING(@Heaprid, 2, 1)
+        + SUBSTRING(@Heaprid, 1, 1)))
+     + ':'
+          + CONVERT(VARCHAR(5),
+          CONVERT(INT, SUBSTRING(@Heaprid, 8, 1)
+          + SUBSTRING(@Heaprid, 7, 1)))
+--1:987456:41--找到c3和c4完整資料
+DBCC PAGE(AdventureWorks2012_Data,1,987456,3)
+```
+
+> Heap RID Key:8 byte.(FID 2 Bytes,PID 4 Bytes,SLOT 2 Bytes)
+
 ### Key Lookup
 
 `NonClustered Index`中會存放此Row在`Clustered Index`相對位置，假如單單靠搜尋`Non-Clustered Index`沒有辦法滿足所有查詢需要資料就會去`Key Lookup`(by Clustered key)回找`Clustered Index`取出相對應的資料.
+
+Nonclustered Index Lookup I/O 操作計算公式
+
+`Index層數 + 讀取幾個Page + (幾筆資料 * clustered index層數)`
+
+此存取就稱為`Lookup`，`lookup`會消耗`Disk I/O`，所以所耗的時間相對會比較大
+
+> 在`NonClustered Index`中頁層會包含`Clustered Index`的`Key`
 
 ## 範例演示
 
