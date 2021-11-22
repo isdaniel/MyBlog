@@ -1,5 +1,5 @@
 ---
-title: AWS Postgres RDS Prox
+title: AWS Postgres RDS Proxy
 date: 2021-11-22 22:30:11
 tags: [AWS,RDS,Proxy]
 categories: [AWS,RDS]
@@ -217,7 +217,7 @@ starting vacuum...end.
 transaction type: <builtin: select only>
 scaling factor: 4
 query mode: simple
-number of clients: 400
+number of clients: 500
 number of threads: 20
 number of transactions per client: 10
 number of transactions actually processed: 5000/5000
