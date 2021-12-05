@@ -70,9 +70,11 @@ Ndepend 能針對一個基準點來比較調整前後，修改哪些問題
 
 ### 建立自己 Code Rule
 
-我覺得使用 `NDepend` 有一個很大的優勢是可以很簡單制訂自己的 `Rules` 寫法基本上會 c# LINQ 就可以撰寫了
+我覺得使用 `NDepend` 有一個很大的優勢是可以很簡單制訂自己的 `Rules` 
 
-我們可以利用 linq 來找尋符合，我們設定 Rule Metrics，並進行統計
+`NDepend`  自創 [CQL](https://www.ndepend.com/Features/#CQL) (Code Query Language) 來制訂檢驗規則，寫法跟 c# LINQ 非常類似
+
+我們可以利用 CQL 來找尋符合，我們設定 Rule Metrics，並進行統計
 
 最後呈現在 DashBoard 報表上
 
@@ -80,7 +82,7 @@ Ndepend 能針對一個基準點來比較調整前後，修改哪些問題
 
 這個 Rule 代表是建議如果有取名叫 `Try` 開頭 method 建議返回值是 `bool` 比照 `Int32.TryParse`
 
-`warnif count > 0` ： 代表如果有至少一個情況符合下面的條件就會顯示
+`warnif count > 0` ： 代表如果有至少一個情況符合下面的條件就會顯示警告
 
 其餘下面程式碼寫得很直白，開發過 Linq 的您應該很容易了解
 
@@ -120,6 +122,8 @@ select new {
 ```
 
 如果想要了解更多撰寫 Rule 方式可以參考[write-your-own-code-rules](https://www.ndepend.com/docs/write-your-own-code-rules)
+
+我們可以依照團隊習慣和風格慢慢打造屬於自己的 **CQL Query** 來協助我們整個開發流程更穩健且  `NDepend` 對於 CI/CD Azure + TFS 支援性蠻好，對於想要建立 high quality devops 具有很大的幫助
 
 ## 小結
 
