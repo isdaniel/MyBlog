@@ -1,5 +1,5 @@
 ---
-title: (C#) 委託delegate,Func<>,Action 解說系列(二)
+title: (C#)委託delegate,Func<>,Action 解說系列(二)
 date: 2019-06-02 11:06:40
 tags: [C#,Func,Delegate]
 categories: [C#,Delegate]
