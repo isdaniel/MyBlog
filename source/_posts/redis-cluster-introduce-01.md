@@ -418,6 +418,8 @@ redis-cli --cluster rebalance 172.21.0.8:6379 -a redisCluster
 
 ### 限縮 Redis Cluster
 
+TODO
+
 ## 小結
 
 Redis 官方對於 Cluster 支援還有說明文件寫得很棒，推薦大家去看
