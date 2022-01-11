@@ -3,7 +3,6 @@ title: Redis Cluster 介紹
 date: 2022-01-12 01:12:43
 tags: [Redis,Cluster]
 categories: [Redis,Cluster]
-top:
 photos: 
     - "https://i.imgur.com/8EUN7Vu.png"
 keywords: Redis,Cluster
