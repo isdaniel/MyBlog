@@ -1,6 +1,6 @@
 ---
 title: Redis Cluster 介紹
-date: 2022-01-12 01:12:43
+date: 2022-01-12 08:12:43
 tags: [Redis,Cluster]
 categories: [Redis,Cluster]
 photos: 
@@ -14,7 +14,7 @@ keywords: Redis,Cluster
 
 而在 Redis 世界裡也有 redis cluster 來做 sharding 事情，今天就來跟大家分享介紹
 
-我使用是 [bitnami redis-cluster](https://hub.docker.com/r/bitnami/redis-cluster/) 這個 Image 來做這次Poc
+我使用是 [bitnami redis-cluster](https://hub.docker.com/r/bitnami/redis-cluster/) 這個 Image 來做這次 Poc
 
 此案例是 3 master - 3 slave Redis server 範例
 
@@ -22,13 +22,13 @@ keywords: Redis,Cluster
 
 ### How to Use
 
-```cmd
+```
 docker-compose up -d
 ```
 
 跑完之後就會出現 6 台 Redis Container，如下表
 
-```cmd
+```
 $ docker ps
 CONTAINER ID   IMAGE                       COMMAND                  CREATED          STATUS          PORTS                                       NAMES
 1a0c740cbb96   bitnami/redis-cluster:6.2   "/opt/bitnami/script…"   31 seconds ago   Up 27 seconds   0.0.0.0:8105->6379/tcp, :::8105->6379/tcp   rediscluster_redis-node-5_1
@@ -43,9 +43,9 @@ e11ac0ec56aa   bitnami/redis-cluster:6.2   "/opt/bitnami/script…"   37 seconds
 
 我們進入 `rediscluster_redis-node-0_1` 這台Container 利用 redis-cli 輸入 `CLUSTER INFO` 可以查看目前 Cluster 基本狀態
 
-```text
+```
 $ docker exec -it rediscluster_redis-node-0_1 bash
-I have no name!@e11ac0ec56aa:/$ redis-cli -a redisCluster
+/$ redis-cli -a redisCluster
 
 127.0.0.1:6379> CLUSTER INFO
 cluster_state:ok
@@ -66,7 +66,7 @@ cluster_stats_messages_meet_received:5
 cluster_stats_messages_received:3556
 ```
 
-> 本篇我 redis password 統一使用 `redisCluster` 所以進入 redis 操作之前記得輸入 `-a` + 密碼
+> 本篇我 redis password 統一使用 `redisCluster` 所以進入 redis 操作之前記得輸入 `-a` 跟密碼
 
 進入可以看到幾個重要資訊
 
@@ -77,15 +77,15 @@ cluster_stats_messages_received:3556
 
 代表目前 Cluster 啟動狀態OK，再來我們利用 `--cluster check` 了解該 Redis Server Cluster 中 master-slave 跟各節點對應關係
 
-```cmd
+```sh
 redis-cli --cluster check 127.0.0.1:6379 -a redisCluster
 ```
 
 結果如下
 
-```cmd
-I have no name!@e11ac0ec56aa:/$ redis-cli --cluster check 172.22.0.3:6379 -a redisCluster
-Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+```sh
+/$ redis-cli --cluster check 172.22.0.3:6379 -a redisCluster
+
 172.22.0.5:6379 (7186bbf7...) -> 0 keys | 5462 slots | 1 slaves.
 172.22.0.2:6379 (3decf740...) -> 0 keys | 5461 slots | 1 slaves.
 172.22.0.4:6379 (ee76b9f8...) -> 0 keys | 5461 slots | 1 slaves.
@@ -120,16 +120,17 @@ S: bbeafa6b1e703035c364a2d0f476951268d0a9ff 172.22.0.6:6379
 
 ![](https://i.imgur.com/0GiiHuE.png)
 
-* Master 1 => slave 1 = 172.22.0.2 => 172.22.0.3
-* Master 2 => slave 2 = 172.22.0.5 => 172.22.0.7
-* Master 3 => slave 3 = 172.22.0.4 => 172.22.0.6
+* `Master 1 => slave 1 = 172.22.0.2 => 172.22.0.3`
+* `Master 2 => slave 2 = 172.22.0.5 => 172.22.0.7`
+* `Master 3 => slave 3 = 172.22.0.4 => 172.22.0.6`
 
 > redis 幫我們分配 master 對應 slave 並沒有特別順序，所以你建立的跟我建立很可能不一樣
 
-我們可以在 cmd 透過 `docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q)` 顯示 container 對應使用 ip
+我們可以在透過下面命令顯示 container 對應使用 ip
 
-```cmd
+```sh
 $ docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -q)
+
 /rediscluster_redis-node-5_1 - 172.22.0.7
 /rediscluster_redis-node-2_1 - 172.22.0.4
 /rediscluster_redis-node-4_1 - 172.22.0.3
@@ -144,9 +145,9 @@ $ docker inspect -f '{{.Name}} - {{range .NetworkSettings.Networks}}{{.IPAddress
 
 我進入其中一台 master container `rediscluster_redis-node-0_1`
 
-```text
-I have no name!@e11ac0ec56aa:/$ redis-cli -h 172.22.0.2 -a redisCluster
-Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+```sh
+/$ redis-cli -h 172.22.0.2 -a redisCluster
+
 172.22.0.2:6379> set k1 1
 (error) MOVED 12706 172.22.0.4:6379
 172.22.0.2:6379> set k2 1
@@ -161,7 +162,7 @@ OK
 
 使用 `get` 拿資料時發現我們只拿的到 `k2,k3` 的資料
 
-```text
+```sh
 172.22.0.2:6379> get k1
 (error) MOVED 12706 172.22.0.4:6379
 172.22.0.2:6379> get k2
@@ -176,7 +177,7 @@ OK
 
 我們可以透過 `CLUSTER KEYSLOT {key}` 來算出我們 key 算出來的 slot 數值
 
-```text
+```sh
 172.22.0.2:6379> CLUSTER KEYSLOT k1
 (integer) 12706
 172.22.0.2:6379> CLUSTER KEYSLOT k2
@@ -189,7 +190,7 @@ OK
 (integer) 12582
 ```
 
-因為我們是進入 `172.22.0.2` 這台 Redis server 操作 我們只能操作屬於我們 slot number 也就是介於 `[0-5460]` slot 資料，所以只有 `k2,k3` 符合
+因為我們是進入 `172.22.0.2` 這台 Redis server 操作 我們只能操作屬於我們 slot 也就是介於 `[0-5460]` slot 資料，所以只有 `k2,k3` 符合
 
 ![](https://i.imgur.com/uRvqz9a.png)
 
@@ -205,9 +206,9 @@ OK
 
 所以能發現出現 `Redirected to slot` Redis server ip 就會改變
 
-```text
-I have no name!@e11ac0ec56aa:/$ redis-cli -h 172.22.0.2 -a redisCluster -c
-Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+```
+/$ redis-cli -h 172.22.0.2 -a redisCluster -c
+
 172.22.0.2:6379> set k1 1
 -> Redirected to slot [12706] located at 172.22.0.4:6379
 OK
@@ -282,8 +283,8 @@ redis-cli --cluster add-node  172.22.0.8:6379 172.22.0.2:6379 -a redisCluster
 加入成功後我們在利用 `--cluster check` 命令查詢 Cluster 資訊，會看到目前多了一筆資料 `172.22.0.8:6379 (0885f85b...) -> 0 keys | 0 slots | 0 slaves.` 下一步就需要分配 slot 給這個 master
 
 ```sh
-I have no name!@e11ac0ec56aa:/$  redis-cli --cluster check 172.22.0.3:6379 -a redisCluster
-Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+/$  redis-cli --cluster check 172.22.0.3:6379 -a redisCluster
+
 172.22.0.5:6379 (7186bbf7...) -> 1 keys | 5462 slots | 1 slaves.
 172.22.0.2:6379 (3decf740...) -> 2 keys | 5461 slots | 1 slaves.
 172.22.0.4:6379 (ee76b9f8...) -> 2 keys | 5461 slots | 1 slaves.
@@ -321,7 +322,7 @@ S: bbeafa6b1e703035c364a2d0f476951268d0a9ff 172.22.0.6:6379
 
 我們可以透過 `redis-cli --cluster reshard {被分配 Redis Cluster 節點 IP}`，由上面資訊得知新建立 master id 是 `172.22.0.8:6379`
 
-```cmd
+```
 redis-cli --cluster reshard 172.22.0.8:6379 -a redisCluster
 ```
 
@@ -332,7 +333,7 @@ redis-cli --cluster reshard 172.22.0.8:6379 -a redisCluster
 
 最後可以輸入 `all` 就會開始分配 slot
 
-```cmd
+```
 Please enter all the source node IDs.
   Type 'all' to use all the nodes as source nodes for the hash slots.
   Type 'done' once you entered all the source nodes IDs.
@@ -341,7 +342,7 @@ Source node #1: all
 
 跑完後我們利用  `redis-cli --cluster check 172.22.0.8:6379 -a redisCluster` 查詢可以看到 slot 已經平均分配到四個 master 上面了
 
-```cmd
+```sh
 172.22.0.8:6379 (0885f85b...) -> 1 keys | 4096 slots | 0 slaves.
 172.22.0.4:6379 (ee76b9f8...) -> 2 keys | 4096 slots | 1 slaves.
 172.22.0.2:6379 (3decf740...) -> 1 keys | 4096 slots | 1 slaves.
@@ -379,19 +380,19 @@ M: 7186bbf7a1689d66c94a448cb1a197a7bd9b9e5f 172.22.0.5:6379
 
 我們可以利用下面命令 template 來處理
 
-```cmd
+```
 redis-cli --cluster add-node {new-slave-redis IP} {cluster-redis IP}  --cluster-slave --cluster-master-id 新節點master-id -a redisCluster
 ```
 
 轉換成可執行命令如下
 
-```cmd
+```
 redis-cli --cluster add-node 172.22.0.9:6379 172.22.0.8:6379  --cluster-slave --cluster-master-id 0885f85b94f8ddc186f1eac8f532be532fb7f5b1 -a redisCluster
 ```
 
 看到下面執行結果代表掛載成功
 
-```cmd
+```
 //...
 [OK] All nodes agree about slots configuration.
 >>> Check for open slots...
@@ -412,13 +413,11 @@ Waiting for the cluster to join
 
 如果 每個 master node 分配 slot 數量不小心設定錯誤可以使用  `--cluster rebalance` 來重新分配 slot 數量，讓每個 master 得到平衡的 slot 數量
 
-```cmd
+```
 redis-cli --cluster rebalance 172.21.0.8:6379 -a redisCluster
 ```
 
-### 限縮 Redis Cluster
-
-TODO
+// TODO 限縮 Redis Cluster
 
 ## 小結
 
