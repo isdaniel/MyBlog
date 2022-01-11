@@ -409,15 +409,153 @@ Waiting for the cluster to join
 
 ![](https://i.imgur.com/up3oWrr.png)
 
+處理完後 Redis Cluster 架構圖就如下
+
+![](https://i.imgur.com/AMmTkUx.png)
+
 #### cluster rebalance 命令
 
-如果 每個 master node 分配 slot 數量不小心設定錯誤可以使用  `--cluster rebalance` 來重新分配 slot 數量，讓每個 master 得到平衡的 slot 數量
+假如我們原本想要平均分配每個 master node slot 數量，但不小心設定錯誤可以使用  `--cluster rebalance` 來重新分配 slot 數量，讓每個 master 得到平衡的 slot 數量
 
 ```
 redis-cli --cluster rebalance 172.21.0.8:6379 -a redisCluster
 ```
 
-// TODO 限縮 Redis Cluster
+## 縮容 Redis Cluster
+
+縮容 Redis Cluster 也有相對應步驟，步驟跟擴容相反步驟
+
+1. 將　slave　Redis container 移除 Cluster 並刪除
+2. 清出 master Redis container slot 數量並重新分配 (確保此 master Redis 沒有對應 slot )
+3. 刪除 master Redis container slot
+
+本次目標要把 `Master1-Slave1` 移除 Cluster
+
+![](https://i.imgur.com/i77MKB5.png)
+
+
+將slave　Redis container 移除 Cluster 並刪除，我們可以執行下面命令
+
+```cmd
+redis-cli --cluster del-node {要刪除的 Redis IP} {要刪除的 Redis ID} -a redisCluster
+```
+
+在刪除前先查看資訊 Cluster 資訊
+
+```cmd
+/$ redis-cli --cluster check 172.22.0.4:6379 -a redisCluster
+
+172.22.0.5:6379 (7186bbf7...) -> 1 keys | 4096 slots | 1 slaves.
+172.22.0.2:6379 (3decf740...) -> 1 keys | 4096 slots | 1 slaves.
+172.22.0.4:6379 (ee76b9f8...) -> 2 keys | 4096 slots | 1 slaves.
+172.22.0.8:6379 (0885f85b...) -> 1 keys | 4096 slots | 1 slaves.
+[OK] 5 keys in 4 masters.
+0.00 keys per slot on average.
+>>> Performing Cluster Check (using node 172.22.0.3:6379)
+S: 2c25a1a5d1cb1ba780170685c4f39dfe6f0da8f0 172.22.0.3:6379
+   slots: (0 slots) slave
+   replicates 3decf740935f98a40d2d73416937e63abc3f4781
+M: 7186bbf7a1689d66c94a448cb1a197a7bd9b9e5f 172.22.0.5:6379
+   slots:[6827-10922] (4096 slots) master
+   1 additional replica(s)
+M: 3decf740935f98a40d2d73416937e63abc3f4781 172.22.0.2:6379
+   slots:[1365-5460] (4096 slots) master
+   1 additional replica(s)
+S: 0abc62f3da4a649a5dea58739e6c087bf52c387f 172.22.0.9:6379
+   slots: (0 slots) slave
+   replicates 0885f85b94f8ddc186f1eac8f532be532fb7f5b1
+M: ee76b9f8f8c261918b44caf856070acab1a5072a 172.22.0.4:6379
+   slots:[12288-16383] (4096 slots) master
+   1 additional replica(s)
+S: c93879a2f37ab14b9bb25f54a8e856a2526e4621 172.22.0.7:6379
+   slots: (0 slots) slave
+   replicates 7186bbf7a1689d66c94a448cb1a197a7bd9b9e5f
+M: 0885f85b94f8ddc186f1eac8f532be532fb7f5b1 172.22.0.8:6379
+   slots:[0-1364],[5461-6826],[10923-12287] (4096 slots) master
+   1 additional replica(s)
+S: bbeafa6b1e703035c364a2d0f476951268d0a9ff 172.22.0.6:6379
+   slots: (0 slots) slave
+   replicates ee76b9f8f8c261918b44caf856070acab1a5072a
+```
+
+確認要刪除 Redis 資訊是 `172.22.0.3:6379` 跟 `2c25a1a5d1cb1ba780170685c4f39dfe6f0da8f0`
+
+```cmd
+/$ redis-cli --cluster del-node 172.22.0.3:6379 2c25a1a5d1cb1ba780170685c4f39dfe6f0da8f0 -a redisCluster
+
+>>> Removing node 2c25a1a5d1cb1ba780170685c4f39dfe6f0da8f0 from cluster 172.22.0.3:6379
+>>> Sending CLUSTER FORGET messages to the cluster...
+>>> Sending CLUSTER RESET SOFT to the deleted node.
+```
+
+刪除 slave1 之後能發現 master1 原本對應的 slave 已經不見了
+
+![](https://i.imgur.com/wxUjlku.png)
+
+
+這次轉移 master slot 我使用 `reshard` 另一種寫法
+
+```cmd
+redis-cli --cluster reshard 172.22.0.2:6379 \
+--cluster-from 3decf740935f98a40d2d73416937e63abc3f4781 \
+--cluster-to  0885f85b94f8ddc186f1eac8f532be532fb7f5b1 \
+--cluster-slots 4096 \
+--cluster-yes \
+-a redisCluster
+
+
+172.22.0.4:6379 (ee76b9f8...) -> 2 keys | 4096 slots | 1 slaves.
+172.22.0.8:6379 (0885f85b...) -> 2 keys | 8192 slots | 1 slaves.
+172.22.0.5:6379 (7186bbf7...) -> 1 keys | 4096 slots | 1 slaves.
+172.22.0.2:6379 (3decf740...) -> 0 keys | 0 slots | 0 slaves.
+```
+
+執行完後發現到 172.22.0.2:6379 身上已經沒有其他 Slot 了，之後可以利用上面說到 `rebalance` 命令來重新分配 slot
+
+```
+redis-cli --cluster rebalance 172.22.0.4:6379 -a redisCluster
+
+172.22.0.4:6379 (ee76b9f8...) -> 3 keys | 5462 slots | 1 slaves.
+172.22.0.8:6379 (0885f85b...) -> 1 keys | 5461 slots | 1 slaves.
+172.22.0.5:6379 (7186bbf7...) -> 1 keys | 5461 slots | 1 slaves.
+172.22.0.2:6379 (3decf740...) -> 0 keys | 0 slots | 0 slaves.
+```
+
+分配完後結果如上
+
+最後我們就可以執行最後一步：刪除 master redis 使用 `--cluster del-node` 命令即可
+
+```cmd
+redis-cli --cluster del-node 172.22.0.2:6379 3decf740935f98a40d2d73416937e63abc3f4781 -a redisCluster
+
+172.22.0.4:6379 (ee76b9f8...) -> 3 keys | 5462 slots | 1 slaves.
+172.22.0.8:6379 (0885f85b...) -> 1 keys | 5461 slots | 1 slaves.
+172.22.0.5:6379 (7186bbf7...) -> 1 keys | 5461 slots | 1 slaves.
+[OK] 5 keys in 3 masters.
+0.00 keys per slot on average.
+>>> Performing Cluster Check (using node 172.22.0.4:6379)
+M: ee76b9f8f8c261918b44caf856070acab1a5072a 172.22.0.4:6379
+   slots:[0-1365],[12288-16383] (5462 slots) master
+   1 additional replica(s)
+M: 0885f85b94f8ddc186f1eac8f532be532fb7f5b1 172.22.0.8:6379
+   slots:[2731-6826],[10923-12287] (5461 slots) master
+   1 additional replica(s)
+S: c93879a2f37ab14b9bb25f54a8e856a2526e4621 172.22.0.7:6379
+   slots: (0 slots) slave
+   replicates 7186bbf7a1689d66c94a448cb1a197a7bd9b9e5f
+S: bbeafa6b1e703035c364a2d0f476951268d0a9ff 172.22.0.6:6379
+   slots: (0 slots) slave
+   replicates ee76b9f8f8c261918b44caf856070acab1a5072a
+M: 7186bbf7a1689d66c94a448cb1a197a7bd9b9e5f 172.22.0.5:6379
+   slots:[1366-2730],[6827-10922] (5461 slots) master
+   1 additional replica(s)
+S: 0abc62f3da4a649a5dea58739e6c087bf52c387f 172.22.0.9:6379
+   slots: (0 slots) slave
+   replicates 0885f85b94f8ddc186f1eac8f532be532fb7f5b1
+[OK] All nodes agree about slots configuration.
+```
+
+刪除後結果如上，在 Cluster 已經看不到 master1 蹤影了
 
 ## 小結
 
