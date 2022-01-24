@@ -275,5 +275,3 @@ WHERE id <= 999
 所以我會建議做 vacuum 時，最好在系統離峰，但如果統計值偏差很大要更新還是更新不然會造成問題更大
 
 至於是否要 by table 去做 autovacuum 閥值設定，就可以看情況
-
-另外假如有些 Table 大部分都在新增資料，很少異動(Delete or Update)，這可能會造成 Dead Tuple 量較難觸發 Auto Vacuum，這時候就可以考慮使用 Daily Vacuum 來確保統計資訊有更新
