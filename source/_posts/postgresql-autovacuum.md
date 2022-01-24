@@ -134,8 +134,8 @@ where id < 1000000
 ### ANALYZE & VACUUM
 
 * ANALYZE：
-  1. 主要是更統計資訊，可以提供ＱＯ更好執行計畫
-  2. 建立 visibility map 檔案
+  1. 主要是更統計資訊，可以提供 QO 更好執行計畫
+  2. 建立 & 更新 visibility map 檔案
 * VACUUM：
   1. 將 dead tuple 空出來，但硬碟空間不會釋放出來（如果要釋放硬碟空間需要使用 FULL Vacuum)
   2. 更新 transaction ID 序號
@@ -275,3 +275,9 @@ WHERE id <= 999
 所以我會建議做 vacuum 時，最好在系統離峰，但如果統計值偏差很大要更新還是更新不然會造成問題更大
 
 至於是否要 by table 去做 autovacuum 閥值設定，就可以看情況
+
+假如我們資料量大到一定程度，需要讀寫分離．在 Read DB 建議在每天離峰時做一次 `VACUUM` and `ANALYZE`.
+
+> A common strategy for read-mostly databases is to run VACUUM and ANALYZE once a day during a low-usage time of day. (This will not be sufficient if there is heavy update activity.)
+
+參考 : https://www.postgresql.org/docs/14/sql-analyze.html
