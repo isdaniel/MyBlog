@@ -138,7 +138,7 @@ where id < 1000000
   2. 建立 & 更新 visibility map 檔案
 * VACUUM：
   1. 將 dead tuple 空出來，但硬碟空間不會釋放出來（如果要釋放硬碟空間需要使用 FULL Vacuum)
-  2. 更新 transaction ID 序號
+  2. 更新 transaction ID 序號 (避免 transaction wraparound )
 
 ### 使用 ANALYZE & VACUUM 後續
 
