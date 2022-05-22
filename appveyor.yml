@@ -6,7 +6,7 @@ environment:
   access_token:
     secure: 9RuHrfPBM3Rc10unrb/g0ODvxW/jQ2s4e5d+6x79OMfwKeQK/HbrkjNCdnjMWA8m
 install:
-  - apt update python3
+  - apt update 
   - apt install python3
   - npm install 
 build_script:
