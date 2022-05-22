@@ -7,6 +7,7 @@ environment:
     secure: 9RuHrfPBM3Rc10unrb/g0ODvxW/jQ2s4e5d+6x79OMfwKeQK/HbrkjNCdnjMWA8m
 install:
   - npm install 
+  - npm install hexo --save
   - npm install hexo-generator-index2@0.2.0 -g
   - npm install hexo-cli@3.1.0 -g
 build_script:
