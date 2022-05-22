@@ -1,7 +1,4 @@
 clone_depth: 5
-environment:
-  matrix:
-    - PYTHON: "C:\\Python36-x64"
 branches:
   only:
   - master
