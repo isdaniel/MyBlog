@@ -1,7 +1,7 @@
 clone_depth: 5
 image: Ubuntu1804
 init:
-- sh: apt-get update & apt-get install python3
+- sh: sudo apt-get update & apt-get install python3
 branches:
   only:
   - master
