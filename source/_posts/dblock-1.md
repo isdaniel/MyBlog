@@ -16,7 +16,8 @@ keywords: DataBase,Turning,sql-server,Index
 	- [Lock範圍](#lock範圍)
 	- [Lock類型](#lock類型)
 		- [Update Lock 存在的意義](#update-lock-存在的意義)
-- [Lock互斥Demo](#lock互斥demo)
+- [Lock 互斥 Demo](#lock-互斥-demo)
+	- [Locking Optimization](#locking-optimization)
 	- [NoLock的隱憂](#nolock的隱憂)
 		- [Read Uncommitted 髒讀取](#read-uncommitted-髒讀取)
 - [小結](#小結)
@@ -42,35 +43,34 @@ keywords: DataBase,Turning,sql-server,Index
 `Sql-Server`支援我們在同一時間能建立不同交易執行命令
 是因為`Sql-Server`有許多不一樣力度範圍Lock.
 
-> 下表表示鎖範圍等級由上到下越來越大. 
+> 下表表示鎖範圍等級由上到下越來越大.
 
-* Row (•RID) 
-* Key (•KEY) 
-* Page (•PAG) 
-* Extent (•	EXT) 
-* Heap or B-tree (•	HoBT) 
-* Table (•	TAB) 
-* File (•	FIL) 
-* Application (•	APP) 
-* MetaData (•	MDT) 
-* Allocation Unit (•	AU) 
-* Database (•DB)
+- Key (•KEY)
+- Page (•PAG)
+- Extent (•EXT)
+- Heap or B-tree (•HoBT)
+- Table (•TAB)
+- File (•FIL)
+- Application (•APP)
+- MetaData (•MDT)
+- Allocation Unit (•AU)
+- Database (•DB)yment_document = 'Journal Entry'
 
 ### Lock類型
 
 在SqlServer有許多類型Lock
 
-* Shared Locks (s)
-* Update Locks (U)
-* Exclusive Locks (X)
-* Intent Locks (I)
-* Schema Locks (Sch)
-* Bulk Update Locks (BU)
-* Key-range
+- Shared Locks (s)
+- Update Locks (U)
+- Exclusive Locks (X)
+- Intent Locks (I)
+- Schema Locks (Sch)
+- Bulk Update Locks (BU)
+- Key-range
 
 下表是Lock類型互斥或相容對應表
 
-![](https://i.imgur.com/YaBZcaT.png)
+![ss](https://i.imgur.com/YaBZcaT.png)
 
 例如:你在使用查詢(Shared Lock),除了上XLock資源外其餘資料都可同步被查找出來.
 
@@ -80,9 +80,9 @@ keywords: DataBase,Turning,sql-server,Index
 
 > Shared Lock => Update Lock => XLock
 
-* Shared Lock:查詢更新的資料.
-* Update Lock:更新前把資料改成Update Lock.
-* XLock:確定要更新當下改成XLock.
+- Shared Lock：查詢更新的資料.
+- Update Lock：更新前把資料改成Update Lock.
+- XLock：確定要更新當下改成XLock.
 
 但為什麼會多一個Update Lock呢?
 
@@ -114,7 +114,7 @@ Where id = 1
 > Shared Lock執行完查詢後立即釋放資源
 > 關鍵在於Shared Lcok不互斥,ULock互斥
 
-## Lock互斥Demo
+## Lock 互斥 Demo
 
 我們建立一張`T2`資料表
 
@@ -133,7 +133,7 @@ INSERT INTO T2 VALUES (2)
 BEGIN TRAN
 
 SELECT * 
-FROM T2 WITH(XLOCK) 
+FROM dbo.T2 WITH(XLOCK) 
 WHERE Id = 1
 
 WAITFOR DELAY '00:00:10'
@@ -145,17 +145,73 @@ ROLLBACK TRAN
 
 ```sql
 SELECT *
+FROM dbo.T2 WITH(XLOCK) 
+WHERE Id = 1
+```
+
+會發現我們需要等上面語法執行完才能查出資料，那是因為 X Lock 跟X Lock會互斥我們，必須等到XLock執行完我們才可以得到資料.
+
+### Locking Optimization
+
+如果沒有髒讀取且是 Row 的 ShardLock，SQL-Server 會有個優化動作不對於此 ROW 上 SharedLock
+
+> SQL Server contains an optimization that allows it to avoid taking row-level shared (S) locks in the right circumstances. Specifically, it can skip shared locks if there is no risk of reading uncommitted data without them.
+
+我們一樣可以開兩個視窗來跑下面語法，會發現 Session2 並**不會**被 Block
+
+Session1
+
+```sql
+BEGIN TRAN
+
+SELECT * 
+FROM dbo.T2 WITH(XLOCK) 
+WHERE Id = 1
+
+WAITFOR DELAY '00:00:10'
+
+ROLLBACK TRAN
+```
+
+Session2
+
+```sql
+SELECT *
 FROM dbo.T2 
 WHERE Id = 1
 ```
 
-會發現我們需要等上面語法執行完才能查出資料,那是因為我們Shared Lock跟X Lock會互斥我們,必須等到XLock執行完我們才可以得到資料.
+但如果是使用 PageLock 就會導致 `Session2` 被 block，因為 Session2 會嘗試上 IX Lock 在 Page 上，但 Session1 已經把 Page 上 XLOCK (IX Lock 和 XLOCK 互斥)
+
+Session1
+
+```sql
+BEGIN TRAN
+
+SELECT * 
+FROM dbo.T2 WITH(XLOCK,PAGLOCK) 
+WHERE Id = 1
+
+WAITFOR DELAY '00:00:10'
+
+ROLLBACK TRAN
+```
+
+Session2
+
+```sql
+SELECT *
+FROM dbo.T2 
+WHERE Id = 1
+```
+
+參考資料：[read-committed-shared-locks-and-rollbacks](read-committed-shared-locks-and-rollbacks)
 
 ### NoLock的隱憂
 
 上文有提到Shard Lock會被XLock給Block住,如果我非得在資料上XLock時查詢資料有辦法嗎?
 
-有,我們在第二句查詢加上`With(Nolock)`hint或者是(設定`SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED`)不然Shard Lock會被XLock給Block住.
+有,我們在第二句查詢加上`With(Nolock)`hint或者是(設定`SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED`)不然 Shard Lock 會被 XLock 給 Block 住.
 
 > 但使用`With(Nolock)` Read Uncommitted要慎用,因為是髒讀取,(Read Uncommitted顧名思義就是讀取未`commite`資料)
 
@@ -186,11 +242,11 @@ WHERE Id = 100
 
 在資料上XLock時使用`with(nolock)`來查詢資料,會發現可以查詢出Id=100資訊
 
-![](https://i.imgur.com/aMvPo4W.png)
+![ss](https://i.imgur.com/aMvPo4W.png)
 
 但因為第一句語法因為一些原因RollBack,過段時間再查詢
 
-![](https://i.imgur.com/5BqG419.png)
+![ss](https://i.imgur.com/5BqG419.png)
 
 我們會得到空的結果集...那是因為`with(nolock)`是髒讀取,在查詢時他會直接拿取目前資料最新狀態(這個資料狀態可能不一定,最後結果),假如RollBack就會導致資料錯誤問題.
 
