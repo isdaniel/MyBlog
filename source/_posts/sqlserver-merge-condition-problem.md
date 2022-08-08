@@ -89,9 +89,9 @@ END
 
 > Violation of PRIMARY KEY constraint 'PK_PriceLimitation'. Cannot insert duplicate key in object 'dbo.PriceLimitation'.
 
-但這張表PK使用欄位都有正確在`Merge`條件上,所以當下我們嘗是在DEV重現此問題,但一直無法成功
+但這張表PK使用欄位都有正確在`Merge`條件上，所以當下我嘗試在DEV重現此問題，但一直無法成功
 
-後來發現此問題在**高併發**時才會發生,所以我們使用[Query Stress](https://www.mssqltips.com/sqlservertip/2730/sql-query-stress-tool/)來幫助我們模擬高併發請求時的狀態.
+後來發現此問題在**高併發**時才會發生，所以我們使用[Query Stress](https://www.mssqltips.com/sqlservertip/2730/sql-query-stress-tool/)來幫助我們模擬高併發請求時的狀態.
 
 ### Query Stress重現問題
 
