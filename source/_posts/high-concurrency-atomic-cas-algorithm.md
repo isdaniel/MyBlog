@@ -201,7 +201,7 @@ Interlocked.CompareExchange(ref balance,newValue,oldValue);
 
 ＞ 我上面用`ref`來表示從記憶體位置取得`balance`原始資料
 
-* `Exchange`:把值改成另一個數值 具有Atomic
+* `CompareExchange`:把值改成另一個數值 具有Atomic (比較並交換)
 * `Decrement`:把數值-- 具有Atomic
 * `Increment`:把數值++ 具有Atomic
 
@@ -245,10 +245,11 @@ class Program
 	}
 }
 
-public class Member {
+public class Member
+{
 	object _lock = new object();
 
-	public int Balance { get; set; }
+	public int Balance;
 
 	public void UpdateBalance()
 	{
@@ -260,8 +261,12 @@ public class Member {
 
 	public void UpdateBalanceByInterlock()
 	{
-		int val = 0;
-		Balance = Interlocked.Exchange(ref val, Balance -= 10);
+		int val;
+		do
+		{
+			val = Balance;
+		}
+		while (val != Interlocked.CompareExchange(ref Balance, val - 10, val));
 	}
 }
 ```
