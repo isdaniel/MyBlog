@@ -264,6 +264,16 @@ SET val = 100
 WHERE id <= 999
 ```
 
+### auto vaccum 與 insert data 
+
+上面都是講述 daed tuple 假如是新增是否會觸發 auto vaccum 呢?
+
+答案：是要看你使用 Postgresql 版本是多少，假如是 PG 13 之前新增資料超過 thresholds 不會執行,但 PG 13 之後會執行 auto vaccum
+
+假如你的場景是常常大量 Insert PG 版本我會建議更新到 PG 13 以上，這樣才會比較規律更新統計資訊
+
+> https://postgrespro.com/list/id/CAODZiv5M+g7DmtVYi2VqXWh44FNgnBNMkwEFbC_WCLLDKn+=7g@mail.gmail.com#head
+
 ## 小結
 
 經過查找一系列資料跟比較之前使用 sql-server 經驗，postgres 可以針對每個 Table 特性設定他適合的 `autovacuum` 閥值，來定期更新統計資訊
