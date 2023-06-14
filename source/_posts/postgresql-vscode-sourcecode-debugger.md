@@ -12,6 +12,8 @@ Using gdb for command-line debugging still feels inconvenient. I initially wante
 
 ## How to build & install PostgreSQL from source code.
 
+I used Ubuntu Linux environment, the first step we might need to install pre-requirement tool for PostgreSQL build.
+
 ```
 sudo apt-get update
 sudo apt-get install build-essential libreadline-dev zlib1g-dev flex bison libxml2-dev libxslt-dev libssl-dev libxml2-utils xsltproc ccache libsystemd-dev -y
@@ -25,6 +27,8 @@ tar xvfz postgresql-14.8.tar.gz
 cd postgresql-14.8
 ```
 
+we would need to make sure the path (`--prefix`) exist in your system.  
+
 ```
 ./configure --prefix=/home/daniel/postgresql-14.8/pgsql --with-icu --with-openssl --with-systemd --with-libxml --enable-debug
 
@@ -34,11 +38,12 @@ make install
 
 > we must build with `--enable-debug` parameter, otherwise we can't debug with our source code.
 
+Here are commands we would use later.
+
 ```
 /home/daniel/postgresql-14.8/pgsql/bin/psql
 /home/daniel/postgresql-14.8/pgsql/bin/initdb -D /home/daniel/postgresql-14.8/pgsql/data
 /home/daniel/postgresql-14.8/pgsql/bin/pg_ctl -D /home/daniel/postgresql-14.8/pgsql/data -l logfile start
-
 ```
 
 ## setup PostgreSQL environment path
@@ -124,6 +129,10 @@ These commands ensure that the directory has read, write, and execute permission
 
 ## setup vscode
 
+Please follow below config
+
+> Modify "program" column with PostgreSQL binary file path from json file 
+
 ```json
 {
     "version": "0.2.0",
@@ -146,6 +155,8 @@ These commands ensure that the directory has read, write, and execute permission
     ]
 }
 ```
+
+Final used ssh with pem file to login your VM via VsCode.
 
 ## demo
 
