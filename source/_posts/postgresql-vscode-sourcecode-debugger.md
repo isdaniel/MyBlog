@@ -32,6 +32,10 @@ we would need to make sure the path (`--prefix`) exist in your system.
 ```
 ./configure --prefix=/home/daniel/postgresql-14.8/pgsql --with-icu --with-openssl --with-systemd --with-libxml --enable-debug
 
+#or debug -g3 mode
+
+./configure --prefix=/home/daniel/postgresql-14.8/pgsql --with-icu --with-openssl --with-systemd --with-libxml --enable-debug CFLAGS="-DGCC_HASCLASSVISIBILITY -O0 -Wall -W -g3 -gdwarf-2"
+
 make -j 8
 make install
 ```

@@ -54,7 +54,7 @@ keywords: DataBase,Turning,sql-server,Index
 - Application (•APP)
 - MetaData (•MDT)
 - Allocation Unit (•AU)
-- Database (•DB)yment_document = 'Journal Entry'
+- Database (•DB)
 
 ### Lock類型
 
