@@ -1,4 +1,3 @@
-clone_depth: 5
 branches:
   only:
   - master
@@ -8,7 +7,6 @@ environment:
 install:
   - npm install
   - npm install hexo@latest --save
-  - npm install hexo-theme-next --save
   - npm install hexo-generator-index2@latest -g
   - npm install hexo-cli@latest -g
 build_script:
