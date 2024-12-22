@@ -97,4 +97,4 @@ int main(void) {
     return 0;
 }
 ```
-My smaple code link: [foreach loop](https://github.com/isdaniel/BlogSample/tree/master/src/C_Sample/foreach_loop)
+Example code: [foreach loop](https://github.com/isdaniel/BlogSample/tree/master/src/C_Sample/foreach_loop)
