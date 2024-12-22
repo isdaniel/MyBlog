@@ -19,7 +19,7 @@ menu:
   Tags: /tags
   Course: /Course
   Categories: /categories
-  
+
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: https://isdaniel.github.io/
@@ -54,7 +54,7 @@ highlight:
   line_number: true
   auto_detect: true
   tab_replace:
-  
+
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
@@ -66,10 +66,10 @@ index2_generator:
   per_page: 10
   order_by: -date
   include:
-    - category Web 
+    - category Web
   exclude:
-    - tag Hexo 
-  
+    - tag Hexo
+
 # Category & Tag
 default_category: uncategorized
 category_map:
@@ -127,10 +127,10 @@ symbols_count_time:
   total_time: true
 
 addlink:
-  before_text: __此文作者__：Daniel Shih(石頭)<br />__此文地址__：  
+  before_text: __此文作者__：Daniel Shih(石頭)<br />__此文地址__：
   after_text: <br />__版權聲明__：本博客所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/tw/">CC BY-NC-SA 3.0 TW</a> 許可協議。轉載請註明出處！
 
-sitemap: 
+sitemap:
   path: sitemap.xml
 baidusitemap:
   path: baidusitemap.xml

@@ -8,7 +8,7 @@ categories: [C#,IOC]
 Autofac 是個IOC容器  不懂IOC 參考 我之前寫
 的{% post_link ioc-di %}
 
-小弟之前有一個開源框架{% post_link AwesomeProxy-Net %} 裡面簡單介紹 AOP核心概念和如何實作!
+小弟之前有一個開源框架{% post_link awesomeproxy-net %} 裡面簡單介紹 AOP核心概念和如何實作!
 
 Autofac 有寫一個 [Autofac.Extras.DynamicProxy](https://github.com/autofac/Autofac.Extras.DynamicProxy) 把AOP和IOC容器融合的框架
 

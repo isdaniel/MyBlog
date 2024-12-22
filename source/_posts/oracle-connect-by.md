@@ -5,7 +5,7 @@ tags: [SQL,Oracle]
 categories: [SQL,Oracle]
 ---
 
-之前有介紹 {% post_link CTE-RECURSIVE %} 在`Oracle` 有提供一個精簡的語法產生階層資料 `CONNECT BY`
+之前有介紹 {% post_link cte-recursive %} 在`Oracle` 有提供一個精簡的語法產生階層資料 `CONNECT BY`
 
  CONNECT BY 有幾個常用Key Word.
 
@@ -23,7 +23,7 @@ categories: [SQL,Oracle]
 
     <code class="language-sql">SELECT X + LEVEL
     FROM (
-      SELECT 0 X 
+      SELECT 0 X
       FROM DUAL
      )
     CONNECT BY LEVEL <= 10
@@ -42,7 +42,7 @@ categories: [SQL,Oracle]
       FROM DUAL
     )t1
     CONNECT BY startDt - endDt + LEVEL <= 0
-    
+
 
 一開始有兩個欄位 
 
