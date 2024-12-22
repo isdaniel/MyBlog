@@ -69,11 +69,21 @@
             }
 
             $.extend(settings, options);
+
+            /* Validate settings.container to ensure it is a valid CSS selector */
+            try {
+                if (settings.container !== window) {
+                    $window.find(settings.container);
+                }
+            } catch (e) {
+                console.error("Invalid CSS selector for container:", settings.container);
+                settings.container = window;
+            }
         }
 
         /* Cache container as jQuery as object. */
         $container = (settings.container === undefined ||
-                      settings.container === window) ? $window : $(settings.container);
+                      settings.container === window) ? $window : $window.find(settings.container);
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
