@@ -1,3 +1,4 @@
+image: Ubuntu2204
 branches:
   only:
   - master
