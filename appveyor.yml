@@ -20,18 +20,18 @@ artifacts:
 on_success:
   - git config --global credential.helper store
   - echo "https://${access_token}:x-oauth-basic@github.com" > ~/.git-credentials
-  - git config --global user.email "%GIT_USER_EMAIL%"
-  - git config --global user.name "%GIT_USER_NAME%"
-  - git clone --depth 5 -q --branch=%TARGET_BRANCH% %STATIC_SITE_REPO% %TEMP%\static-site
-  - cd %TEMP%\static-site
-  - del * /f /q
-  - for /d %%p IN (*) do rmdir "%%p" /s /q
-  - SETLOCAL EnableDelayedExpansion & robocopy "%APPVEYOR_BUILD_FOLDER%\public" "%TEMP%\static-site" /e & IF !ERRORLEVEL! EQU 1 (exit 0) ELSE (IF !ERRORLEVEL! EQU 3 (exit 0) ELSE (exit 1))
+  - git config --global user.email "${GIT_USER_EMAIL}"
+  - git config --global user.name "${GIT_USER_NAME}"
+  - git clone --depth 5 --branch="${TARGET_BRANCH}" "${STATIC_SITE_REPO}" /tmp/static-site
+  - cd /tmp/static-site
+  - rm -rf *
+  - find . -type d -exec rm -rf {} +
+  - rsync -a "${APPVEYOR_BUILD_FOLDER}/public/" "/tmp/static-site/"
   - git config --global core.ignorecase false
   - git config core.ignorecase false
   - git add -A
-  - git commit -m "Update Static Site"
-  - git push origin %TARGET_BRANCH%
+  - git commit -m "Update Static Site" || echo "Nothing to commit, working tree clean."
+  - git push origin "${TARGET_BRANCH}"
 notifications:
 - provider: Email
   to:
