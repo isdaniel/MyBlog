@@ -24,8 +24,9 @@ on_success:
   - git config --global user.name "${GIT_USER_NAME}"
   - git clone --depth 5 --branch="${TARGET_BRANCH}" "${STATIC_SITE_REPO}" /tmp/static-site
   - cd /tmp/static-site
-  - rm -rf *
-  - find . -type d -exec rm -rf {} +
+  - shopt -s extglob
+  - rm -rf !(.git)
+  - shopt -u extglob
   - rsync -a "${APPVEYOR_BUILD_FOLDER}/public/" "/tmp/static-site/"
   - git config --global core.ignorecase false
   - git config core.ignorecase false
