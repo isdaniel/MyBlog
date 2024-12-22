@@ -5,12 +5,15 @@ environment:
   access_token:
     secure: 9RuHrfPBM3Rc10unrb/g0ODvxW/jQ2s4e5d+6x79OMfwKeQK/HbrkjNCdnjMWA8m
 install:
+  - node --version
+  - npm --version
   - npm install
   - npm install hexo@latest --save
   - npm install hexo-generator-index2@latest -g
   - npm install hexo-cli@latest -g
 build_script:
-  - hexo clean && hexo g
+  - hexo clean
+  - hexo g
 artifacts:
   - path: public
 on_success:
