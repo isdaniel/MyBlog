@@ -1,4 +1,4 @@
-clone_depth: 5
+image: Ubuntu2204
 branches:
   only:
   - master
@@ -6,30 +6,33 @@ environment:
   access_token:
     secure: 9RuHrfPBM3Rc10unrb/g0ODvxW/jQ2s4e5d+6x79OMfwKeQK/HbrkjNCdnjMWA8m
 install:
-  - npm install 
-  - npm install hexo --save
-  - npm install hexo-generator-index2@0.2.0 -g
-  - npm install hexo-cli@3.1.0 -g
+  - node --version
+  - npm --version
+  - npm install
+  - npm install hexo@latest --save
+  - npm install hexo-generator-index2@latest -g
+  - npm install hexo-cli@latest -g
 build_script:
   - hexo clean
-  - hexo generate
+  - hexo g
 artifacts:
   - path: public
 on_success:
   - git config --global credential.helper store
-  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
-  - git config --global user.email "%GIT_USER_EMAIL%"
-  - git config --global user.name "%GIT_USER_NAME%"
-  - git clone --depth 5 -q --branch=%TARGET_BRANCH% %STATIC_SITE_REPO% %TEMP%\static-site
-  - cd %TEMP%\static-site
-  - del * /f /q
-  - for /d %%p IN (*) do rmdir "%%p" /s /q
-  - SETLOCAL EnableDelayedExpansion & robocopy "%APPVEYOR_BUILD_FOLDER%\public" "%TEMP%\static-site" /e & IF !ERRORLEVEL! EQU 1 (exit 0) ELSE (IF !ERRORLEVEL! EQU 3 (exit 0) ELSE (exit 1))
+  - echo "https://${access_token}:x-oauth-basic@github.com" > ~/.git-credentials
+  - git config --global user.email "${GIT_USER_EMAIL}"
+  - git config --global user.name "${GIT_USER_NAME}"
+  - git clone --depth 5 --branch="${TARGET_BRANCH}" "${STATIC_SITE_REPO}" /tmp/static-site
+  - cd /tmp/static-site
+  - shopt -s extglob
+  - rm -rf !(.git)
+  - shopt -u extglob
+  - rsync -a "${APPVEYOR_BUILD_FOLDER}/public/" "/tmp/static-site/"
   - git config --global core.ignorecase false
   - git config core.ignorecase false
   - git add -A
-  - git commit -m "Update Static Site"
-  - git push origin %TARGET_BRANCH%
+  - git commit -m "Update Static Site" || echo "Nothing to commit, working tree clean."
+  - git push origin "${TARGET_BRANCH}"
 notifications:
 - provider: Email
   to:
