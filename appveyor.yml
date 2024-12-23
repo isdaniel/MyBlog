@@ -19,10 +19,9 @@ artifacts:
   - path: public
 on_success:
   - git config --global credential.helper store
-  - echo "https://${access_token}:x-oauth-basic@github.com" > ~/.git-credentials
   - git config --global user.email "${GIT_USER_EMAIL}"
   - git config --global user.name "${GIT_USER_NAME}"
-  - git clone --depth 5 --branch="${TARGET_BRANCH}" "${STATIC_SITE_REPO}" /tmp/static-site
+  - git clone --branch="${TARGET_BRANCH}" "${STATIC_SITE_REPO}" /tmp/static-site
   - cd /tmp/static-site
   - shopt -s extglob
   - rm -rf !(.git)
