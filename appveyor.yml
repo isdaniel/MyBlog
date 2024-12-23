@@ -32,7 +32,7 @@ on_success:
   - git config core.ignorecase false
   - git add -A
   - git commit -m "Update Static Site" || echo "Nothing to commit, working tree clean."
-  - git push origin "${TARGET_BRANCH}"
+  - git push https://${access_token}:x-oauth-basic@github.com/${STATIC_SITE_REPO#https://github.com/} "${TARGET_BRANCH}"
 notifications:
 - provider: Email
   to:
