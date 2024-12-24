@@ -6,6 +6,7 @@
     "version": "7.3.0"
   },
   "dependencies": {
+    "ejs": "^3.1.10",
     "hexo": "^7.3.0",
     "hexo-addlink": "^1.0.4",
     "hexo-cli": "^4.3.2",
@@ -21,7 +22,7 @@
     "hexo-generator-sitemap": "^3.0.1",
     "hexo-generator-tag": "^0.2.0",
     "hexo-related-popular-posts": "^5.0.0",
-    "hexo-renderer-ejs": "^0.3.1",
+    "hexo-renderer-ejs": "^2.0.0",
     "hexo-renderer-marked": "^6.3.0",
     "hexo-renderer-stylus": "^0.3.3",
     "hexo-server": "^0.3.3",
