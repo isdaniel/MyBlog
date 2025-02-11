@@ -1,5 +1,5 @@
 ---
-title: AOP Lock Architecture
+title: MessageWorkerPool framework introduction
 date: 2025-02-01 16:00:00
 tags: [C#,OOP,Process,workerpool,message-queue,open-source]
 categories: [C#,OOP,framework]
