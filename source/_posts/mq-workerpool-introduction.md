@@ -33,9 +33,9 @@ cd MessageWorkerPool
 dotnet build
 ```
 
-## Architecture overview
+## Architecture overvi
 
-![](./images/arhc-overview.png)
+![](https://github.com/isdaniel/MessageWorkerPool/blob/main/images/arhc-overview.png)
 
 ## Quick Start
 
