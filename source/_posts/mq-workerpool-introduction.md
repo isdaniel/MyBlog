@@ -35,7 +35,7 @@ dotnet build
 
 ## Architecture overvi
 
-![](https://github.com/isdaniel/MessageWorkerPool/blob/main/images/arhc-overview.png)
+![](https://raw.githubusercontent.com/isdaniel/MessageWorkerPool/refs/heads/main/images/arhc-overview.png)
 
 ## Quick Start
 
