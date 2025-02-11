@@ -179,9 +179,11 @@ where name in ('autovacuum_vacuum_scale_factor','autovacuum_analyze_scale_factor
 AutoVacuum 主要是由下面兩個公式判斷是否需要執行 vacuum 或 analyze，會有一個類似累積池概念，累績目前資料表 dead tuple 數量
 
 ```text
-觸發 auto_analyze = autovacuum_analyze_scale_factor * dead tuple count + autovacuum_analyze_threshold
-觸發 auto_vacuum = autovacuum_vacuum_scale_factor * dead tuple count + autovacuum_vacuum_threshold
+觸發 auto_analyze = autovacuum_analyze_scale_factor * number of tuples + autovacuum_analyze_threshold
+觸發 auto_vacuum = autovacuum_vacuum_scale_factor * number of tuples + autovacuum_vacuum_threshold
 ```
+
+[Autovacuum Daemon](https://www.postgresql.org/docs/current/routine-vacuuming.html#AUTOVACUUM)
 
 ---
 | name                            | setting |
