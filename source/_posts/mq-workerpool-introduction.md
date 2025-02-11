@@ -33,7 +33,7 @@ cd MessageWorkerPool
 dotnet build
 ```
 
-## Architecture overvi
+## Architecture overview
 
 ![](https://raw.githubusercontent.com/isdaniel/MessageWorkerPool/refs/heads/main/images/arhc-overview.png)
 
