@@ -7,6 +7,8 @@
   <title>{% block title %}{% endblock %}</title>
   {{ partial('_third-party/analytics/index.swig', {}, {cache: theme.cache.enable}) }}
   {{ partial('_scripts/noscript.swig', {}, {cache: theme.cache.enable}) }}
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9964202165342528"
+     crossorigin="anonymous"></script>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
