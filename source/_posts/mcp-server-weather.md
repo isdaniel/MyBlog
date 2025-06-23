@@ -24,9 +24,9 @@ Weather MCP Server 是一個基於 MCP 協定開發的天氣資訊伺服器，�
 
 使用此 MCP Server 搭配 AI Model 可以輕易搭建出即時天氣小助手, 如下我的 AI Bot
 
-![https://ithelp.ithome.com.tw/upload/images/20250507/20096630aZiRf1dO1g.png](https://ithelp.ithome.com.tw/upload/images/20250507/20096630aZiRf1dO1g.png)
+![](../images/20096630aZiRf1dO1g.png)
 
-![https://ithelp.ithome.com.tw/upload/images/20250507/20096630ecDVbg8JZL.png](https://ithelp.ithome.com.tw/upload/images/20250507/20096630ecDVbg8JZL.png)
+![](../images/20096630ecDVbg8JZL.png)
 ---
 
 ## 功能特色
