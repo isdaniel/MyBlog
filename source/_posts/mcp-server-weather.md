@@ -1,12 +1,10 @@
 ---
-title: 使用 MCP [Model Context Protocol] 以 Weather MCP Server 為例
-date: 2025-06-22 19:42:00
+title: 使用 Model Context Protocol 以 Weather MCP Server 為例
+date: 2025-06-22 20:42:00
 tags: [Python,AI,MCP]
 categories: [Python]
 keywords: Python,AI,MCP
 ---
-
-# MCP 與 Weather MCP Server 使用介紹
 
 ## 什麼是 MCP？
 
