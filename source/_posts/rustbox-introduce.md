@@ -1,5 +1,5 @@
 ---
-title: RustBox: Docker-Lite Sandbox for Hackers and Learners
+title: <RustBox> Docker-Lite Sandbox for Hackers and Learners
 date: 2025-06-23 23:30:11
 tags: [Rust, Linux,docker]
 categories: [Rust, Linux]
