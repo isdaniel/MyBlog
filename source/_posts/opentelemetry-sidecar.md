@@ -93,6 +93,7 @@ The project consists of the following components:
 ### Running the Application
 
 Clone the repository:
+
 ```
 git clone https://github.com/yourusername/OpenTelemetry_SideCar.git
 cd OpenTelemetry_SideCar
