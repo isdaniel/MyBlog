@@ -17,6 +17,7 @@
 
     gtag('config', 'G-ZKF58CMZ8X');
   </script>
+  <meta name="google-adsense-account" content="ca-pub-9964202165342528">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
