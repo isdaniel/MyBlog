@@ -1,6 +1,6 @@
 ---
 title: Instrument Any App Instantly Using OpenTelemetry_SideCar
-date: 2025-06-23 22:30:11
+date: 2025-06-01 22:30:11
 tags: [C#,Rust, Sidecar]
 categories: [Rust,C#, Sidecar]
 keywords: Rust,C#, Sidecar

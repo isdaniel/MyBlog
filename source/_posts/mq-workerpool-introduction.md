@@ -1,6 +1,6 @@
 ---
 title: MessageWorkerPool framework introduction
-date: 2025-02-01 16:00:00
+date: 2025-06-02 16:00:00
 tags: [C#,OOP,Process,workerpool,message-queue,open-source]
 categories: [C#,OOP,framework]
 ---
@@ -13,7 +13,7 @@ categories: [C#,OOP,framework]
 
 [MessageWorkerPool GitHub](https://github.com/isdaniel/MessageWorkerPool)
 
-## 為什麼選擇 ProcessPool 而非 ThreadPool ？
+## 為什麼選擇 ProcessPool 而非 ThreadPool?
 
 當你需要強大的隔離性，以防止某個任務影響其他任務時，應該選擇 ProcessPool，特別是針對關鍵操作或容易崩潰的任務。雖然 ThreadPool 較為輕量（因為執行緒共用記憶體並且具有較低的上下文切換開銷），但 ProcessPool 能夠提供更靈活的解決方案，允許使用不同的程式語言來實作 Worker。
 
