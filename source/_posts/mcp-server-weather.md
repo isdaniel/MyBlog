@@ -6,9 +6,9 @@ categories: [Python]
 keywords: Python,AI,MCP
 ---
 
-## 什麼是 MCP？
+## 什麼是 MCP?
 
-MCP（Model Context Protocol）是一種協定，用於在工具之間進行通訊與協作。透過 MCP，可以讓各種獨立的工具（如模型、插件、服務）以一致的格式互相交換資料與指令。MCP Server 是提供特定功能的伺服器端程式，能與支援 MCP 的前端進行互動。
+MCP(Model Context Protocol)是一種協定，用於在工具之間進行通訊與協作。透過 MCP，可以讓各種獨立的工具(如模型、插件、服務)以一致的格式互相交換資料與指令。MCP Server 是提供特定功能的伺服器端程式，能與支援 MCP 的前端進行互動。
 
 ## Weather MCP Server 是什麼？
 
@@ -24,17 +24,16 @@ Weather MCP Server 是一個基於 MCP 協定開發的天氣資訊伺服器，�
 使用此 MCP Server 搭配 AI Model 可以輕易搭建出即時天氣小助手, 如下我的 AI Bot
 
 ![](../images/20096630aZiRf1dO1g.png)
-
 ![](../images/20096630ecDVbg8JZL.png)
----
+
 
 ## 功能特色
 
 * 查詢指定城市的即時天氣
 * 查詢指定日期區間的天氣預測
-* 查詢目前時間（支援指定時區）
+* 查詢目前時間(支援指定時區)
 
----
+
 
 ## 安裝方式
 
@@ -68,7 +67,7 @@ pip install mcp_weather_server
 
 儲存後，即可在 MCP 架構中啟動並使用 Weather Server。
 
----
+
 
 ## 使用方式
 
@@ -78,7 +77,7 @@ Weather MCP Server 提供以下三個工具：
 
 **參數說明：**
 
-* `city`（字串，必填）：城市名稱，例如 "Taipei"
+* `city`(字串，必填)：城市名稱，例如 "Taipei"
 
 **範例：**
 
@@ -94,15 +93,15 @@ Weather MCP Server 提供以下三個工具：
 </use_mcp_tool>
 ```
 
----
+
 
 ### 2. `get_weather_by_datetime_range`：查詢日期區間的天氣預報
 
 **參數說明：**
 
-* `city`（字串，必填）：城市名稱
-* `start_date`（字串，必填）：開始日期，格式為 YYYY-MM-DD
-* `end_date`（字串，必填）：結束日期，格式為 YYYY-MM-DD
+* `city`(字串，必填)：城市名稱
+* `start_date`(字串，必填)：開始日期，格式為 YYYY-MM-DD
+* `end_date`(字串，必填)：結束日期，格式為 YYYY-MM-DD
 
 **範例：**
 
@@ -120,13 +119,12 @@ Weather MCP Server 提供以下三個工具：
 </use_mcp_tool>
 ```
 
----
 
 ### 3. `get_current_datetime`：查詢指定時區目前時間
 
 **參數說明：**
 
-* `timezone_name`（字串，必填）：IANA 時區名稱，例如 "America/New\_York"、"Europe/London"。若未指定，預設為 UTC。
+* `timezone_name`(字串，必填)：IANA 時區名稱，例如 "America/New\_York"、"Europe/London"。若未指定，預設為 UTC。
 
 **範例：**
 
@@ -142,8 +140,6 @@ Weather MCP Server 提供以下三個工具：
 </use_mcp_tool>
 ```
 
----
-
 ## 開發者注意事項
 
 如需在開發或除錯時手動執行 Weather MCP Server，可以直接執行：
@@ -151,8 +147,6 @@ Weather MCP Server 提供以下三個工具：
 ```bash
 python -m mcp_weather_server
 ```
-
----
 
 ## 結語
 
