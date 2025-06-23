@@ -5,56 +5,57 @@ tags: [C#,OOP,Process,workerpool,message-queue,open-source]
 categories: [C#,OOP,framework]
 ---
 
-## Introduction
+## 簡介
 
-Recently, I developed the `MessageWorkerPool` project. The main concept is to provide a platform framework that enables users to implement logic quickly and easily within workers. The design is highly flexible, allowing workers to be implemented in multiple languages based on a worker protocol I created. Currently, I’ve provided examples for workers written in C#, Rust, and Python.
+最近我開發了 `MessageWorkerPool` 專案。其主要概念是提供一個平台框架，使使用者能夠快速且輕鬆地在 `Worker` 內實作邏輯。該設計高度靈活，允許基於我創建的 Worker 通訊協議，以多種程式語言實作 `Worker`。目前，我已提供使用 C#、Rust 和 Python 編寫的 Worker 範例。
 
-This library excels in handling tasks within multi-process environments, especially for applications demanding high throughput and low latency. It also supports graceful shutdown, ensuring a smooth process termination without disrupting ongoing tasks.
+這個函式庫在多進程環境中處理任務表現優異。此外，它還支援優雅關閉 (graceful shutdown)，確保在隨時 consumer worker 能順利終止處理程序。
 
-[MessageWorkerPool Github URL](https://github.com/isdaniel/MessageWorkerPool)
+[MessageWorkerPool GitHub](https://github.com/isdaniel/MessageWorkerPool)
 
-## Why Process Pool rather than Thread Pool?
+## 為什麼選擇 ProcessPool 而非 ThreadPool ？
 
-Use a process pool when you need robust isolation to prevent issues in one task from affecting others, especially for critical or crash-prone operations,although thread pool would be more lightweight (as threads share memory and require less context-switching overhead), however Process Pool would provide more flexibility solution by implement different program language.
+當你需要強大的隔離性，以防止某個任務影響其他任務時，應該選擇 ProcessPool，特別是針對關鍵操作或容易崩潰的任務。雖然 ThreadPool 較為輕量（因為執行緒共用記憶體並且具有較低的上下文切換開銷），但 ProcessPool 能夠提供更靈活的解決方案，允許使用不同的程式語言來實作 Worker。
 
-## Installation
+## 安裝
 
-To install the `MessageWorkerPool` package, use the following NuGet command:
+要安裝 `MessageWorkerPool` 套件，請使用以下 NuGet 指令：
 
 ```sh
 PM > Install-Package MessageWorkerPool
 ```
 
-To install the library, clone the repository and build the project:
+若要手動安裝此函式庫，可克隆儲存庫並建置專案：
 
-```
+
+```sh
 git clone https://github.com/isdaniel/MessageWorkerPool.git
 cd MessageWorkerPool
 dotnet build
 ```
 
-## Architecture overview
+## 架構概覽
 
 ![](https://raw.githubusercontent.com/isdaniel/MessageWorkerPool/refs/heads/main/images/arhc-overview.png)
 
-## Quick Start
+## 快速開始
 
-Here’s a quick start guide for deploying your RabbitMQ and related services using the provided `docker-compose.yml` file and environment variables from `.env`.
+這是部署 RabbitMQ 和相關服務的快速開始指南，使用提供的 docker-compose.yml 檔案和 .env 中的環境變數。
 
 ```
 docker-compose --env-file .\env\.env up --build -d
 ```
 
-1. Check RabbitMQ health status: Open `http://localhost:8888` in your browser to access the RabbitMQ Management Dashboard.
-  * Username: guest
-  * Password: guest
-2. Check OrleansDashboard `http://localhost:8899`
-  * Username: admin
-  * Password: test.123
+1. 檢查 RabbitMQ 健康狀態：在瀏覽器中開啟 http://localhost:8888 以訪問 RabbitMQ 管理面板。
+  * 使用者名稱: guest
+  * 密碼: guest
+2. 檢查 OrleansDashboard http://localhost:8899
+  * 使用者名稱: admin
+  * 密碼: test.123
 
-## Program Structure
+## 程式結構
 
-Here is the sample code for creating and configuring a worker pool that interacts with RabbitMQ. Below is a breakdown of its functionality; The worker pool will fetch message from RabbitMQ server depended on your `RabbitMqSetting` setting and sending the message via `Process.StandardInput` to real worker node that created by users.
+以下是創建並配置與 RabbitMQ 互動的 workerpool 的範例程式碼。以下是其功能的解析：workerpool 將根據您的 RabbitMqSetting 設定從 RabbitMQ 伺服器獲取訊息，並通過 Process.StandardInput 將訊息傳遞給用戶創建的真實 worker node
 
 ```c#
 public class Program
@@ -89,45 +90,34 @@ public class Program
 }
 ```
 
-1. **Scalability**
-   - Scaling is achieved by increasing the `WorkerUnitCount` & `PrefetchTaskCount` determined how many amount of fetching message from rabbitMQ at same time.
 
-2. **Decoupling**
-   - RabbitMQ acts as a message broker, decoupling the producers of messages from the consumers (workers). This makes it easier to manage workloads independently.
+## worker process 與 workerPool 之間的協議
 
-3. **Configurable**
-   - The `RabbitMqSetting` object provides flexibility to modify connection settings, queue names, and worker pool details without changing the code.
+worker node 與任務進程之間的協議使用 MessagePack 二進制格式來進行更快且更小的資料傳輸，標準輸入將發送信號來控制 worker process。
 
-4. **Reusable Workers**
-   - Worker processes are defined by the `CommandLine` and `Arguments`, making it easy to reuse or swap out the tasks performed by the workers.
+一開始 workerPool 將通過標準輸入傳遞 NamedPipe 名稱，因此 worker node 需要接收該名稱並建立 worker process 和 workerPool 之間的 NamedPipe。
 
-## Protocol between worker and task process
+### workerPool 發送的操作指令
 
-The Protocol between worker and task process are use MessagePack binary format with faster and smaller data transfer, standardInput will send signal control worker process.
+目前，workerPool將通過標準輸入向 worker process 發送操作信號或指令。
 
-In the beginning, worker pool will pass NamedPipe name through standardInput, therefore worker program would need to receive that name and establish NamedPipe between worker process and worker pool.
+* CLOSED_SIGNAL (`__quit__`): 代表 workerPool 發送關閉或關機信號給 worker node，worker process 應盡快執行優雅關機。
+通過 (Data Named Pipe Stream) 進行資料傳輸
+命名管道是一種強大的進程間通信 (IPC) 機制，它允許兩個或更多的進程之間進行通信，即使它們運行在不同的機器上（例如 Windows 等支持的平台）。我們的 worker 使用此方式在 worker node 與 workerPool 之間傳輸資料。
 
-### Operation command from worker pool
+msgpack 協議支持的資料類型如下類別與 byte[] 格式。
 
-Currently, worker pool will send operations signal or command to worker process via standardInput.
-
-* CLOSED_SIGNAL (`__quit__`): that represent worker pool sent a close or shutdown signal to worker process, that worker process should perform graceful shutdown as soon as possible.
-
-### Data transfer via (Data Named Pipe Stream)
-
-Named pipes are a powerful interprocess communication (IPC) mechanism that allows two or more processes to communicate with each other, even if they are running on different machines in a network (on platforms that support it, like Windows), our workers used to this for trasfering data between worker process and worker pool
-
-[msgpack](https://msgpack.org/) protocols data type support as below class & `byte[]` format.
-
-The corresponding `byte[]` data is:
+對應的 byte[] 資料是：
 
 ```
 [132,161,48,179,78,101,119,32,79,117,116,80,117,116,32,77,101,115,115,97,103,101,33,161,49,204,200,161,50,129,164,116,101,115,116,167,116,101,115,116,118,97,108,161,51,169,116,101,115,116,81,117,101,117,101]
+
 ```
 
-To represent the provided pseudo-JSON structure using the `MsgPack` format (byte[]), we can break down the process as follows:
+要將提供的偽 JSON 結構表示為 `MsgPack` 格式（byte[]），我們可以分解過程如下：
 
 ```json
+Edit
 {
     "0": "New OutPut Message!",
     "1": 200,
@@ -138,109 +128,61 @@ To represent the provided pseudo-JSON structure using the `MsgPack` format (byte
 }
 ```
 
-More information you can use [msgpack-converter](https://ref45638.github.io/msgpack-converter/) to decode and encode.
+更多資訊，您可以使用 [msgpack-converter](https://ref45638.github.io/msgpack-converter/) 來解碼和編碼。
 
 ```c#
  /// <summary>
-/// Encapsulate message from MQ service
+/// 封裝來自 MQ 服務的訊息
 /// </summary>
 [MessagePackObject]
 public class MessageOutputTask
 {
    /// <summary>
-   /// Output message from process
+   /// 來自進程的輸出訊息
    /// </summary>
    [Key("0")]
    public string Message { get; set; }
    [Key("1")]
    public MessageStatus Status { get; set; }
    /// <summary>
-   /// Reply information that we want to store for continue execution message.
+   /// 我們希望儲存的回應資訊以便繼續執行訊息。
    /// </summary>
    [Key("2")]
    [MessagePackFormatter(typeof(PrimitiveObjectResolver))]
    public IDictionary<string, object> Headers { get; set; }
    /// <summary>
-   /// Default use BasicProperties.Reply To queue name, task processor can overwrite reply queue name.
+   /// 預設使用 BasicProperties.Reply To 隊列名稱，任務處理器可以覆寫回應隊列名稱。
    /// </summary>
-   /// <value>Default use BasicProperties.Reply</value>
+   /// <value>預設使用 BasicProperties.Reply</value>
    [Key("3")]
    public string ReplyQueueName { get; set; }
 }
 ```
 
-```c#
-/// <summary>
-/// Encapsulate message from MQ service
-/// </summary>
-[MessagePackObject]
-public class MessageInputTask
-{
-   /// <summary>
-   /// Task body
-   /// </summary>
-   [Key("0")]
-   public string Message { get;  set; }
-   /// <summary>
-   /// Message CorrelationId for debugging issue between, producer and consumer
-   /// </summary>
-   [Key("1")]
-   public string CorrelationId { get;  set; }
-   /// <summary>
-   /// Original sending Queue Name
-   /// </summary>
-   [Key("2")]
-   public string OriginalQueueName { get;  set; }
-   /// <summary>
-   /// TimeoutMilliseconds : The time span to wait before canceling this (milliseconds),
-   /// default: -1, if value smaller than 0 represent InfiniteTimeSpan, otherwise use the setting positive value.
-   /// </summary>
-   [Key("3")]
-   [MessagePackFormatter(typeof(PrimitiveObjectResolver))]
-   public IDictionary<string, object> Headers { get; set; }
-}
-```
 
-I would introduce `MessageStatus` meaning here.
+我將在此介紹 MessageStatus 的含義。
 
-* IGNORE_MESSAGE (-1) : Append the message to data steaming pipeline without further processing.
-  - `Status = -1`: task process tell worker this isn't a response nor ack message, only feedback to data steaming pipeline.
+* IGNORE_MESSAGE (-1) : 將訊息附加到資料流管道中，而不進行進一步處理。
+    * Status = -1: 任務處理告訴 worker process 這不是回應或確認訊息，只是回饋到資料流管道。
+* MESSAGE_DONE (200) : 通知 worker process 該案件可以由訊息隊列服務進行確認。
+    * Status = 200 任務處理告訴 worker process 該任務已完成並且可以確認。
+* MESSAGE_DONE_WITH_REPLY (201) : 請確保我們滿足以下步驟以支援 RPC。
+    * 客戶端代碼必須提供 ReplyTo 資訊。
+    * 任務處理將使用 JSON 負載中的 Message 欄位來回應隊列資訊。
+    * 例如：當 Status = 201 透過資料流管道發送時，任務處理指示 worker process 輸出，例如 1010，該數據必須然後發送到回應隊列。
 
-* MESSAGE_DONE (200) : Notify the worker that this case can be acknowledged by the message queue service.
-  - `Status = 200` task process tell worker the task can be acked that mean it was finished.
+我們可以通過不同的程式語言來編寫自己的 worker node （我已經在此 github 提供了 Python, .NET, rust example code）。
 
-* MESSAGE_DONE_WITH_REPLY (201) : Please ensure we satisfied below steps for supporting RPC.
-   1. The client side cdoe must provide `ReplyTo` information.
-   2. task process will use the `Message` column in the JSON payload to reply with the queue information.
-   3. Here is an example: When `Status = 201` is sent via data steaming pipeline, the task process instructs the worker to output, such as `1010`, which must then be sent to the reply queue.
+## 如何處理長時間運行的任務或涉及處理大量數據行的任務？
 
-Example `byte[]` data
+類似於操作系統中的進程，發生上下文切換（中斷等）。
 
-```
-[130, 161, 48, 179, 78, 101, 119, 32, 79, 117, 116, 80, 117, 116, 32, 77, 101, 115, 115, 97, 103, 101, 33, 161, 49, 204, 200]
-```
+客戶端可以通過 Header 發送一個 `TimeoutMilliseconds` 值：在取消之前等待的時間（毫秒）。如果任務執行超過該值，worker process 可以使用該值來設置中斷，例如 CancellationToken。
 
-Correspondence JSON from `byte[]`
+例如，`MessageOutputTask` 的 JSON 可以如下所示，`status=201` 代表此訊息將重新入隊以便下次處理，並且訊息將攜帶 `Headers` 資訊再次重新入隊。
+
 
 ```json
-{
-    "0": "New OutPut Message!",
-    "1": 200
-}
-```
-
-We can write our own worker by different program language (I have provided python and .net sample in this repository).
-
-### How do we handle long-running task or the task involves processing a lot of data rows?
-
-the concept like OS processing thread occurs a context switch (interrupt ..etc).
-
-Client can send a value `TimeoutMilliseconds` via Header: The time span to wait before canceling this (milliseconds), if the task execute exceed the value work process could use that value for setting
-interrupt like `Cancellationtoken`.
-
-For example the `MessageOutputTask` JSON could look like below, `status=201` represents that this message will be re-queued for processing next time, the message will bring the `Headers` information when requeue again.
-
-```
 {
   "Message": "This is Mock Json Data",
   "Status": 201,
@@ -248,10 +190,10 @@ For example the `MessageOutputTask` JSON could look like below, `status=201` rep
     "CreateTimestamp": "2025-01-01T14:35:00Z",
     "PreviousProcessingTimestamp": "2025-01-01T14:40:00Z",
 	"Source": "OrderProcessingService",
-    "PreviousExecutedRows": 123,
-    "RequeueTimes": 3
+    "PreviousExecutedRows": "123",
+    "RequeueTimes": "3"
   }
 }
 ```
 
-This project also includes integration tests, unit tests, and an automation pipeline. While the API documentation and related materials are not yet completed (the project is still in beta), I plan to gradually add these in the future. If you have any thoughts or suggestions about this project, please feel free to create issue or send a PR.
+此專案還包括 integration、unit test 和 github action pipeline。雖然 API 文件（專案仍在 beta 階段），但我計劃在未來逐步添加。如果您對此專案有任何想法或建議，請隨時創建問題或發送 PR。
