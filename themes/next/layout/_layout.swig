@@ -17,6 +17,9 @@
 
     gtag('config', 'G-ZKF58CMZ8X');
   </script>
+  <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+  </script>
   <meta name="google-adsense-account" content="ca-pub-9964202165342528">
 </head>
 
