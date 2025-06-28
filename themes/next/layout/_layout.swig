@@ -7,23 +7,11 @@
   <title>{% block title %}{% endblock %}</title>
   {{ partial('_third-party/analytics/index.swig', {}, {cache: theme.cache.enable}) }}
   {{ partial('_scripts/noscript.swig', {}, {cache: theme.cache.enable}) }}
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9964202165342528"
-     crossorigin="anonymous"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZKF58CMZ8X"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-ZKF58CMZ8X');
-  </script>
-  <script async custom-element="amp-auto-ads"
-        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
-  </script>
-  <meta name="google-adsense-account" content="ca-pub-9964202165342528">
+  {{ partial('_custom/header.swig', {}, {cache: theme.cache.enable}) }}
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
+  {{ partial('_custom/body.swig', {}, {cache: theme.cache.enable}) }}
   <div class="container{%- if theme.motion.enable %} use-motion{%- endif %}">
     <div class="headband"></div>
 
