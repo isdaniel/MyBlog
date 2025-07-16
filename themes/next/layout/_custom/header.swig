@@ -39,7 +39,7 @@
     }
   </style>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    /*document.addEventListener("DOMContentLoaded", function () {
       const overlay = document.getElementById("adblock-overlay");
 
       const adScript = document.createElement("script");
@@ -54,5 +54,5 @@
       };
 
       document.head.appendChild(adScript);
-    });
+    });*/
   </script>

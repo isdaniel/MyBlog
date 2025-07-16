@@ -5,7 +5,6 @@ tags: [DataBase,Charset,MySQL]
 categories: [MySQL, DataBase]
 ---
 
-
 # 為什麼修改 MySQL 的 `character_set_server` 後仍需重啟？從 mysql-connector-net 探討字元集的陷阱
 
 在近期處理一個與 MySQL 字元集相關的問題時，我深入研究了 MySQL Server 的 Handshake 機制以及 `mysql-connector-net` 原始碼，發現了一個容易被忽略但可能會造成重大錯誤的細節——**即使 `character_set_server` 是動態參數，但實際上修改後仍需要重啟 MySQL Server，否則會造成驅動端的解碼錯誤。**
