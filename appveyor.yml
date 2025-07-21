@@ -12,6 +12,7 @@ install:
   - npm install hexo@latest --save
   - npm install hexo-generator-index2@latest -g
   - npm install hexo-cli@latest -g
+  - npm install hexo-generator-searchdb --save
 build_script:
   - npx hexo clean
   - npx hexo g
