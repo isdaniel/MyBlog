@@ -9,12 +9,13 @@ install:
   - node --version
   - npm --version
   - npm install
-  - npm install hexo@latest --save
-  - npm install hexo-generator-index2@latest -g
-  - npm install hexo-cli@latest -g
+  - npm install npx -g
+  - npx install hexo@latest --save
+  - npx install hexo-generator-index2@latest -g
+  - npx install hexo-cli@latest -g
 build_script:
-  - hexo clean
-  - hexo g
+  - npx hexo clean
+  - npx hexo g
 artifacts:
   - path: public
 on_success:
