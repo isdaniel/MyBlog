@@ -10,9 +10,9 @@ install:
   - npm --version
   - npm install
   - npm install npx -g
-  - npx install hexo@latest --save
-  - npx install hexo-generator-index2@latest -g
-  - npx install hexo-cli@latest -g
+  - npm install hexo@latest --save
+  - npm install hexo-generator-index2@latest -g
+  - npm install hexo-cli@latest -g
 build_script:
   - npx hexo clean
   - npx hexo g
