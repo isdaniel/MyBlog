@@ -14,6 +14,8 @@ A Rust-based Change Data Capture (CDC) application that streams real-time data c
 
 This project demonstrates how to build a production-ready CDC pipeline using the `pg2any_lib` crate. It captures changes from PostgreSQL using logical replication and streams them to destination databases in real-time.
 
+[pg2any lib source code](https://github.com/isdaniel/pg2any)
+
 [Github example](https://github.com/isdaniel/rust_playground/tree/main/pg2any-example).
 
 PostgreSQL Streaming logical Replication POC [replication_checker_rs](https://github.com/isdaniel/replication_checker_rs)
