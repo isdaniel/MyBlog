@@ -29,87 +29,102 @@ This project is ideal for:
 * Educational use to learn Linux sandbox internals
 * Building lightweight, Docker-like containers without the overhead
 
+## Overview
+
+**Rustbox** creates a secure and minimal sandbox environment on Linux. It uses:
+- **OverlayFS** for isolated file systems
+- **Cgroups v2** to restrict memory and CPU usage
+- **Linux namespaces** to isolate the process (PID, UTS, IPC, NET, USER)
+- **Double fork** architecture for proper process isolation and resource cleanup
+
+This tool is useful for running untrusted code in a controlled environment, testing, or creating lightweight containers.
+
+## Double Fork Implementation
+
+RustBox employs a **double fork** pattern to ensure proper process isolation and clean resource management:
+
+### Process Hierarchy
+
+```
+[Outer Parent Process]
+    └─> fork() #1
+        ├─> [Namespaced Parent Process]
+        │   ├─> unshare() - Creates new namespaces
+        │   └─> fork() #2
+        │       ├─> [Inner Child Process]
+        │       │   ├─> Mount /proc and /dev
+        │       │   ├─> chroot() to merged overlay
+        │       │   ├─> chdir() to working directory
+        │       │   └─> execv() - Execute shell/binary
+        │       └─> [Namespaced Parent] waits for inner child
+        │           └─> Unmounts /proc and /dev inside namespace
+        └─> [Outer Parent] waits for namespaced parent
+            ├─> Unmounts overlay filesystem
+            └─> Cleans up cgroups
+```
+
+### Why Double Fork?
+
+1. **First Fork (Outer → Namespaced Parent)**:
+   - Isolates the namespace creation from the main process
+   - Allows the outer parent to maintain control over cgroups and overlay mounts
+   - Ensures cleanup happens outside the namespace context
+
+2. **Second Fork (Namespaced Parent → Inner Child)**:
+   - Creates PID 1 inside the new PID namespace
+   - Provides proper process tree isolation
+   - Enables the namespaced parent to handle cleanup of namespace-specific resources
+
+3. **Cleanup Benefits**:
+   - **Inner Child**: Executes user code in complete isolation
+   - **Namespaced Parent**: Unmounts `/proc` and `/dev` after child exits (inside namespace)
+   - **Outer Parent**: Unmounts overlay and removes cgroups (outside namespace)
+   - Ensures resources are cleaned up in the correct order and context
+
 ## 🧰 Features
 
-| Feature                              | Description                                        |
-| ------------------------------------ | -------------------------------------------------- |
-| 🧾 Filesystem isolation              | Uses `OverlayFS` for a copy-on-write file system   |
-| 💾 Memory limits                     | Enforced via `cgroups v2`                          |
-| 🧍 Namespace separation              | Full separation of PID, UTS, NET, USER, IPC        |
-| ⚙️ Custom shell or program execution | You define what runs in the sandbox                |
-| 🦀 Built in Rust                     | Safe and unsafe Rust for low-level systems control |
+- **Isolated file system** using `overlayfs` with automatic cleanup
+- **Memory and CPU constraints** with `cgroups v2`
+- **Full namespace isolation** (PID, UTS, NET, USER, IPC)
+- **Double fork architecture** for robust process management and resource cleanup
+- **Custom shell or binary execution** inside the sandbox
+- **Automatic resource cleanup** on exit (mounts, cgroups)
+- Written in Rust with `nix` crate for safe syscall wrappers
 
 ## 📦 Requirements
 
-To use RustBox, you’ll need:
-
-* ✅ **Linux kernel 5.x+**
-* ✅ **Cgroups v2** and `overlayfs` support enabled
-* ✅ **Rust 1.70+**
-* ✅ **Root privileges** (for mounting and namespace operations)
+- Linux kernel 5.x or higher (with overlayfs and cgroups v2 support)
+- Rust (1.70+ recommended)
+- Root privileges (for mounting and namespace ops)
 
 ## 🔧 Configuration
 
-RustBox is configured through a simple Rust struct:
+The sandbox is configured via the `SandboxConfig` struct:
 
 ```rust
 pub struct SandboxConfig {
-    pub base_dir: String,     // Base directory for OverlayFS, e.g. /tmp/sandbox
-    pub memory_limit: String, // Memory limit, e.g., "100M"
-    pub shell_path: String,   // Path to shell or binary inside sandbox
+    pub base_dir: String,     // Base directory for overlayfs (e.g., ./rootfs)
+    pub memory_limit: String, // Memory limit, e.g., "100M", "1G"
+    pub cpu_limit: String,    // CPU limit as fraction, e.g., "0.5" (50% of one core)
+    pub shell_path: String,   // Path to the shell or binary to execute
+    pub workdir: String,      // Working directory inside container (e.g., "/")
 }
 ```
 
-You can pass this struct to the sandbox engine to configure the runtime environment.
-
-## 🛠️ How It Works
-
-Here’s what happens under the hood when you launch a sandbox:
-
-1. **OverlayFS Mounting**
-   A new filesystem layer is created using OverlayFS, giving the process an isolated view of `/`.
-
-2. **Namespace Cloning**
-   Using `clone()` and `unshare()`, the process is moved into its own PID, UTS, NET, USER, and IPC namespaces.
-
-3. **Memory Confinement**
-   Cgroup v2 memory limits are applied by writing to `/sys/fs/cgroup`.
-
-4. **Execution**
-   The target binary (e.g., bash or your script) is launched inside this isolated, resource-restricted world.
-
-## ▶️ Example Usage
-
-Let’s say you want to sandbox `/bin/bash` with 100MB memory and a custom filesystem:
-
-```rust
-let config = SandboxConfig {
-    base_dir: "/tmp/sandbox".to_string(),
-    memory_limit: "100M".to_string(),
-    shell_path: "/bin/bash".to_string(),
-};
-
-rustbox::run_sandbox(config)?;
-```
-
-Then run it with:
+### Command Line Usage
 
 ```bash
+# Run with default settings
 sudo ./target/debug/rustbox
+
+# Custom configuration
+sudo ./target/debug/rustbox \
+    --base-dir ./rootfs \
+    --memory 256M \
+    --cpu-limit 0.5 \
+    --shell /bin/bash \
+    --workdir /root
 ```
-
-And you’ll drop into a secure, limited environment.
-
-
-## 🐞 Remote Debugging Support
-
-RustBox can be remotely debugged using `lldb-server`:
-
-```bash
-sudo lldb-server platform --server --listen 127.0.0.1:12345 ./target/debug/rustbox
-```
-
-You can then connect from your IDE (e.g., VSCode with CodeLLDB) for deep debugging sessions inside the sandboxed environment. [Reference](https://github.com/vadimcn/codelldb/blob/master/MANUAL.md#connecting-to-lldb-server-agent)
 
 ## 📚 Learn More
 
@@ -127,5 +142,3 @@ If you’re curious about the internals of Linux isolation mechanisms and want t
 > 💫 Give it a ⭐ on [GitHub](https://github.com/isdaniel/RustBox) and explore the source!
 
 Would you like help turning this into a GitHub Pages site, Dev.to article, or adding diagrams for the sandbox architecture?
-
-<! Above information summaries from AI. />
