@@ -137,13 +137,6 @@ jobs:
       - name: Generate outdated report
         run: npm outdated --json > outdated-packages.json || true
 
-      - name: Upload outdated packages report
-        uses: actions/upload-artifact@v4
-        with:
-          name: outdated-packages-report
-          path: outdated-packages.json
-          retention-days: 30
-
   auto-fix-vulnerabilities:
     name: Auto Fix Security Vulnerabilities
     runs-on: ubuntu-latest
