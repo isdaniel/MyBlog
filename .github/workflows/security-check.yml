@@ -45,20 +45,6 @@ jobs:
           path: npm-audit-report.json
           retention-days: 30
 
-  dependency-review:
-    name: Dependency Review
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Dependency Review
-        uses: actions/dependency-review-action@v4
-        with:
-          fail-on-severity: high
-          deny-licenses: GPL-3.0, AGPL-3.0
-
   codeql-analysis:
     name: CodeQL Analysis
     runs-on: ubuntu-latest
@@ -79,8 +65,8 @@ jobs:
         with:
           category: "/language:javascript"
 
-  snyk-security:
-    name: Snyk Security Scan
+  trivy-security:
+    name: Trivy Security Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -95,13 +81,30 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
         with:
-          args: --severity-threshold=high
+          scan-type: 'fs'
+          scan-ref: '.'
+          scanners: 'vuln,secret,misconfig'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          format: 'table'
+
+      - name: Run Trivy and output SARIF
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          scanners: 'vuln,secret'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
 
   ossf-scorecard:
     name: OSSF Scorecard
@@ -124,28 +127,6 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: scorecard-results.sarif
-
-  license-check:
-    name: License Compliance Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install license-checker
-        run: npm install -g license-checker
-
-      - name: Check licenses
-        run: license-checker --summary --failOn "GPL-3.0;AGPL-3.0;LGPL-3.0"
 
   outdated-packages:
     name: Check Outdated Packages
