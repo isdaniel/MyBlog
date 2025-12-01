@@ -84,7 +84,7 @@ jobs:
     name: Trivy Security Scan
     runs-on: ubuntu-latest
     outputs:
-      has_vulnerabilities: ${{ steps.trivy-check.outputs.has_vulnerabilities }}
+      has_vulnerabilities: ${{ steps.trivy-output.outputs.has_vulnerabilities }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -111,6 +111,7 @@ jobs:
         continue-on-error: true
 
       - name: Set Trivy output
+        id: trivy-output
         run: |
           if [ "${{ steps.trivy-check.outcome }}" == "failure" ]; then
             echo "has_vulnerabilities=true" >> $GITHUB_OUTPUT
