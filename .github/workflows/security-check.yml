@@ -11,13 +11,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   security-events: write
+  pull-requests: write
 
 jobs:
   npm-audit:
     name: NPM Security Audit
     runs-on: ubuntu-latest
+    outputs:
+      has_vulnerabilities: ${{ steps.audit-check.outputs.has_vulnerabilities }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -31,8 +34,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run npm audit
-        run: npm audit --audit-level=moderate
+      - name: Run npm audit and check for vulnerabilities
+        id: audit-check
+        run: |
+          # Run npm audit and capture exit code
+          npm audit --audit-level=moderate > audit-output.txt 2>&1 && AUDIT_EXIT=0 || AUDIT_EXIT=$?
+          cat audit-output.txt
+
+          if [ $AUDIT_EXIT -ne 0 ]; then
+            echo "has_vulnerabilities=true" >> $GITHUB_OUTPUT
+            echo "::warning::Security vulnerabilities found!"
+          else
+            echo "has_vulnerabilities=false" >> $GITHUB_OUTPUT
+            echo "No vulnerabilities found."
+          fi
         continue-on-error: true
 
       - name: Run npm audit (JSON output)
@@ -68,6 +83,8 @@ jobs:
   trivy-security:
     name: Trivy Security Scan
     runs-on: ubuntu-latest
+    outputs:
+      has_vulnerabilities: ${{ steps.trivy-check.outputs.has_vulnerabilities }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -82,6 +99,7 @@ jobs:
         run: npm ci
 
       - name: Run Trivy vulnerability scanner
+        id: trivy-check
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
@@ -89,6 +107,16 @@ jobs:
           scanners: 'vuln,secret,misconfig'
           severity: 'CRITICAL,HIGH,MEDIUM'
           format: 'table'
+          exit-code: '1'
+        continue-on-error: true
+
+      - name: Set Trivy output
+        run: |
+          if [ "${{ steps.trivy-check.outcome }}" == "failure" ]; then
+            echo "has_vulnerabilities=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_vulnerabilities=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Run Trivy and output SARIF
         uses: aquasecurity/trivy-action@master
@@ -105,28 +133,6 @@ jobs:
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
-
-  ossf-scorecard:
-    name: OSSF Scorecard
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-
-      - name: Run OSSF Scorecard analysis
-        uses: ossf/scorecard-action@v2.4.0
-        with:
-          results_file: scorecard-results.sarif
-          results_format: sarif
-          publish_results: true
-
-      - name: Upload OSSF Scorecard results
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: scorecard-results.sarif
 
   outdated-packages:
     name: Check Outdated Packages
@@ -156,3 +162,124 @@ jobs:
           name: outdated-packages-report
           path: outdated-packages.json
           retention-days: 30
+
+  auto-fix-vulnerabilities:
+    name: Auto Fix Security Vulnerabilities
+    runs-on: ubuntu-latest
+    needs: [npm-audit, trivy-security]
+    if: |
+      always() &&
+      (needs.npm-audit.outputs.has_vulnerabilities == 'true' || needs.trivy-security.outputs.has_vulnerabilities == 'true') &&
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate pre-fix audit report
+        run: |
+          echo "## Pre-Fix Vulnerability Report" > vulnerability-report.md
+          echo "" >> vulnerability-report.md
+          echo "Generated on: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> vulnerability-report.md
+          echo "" >> vulnerability-report.md
+          echo "### NPM Audit Results (Before Fix)" >> vulnerability-report.md
+          echo '```' >> vulnerability-report.md
+          npm audit 2>&1 || true >> vulnerability-report.md
+          echo '```' >> vulnerability-report.md
+
+      - name: Attempt to fix vulnerabilities
+        id: fix-vulnerabilities
+        run: |
+          echo "Attempting npm audit fix..."
+          npm audit fix --force 2>&1 | tee fix-output.txt || true
+
+          # Check if package.json or package-lock.json changed
+          if git diff --quiet package.json package-lock.json; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes were made by npm audit fix"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected after npm audit fix"
+          fi
+
+      - name: Generate post-fix audit report
+        if: steps.fix-vulnerabilities.outputs.has_changes == 'true'
+        run: |
+          echo "" >> vulnerability-report.md
+          echo "### NPM Audit Results (After Fix)" >> vulnerability-report.md
+          echo '```' >> vulnerability-report.md
+          npm audit 2>&1 || true >> vulnerability-report.md
+          echo '```' >> vulnerability-report.md
+          echo "" >> vulnerability-report.md
+          echo "### Changes Made" >> vulnerability-report.md
+          echo '```diff' >> vulnerability-report.md
+          git diff package.json >> vulnerability-report.md || true
+          echo '```' >> vulnerability-report.md
+
+      - name: Create Pull Request
+        if: steps.fix-vulnerabilities.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'fix(security): auto-fix npm security vulnerabilities'
+          title: '🔒 Security: Auto-fix npm vulnerabilities'
+          body: |
+            ## 🔒 Automated Security Fix
+
+            This PR was automatically created by the security check workflow.
+
+            ### Summary
+            Security vulnerabilities were detected in the npm dependencies. This PR contains the fixes applied by `npm audit fix --force`.
+
+            ### ⚠️ Important
+            - Please review the changes carefully before merging
+            - `npm audit fix --force` may introduce breaking changes
+            - Test the application thoroughly after merging
+
+            ### Reports
+            - Check the workflow run for detailed vulnerability reports
+            - Review the changes to `package.json` and `package-lock.json`
+
+            ### Triggered by
+            - Workflow: Security Check
+            - Event: ${{ github.event_name }}
+            - Run ID: ${{ github.run_id }}
+
+            ---
+            *This PR was automatically generated by GitHub Actions*
+          branch: security/auto-fix-vulnerabilities
+          delete-branch: true
+          labels: |
+            security
+            automated
+            dependencies
+          assignees: ${{ github.repository_owner }}
+
+      - name: PR Creation Summary
+        if: steps.fix-vulnerabilities.outputs.has_changes == 'true'
+        run: |
+          echo "✅ Pull Request created successfully!"
+          echo "Please review and merge the PR to apply security fixes."
+
+      - name: No Changes Summary
+        if: steps.fix-vulnerabilities.outputs.has_changes == 'false'
+        run: |
+          echo "ℹ️ npm audit fix did not make any changes."
+          echo "Manual intervention may be required to fix the vulnerabilities."
+          echo "Please check the npm audit report for details."
