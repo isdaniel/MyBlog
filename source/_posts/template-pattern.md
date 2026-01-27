@@ -4,8 +4,8 @@ date: 2019-06-02 22:30:11
 tags: [C#,DesignPattern,TemplatePattern]
 categories: [C#,DesignPattern]
 description: "如果目前場景遇到一定流程階段，但流程內容依照邏輯或情境不同也有所不一樣. 這時可以考慮使用樣板模式(TemplatePattern)"
-lang: zh-tw
 ---
+
 ## 前言：
 
 如果目前場景遇到一定流程階段，但流程內容依照邏輯或情境不同也有所不一樣. 這時可以考慮使用樣板模式(TemplatePattern)

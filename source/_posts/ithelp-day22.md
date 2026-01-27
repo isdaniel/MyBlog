@@ -3,9 +3,9 @@ title:  View是如何被建立(一) (第22天)
 date: 2019-10-03 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Agenda 前言 Action方法是如何被呼叫(快速整理) ActionMethodDispatcher 取得(執行Action方法) Expression動態產生呼叫Action方法 (GetExecutor) GetExecutor方"
-lang: zh-tw
+description: "View是如何被建立(一) (第22天) - 不知道大家有沒有點暈頭轉向XD,MVC的Model綁定機制真的蠻複雜,希望大家有跟上來"
 ---
+
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
 - [Action方法是如何被呼叫(快速整理)](#action%e6%96%b9%e6%b3%95%e6%98%af%e5%a6%82%e4%bd%95%e8%a2%ab%e5%91%bc%e5%8f%ab%e5%bf%ab%e9%80%9f%e6%95%b4%e7%90%86)

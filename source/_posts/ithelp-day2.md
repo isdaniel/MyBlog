@@ -3,8 +3,7 @@ title: Asp.Net支柱 IHttpMoudle & IHttphandler (第2天)
 date: 2019-09-13 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Agenda 前言： IHttpHandler和HttpModule關係 Asp.net_Application_Event生命週期 Event事件名稱： 事件方法說明： IHttpHandler IHttpModule 自己建立一個 IH"
-lang: zh-tw
+description: "Asp.Net支柱 IHttpMoudle & IHttphandler (第2天) - 上一篇文章我們有說 Asp.net 有兩個核心組件 IHttpMoudle & IHttphandler"
 ---
 # Agenda<!-- omit in toc -->
 - [前言：](#%e5%89%8d%e8%a8%80)

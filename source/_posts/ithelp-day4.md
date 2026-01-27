@@ -3,8 +3,7 @@ title: 掌控HttpApplication物件建立 - HttpApplicationFactory (第4天)
 date: 2019-09-15 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Agenda 前言： HttpApplication物件 取得使用 HttpApplication物件 (GetApplicationInstance) HttpApplicationFactory 初始化 (EnsureInited方法)"
-lang: zh-tw
+description: "掌控HttpApplication物件建立 - HttpApplicationFactory (第4天) - 附上Asp.net執行請求流程圖."
 ---
 # Agenda<!-- omit in toc -->
 - [前言：](#%e5%89%8d%e8%a8%80)

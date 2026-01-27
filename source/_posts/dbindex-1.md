@@ -3,10 +3,11 @@ title: 資料庫索引深入淺出(一)
 date: 2020-01-20 11:12:43
 tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
+description: "資料庫索引深入淺出(一) - Index第一個欄位至關重要它會影響資料統計值結果，Index一般建立在查詢條件的欄位"
 keywords: DataBase,Turning,sql-server,Index
-description: "前文"
-lang: zh-tw
 ---
+
+
 ## 前文
 
 `Index`第一個欄位至關重要它會影響資料**統計值**結果，`Index`一般建立在查詢條件的欄位

@@ -3,9 +3,9 @@ title:  6個基本(ActionResult) View是如何被建立(二) (第23天)
 date: 2019-10-04 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Agenda 前言 6種基本的ActionResult ContentResult RedirectResult & RedirectToRouteResult EmptyResult FileResult FileContentResult FilePathResult 小結:"
-lang: zh-tw
+description: "6個基本(ActionResult) View是如何被建立(二) (第23天) - 上一篇介紹到CreateActionResult方法會產生一個ActionResult物件利用MethodInfo資訊."
 ---
+
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
 - [6種基本的ActionResult](#6%e7%a8%ae%e5%9f%ba%e6%9c%ac%e7%9a%84actionresult)

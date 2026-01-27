@@ -3,9 +3,9 @@ title: SQL Server Merge condition on declare value problem
 date: 2020-06-21 22:30:11
 tags: [sql-server,SQL,Merge]
 categories: [Turning,sql-server]
-description: "前言"
-lang: zh-tw
+description: "SQL Server Merge condition on declare value problem - 假如要判斷資料是否存在於資料表中,存在就更新,不存在就新增."
 ---
+
 ## 前言
 
 假如要判斷資料是否存在於資料表中,存在就更新,不存在就新增.

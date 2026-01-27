@@ -3,9 +3,9 @@ title: (開賽)Http 請求 Asp.net IIS伺服器架構 (第1天)
 date: 2019-09-12 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Agenda 開賽前言： 為什麼想要選擇此主題 閱讀時建議事項 文章收穫 進入主題 瀏覽器請求IIS流程 如何辨別是否為靜態檔案? .Net CLR Httpmodule & Httphandler 核心模組 W3WP應用程式 小結"
-lang: zh-tw
+description: "(開賽)Http 請求 Asp.net IIS伺服器架構 (第1天) - 三十篇文章架構基本遵循:"
 ---
+
 # Agenda<!-- omit in toc -->
 - [開賽前言：](#%e9%96%8b%e8%b3%bd%e5%89%8d%e8%a8%80)
   - [為什麼想要選擇此主題](#%e7%82%ba%e4%bb%80%e9%ba%bc%e6%83%b3%e8%a6%81%e9%81%b8%e6%93%87%e6%ad%a4%e4%b8%bb%e9%a1%8c)

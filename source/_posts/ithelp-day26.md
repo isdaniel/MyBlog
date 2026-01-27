@@ -3,9 +3,9 @@ title: 動手DIY改造 Asp.net MVC- Route解析機制 (第26天)
 date: 2019-10-07 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Agenda 前言 RouteData 建立自己Route機制 小結:"
-lang: zh-tw
+description: "動手DIY改造 Asp.net MVC- Route解析機制 (第26天) - UrlRoutingModule對於OnPostResolveRequestCache事件添加一個對於MVC很重要的動作,透過RouteCollection取得此次請求匹配RouteData物件."
 ---
+
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
 - [RouteData](#routedata)

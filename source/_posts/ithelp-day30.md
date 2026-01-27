@@ -3,9 +3,9 @@ title: 鐵人賽完賽＆總結　(第30天)
 date: 2019-10-11 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Agenda 完賽感想 [感謝這次的夥伴 [IT成長團]](#%e6%84%9f%e8%ac%9d%e9%80%99%e6%ac%a1%e7%9a%84%e5%a4%a5%e4%bc%b4-it%e6%88%90%e9%95%b7%e5%9"
-lang: zh-tw
+description: "鐵人賽完賽＆總結 (第30天) - 這三十天無法對於MVC全部原始碼做詳細介紹,我盡量在這三十篇講述MVC執行過程中重要知識點,閱讀MVC原始碼真不是很簡單事情."
 ---
+
 # Agenda<!-- omit in toc -->
 - [完賽感想](#%e5%ae%8c%e8%b3%bd%e6%84%9f%e6%83%b3)
 - [感謝這次的夥伴 [IT成長團]](#%e6%84%9f%e8%ac%9d%e9%80%99%e6%ac%a1%e7%9a%84%e5%a4%a5%e4%bc%b4-it%e6%88%90%e9%95%b7%e5%9c%98)

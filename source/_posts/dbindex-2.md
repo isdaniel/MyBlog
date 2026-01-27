@@ -3,9 +3,8 @@ title: 資料庫索引深入淺出(二)
 date: 2020-01-20 23:10:43
 tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
+description: "資料庫索引深入淺出(二) - 介紹 Covering Index、Filter Index、Index Intersection 與索引設計重點。"
 keywords: DataBase,Turning,sql-server,Index
-description: "Agenda 前文 Covering Index 加入INCLUDE欄位含意 案例解說 Filter Index filter index的限制 Index Intersection Primary Key 選擇Clustered Index要訣"
-lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前文](#前文)
@@ -238,3 +237,4 @@ CREATE TABLE T(
 ![](https://i.imgur.com/6y3XwDz.png)
 
 > 所以確定建立的Clustered index資料是唯一的,請加上`Unique`
+

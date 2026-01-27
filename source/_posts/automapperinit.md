@@ -3,9 +3,9 @@ title: (AutoMapper)反射自動註冊AutoMapper Profile
 date: 2019-06-10 22:30:11
 tags: [C#,Automapper,Model]
 categories: [C#]
-description: "前言："
-lang: zh-tw
+description: "(AutoMapper)反射自動註冊AutoMapper Profile - AutoMapper 幫我我們方便管理物件跟物件之間屬性值格式轉換"
 ---
+
 ## 前言：
 
 AutoMapper 幫我我們方便管理物件跟物件之間屬性值格式轉換

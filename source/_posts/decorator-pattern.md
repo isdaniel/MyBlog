@@ -3,8 +3,7 @@ title: (C#)裝飾者模式(Decorator Pattern)
 date: 2019-06-01 20:37:16
 tags: [C#,Design-Pattern,Decorator-Pattern]
 categories: [C#,DesignPattern]
-description: "裝飾者模式是一個很精美且優雅的模式"
-lang: zh-tw
+description: "(C#)裝飾者模式(Decorator Pattern) - 裝飾者模式是一個很精美且優雅的模式"
 ---
 裝飾者模式是一個很精美且優雅的模式
 

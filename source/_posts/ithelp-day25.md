@@ -3,9 +3,9 @@ title:  動態產生程式碼(WebViewPage) View是如何被建立(四) (第25天
 date: 2019-10-06 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Agenda 前言 WebViewPage 呼叫WebViewPage.ExecutePageHierarchy方法時機 ApplicationStartPage and WebPageRenderingBase WebViewPage vs WebViewPage 小結："
-lang: zh-tw
+description: "動態產生程式碼(WebViewPage) View是如何被建立(四) (第25天) - 上一篇說到最終會透過一個實現IView物件(Razor是透過RazorView)來完成,RenderView方法將BuildManagerCompiledView方法取得物件轉換型別成WebViewPage."
 ---
+
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
 - [WebViewPage](#webviewpage)

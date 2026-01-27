@@ -3,9 +3,9 @@ title: Null Object Pattern
 date: 2019-12-27 10:00:00
 tags: [C#,DesignPattern,NullObjectPattern]
 categories: [C#,DesignPattern]
-description: "假如在系統中null散佈在有許多地方且null有相對應的邏輯或行為.這時候就很適合使用NullObject Pattern來解決，已Null Object取代null邏輯."
-lang: zh-tw
+description: "Null Object Pattern - 假如在系統中null散佈在有許多地方且null有相對應的邏輯或行為.這時候就很適合使用NullObject Pattern來解決，已Null Object取代null邏輯."
 ---
+
 ## 前言:
 
 假如在系統中`null`散佈在有許多地方且`null`有相對應的邏輯或行為.這時候就很適合使用`NullObject Pattern`來解決，已Null Object取代`null`邏輯.

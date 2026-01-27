@@ -3,8 +3,7 @@ title: 透過MvcRouteHandler取得呼叫IHttphandler (第10天)
 date: 2019-09-21 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Agenda 前言 MVC取得使用HttpHandler (IHttpHandler) MVC呼叫的HttpHandler (MvcHandler) 小結"
-lang: zh-tw
+description: "透過MvcRouteHandler取得呼叫IHttphandler (第10天) - 前一篇介紹路由封裝了Http請求路徑資訊可以讓我們找到相對應的Action和Controller並呼叫執行外，也可透過MapPageRoute來將請求教給.aspx實體檔案來處理請求."
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

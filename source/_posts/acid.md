@@ -3,10 +3,10 @@ title: ACID
 date: 2020-06-02 22:30:11
 tags: [C#,IOC,Autofac,AOP]
 categories: [C#,IOC]
+description: "ACID 資料庫交易特性介紹：原子性、一致性、隔離性與持久性，並說明 SQL Server 交易錯誤與 XACT_ABORT 的影響。"
 keywords: C#,IOC,Autofac,AOP
-description: "前言"
-lang: zh-tw
 ---
+
 ## 前言
 
 資料庫系統在寫入或新增資料時,為了確保交易正確可靠性,所以具備
@@ -124,3 +124,4 @@ FROM dbo.T99 t
 JOIN [dbo].[ReportPeriod] p ON p.StartDate = t.PeriodDate
 JOIN @Transaction t1 ON t.TransactionId = t1.TransactionId AND  p.ProductId = t1.ProductId
 ```
+

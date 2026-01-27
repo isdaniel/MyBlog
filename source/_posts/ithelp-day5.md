@@ -3,8 +3,7 @@ title: Asp.Net重要物件HttpApplication(一) 初始化建立IHttpMoudule (第5
 date: 2019-09-16 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Agenda 前言： 初始化HttpApplication (InitInternal) 載入所有註冊HttpModule(InitModules方法) HttpModule添加Asp.net事件原理解析. 管道模式 vs 經典模式 取得執行HttpHandler物件 小結"
-lang: zh-tw
+description: "Asp.Net重要物件HttpApplication(一) 初始化建立IHttpMoudule (第5天) - 附上Asp.net執行請求流程圖."
 ---
 # Agenda<!-- omit in toc -->
 - [前言：](#%e5%89%8d%e8%a8%80)
