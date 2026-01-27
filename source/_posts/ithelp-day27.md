@@ -3,8 +3,9 @@ title: 動手DIY改造 Asp.net MVC- 自己動作建立一個DependencyResolver�
 date: 2019-10-08 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 Aufofac依賴注入容器 IDependencyResolver介面 建立CustomerDependencyResolver(IDependencyResolver) CustomerControllerActiva"
+lang: zh-tw
 ---
-
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
 - [Aufofac依賴注入容器](#aufofac%e4%be%9d%e8%b3%b4%e6%b3%a8%e5%85%a5%e5%ae%b9%e5%99%a8)

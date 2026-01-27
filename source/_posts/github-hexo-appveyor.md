@@ -3,8 +3,9 @@ title: 建立自己Blog系列(一) 介紹 Github (hosting) + Hexo (Blog) + Appve
 date: 2019-06-02 14:07:51
 tags: [WebDesign,Blog,Github,CICD]
 categories: WebDesign
+description: "前文："
+lang: zh-tw
 ---
-
 ## 前文：
 
 網路上已經有許多Blog託管平台 例如:Google Blog，痞客邦....為何我還要自己寫這篇跟大家分享?

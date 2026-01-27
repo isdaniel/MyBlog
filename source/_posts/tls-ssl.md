@@ -4,6 +4,8 @@ date: 2024-11-11 22:30:11
 tags: [ssl,tls]
 categories: [ssl,tls]
 keywords: ssl,tls, security
+description: "TLS (Transport Layer Security) is a cryptographic protocol that provides secure communication over a network, commonly used to secure HTTP traffic (i.e.,"
+lang: en
 ---
 ## Foreword
 

@@ -3,6 +3,8 @@ title: 建立自己Blog系列(二) github Setting
 date: 2019-06-02 22:16:39
 tags: [WebDesign,Blog,Github,CICD]
 categories: WebDesign
+description: "在Github這邊要先建立兩個Repository"
+lang: zh-tw
 ---
 在Github這邊要先建立兩個Repository
 

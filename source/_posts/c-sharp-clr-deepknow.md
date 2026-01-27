@@ -6,8 +6,9 @@ categories: [C#,CLR]
 top:
 photos: 
     - "https://i.imgur.com/vHPQhIl.png"
+description: "前文："
+lang: zh-tw
 ---
-
 ## 前文：
 
 我們在撰寫C#時常常會聽到CLR(Common Lnguage Rumtime)，但對於CLR又認知多少呢?

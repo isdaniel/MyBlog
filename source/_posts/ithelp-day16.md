@@ -3,8 +3,9 @@ title:  MVC Filter 機制解密 (第16天)
 date: 2019-09-27 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 揭密取得過濾器(Filter)機制AOP AOP(Aspect-Oriented Programming)核心概念Proxy Pattern 五種過濾器(Filter)介面 AuthorizationFilter IAu"
+lang: zh-tw
 ---
-
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
 - [揭密取得過濾器(Filter)機制AOP](#%e6%8f%ad%e5%af%86%e5%8f%96%e5%be%97%e9%81%8e%e6%bf%be%e5%99%a8filter%e6%a9%9f%e5%88%b6aop)

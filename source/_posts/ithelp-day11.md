@@ -3,6 +3,8 @@ title:  Asp.net MVC Controller是怎麼被建立 (第11天)
 date: 2019-09-22 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 取得執行Controller ControllerBuilder IControllerFactory介面 ControllerFactory(DefaultControllerFactory.cs) 建立Controller的IControllerActivator 小結:"
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

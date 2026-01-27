@@ -3,8 +3,9 @@ title: (C#)委託delegate,Func<>,Action 解說系列(三)
 date: 2019-06-02 11:12:43
 tags: [C#,Func,Delegate]
 categories: [C#,Delegate]
+description: "前文："
+lang: zh-tw
 ---
-
 ## 前文：
 
 在Func和Action泛型委託中 有 In , Out 兩個關鍵字

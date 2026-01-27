@@ -3,8 +3,9 @@ title: Gaps and Islands problem (SQL) 連續範圍
 date: 2019-06-10 22:30:11
 tags: [SQL,MSSQL,MySQL,Postgresql,SQL-Gaps-and-Islands-problem]
 categories: [SQL]
+description: "前言："
+lang: zh-tw
 ---
-
 ## 前言：
 
 SO 發現蠻多人有遇到 `Gaps and Islands problem`

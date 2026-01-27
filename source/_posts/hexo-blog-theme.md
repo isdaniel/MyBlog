@@ -3,8 +3,9 @@ title: 建立自己Blog系列(三) Hexo next theme 介紹
 date: 2019-06-03 21:53:16
 tags: [WebDesign,Blog,Github,CICD]
 categories: WebDesign
+description: "前言："
+lang: zh-tw
 ---
-
 ## 前言：
 
 為何我會選用Hxeo來當作Blog框架?

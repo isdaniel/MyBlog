@@ -4,8 +4,9 @@ date: 2025-09-09 21:10:43
 tags: [Rust,PostgreSQL, logical-replication]
 categories: [Rust, PostgreSQL, logical-replication]
 keywords: Rust,Linux,logical-replication
+description: "A Rust-based Change Data Capture (CDC) application that streams real-time data changes from PostgreSQL to other databases (MySQL, SQL Server, etc.) using"
+lang: en
 ---
-
 # PostgreSQL CDC Example
 
 A Rust-based Change Data Capture (CDC) application that streams real-time data changes from PostgreSQL to other databases (MySQL, SQL Server, etc.) using logical replication.

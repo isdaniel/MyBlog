@@ -6,8 +6,9 @@ categories: [javascript,vue.js]
 top:
 photos: 
     - "https://i.imgur.com/vSRIciN.png"
+description: "最近面試有一間公司要求使用Restcountries API使用CRUD前端Html串接API，有看我文章的夥伴應該知道我大多是研究後端或CI/CD相關技術，對於前端技術較少研究，這次我打算使用vue.js來完成此次需求."
+lang: zh-tw
 ---
-
 ## 前文
 
 最近面試有一間公司要求使用[Restcountries API](https://restcountries.eu/)使用CRUD前端Html串接API，有看我文章的夥伴應該知道我大多是研究後端或CI/CD相關技術，對於前端技術較少研究，這次我打算使用vue.js來完成此次需求.

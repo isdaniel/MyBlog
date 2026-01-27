@@ -6,8 +6,9 @@ categories: WebDesign
 top:
 photos: 
     - "http://i.imgur.com/4wh9OVF.png"
+description: "Base家族以Base64最為出名，這邊會用Base64編碼來做介紹"
+lang: zh-tw
 ---
-
 Base家族以Base64最為出名，這邊會用Base64編碼來做介紹
 
 寫網站應該都用過Base64但你對於他的原理了解嗎?

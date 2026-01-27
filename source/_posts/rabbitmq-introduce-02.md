@@ -3,8 +3,9 @@ title: RabbitMQ (一) 安裝介紹
 date: 2019-06-03 22:30:11
 tags: [C#,RabbitMQ,MQ]
 categories: [C#]
+description: "RabbitMQ是什麼?"
+lang: zh-tw
 ---
-
 ## RabbitMQ是什麼?
 
 RabbitMQ是一個訊息中介軟體 (broker), 他實作​[AMQP標準](https://zh.wikipedia.org/zh-tw/%E9%AB%98%E7%BA%A7%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E5%8D%8F%E8%AE%AE), 特點是消息轉發是非同步並且可靠.

@@ -7,9 +7,9 @@ top:
 photos: 
     - "https://i.imgur.com/3WWvSXp.png"
 keywords: DataBase,Turning,sql-server,Index
+description: "Agenda 前文 兩種圍度的Lock Lock範圍 Lock類型 Update Lock 存在的意義 Lock 互斥 Demo Locking Optimization NoLock的隱憂 Read Uncommitted 髒讀取 小結 前文"
+lang: zh-tw
 ---
-
-
 # Agenda<!-- omit in toc -->
 - [前文](#前文)
 - [兩種圍度的Lock](#兩種圍度的lock)

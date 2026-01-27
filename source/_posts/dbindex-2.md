@@ -4,6 +4,8 @@ date: 2020-01-20 23:10:43
 tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
 keywords: DataBase,Turning,sql-server,Index
+description: "Agenda 前文 Covering Index 加入INCLUDE欄位含意 案例解說 Filter Index filter index的限制 Index Intersection Primary Key 選擇Clustered Index要訣"
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前文](#前文)

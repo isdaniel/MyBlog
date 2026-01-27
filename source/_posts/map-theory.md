@@ -4,8 +4,9 @@ date: 2021-11-02 23:10:43
 tags: [DataBase,Turning,postgresql]
 categories: [DataBase,Turning]
 keywords: DataBase,Turning,postgresql
+description: "前文"
+lang: zh-tw
 ---
-
 ## 前文
 
 我認為 DB query optimizer (QO) 產生執行計畫並執行查詢和 使用地圖找尋最佳路徑很類似

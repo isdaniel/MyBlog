@@ -6,8 +6,9 @@ categories: [postgresql]
 # photos: 
 #     - "https://i.imgur.com/mYYjXFg.jpg"
 keywords: DataBase,postgresql
+description: "因為工作需要最近在研究 postgresql DB，postgresql DB 是一個 Open Source RDBMS，所以有任何問題疑問都可以把 source code 下載並 debug 了解原因，本篇希望可以快速幫助想要透過 source code 安裝 postgresql DB 的人"
+lang: zh-tw
 ---
-
 ## 前言
 
 因為工作需要最近在研究 postgresql DB，postgresql DB 是一個 Open Source RDBMS，所以有任何問題疑問都可以把 source code 下載並 debug 了解原因，本篇希望可以快速幫助想要透過 source code 安裝 postgresql DB 的人

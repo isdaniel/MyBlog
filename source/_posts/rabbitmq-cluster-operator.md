@@ -3,8 +3,9 @@ title: RabbitMQ cluster-operator
 date: 2021-09-10 22:31:09
 tags: [k8s,Kubernetes,RabbitMQ]
 categories: [k8s,Kubernetes,RabbitMQ]
+description: "在 Rabbitmq 官方 Github 有開源一個 k8s 操作管理 RabbitMQ clusters 環境 cluster-operator."
+lang: zh-tw
 ---
-
 ## 前言
 
 在 Rabbitmq 官方 Github 有開源一個 k8s 操作管理  RabbitMQ clusters 環境 [cluster-operator](https://github.com/rabbitmq/cluster-operator).

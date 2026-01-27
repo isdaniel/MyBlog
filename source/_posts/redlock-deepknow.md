@@ -4,8 +4,9 @@ date: 2021-10-25 09:30:11
 tags: [C#,Redis,Redlock]
 categories: [C#,Redis]
 keywords: C#,Redis,Redlock,algorithm
+description: "我之前有寫透過 lock or CAS 來防治，Racing condition 問題，但如果這個問題延深到多台服務器甚至是 micor-services 架構我們要怎麼處理資料問題呢?"
+lang: zh-tw
 ---
-
 ## 前言
 
 我之前有寫透過 [lock or CAS](https://isdaniel.github.io/high-concurrency-atomic-cas-algorithm/) 來防治，Racing condition 問題，但如果這個問題延深到多台服務器甚至是 micor-services 架構我們要怎麼處理資料問題呢?

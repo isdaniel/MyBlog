@@ -3,6 +3,8 @@ title: 高併發系統系列-多執行緒中順序 by EventWaitHandle
 date: 2021-07-17 19:16:37
 tags: [C#,thread,concurrent]
 categories: [C#,thread]
+description: "前言"
+lang: zh-tw
 ---
 ## 前言
 

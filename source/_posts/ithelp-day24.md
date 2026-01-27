@@ -3,8 +3,9 @@ title:  探討ViewEngine機制 View是如何被建立(三) (第24天)
 date: 2019-10-05 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 ViewResultBase.ExecuteResult IView BuildManagerCompiledView RazorView IViewEngine VirtualPathProviderViewEngin"
+lang: zh-tw
 ---
-
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
 - [ViewResultBase.ExecuteResult](#viewresultbaseexecuteresult)

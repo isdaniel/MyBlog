@@ -3,8 +3,9 @@ title: RabbitMQ (三) 簡單實作一個MQ
 date: 2019-06-02 22:30:11
 tags: [C#,RabbitMQ,MQ]
 categories: [C#]
+description: "前言"
+lang: zh-tw
 ---
-
 ## 前言
 
 本篇利用RabbitMQ client來簡單實現MQ功能.

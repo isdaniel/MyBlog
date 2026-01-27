@@ -5,8 +5,9 @@ tags: [DB,Isolation,sql-server,Isolation,Racing Condition]
 categories: [Turning,sql-server]
 photos: 
     - "https://i.imgur.com/K9h9Knl.png"
+description: "前言"
+lang: zh-tw
 ---
-
 ## 前言
 
 假如我跟你說下面語法在高併發系統，UserId = 101餘額會扣到變負值你們知道問題出在哪裡嗎？

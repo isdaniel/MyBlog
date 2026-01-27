@@ -4,8 +4,9 @@ date: 2025-08-10 10:30:11
 tags: [Rust,PostgreSQL, logical-replication]
 categories: [Rust, PostgreSQL, logical-replication]
 keywords: Rust,Linux,logical-replication
+description: "大家好，今天要和大家介紹我近期開發的一個開源專案 [replication_checker_rs][1] 如果你想用一個輕量、可讀性高的工具實時觀察 PostgreSQL 邏輯複寫（logical replication）流，或想把複寫協議"
+lang: zh-tw
 ---
-
 ## 前言
 
 

@@ -3,6 +3,8 @@ title: 啟動吧!Asp.Net IsapiRunTime & HttpRuntime (第3天)
 date: 2019-09-14 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言: IIS 與 Asp net (W3SVC服務) IISAPIRuntime介面 IsapiRunTime.ProcessRequest HttpRuntime.ProcessRequestNoDemand ProcessRequestInternal 小結"
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言:](#%e5%89%8d%e8%a8%80)

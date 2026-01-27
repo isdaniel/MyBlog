@@ -3,8 +3,9 @@ title: 快速建立連接 MSSQL By Docker + VSCode
 date: 2021-03-13 22:30:11
 tags: [Docker,SSMS,VSCode]
 categories: [Docker]
+description: "前言"
+lang: zh-tw
 ---
-
 ## 前言
 
 如果我們在Local或測試環境需要建立一個連接MSSQL環境，傳統需要安裝MSSQL和SSMS

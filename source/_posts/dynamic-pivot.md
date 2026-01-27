@@ -3,8 +3,9 @@ title: (SQL Server)Dynamic pivot 動態樞紐分析
 date: 2019-06-02 22:30:11
 tags: [SQL,Dynamic-Pivot,Pivot]
 categories: [SQL]
+description: "前言："
+lang: zh-tw
 ---
-
 ## 前言：
 
 之前有和大家分享使用[CASE WHEN 搭配聚合函數](https://dotblogs.com.tw/daniel/2018/05/09/172804)實現樞紐分析

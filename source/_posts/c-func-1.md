@@ -3,8 +3,9 @@ title: (C#)委託delegate,Func<>,Action 解說系列(一)
 date: 2019-06-02 10:54:52
 tags: [C#,Func,Delegate]
 categories: [C#,Delegate]
+description: "前文："
+lang: zh-tw
 ---
-
 ## 前文：
 
 成為.Net高手`Delegate` 是必備武器之一

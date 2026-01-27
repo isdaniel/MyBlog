@@ -3,8 +3,9 @@ title: 為什麼 Float和Double會有誤差 (浮點數儲存原理)
 date: 2019-06-10 22:30:11
 tags: [C#,float,double,number]
 categories: [C#]
+description: "前言："
+lang: zh-tw
 ---
-
 ## 前言：
 
 大家都知道float和double會有誤差 

@@ -3,6 +3,8 @@ title: 談談Controller幾個重要成員 (第12天)
 date: 2019-09-23 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 ControllerBase(Controller基礎類別) SessionStateTempDataProvider 控制儲存TempData ControllerBase Excute方法 Controller Ex"
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

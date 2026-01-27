@@ -3,6 +3,8 @@ title: Action方法如何被執行InvokeAction(二) (第17天)
 date: 2019-09-28 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 ControllerActionInvoker方法 重要InvokeAction方法 取得ControllerDescriptor(ReflectedControllerDescriptor) ActionDescrip"
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

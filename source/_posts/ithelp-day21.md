@@ -3,8 +3,9 @@ title:  探討Model驗證標籤(ValidationAttribute) (第21天)
 date: 2019-10-02 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 ValidationAttribute ModelValidatorProviders ModelValidator CompositeModelValidator DataAnnotationsModelValidat"
+lang: zh-tw
 ---
-
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
 - [ValidationAttribute](#validationattribute)

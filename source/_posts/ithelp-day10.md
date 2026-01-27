@@ -3,6 +3,8 @@ title: 透過MvcRouteHandler取得呼叫IHttphandler (第10天)
 date: 2019-09-21 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 MVC取得使用HttpHandler (IHttpHandler) MVC呼叫的HttpHandler (MvcHandler) 小結"
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

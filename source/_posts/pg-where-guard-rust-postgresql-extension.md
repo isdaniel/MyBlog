@@ -1,9 +1,11 @@
 ---
 title: Building Safe PostgreSQL Extensions with Rust - Introducing pg_where_guard
-date: 2025-10-03 07:20:00
+date: 2025-01-03 07:20:00
 tags: [Rust, PostgreSQL, Database-Safety, pgrx, Extension]
 categories: [Rust, PostgreSQL, Database-Safety]
 keywords: Rust, PostgreSQL, pgrx, database-safety, SQL-injection-prevention, pg_where_guard
+description: A Rust/pgrx PostgreSQL extension that blocks unsafe UPDATE/DELETE statements without WHERE clauses.
+lang: en
 ---
 
 # Building Safe PostgreSQL Extensions with Rust - Introducing pg_where_guard

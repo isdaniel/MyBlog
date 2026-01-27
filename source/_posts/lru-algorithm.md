@@ -7,6 +7,8 @@ top:
 photos: 
     - "https://i.imgur.com/bd3VgSx.png"
 keywords: Algorithm,DataStructure
+description: "資料結構跟演算法是程式設計師的內功，在中小型系統懂這兩樣東西效用可能有限，但在大型系統中熟不熟用資料結構跟演算法做出來的效益會天差地遠"
+lang: zh-tw
 ---
 ## 前言
 

@@ -4,8 +4,9 @@ date: 2021-10-03 20:30:11
 tags: [DataBase,Turning,postgresql]
 categories: [Turning,postgresql]
 keywords: DataBase,Turning,postgresql
+description: "Postgresql DB 目前預設在更新資料時會在 Heap Table 新增一條新版本資料，舊版本會先存在直到使用 VACUUM 回收"
+lang: zh-tw
 ---
-
 ## 前言
 
 Postgresql DB 目前預設在更新資料時會在 Heap Table 新增一條新版本資料，舊版本會先存在直到使用 VACUUM 回收

@@ -3,8 +3,9 @@ title: 【C#】我們來土砲一個 Asp.net Session (Session核心原理)
 date: 2019-05-27 21:16:07
 tags: [C#,Asp.net,Session]
 categories: [C#,SourceCode]
+description: "我們在寫網站一定會使用到 Session 今天就跟大家分享自製微型 Asp.net Session 分析Session->實作Session->使用Session"
+lang: zh-tw
 ---
-
 我們在寫網站一定會使用到 `Session`
 今天就跟大家分享自製微型 `Asp.net Session`
 > 分析Session->實作Session->使用Session

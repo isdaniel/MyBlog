@@ -7,8 +7,9 @@ top:
 photos: 
     - "https://i.imgur.com/dWZF6DH.png"
 keywords: C#,lock,CLR
+description: "前言"
+lang: zh-tw
 ---
-
 ## 前言
 
 你知道object lock底層怎麼實作，可重入鎖是底層是怎麼運作的嗎?

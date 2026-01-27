@@ -3,8 +3,9 @@ title: RabbitMQ (二) 概念
 date: 2019-06-03 22:30:11
 tags: [C#,RabbitMQ,MQ]
 categories: [C#]
+description: "介紹RabbitMQ"
+lang: zh-tw
 ---
-
 ## 介紹RabbitMQ 
 
 RabbitMQ是個訊息仲介（broker），主要是利用消息把生產者跟消費者解耦合

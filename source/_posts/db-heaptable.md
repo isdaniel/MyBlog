@@ -6,8 +6,9 @@ categories: [Turning,sql-server]
 top:
 photos: 
     - "https://i.imgur.com/HT0bui0.png"
+description: "Heap 資料表"
+lang: zh-tw
 ---
-
 ## Heap 資料表
 
 如果資料表沒有`Clustered Index`那此表就會是Heap資料表

@@ -4,8 +4,9 @@ date: 2021-10-07 20:30:11
 tags: [DataBase,Turning,postgresql,WAL]
 categories: [Turning,postgresql]
 keywords: DataBase,Turning,postgresql,WAL
+description: "前言"
+lang: zh-tw
 ---
-
 ## 前言
 
 WAL 是一種 Tx Log實踐機制

@@ -3,8 +3,9 @@ title: State Pattern(狀態者模式)
 date: 2019-06-10 22:30:11
 tags: [C#,DesignPattern,StatePattern]
 categories: [C#,DesignPattern]
+description: "前言："
+lang: zh-tw
 ---
-
 ## 前言：
 
 狀態者模式

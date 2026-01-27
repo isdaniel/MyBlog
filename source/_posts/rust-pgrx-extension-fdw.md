@@ -4,8 +4,9 @@ date: 2025-06-30 22:30:11
 tags: [Rust, PostgreSQL,pgrx]
 categories: [Rust, pgrx, PostgreSQL]
 keywords: Rust, pgrx, PostgreSQL
+description: "Here's a well-structured draft for your technical blog post based on the provided Rust + pgrx Foreign Data Wrapper (FDW) code."
+lang: en
 ---
-
 Here's a well-structured draft for your technical blog post based on the provided Rust + pgrx Foreign Data Wrapper (FDW) code.
 
 # 🚀 Building a Simple PostgreSQL FDW with Rust and pgrx

@@ -6,8 +6,9 @@ categories: [Turning,sql-server]
 top:
 photos: 
     - "https://i.imgur.com/uuyIRuC.png"
+description: "前言:"
+lang: zh-tw
 ---
-
 ## 前言:
 
 使用`DB`新增欄位一般很快就可以執行完畢,但最近我們在prod新增一個`bit`欄位卻需要跑快45分鐘...

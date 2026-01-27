@@ -3,9 +3,9 @@ title: .Net 三種區塊記憶體位置 Heap , Stack , Globle??
 date: 2020-10-22 11:12:43
 tags: [C#,Memory,Heap]
 categories: [C#,Memory]
+description: "**前文:**"
+lang: zh-tw
 ---
-
-
 **前文:**
 
 寫.Net 寫一陣子了 突然覺得一些基本功好重要

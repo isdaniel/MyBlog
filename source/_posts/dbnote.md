@@ -3,6 +3,8 @@ title: 撰寫SQL的建議
 date: 2020-01-26 23:10:43
 tags: [DataBase,Turning,sql-server]
 categories: [DataBase,Turning]
+description: "Agenda 前文"
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前文](#%e5%89%8d%e6%96%87)

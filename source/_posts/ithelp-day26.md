@@ -3,8 +3,9 @@ title: 動手DIY改造 Asp.net MVC- Route解析機制 (第26天)
 date: 2019-10-07 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 RouteData 建立自己Route機制 小結:"
+lang: zh-tw
 ---
-
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
 - [RouteData](#routedata)

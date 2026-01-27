@@ -3,6 +3,8 @@ title: Action方法如何被執行InvokeAction(一) (第15天)
 date: 2019-09-26 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 InvokeAction方法 在Controller類別中 重要方法ExecuteCore() 取得執行的ActionInvoker(AsyncControllerActionInvoker) ControllerAct"
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

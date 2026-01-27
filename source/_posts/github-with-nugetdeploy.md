@@ -3,8 +3,9 @@ title: Appveyor搭配Github自動化上傳Nuget
 date: 2020-01-27 23:10:43
 tags: [CICD,Appveyor,C#,netcore]
 categories: [CICD]
+description: "前文"
+lang: zh-tw
 ---
-
 ## 前文
 
 現在CICD越來越普遍,如要提高開發效率和自動化部屬跟Deploy系統有密不可分關係.

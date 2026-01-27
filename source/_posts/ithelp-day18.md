@@ -3,8 +3,9 @@ title: 提供ModelBing幾個重要功臣(Model) (第18天)
 date: 2019-09-29 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 IModelBinder(DefaultModelBinder) ModelBinders ModelBinderDictionary IValueProvider 提供參數填值 ValueProvider工廠集合(Va"
+lang: zh-tw
 ---
-
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
 - [IModelBinder(DefaultModelBinder)](#imodelbinderdefaultmodelbinder)

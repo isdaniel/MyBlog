@@ -3,8 +3,9 @@ title: MessageWorkerPool framework introduction
 date: 2025-06-02 16:00:00
 tags: [C#,OOP,Process,workerpool,message-queue,open-source]
 categories: [C#,OOP,framework]
+description: "最近我開發了 MessageWorkerPool 專案。其主要概念是提供一個平台框架，使使用者能夠快速且輕鬆地在 Worker 內實作邏輯。該設計高度靈活，允許基於我創建的 Worker 通訊協議，以多種程式語言實作 Worker。目前，我已提供使用 C#、Rust 和 Python 編寫的 Worker 範例。"
+lang: zh-tw
 ---
-
 ## 簡介
 
 最近我開發了 `MessageWorkerPool` 專案。其主要概念是提供一個平台框架，使使用者能夠快速且輕鬆地在 `Worker` 內實作邏輯。該設計高度靈活，允許基於我創建的 Worker 通訊協議，以多種程式語言實作 `Worker`。目前，我已提供使用 C#、Rust 和 Python 編寫的 Worker 範例。

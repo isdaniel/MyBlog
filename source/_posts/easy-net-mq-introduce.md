@@ -6,8 +6,9 @@ categories: [javascript,vue.js]
 top:
 photos: 
     - "https://i.imgur.com/YEzuPKY.png"
+description: "現今越來越多系統使用MQ來達成非同步並來提升系統吞吐量，我今天想要介紹的是EasyNetQ一個封裝RabbitMq Client .net框架"
+lang: zh-tw
 ---
-
 ## 前文
 
 現今越來越多系統使用MQ來達成非同步並來提升系統吞吐量，我今天想要介紹的是[EasyNetQ](https://easynetq.com/)一個封裝RabbitMq Client .net框架

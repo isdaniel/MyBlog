@@ -6,8 +6,9 @@ categories: [Turning,postgresql]
 keywords: DataBase,Turning,postgresql,cost
 photos: 
     - "https://i.imgur.com/ZAs54l8.png"
+description: "前言"
+lang: zh-tw
 ---
-
 ## 前言
 
 執行計畫代表此次查詢要怎麼樣的演算法查詢我們的資料，而**成本**是決定使用哪個執行計畫的重要因素

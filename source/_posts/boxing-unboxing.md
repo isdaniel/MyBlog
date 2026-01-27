@@ -3,8 +3,9 @@ title: C# Boxing vs UnBoxing
 date: 2020-05-02 22:30:11
 tags: [C#]
 categories: [C#,Boxing-UnBoxing]
+description: "前言:"
+lang: zh-tw
 ---
-
 ## 前言:
 
 `Boxing`跟`UnBoxing`在.net中,我們可能在無意識使用到但這個事情確會造成一些效能影響...

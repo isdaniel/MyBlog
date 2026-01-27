@@ -3,6 +3,8 @@ title:  Asp.net MVC如何實現IOC解析器 (第13天)
 date: 2019-09-24 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 IOC介紹 程式碼介紹IOC by Autofac AutoFac IOC容器 和 Asp.net mvc關係 DependencyResolver 揭密 MVC 裡IDependencyResolver 小結:"
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

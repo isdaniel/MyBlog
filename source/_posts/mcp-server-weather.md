@@ -4,8 +4,9 @@ date: 2025-06-22 20:42:00
 tags: [Python,AI,MCP]
 categories: [Python]
 keywords: Python,AI,MCP
+description: "MCP(Model Context Protocol)是一種協定，用於在工具之間進行通訊與協作。透過 MCP，可以讓各種獨立的工具(如模型、插件、服務)以一致的格式互相交換資料與指令。MCP Server 是提供特定功能的伺服器端程式，能與支援 MCP 的前端進行互動。"
+lang: zh-tw
 ---
-
 ## 什麼是 MCP?
 
 MCP(Model Context Protocol)是一種協定，用於在工具之間進行通訊與協作。透過 MCP，可以讓各種獨立的工具(如模型、插件、服務)以一致的格式互相交換資料與指令。MCP Server 是提供特定功能的伺服器端程式，能與支援 MCP 的前端進行互動。

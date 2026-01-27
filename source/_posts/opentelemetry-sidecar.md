@@ -4,8 +4,9 @@ date: 2025-06-01 22:30:11
 tags: [C#,Rust, Sidecar]
 categories: [Rust,C#, Sidecar]
 keywords: Rust,C#, Sidecar
+description: "If you’ve ever struggled to instrument legacy apps or non-standard services for observability, OpenTelemetry_SideCar is here to help. This project offers a"
+lang: en
 ---
-
 ## introduce
 
 If you’ve ever struggled to instrument legacy apps or non-standard services for observability, `OpenTelemetry_SideCar` is here to help. This project offers a **non-intrusive way to export metrics and traces** via **OpenTelemetry** using a **sidecar approach** — no SDK required in your main app.

@@ -3,8 +3,9 @@ title: Reflection在進化-淺談Expression表達式
 date: 2021-04-06 22:30:11
 tags: [C#,OOP,Reflection,Expression]
 categories: [C#]
+description: "稍微有經驗的.net工程師一定聽過或使用過Reflection,Reflection雖然好用(能動態處理很多事情)但對於效能會有些影響."
+lang: zh-tw
 ---
-
 ## 前言
 
 稍微有經驗的.net工程師一定聽過或使用過Reflection,Reflection雖然好用(能動態處理很多事情)但對於效能會有些影響.

@@ -3,8 +3,9 @@ title: Oracle [CONNECT BY]
 date: 2019-06-02 22:30:11
 tags: [SQL,Oracle]
 categories: [SQL,Oracle]
+description: "之前有介紹 {% post_link cte-recursive %} 在Oracle 有提供一個精簡的語法產生階層資料 CONNECT BY"
+lang: zh-tw
 ---
-
 之前有介紹 {% post_link cte-recursive %} 在`Oracle` 有提供一個精簡的語法產生階層資料 `CONNECT BY`
 
  CONNECT BY 有幾個常用Key Word.

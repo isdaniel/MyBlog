@@ -3,6 +3,8 @@ title: 沒有Source Code 如何修改程式??
 date: 2019-05-23 19:42:00
 tags: [C#,Reflection,Assembly]
 categories: [C#]
+description: "某些專案因為歷史久遠沒有Source Code,但有個需求需要異動裡面的程式該怎麼辦??"
+lang: zh-tw
 ---
 某些專案因為歷史久遠沒有Source Code,但有個需求需要異動裡面的程式該怎麼辦??
 

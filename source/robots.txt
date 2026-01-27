@@ -2,14 +2,13 @@ User-agent: *
 Allow: /
 Allow: /archives/
 Allow: /categories/
-Allow: /tags/ 
-Allow: /resources/ 
-Disallow: /vendors/
+Allow: /tags/
+Allow: /resources/
+Allow: /vendors/
 Disallow: /js/
-Disallow: /css/
-Disallow: /fonts/
-Disallow: /vendors/
-Disallow: /fancybox/
+Allow: /css/
+Allow: /fonts/
+Allow: /fancybox/
 
 Sitemap: https://isdaniel.github.io/sitemap.xml
 Sitemap: https://isdaniel.github.io/baidusitemap.xml

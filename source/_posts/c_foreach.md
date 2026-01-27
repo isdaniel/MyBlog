@@ -4,8 +4,9 @@ date: 2024-04-17 22:30:11
 tags: [C,Design-Pattern]
 categories: [C#,DesignPattern]
 keywords: C, foreach
+description: "In PostgreSQL, there isn't a native foreach loop construct in C, because C itself doesn't have a foreach loop as you might find in higher-level languages like"
+lang: en
 ---
-
 ## Foreword
 
 In PostgreSQL, there isn't a native foreach loop construct in C, because C itself doesn't have a foreach loop as you might find in higher-level languages like Python or PHP. However, PostgreSQL often implements loop iterations over elements using **Macros** that simplify the handling of data structures, such as linked lists, which are commonly used within its codebase.

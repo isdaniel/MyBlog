@@ -4,8 +4,9 @@ date: 2022-12-25 22:30:11
 tags: [Azure]
 categories: [Azure,flexibleServer,Managed Identity ]
 keywords: Azure,flexibleServer,Managed Identity 
+description: "This ariticle will guide us how to do long-term backup (more than 35 days) on Azure PostgreSQL Flexible."
+lang: en
 ---
-
 ## Introduction 
 
 This ariticle will guide us how to do long-term backup (more than 35 days) on Azure PostgreSQL Flexible.

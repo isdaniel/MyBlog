@@ -4,8 +4,9 @@ date: 2023-06-02 22:30:11
 tags: [vscode,postgresql,debugger,vscode,postgresql,debugger]
 categories: [vscode,postgresql,debugger,sourcecode]
 keywords: vscode,postgresql,debugger,sourcecode
+description: "Using gdb for command-line debugging still feels inconvenient. I initially wanted to find a simpler way to directly debug the PostgreSQL source code under"
+lang: en
 ---
-
 ## Foreword
 
 Using gdb for command-line debugging still feels inconvenient. I initially wanted to find a simpler way to directly debug the PostgreSQL source code under Windows. After searching for a while, I found that Visual Studio (VS) was the only option available, but it is heavy and the steps are quite complex. Since most real environments run on Linux, it is better to debug the PostgreSQL source code under Linux.

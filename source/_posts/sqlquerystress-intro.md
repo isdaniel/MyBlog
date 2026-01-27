@@ -3,8 +3,9 @@ title: 資料庫壓測好工具-SQLQueryStress
 date: 2020-12-15 23:10:43
 tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
+description: "前文"
+lang: zh-tw
 ---
-
 ## 前文
 
 隨著業務量增長,資料庫的複雜程度也會成正比增長

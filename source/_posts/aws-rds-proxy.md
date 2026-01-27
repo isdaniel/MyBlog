@@ -3,8 +3,9 @@ title: AWS Postgres RDS Proxy
 date: 2021-11-22 22:30:11
 tags: [AWS,RDS,Proxy]
 categories: [AWS,RDS]
+description: "在 Postgresql 世界裡每建立一個 Connection，都會有一個 process 來服務該請求，Postgresql 沒有 ThreadPool 概念所以在 Connection 使用量大時會發生一些問題"
+lang: zh-tw
 ---
-
 ## 前言
 
 在 Postgresql 世界裡每建立一個 Connection，都會有一個 process 來服務該請求，Postgresql 沒有 ThreadPool 概念所以在 Connection 使用量大時會發生一些問題

@@ -3,8 +3,9 @@ title: JOIN範圍條件Index優化
 date: 2020-06-28 23:10:43
 tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
+description: "前文"
+lang: zh-tw
 ---
-
 ## 前文
 
 `JOIN`條件範圍時,執行計畫**預估值**容易不準確,這也間接導致查詢效能不好.

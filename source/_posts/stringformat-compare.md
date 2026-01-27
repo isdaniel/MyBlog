@@ -3,8 +3,9 @@ title: 那些年String.Format中的Boxing和UnBoxing
 date: 2020-05-10 22:30:11
 tags: [C#]
 categories: [C#,Boxing-UnBoxing]
+description: "前言："
+lang: zh-tw
 ---
-
 ## 前言：
 
 下面有兩個虛擬程式碼

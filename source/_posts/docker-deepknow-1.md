@@ -6,8 +6,9 @@ categories: [Docker]
 top:
 photos: 
     - "https://gblobscdn.gitbook.com/assets%2F-LvLdlWILWa_WXgBI_eY%2F-LvLdmMmmDnQXr_Axo0l%2F-LvLdnbuSZ5KOT0JxN9C%2Fcmd_logic.png?alt=media"
+description: "前言:"
+lang: zh-tw
 ---
-
 ## 前言:
 
 docker透過指令能快速建立相同執行環境並比起VM減少電腦資源消耗.

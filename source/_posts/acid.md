@@ -4,8 +4,9 @@ date: 2020-06-02 22:30:11
 tags: [C#,IOC,Autofac,AOP]
 categories: [C#,IOC]
 keywords: C#,IOC,Autofac,AOP
+description: "前言"
+lang: zh-tw
 ---
-
 ## 前言
 
 資料庫系統在寫入或新增資料時,為了確保交易正確可靠性,所以具備

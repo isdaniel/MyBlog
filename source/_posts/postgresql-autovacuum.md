@@ -6,8 +6,9 @@ categories: [Postgresql,Vacuum]
 photos: 
     - "https://i.imgur.com/U1iC4ez.png"
 keywords: Postgresql,Vacuum
+description: "AutoVacuum 在 Postgresql 是一個很重要的機制(甚至可以說最重要也不為過)，但裡面有些地方需要了解今天就帶大家初探"
+lang: zh-tw
 ---
-
 ## 前言
 
 AutoVacuum 在 Postgresql 是一個很重要的機制(甚至可以說最重要也不為過)，但裡面有些地方需要了解今天就帶大家初探

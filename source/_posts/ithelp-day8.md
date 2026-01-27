@@ -3,6 +3,8 @@ title:  揭密Mvc使用IHttpHandler by UrlRoutingModule-4.0 (第8天)
 date: 2019-09-19 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言： UrlRoutingModule-4.0 OnApplicationPostResolveRequestCache事件 PostResolveRequestCache方法 IRouteHandler取得執行HttpHa"
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言：](#%e5%89%8d%e8%a8%80)

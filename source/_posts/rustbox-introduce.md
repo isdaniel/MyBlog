@@ -4,8 +4,9 @@ date: 2025-06-01 23:30:11
 tags: [Rust, Linux,docker]
 categories: [Rust, Linux]
 keywords: Rust,Linux,namespace,cgroup
+description: "A Docker-like container runtime written in Rust with daemon architecture, supporting multi-container orchestration, persistent state management, and"
+lang: en
 ---
-
 # RustBox
 
 > A Docker-like container runtime written in Rust with daemon architecture, supporting multi-container orchestration, persistent state management, and comprehensive CLI commands.

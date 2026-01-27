@@ -3,6 +3,8 @@ title:  Asp.Net重要物件HttpApplication(二) 建置執行管道 (第6天)
 date:  2019-09-17 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
+description: "Agenda 前言 ApplicationStepManager BuildSteps 建置Pipleline流程 CreateEventExecutionSteps 載入事件 HttpApplication事件集合 IExecutionS"
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

@@ -4,9 +4,9 @@
 
 # Site
 title: 石頭的coding之路
-subtitle: Hello World
-description: 好點子沒價值，有價值的是把好點子實現
-keywords: c#,Asp.net,Asp.net MVC,source code,後端,WebApi,SQL,SQL Server
+subtitle: 好點子沒價值，有價值的是把好點子實現
+description: 專注於 PostgreSQL、軟體工程、原始碼與 AI 的技術筆記與實作分享
+keywords: postgresql,software engineer,source code,AI,c#,Asp.net,Asp.net MVC,後端,WebApi,SQL,SQL Server, Rust
 author: Daniel Shih
 language: zh-tw
 timezone:

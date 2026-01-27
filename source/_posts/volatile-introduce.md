@@ -3,8 +3,9 @@ title: 多執行緒系統中不得不知-volatile
 date: 2021-07-25 22:31:09
 tags: [C#,volatile]
 categories: [C#,volatile]
+description: "前言"
+lang: zh-tw
 ---
-
 ## 前言
 
 假如你寫過多執行緒系統一定會看過`volatile`，但你對他的了解有多少？

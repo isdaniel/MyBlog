@@ -3,8 +3,9 @@ title: AWS Lambda 初體驗 by .net core
 date: 2021-10-10 10:30:11
 tags: [AWS,Lambda,.netcore]
 categories: [AWS,Lambda]
+description: "前言"
+lang: zh-tw
 ---
-
 ## 前言
 
 AWS 在有眾多服務，其中我對於 Lambda 最有興趣 (因為 .net 有一個 Lambda 表達式 )

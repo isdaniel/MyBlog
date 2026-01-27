@@ -6,8 +6,9 @@ categories: [Redis,Cluster]
 photos: 
     - "https://i.imgur.com/8EUN7Vu.png"
 keywords: Redis,Cluster
+description: "在巨量資料下，資料庫合理的分片(DB sharding)可以幫助我們承受更高量的資料量(前提Index還有設定都調教到很好在考慮 sharding)"
+lang: zh-tw
 ---
-
 ## 前言
 
 在巨量資料下，資料庫合理的分片(DB sharding)可以幫助我們承受更高量的資料量(前提Index還有設定都調教到很好在考慮 sharding)

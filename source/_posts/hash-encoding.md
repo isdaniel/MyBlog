@@ -3,6 +3,8 @@ title: 淺談-編碼(encoding) vs 加解密 vs 雜湊(Hash)
 date: 2019-05-23 19:32:08
 tags: [Base64,AES,SHA256,Encoding,Hash]
 categories: WebDesign
+description: "這一邊有三筆資料"
+lang: zh-tw
 ---
 這一邊有三筆資料
 
