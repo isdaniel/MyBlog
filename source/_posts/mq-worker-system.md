@@ -3,7 +3,7 @@ title: 高併發系統系列-非同步 MQ-WorkerPool 架構 Poc
 date: 2021-09-25 23:10:43
 tags: [c#,RabbitMq,ThreadPool,SystemDesign]
 categories: [C#]
-description: "前文"
+description: "高併發系統架構實戰：使用 RabbitMQ 搭配 Worker Pool 提升系統吞吐量，支援 ThreadPool 與 ProcessPool 兩種模式，包含 Docker Compose 與 K8s 部署方案，打造高效能非同步處理架構"
 lang: zh-tw
 ---
 ## 前文
@@ -111,7 +111,7 @@ proceess Pool 支援 Dashboard 來查看請求狀態 透過可以查看`http://l
 ![](https://i.imgur.com/qSWmdOT.png)
 
 ```bash
-docker-compose --env-file .\env\.env -f .\docker-compose-process.yml up -d 
+docker-compose --env-file .\env\.env -f .\docker-compose-process.yml up -d
 
 docker-compose --env-file .\env\.env -f .\docker-compose-process.yml  up -d --scale publisher=4 --no-recreate
 ```
@@ -178,7 +178,7 @@ kubectl apply -f  .\k8s\mq-poc-ingress.yaml
 k8s scale publisher
 
 ```cmd
-kubectl scale --replicas=8 -f .\k8s\mq-poc-publisher.yaml  
+kubectl scale --replicas=8 -f .\k8s\mq-poc-publisher.yaml
 ```
 
 k8s scale worker
@@ -217,7 +217,7 @@ PoolSettings = new PoolSetting[] //which can read from setting files.
 能看到`RabbitMqWorkerBase`類別掌管RabbitMq連接相關資訊，這裡特別要提的是我目前版本支援`GracefulShutDown`讓子類別實現要怎麼去安全關機(目前提供一個 `Async` Task).
 
 ```c#
-public abstract class RabbitMqWorkerBase 
+public abstract class RabbitMqWorkerBase
 {
 	public RabbitMqSetting Setting { get; }
 	protected AsyncEventHandler<BasicDeliverEventArgs> ReceiveEvent;
@@ -239,7 +239,7 @@ public abstract class RabbitMqWorkerBase
 		};
 
 		_conn = _connFactory.CreateConnection();
-		
+
 	}
 
 	/// <summary>
@@ -288,13 +288,13 @@ public abstract class RabbitMqWorkerBase
 		Logger.LogInformation("Wait for Pool Close!!!!");
 
 		await GracefulReleaseAsync();
-		
+
 		if (_channle.IsOpen)
 			_channle.Close();
-		
+
 		if (_conn.IsOpen)
 			_conn.Close();
-		
+
 		Logger.LogInformation("RabbitMQ Conn Closed!!!!");
 	}
 }
@@ -405,7 +405,7 @@ public class ProcessPool : IWorkerPool
 	public async Task WaitFinishedAsync(){
 		_finish = true;
 		_notify.Set();
-	
+
 		foreach (var process in _processList)
 		{
 			process.WaitForExit();

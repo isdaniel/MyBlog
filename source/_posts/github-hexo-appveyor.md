@@ -3,7 +3,7 @@ title: 建立自己Blog系列(一) 介紹 Github (hosting) + Hexo (Blog) + Appve
 date: 2019-06-02 14:07:51
 tags: [WebDesign,Blog,Github,CICD]
 categories: WebDesign
-description: "前文："
+description: "免費架設個人部落格完整指南：使用 GitHub Pages 免費託管、Hexo 靜態網站生成器撰寫 Markdown 文章、Appveyor 自動化部署，打造專屬技術部落格"
 lang: zh-tw
 ---
 ## 前文：

@@ -3,7 +3,7 @@ title: (C#)委託delegate,Func<>,Action 解說系列(一)
 date: 2019-06-02 10:54:52
 tags: [C#,Func,Delegate]
 categories: [C#,Delegate]
-description: "前文："
+description: "深入理解 C# 委託 Delegate 核心概念與實作，從基礎宣告到進階泛型應用，學習如何使用 delegate 降低程式碼耦合度，掌握 .NET 開發必備技能"
 lang: zh-tw
 ---
 ## 前文：
@@ -61,7 +61,7 @@ static int add(int a, int b)
 calcInt calcint1 = (a,b) => { return a + b; };
 var result2 = calcint1(5, 5);
 Console.WriteLine(result2);
-(a,b) => { return a + b; }; 
+(a,b) => { return a + b; };
 ```
 
 編譯器會動態幫我們產生一個方法。

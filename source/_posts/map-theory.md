@@ -4,7 +4,7 @@ date: 2021-11-02 23:10:43
 tags: [DataBase,Turning,postgresql]
 categories: [DataBase,Turning]
 keywords: DataBase,Turning,postgresql
-description: "前文"
+description: "深入理解資料庫查詢優化器運作原理：用地圖理論解析 PostgreSQL 執行計畫生成機制，從 Parser、Planner 到 Executor，掌握統計資訊與成本估算，優化 SQL 查詢效能"
 lang: zh-tw
 ---
 ## 前文
@@ -82,7 +82,7 @@ google map 利用目前使用 **google 服務用戶在路徑上資料**，經過
 
 成本這個東西就很重要，因為成本會決定我們如何選擇計畫， DB query optimizer 一樣會被成本影響使用執行計畫
 
-在 postgresql DB 有成本因子可以讓我們調成預估成本，關於如何調整我有篇文章在說明　[postgresql 執行計畫重要因子 (成本因子調教)](https://isdaniel.github.io/postgresql-cost-factor-tuning/) 
+在 postgresql DB 有成本因子可以讓我們調成預估成本，關於如何調整我有篇文章在說明　[postgresql 執行計畫重要因子 (成本因子調教)](https://isdaniel.github.io/postgresql-cost-factor-tuning/)
 
 ## 小結
 

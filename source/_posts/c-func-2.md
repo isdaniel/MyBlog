@@ -3,7 +3,7 @@ title: (C#)委託delegate,Func<>,Action 解說系列(二)
 date: 2019-06-02 11:06:40
 tags: [C#,Func,Delegate]
 categories: [C#,Delegate]
-description: "前文："
+description: "完整解析 C# Func 與 Action 泛型委託使用方法，從基礎定義到實作自訂 LINQ Where 方法，掌握委託在 .NET 開發中的實際應用技巧"
 lang: zh-tw
 ---
 ## 前文：
@@ -19,7 +19,7 @@ lang: zh-tw
     public delegate TResult Func<out TResult>();
 
     public delegate void Action<in T>(T obj);
- 
+
 `Func`固定最後一個泛型參數為方法回傳值，其餘是傳入參數
 
     public delegate TResult Func<in T, out TResult>(T arg);
@@ -70,7 +70,7 @@ lang: zh-tw
         string result = _thunkCheckAge(p);
 
         //最後將結果顯示出來
-        Console.WriteLine(result); 
+        Console.WriteLine(result);
         #endregion
         Console.ReadKey();
     }
@@ -80,7 +80,7 @@ lang: zh-tw
 `Action`這個委託是`Void`，傳入參數型態是由泛型來決定
 
     public delegate void Action<in T>(T obj);
-    
+
 宣告一個`Action<Person>`委託的 `_thunkPerson`物件
 將`CallPersonInfo`方法 賦予給`_thunkPerson`
 執行`_thunkPerson` (就是執行`CallPersonInfo`方法)
@@ -149,7 +149,7 @@ Action``和`Func`差別是
     public static class LinqExtension
     {
         /// <summary>
-        /// 自訂一個Where 
+        /// 自訂一個Where
         /// </summary>
         /// <typeparam name="TSource"></typeparam>
         /// <param name="source"></param>
@@ -172,7 +172,7 @@ Action``和`Func`差別是
 
 ## 總結：
 
-委託把不確定的動作，轉移給呼叫端來撰寫。  
+委託把不確定的動作，轉移給呼叫端來撰寫。
 
 而不是寫死在程式中
 

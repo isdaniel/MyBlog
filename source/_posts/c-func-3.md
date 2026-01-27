@@ -3,14 +3,14 @@ title: (C#)委託delegate,Func<>,Action 解說系列(三)
 date: 2019-06-02 11:12:43
 tags: [C#,Func,Delegate]
 categories: [C#,Delegate]
-description: "前文："
+description: "深入探討 C# 泛型委託中的 in 與 out 關鍵字，理解 Covariance 協變與 Contravariance 逆變概念，提升泛型程式設計能力"
 lang: zh-tw
 ---
 ## 前文：
 
 在Func和Action泛型委託中 有 In , Out 兩個關鍵字
 
-那到底是神麼意思呢?  
+那到底是神麼意思呢?
 
 讓我們一起看下去....
 
@@ -126,7 +126,7 @@ MSDN中有解釋 此關鍵字 泛型中的共變數和反變數
 
 > MSDN說明：可讓您使用比原本所指定更泛型 (較少衍生) 的類型。您可以將 IEnumerable<Base> (在 Visual Basic 中為 IEnumerable(Of Base)) 的執行個體指派給IEnumerable<Derived> 類型的變數。
 
-簡單說明：可將父類物件引用賦予給子類別 **[泛型中有in]** 
+簡單說明：可將父類物件引用賦予給子類別 **[泛型中有in]**
 如下範例：
 
 因`IComparer<in T>` 所以子類可以取得父類的引用
@@ -180,7 +180,7 @@ MSDN中有解釋 此關鍵字 泛型中的共變數和反變數
             Console.ReadKey();
         }
     }
- 
+
 `Invariance` 只能該類別指向該類別
 一般泛型預設就是這個
 
