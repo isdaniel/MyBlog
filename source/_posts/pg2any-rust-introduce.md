@@ -20,7 +20,7 @@ Supported destinations:
 
 Each destination is behind a Cargo feature flag (`mysql`, `sqlserver`, `sqlite`), so you compile only the drivers you need.
 
-A ready-to-run example application lives at [pg2any-example](https://github.com/isdaniel/rust_playground/tree/main/pg2any-example), and the underlying PostgreSQL streaming replication protocol is handled by the companion crate [pg_walstream](https://github.com/isdaniel/replication_checker_rs).
+A ready-to-run example application lives at [pg2any-example](https://github.com/isdaniel/rust_playground/tree/main/pg2any-example), and the underlying PostgreSQL streaming replication protocol is handled by the companion crate [pg_walstream](https://github.com/isdaniel/pg-walstream).
 
 ## Architecture
 
@@ -210,4 +210,4 @@ Beyond unit and integration tests, the project runs **chaos testing** in CI — 
 - [pg2any source code (GitHub)](https://github.com/isdaniel/pg2any)
 - [pg2any_lib on crates.io](https://crates.io/crates/pg2any_lib)
 - [Example application](https://github.com/isdaniel/rust_playground/tree/main/pg2any-example)
-- [pg_walstream — PostgreSQL replication protocol crate](https://github.com/isdaniel/replication_checker_rs)
+- [pg_walstream — PostgreSQL replication protocol crate](https://github.com/isdaniel/pg-walstream)
