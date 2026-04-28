@@ -19,7 +19,7 @@ I am an energetic and adaptable Software Engineer who loves to figure out and so
 ## Open Source Projects
 
 - [pg2any](https://github.com/isdaniel/pg2any) — Rust CDC library for streaming PostgreSQL changes to any database
-- [pg_walstream](https://github.com/isdaniel/pg_walstream) — High-performance PostgreSQL WAL streaming in Rust
+- [pg_walstream](https://github.com/isdaniel/pg-walstream) — High-performance PostgreSQL WAL streaming in Rust
 - [pg_pidstat](https://github.com/isdaniel/pg_pidstat) — Real-time per-backend monitoring for PostgreSQL
 - [RustBox](https://github.com/isdaniel/RustBox) — Docker-like container runtime written in Rust
 - [redis_fdw_rs](https://github.com/isdaniel/redis_fdw_rs) — Redis Foreign Data Wrapper for PostgreSQL
