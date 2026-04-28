@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "skills": {
+    "bencium-aeo": {
+      "source": "bencium/bencium-marketplace",
+      "sourceType": "github",
+      "skillPath": "bencium-aeo/skills/bencium-aeo/SKILL.md",
+      "computedHash": "b673cd1d7cb3cadb4afdd7887d7981658e916545eedfd5f0cc8f45cc3753ed31"
+    },
+    "blog-writing-specialist": {
+      "source": "manojbajaj95/claude-gtm-plugin",
+      "sourceType": "github",
+      "skillPath": "skills/blog-writing-specialist/SKILL.md",
+      "computedHash": "1f1b1a076e9f5674e150eb312b9de1c6ff1f6c1620d8e1e20c5d1c65db59a3d6"
+    },
+    "keyword-research": {
+      "source": "aaron-he-zhu/seo-geo-claude-skills",
+      "sourceType": "github",
+      "skillPath": "research/keyword-research/SKILL.md",
+      "computedHash": "3366877f1c3dee8e5aac975dfd14aa32b0ab9361758517d503f190d8475762c2"
+    },
+    "seo-aeo-audit": {
+      "source": "warpdotdev/oz-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/seo-aeo-audit/SKILL.md",
+      "computedHash": "3d441e71171ec655581367c447d663a841c9ed61e19ea4f8f9e61373a11ac152"
+    },
+    "seo-aeo-best-practices": {
+      "source": "sanity-io/agent-toolkit",
+      "sourceType": "github",
+      "skillPath": "skills/seo-aeo-best-practices/SKILL.md",
+      "computedHash": "b6b2dd3af3c92f82f04b830dab2cc323f299d7c2e57f7d3619a5886caa7eeb08"
+    },
+    "seo-optimizer": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "seo-optimizer/SKILL.md",
+      "computedHash": "6cfad2ae8395b7f95fe58c06e09dde9f8136f8b6409bb96c15324712b6bfa5d0"
+    },
+    "seo-writing": {
+      "source": "gtmagents/gtm-agents",
+      "sourceType": "github",
+      "skillPath": "plugins/content-marketing/skills/seo-writing/SKILL.md",
+      "computedHash": "1294cc77075181fc508319cafbdc8cec0cdfdf452918a795ce8456c59a48ac22"
+    }
+  }
+}
