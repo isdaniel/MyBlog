@@ -1,8 +1,8 @@
 ---
 title: SQL Server Merge condition on declare value problem
 date: 2020-06-21 22:30:11
-tags: [sql-server,SQL,Merge]
-categories: [Tuning,sql-server]
+tags: [SQL-Server,SQL,Merge]
+categories: [Tuning,SQL-Server]
 description: "SQL Server MERGE 語法使用 DECLARE 變數作為比對條件時的常見問題與解法，實現 UPSERT (存在就更新、不存在就新增) 的正確寫法"
 keywords: SQL-Server,MERGE,UPSERT,INSERT,UPDATE,declare-variable
 lang: zh-tw

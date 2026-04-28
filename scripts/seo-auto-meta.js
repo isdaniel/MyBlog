@@ -19,14 +19,14 @@ hexo.extend.filter.register('before_post_render', function (data) {
     data.lang = 'zh-tw';
   }
 
-  if (data.description) {
-    var desc = data.description.trim();
-    var poorPatterns = /^前言[:：]?\s*$/;
-    if (poorPatterns.test(desc) || desc.length < 10) {
-      var extracted = extractDescription(data.raw || data.content || '');
-      if (extracted) {
-        data.description = extracted;
-      }
+  var desc = (data.description || '').trim();
+  var poorPatterns = /^(前言|介紹|簡介|概述|Introduction|Overview|Summary)[:：]?\s*$/i;
+  var needsExtraction = !desc || poorPatterns.test(desc) || desc.length < 25;
+
+  if (needsExtraction) {
+    var extracted = extractDescription(data.raw || data.content || '');
+    if (extracted) {
+      data.description = extracted;
     }
   }
 
@@ -48,8 +48,18 @@ function extractDescription(content) {
   for (var i = 0; i < lines.length; i++) {
     var line = lines[i].trim();
     if (line.length > 20 && !/^前言/.test(line) && !/^<!--/.test(line) && !/^more$/.test(line)) {
-      return line.substring(0, 200);
+      return truncateAtBoundary(line, 200);
     }
   }
   return null;
+}
+
+function truncateAtBoundary(text, maxLen) {
+  if (text.length <= maxLen) return text;
+  var truncated = text.substring(0, maxLen);
+  var boundaryMatch = truncated.match(/.*[。．.，,；;！!？?）)」』】]/);
+  if (boundaryMatch && boundaryMatch[0].length > maxLen * 0.5) {
+    return boundaryMatch[0];
+  }
+  return truncated;
 }

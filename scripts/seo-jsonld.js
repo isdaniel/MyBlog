@@ -22,26 +22,17 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
     injection += '<meta name="keywords" content="' + escapeHtml(config.keywords) + '">\n';
   }
 
-  // JSON-LD schemas
-  var schemas = [];
+  // JSON-LD schemas using @graph
+  var graphItems = [];
 
   var websiteSchema = {
-    '@context': 'https://schema.org',
     '@type': 'WebSite',
     'name': config.title,
     'url': siteUrl,
     'description': config.description,
-    'inLanguage': config.language || 'zh-tw',
-    'potentialAction': {
-      '@type': 'SearchAction',
-      'target': {
-        '@type': 'EntryPoint',
-        'urlTemplate': siteUrl + '/search/?q={search_term_string}'
-      },
-      'query-input': 'required name=search_term_string'
-    }
+    'inLanguage': config.language || 'zh-tw'
   };
-  schemas.push(websiteSchema);
+  graphItems.push(websiteSchema);
 
   if (page.layout === 'post' || page.type === 'post') {
     var postUrl = siteUrl + '/' + (page.path || '');
@@ -68,8 +59,25 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
       }
     }
 
+    // Word count
+    var contentText = (page.content || '').replace(/<[^>]*>/g, '');
+    var wordCount = contentText.replace(/\s+/g, ' ').trim().split(/\s+/).length;
+    var cjkChars = contentText.match(/[一-鿿㐀-䶿]/g);
+    if (cjkChars) {
+      wordCount += cjkChars.length;
+    }
+
+    // Article section from first category
+    var articleSection = '';
+    if (page.categories && page.categories.length) {
+      page.categories.forEach(function (cat) {
+        if (!articleSection) {
+          articleSection = cat.name;
+        }
+      });
+    }
+
     var blogPostingSchema = {
-      '@context': 'https://schema.org',
       '@type': 'BlogPosting',
       'mainEntityOfPage': {
         '@type': 'WebPage',
@@ -79,6 +87,7 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
       'description': description,
       'datePublished': page.date ? page.date.toISOString() : '',
       'dateModified': page.updated ? page.updated.toISOString() : (page.date ? page.date.toISOString() : ''),
+      'wordCount': wordCount,
       'author': {
         '@type': 'Person',
         'name': config.author,
@@ -86,6 +95,7 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
         'sameAs': [
           'https://github.com/isdaniel',
           'https://stackoverflow.com/users/5176071/d-shih',
+          'https://www.linkedin.com/in/bing-shiu-shih-a63151b5/',
           'https://www.facebook.com/profile.php?id=100001400319136'
         ]
       },
@@ -110,11 +120,15 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
       'inLanguage': page.lang || config.language || 'zh-tw'
     };
 
+    if (articleSection) {
+      blogPostingSchema.articleSection = articleSection;
+    }
+
     if (keywords.length) {
       blogPostingSchema.keywords = keywords.join(',');
     }
 
-    schemas.push(blogPostingSchema);
+    graphItems.push(blogPostingSchema);
 
     // BreadcrumbList
     var breadcrumbItems = [
@@ -147,16 +161,17 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
       });
     }
 
-    schemas.push({
-      '@context': 'https://schema.org',
+    graphItems.push({
       '@type': 'BreadcrumbList',
       'itemListElement': breadcrumbItems
     });
   }
 
-  schemas.forEach(function (schema) {
-    injection += '<script type="application/ld+json">' + JSON.stringify(schema) + '</script>\n';
-  });
+  var graphObj = {
+    '@context': 'https://schema.org',
+    '@graph': graphItems
+  };
+  injection += '<script type="application/ld+json">' + JSON.stringify(graphObj) + '</script>\n';
 
   if (injection) {
     str = str.replace('</head>', injection + '</head>');

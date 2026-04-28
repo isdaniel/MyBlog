@@ -1,22 +1,11 @@
   {##################}
   {### POST BLOCK ###}
   {##################}
-  <article itemscope itemtype="http://schema.org/Article" class="post-block {% if is_index %}home{% endif %}" lang="{{ post.lang or post.language or config.language }}">
-    <link itemprop="mainEntityOfPage" href="{{ post.permalink }}">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="{{ url_for(theme.avatar.url or theme.images + '/avatar.gif') }}">
-      <meta itemprop="name" content="{{ author }}">
-      <meta itemprop="description" content="{{ description }}">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="{{ title }}">
-    </span>
+  <article class="post-block {% if is_index %}home{% endif %}" lang="{{ post.lang or post.language or config.language }}">
 
     {%- if post.header !== false %}
       <header class="post-header">
-        <{%- if theme.seo %}h2{% else %}h1{%- endif %} class="post-title{%- if post.direction and post.direction.toLowerCase() === 'rtl' %} rtl{%- endif %}" itemprop="name headline">
+        <{%- if theme.seo %}h2{% else %}h1{%- endif %} class="post-title{%- if post.direction and post.direction.toLowerCase() === 'rtl' %} rtl{%- endif %}">
           {# Link posts #}
           {%- if post.link %}
             {%- if post.sticky > 0 %}
@@ -26,14 +15,14 @@
             {%- endif %}
             {%- set postTitleIcon = '<i class="fa fa-external-link"></i>' %}
             {%- set postText = post.title or post.link %}
-            {{ next_url(post.link, postText + postTitleIcon, {class: 'post-title-link post-title-link-external', itemprop: 'url'}) }}
+            {{ next_url(post.link, postText + postTitleIcon, {class: 'post-title-link post-title-link-external'}) }}
           {% elif is_index %}
             {%- if post.sticky > 0 %}
               <span class="post-sticky-flag" title="{{ __('post.sticky') }}">
                 <i class="fa fa-thumb-tack"></i>
               </span>
             {%- endif %}
-            {{ next_url(post.path, post.title or __('post.untitled'), {class: 'post-title-link', itemprop: 'url'}) }}
+            {{ next_url(post.path, post.title or __('post.untitled'), {class: 'post-title-link'}) }}
           {%- else %}
             {{- post.title }}
             {{- post_edit(post.source) }}
@@ -59,7 +48,7 @@
                 {%- set create_title = __('post.created') + __('symbol.colon') + full_date(post.date) %}
               {%- endif %}
 
-              <time title="{{ create_title }}" itemprop="dateCreated datePublished" datetime="{{ moment(post.date).format() }}">{{ date(post.date) }}</time>
+              <time title="{{ create_title }}" datetime="{{ moment(post.date).format() }}">{{ date(post.date) }}</time>
             </span>
           {%- endif %}
 
@@ -72,7 +61,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">{{ __('post.edited') }}</span>
-                <time title="{{ __('post.modified') + __('symbol.colon') + full_date(post.updated) }}" itemprop="dateModified" datetime="{{ moment(post.updated).format() }}">{{ date(post.updated) }}</time>
+                <time title="{{ __('post.modified') + __('symbol.colon') + full_date(post.updated) }}" datetime="{{ moment(post.updated).format() }}">{{ date(post.updated) }}</time>
               </span>
             {%- endif %}
           {%- endif %}
@@ -84,8 +73,8 @@
               </span>
               <span class="post-meta-item-text">{{ __('post.in') }}</span>
               {%- for cat in post.categories.toArray() %}
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="{{ url_for(cat.path) }}" itemprop="url" rel="index"><span itemprop="name">{{ cat.name }}</span></a>
+                <span>
+                  <a href="{{ url_for(cat.path) }}" rel="index"><span>{{ cat.name }}</span></a>
                 </span>
 
                 {%- set cat_length = post.categories.length %}
@@ -165,13 +154,13 @@
     {#################}
     {### POST BODY ###}
     {#################}
-    <div class="post-body{%- if post.direction and post.direction.toLowerCase() === 'rtl' %} rtl{%- endif %}" itemprop="articleBody">
+    <div class="post-body{%- if post.direction and post.direction.toLowerCase() === 'rtl' %} rtl{%- endif %}">
 
       {# Gallery support #}
       {%- if post.photos and post.photos.length %}
-        <div itemscope itemtype="http://schema.org/ImageGallery">
+        <div class="post-gallery">
           {%- for photo in post.photos %}
-            <img src="{{ url_for(photo) }}" itemprop="contentUrl">
+            <img src="{{ url_for(photo) }}">
           {%- endfor %}
         </div>
       {%- endif %}

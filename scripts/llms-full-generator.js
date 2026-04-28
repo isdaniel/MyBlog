@@ -31,12 +31,28 @@ hexo.extend.generator.register('llms-full', function (locals) {
     if (typeof description === 'object' && description.toString) {
       description = description.toString();
     }
-    description = description.replace(/<[^>]*>/g, '').replace(/\n/g, ' ').substring(0, 300).trim();
+    description = description.replace(/<[^>]*>/g, '').replace(/\n/g, ' ').substring(0, 500).trim();
+
+    var excerpt = '';
+    if (post.content) {
+      excerpt = post.content
+        .replace(/<[^>]*>/g, '')
+        .replace(/```[\s\S]*?```/g, '')
+        .replace(/\n{2,}/g, '\n')
+        .trim()
+        .substring(0, 500)
+        .trim();
+    }
 
     lines.push('### ' + post.title);
     lines.push('');
     lines.push('- URL: https://isdaniel.github.io/' + post.slug + '/');
     lines.push('- Date: ' + (post.date ? post.date.format('YYYY-MM-DD') : 'N/A'));
+
+    if (post.updated && post.date && post.updated.format('YYYY-MM-DD') !== post.date.format('YYYY-MM-DD')) {
+      lines.push('- Updated: ' + post.updated.format('YYYY-MM-DD'));
+    }
+
     lines.push('- Language: ' + (post.lang || 'zh-tw'));
 
     if (tags.length) {
@@ -47,6 +63,9 @@ hexo.extend.generator.register('llms-full', function (locals) {
     }
     if (description) {
       lines.push('- Description: ' + description);
+    }
+    if (excerpt) {
+      lines.push('- Excerpt: ' + excerpt.replace(/\n/g, ' '));
     }
 
     lines.push('');

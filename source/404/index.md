@@ -4,6 +4,7 @@ date: 2021-07-31 00:01:35
 comments: false
 permalink: /404.html
 description: "找不到您要的頁面。此頁面可能已移除或網址有誤，將自動導向首頁"
+robots: "noindex, nofollow"
 lang: zh-tw
 ---
 

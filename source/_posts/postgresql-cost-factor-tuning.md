@@ -1,8 +1,8 @@
 ---
 title: postgresql 執行計畫重要因子 (成本因子調教)
 date: 2021-10-17 20:30:11
-tags: [DataBase,Tuning,postgresql,cost]
-categories: [Tuning,postgresql]
+tags: [Database,Tuning,PostgreSQL,cost]
+categories: [Tuning,PostgreSQL]
 keywords: DataBase,Tuning,postgresql,cost
 photos: 
     - "https://i.imgur.com/ZAs54l8.png"

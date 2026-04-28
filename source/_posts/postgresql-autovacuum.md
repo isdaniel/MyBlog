@@ -1,8 +1,8 @@
 ---
 title: Postgresql AutoVacuum 介紹
 date: 2022-01-21 08:12:43
-tags: [Postgresql,Vacuum,AutoVacuum]
-categories: [Postgresql,Vacuum]
+tags: [PostgreSQL,Vacuum,AutoVacuum]
+categories: [PostgreSQL,Vacuum]
 photos: 
     - "https://i.imgur.com/U1iC4ez.png"
 keywords: PostgreSQL,Vacuum,AutoVacuum,dead-tuple,MVCC,maintenance

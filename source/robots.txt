@@ -3,12 +3,8 @@ Allow: /
 Allow: /archives/
 Allow: /categories/
 Allow: /tags/
-Allow: /resources/
-Allow: /vendors/
 Disallow: /js/
-Allow: /css/
-Allow: /fonts/
-Allow: /fancybox/
+Disallow: /lib/
 
 User-agent: GPTBot
 Allow: /

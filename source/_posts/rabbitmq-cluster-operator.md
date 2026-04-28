@@ -1,8 +1,8 @@
 ---
 title: RabbitMQ cluster-operator
 date: 2021-09-10 22:31:09
-tags: [k8s,Kubernetes,RabbitMQ]
-categories: [k8s,Kubernetes,RabbitMQ]
+tags: [Kubernetes,RabbitMQ]
+categories: [Kubernetes,RabbitMQ]
 keywords: RabbitMQ,Kubernetes,k8s,cluster-operator,message-queue
 description: "使用 RabbitMQ 官方 cluster-operator 在 Kubernetes 上部署與管理 RabbitMQ Cluster，從安裝 operator 到建立 cluster 的完整教學"
 lang: zh-tw

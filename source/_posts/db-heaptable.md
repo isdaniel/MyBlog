@@ -1,8 +1,8 @@
 ---
 title: Sqlserver不可不知道Heap Table.
 date: 2021-06-19 22:30:11
-tags: [sql-server,DataBase,table]
-categories: [Tuning,sql-server]
+tags: [SQL-Server,Database,table]
+categories: [Tuning,SQL-Server]
 top:
 photos: 
     - "https://i.imgur.com/HT0bui0.png"

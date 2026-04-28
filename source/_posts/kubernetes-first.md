@@ -1,8 +1,8 @@
 ---
 title: 初探-介紹Kubernetes
 date: 2021-08-29 22:06:40
-tags: [k8s,Kubernetes,CICD]
-categories: [k8s,Kubernetes,CICD]
+tags: [Kubernetes,CICD]
+categories: [Kubernetes,CICD]
 top:
 photos: 
     - "https://i.imgur.com/ROkC1Q2.png"
