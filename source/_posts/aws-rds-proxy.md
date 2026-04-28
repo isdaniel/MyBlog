@@ -3,7 +3,8 @@ title: AWS Postgres RDS Proxy
 date: 2021-11-22 22:30:11
 tags: [AWS,RDS,Proxy]
 categories: [AWS,RDS]
-description: "在 Postgresql 世界裡每建立一個 Connection，都會有一個 process 來服務該請求，Postgresql 沒有 ThreadPool 概念所以在 Connection 使用量大時會發生一些問題"
+keywords: AWS,RDS-Proxy,PostgreSQL,connection-pooling,max_connection,serverless
+description: "介紹 AWS RDS Proxy 如何解決 PostgreSQL 高連線數問題，透過 connection pooling 減少資源浪費，避免超過 max_connection 限制導致連線失敗"
 lang: zh-tw
 ---
 ## 前言

@@ -3,7 +3,8 @@ title: 為什麼修改 MySQL 的 character_set_server 後仍需重啟？從 mysq
 date: 2025-07-09 23:10:43
 tags: [DataBase,Charset,MySQL]
 categories: [MySQL, DataBase]
-description: "為什麼修改 MySQL 的 character_set_server 後仍需重啟？從 mysql-connector-net 探討字元集的陷阱"
+keywords: MySQL,character_set_server,mysql-connector-net,charset,Handshake,encoding,character-set
+description: "深入分析 MySQL character_set_server 修改後為何需要重啟：從 mysql-connector-net 原始碼與 MySQL Handshake 機制解析字元集設定的陷阱，避免驅動端解碼錯誤"
 lang: zh-tw
 ---
 # 為什麼修改 MySQL 的 `character_set_server` 後仍需重啟？從 mysql-connector-net 探討字元集的陷阱

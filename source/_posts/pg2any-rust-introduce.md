@@ -3,7 +3,7 @@ title: "pg2any: A Rust CDC Library for Streaming PostgreSQL Changes to Any Datab
 date: 2025-09-09 21:10:43
 tags: [Rust, PostgreSQL, logical-replication, CDC]
 categories: [Rust, PostgreSQL, logical-replication]
-keywords: Rust, PostgreSQL, logical-replication, CDC, Change Data Capture, MySQL, SQL Server, SQLite
+keywords: Rust,PostgreSQL,logical-replication,CDC,Change-Data-Capture,MySQL,SQL-Server,SQLite,real-time-sync,pg2any
 description: "pg2any is a production-ready Rust library that captures real-time data changes from PostgreSQL via logical replication and streams them to MySQL, SQL Server, or SQLite with crash-safe, file-based transaction persistence."
 lang: en
 ---

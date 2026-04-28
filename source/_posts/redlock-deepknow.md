@@ -3,8 +3,8 @@ title: 利用Redlock演算法實現自己的分佈式鎖
 date: 2021-10-25 09:30:11
 tags: [C#,Redis,Redlock]
 categories: [C#,Redis]
-keywords: C#,Redis,Redlock,algorithm
-description: "我之前有寫透過 lock or CAS 來防治，Racing condition 問題，但如果這個問題延深到多台服務器甚至是 micor-services 架構我們要怎麼處理資料問題呢?"
+keywords: C#,Redis,Redlock,distributed-lock,microservices,Racing-Condition
+description: "使用 Redlock 演算法實現分佈式鎖，解決多台服務器與微服務架構下的 Racing Condition 問題，從單體 lock 到分散式鎖的完整實作"
 lang: zh-tw
 ---
 ## 前言

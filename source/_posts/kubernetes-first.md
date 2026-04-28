@@ -6,7 +6,8 @@ categories: [k8s,Kubernetes,CICD]
 top:
 photos: 
     - "https://i.imgur.com/ROkC1Q2.png"
-description: "k8s前身是Google開發borg系統，用於管理Google系統，後面由許多borg核心開發人用利用Go語言改寫就造就Kubernetes"
+keywords: Kubernetes,k8s,container-orchestration,Google,Borg,Pod,Node,CICD
+description: "Kubernetes 入門介紹，從 Google Borg 系統的前身到 k8s 的核心架構，包含 Pod、Node、Service 等基礎概念，以及 k8s 如何管理容器化應用程式"
 lang: zh-tw
 ---
 ## 前文

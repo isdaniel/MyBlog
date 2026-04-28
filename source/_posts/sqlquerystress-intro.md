@@ -3,7 +3,9 @@ title: 資料庫壓測好工具-SQLQueryStress
 date: 2020-12-15 23:10:43
 tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
-description: "資料庫壓測好工具-SQLQueryStress - 隨著業務量增長,資料庫的複雜程度也會成正比增長"
+description: "SQLQueryStress 資料庫壓測工具教學：在 Dev 環境模擬高併發查詢，找出 SQL Server 效能瓶頸與 Lock 問題的實戰案例"
+keywords: SQL-Server,SQLQueryStress,stress-test,benchmark,concurrency,performance-testing
+lang: zh-tw
 ---
 
 ## 前文

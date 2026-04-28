@@ -3,7 +3,9 @@ title: Gaps and Islands problem (SQL) 連續範圍
 date: 2019-06-10 22:30:11
 tags: [SQL,MSSQL,MySQL,Postgresql,SQL-Gaps-and-Islands-problem]
 categories: [SQL]
-description: "Gaps and Islands problem (SQL) 連續範圍 - SO 發現蠻多人有遇到 Gaps and Islands problem"
+description: "SQL Gaps and Islands Problem 解題思路：適用 MSSQL、MySQL、PostgreSQL，使用 ROW_NUMBER 與 Window Function 解決連續範圍與中斷區間問題"
+keywords: SQL,Gaps-and-Islands,MSSQL,MySQL,PostgreSQL,ROW_NUMBER,Window-Function,consecutive-range
+lang: zh-tw
 ---
 
 ## 前言：

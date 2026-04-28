@@ -1,10 +1,10 @@
 ---
 title: postgresql HOT (heap only tuple) update 深入淺出
 date: 2021-10-03 20:30:11
-tags: [DataBase,Turning,postgresql]
-categories: [Turning,postgresql]
-keywords: DataBase,Turning,postgresql
-description: "Postgresql DB 目前預設在更新資料時會在 Heap Table 新增一條新版本資料，舊版本會先存在直到使用 VACUUM 回收"
+tags: [PostgreSQL,HOT-update,Vacuum,MVCC]
+categories: [PostgreSQL,Vacuum]
+keywords: PostgreSQL,HOT-update,heap-only-tuple,VACUUM,dead-tuple,MVCC,performance
+description: "深入解析 PostgreSQL HOT (Heap Only Tuple) update 機制，了解更新資料時如何在 Heap Table 建立新版本、舊版本如何透過 VACUUM 回收，以及 HOT update 如何減少索引維護開銷提升效能"
 lang: zh-tw
 ---
 ## 前言

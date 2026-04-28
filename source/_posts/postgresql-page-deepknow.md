@@ -5,8 +5,8 @@ tags: [DataBase,Turning,postgresql]
 categories: [Turning,postgresql]
 photos: 
     - "https://i.imgur.com/mYYjXFg.jpg"
-keywords: DataBase,Turning,postgresql
-description: "因為工作需要最近在研究 postgresql DB，發現跟 sql-server 相比有許多不同之處，所以一開始就先研究 Page 差別，沒想到還真的有不少細節上的差異"
+keywords: PostgreSQL,Page,page-layout,page-header,tuple,storage,internals
+description: "深入解析 PostgreSQL Page 結構與儲存機制，比較 PostgreSQL 與 SQL Server 的 Page 差異，包含 Page Header、Item Pointer、Tuple 格式等底層儲存細節"
 lang: zh-tw
 ---
 ## 前言

@@ -4,7 +4,7 @@ date: 2021-10-07 20:30:11
 tags: [DataBase,Turning,postgresql,WAL]
 categories: [Turning,postgresql]
 keywords: DataBase,Turning,postgresql,WAL
-description: "前言"
+description: "深入解析 PostgreSQL WAL (Write-Ahead Logging) 機制，包含 LSN 寫入流程、synchronous_commit 設定、Dirty Block flush 順序，以及如何確保資料庫崩潰後的 roll-forward recovery"
 lang: zh-tw
 ---
 ## 前言

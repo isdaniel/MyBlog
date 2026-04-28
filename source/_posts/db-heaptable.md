@@ -6,7 +6,8 @@ categories: [Turning,sql-server]
 top:
 photos: 
     - "https://i.imgur.com/HT0bui0.png"
-description: "Heap 資料表"
+keywords: SQL-Server,Heap-Table,forwarding-pointer,Clustered-Index,page-split
+description: "深入解析 SQL Server Heap Table 的特性與常見問題，包含 forwarding pointer 造成的 Logic Read 增加、Allocation Scan 機制，以及何時該使用 Heap Table"
 lang: zh-tw
 ---
 ## Heap 資料表

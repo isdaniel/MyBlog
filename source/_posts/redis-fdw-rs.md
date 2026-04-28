@@ -1,9 +1,9 @@
 ---
 title: 【開源介紹】redis_fdw_rs：讓 PostgreSQL 直接查 Redis 的 FDW 擴充套件（Rust 編寫）
 date: 2025-08-16 11:12:43
-tags: [rust,opensource,redis]
-categories: [rust,opensource,redis,fdw]
-keywords: rust,opensource,redis,fdw
+tags: [Rust,PostgreSQL,Redis,FDW,pgrx]
+categories: [Rust,PostgreSQL,Redis,FDW]
+keywords: Rust,PostgreSQL,Redis,FDW,pgrx,Foreign-Data-Wrapper,open-source
 description: "大家好，今天要和大家介紹我近期開發的一個開源專案 —— redis_fdw_rs，這是一個使用 Rust 語言與 pgrx 框架實作的 **Redis Foreign Data Wrapper (FDW)**，讓你能夠在 PostgreSQL 中直接查詢 Redis 資料，就像操作一般的資料表一樣。"
 lang: zh-tw
 ---

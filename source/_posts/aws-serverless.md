@@ -3,7 +3,8 @@ title: Serverless + CloudFormation 撰寫 lambda
 date: 2022-05-16 22:30:11
 tags: [AWS,Lambda,.netcore]
 categories: [AWS,Lambda]
-description: "AWS lambda 作為 serverless 服務，之前有介紹過 AWS Lambda 初體驗 by .net core，本次要介紹 serverless 框架搭配 AWS CloudFormation (IaC)"
+keywords: AWS,Lambda,Serverless-Framework,CloudFormation,IaC,.NET-Core
+description: "使用 Serverless Framework 搭配 AWS CloudFormation (IaC) 撰寫與部署 Lambda 函式，介紹 serverless.yml 設定與 .NET Core Lambda 部署流程"
 lang: zh-tw
 ---
 ## 前言

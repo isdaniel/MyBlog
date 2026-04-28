@@ -1,9 +1,11 @@
 ---
 title: RabbitMQ (三) 簡單實作一個MQ
 date: 2019-06-02 22:30:11
-tags: [C#,RabbitMQ,MQ]
-categories: [C#]
-description: "RabbitMQ (三) 簡單實作一個MQ - 本篇利用RabbitMQ client來簡單實現MQ功能."
+tags: [C#,RabbitMQ,MQ,AMQP]
+categories: [C#,RabbitMQ]
+keywords: RabbitMQ,C#,message-queue,Producer,Consumer,AMQP
+description: "RabbitMQ 系列第三篇：使用 C# RabbitMQ Client 實作 Producer 與 Consumer，了解 AMQP 協議與 MQ 訊息傳遞的基本機制"
+lang: zh-tw
 ---
 
 ## 前言

@@ -3,7 +3,9 @@ title: (SQL Server) CTE RECURSIVE (遞迴)製作月曆
 date: 2019-05-29 22:28:05
 tags: [SQL,Tsql,MSSql,CTE,UNION ALL]
 categories: SQL
-description: "(SQL Server) CTE RECURSIVE (遞迴)製作月曆 - 如果要製作月報...但只有給起訖日"
+description: "SQL Server CTE RECURSIVE 遞迴查詢教學：使用 Common Table Expression 搭配 UNION ALL 製作月曆，從起訖日產生完整日期列表"
+keywords: SQL-Server,CTE,RECURSIVE,UNION-ALL,Common-Table-Expression,calendar,date-range
+lang: zh-tw
 ---
 
 如果要製作月報...但只有給起訖日

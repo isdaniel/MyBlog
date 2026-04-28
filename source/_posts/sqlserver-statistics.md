@@ -3,7 +3,9 @@ title: 影響Query Optimizer產生執行計畫的關鍵(統計值)
 date: 2020-02-26 23:10:43
 tags: [DataBase,Turning,sql-server]
 categories: [Turning,sql-server]
-description: "影響Query Optimizer產生執行計畫的關鍵(統計值) - SQL Server的QO(Query Optimizer)透過cost-based model來選擇一個最合適計畫(估算成本最低)來執行查詢"
+description: "深入了解 SQL Server 統計值 (Statistics) 如何影響 Query Optimizer 產生執行計畫，包含基數估計 (Cardinality Estimation)、cost-based model 與統計值更新機制"
+keywords: SQL-Server,Statistics,Query-Optimizer,execution-plan,Cardinality-Estimation,cost-based
+lang: zh-tw
 ---
 
 ## 什麼是統計值

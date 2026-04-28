@@ -3,10 +3,8 @@ title: postgresql source code install
 date: 2022-09-03 12:30:11
 tags: [DataBase,postgresql]
 categories: [postgresql]
-# photos: 
-#     - "https://i.imgur.com/mYYjXFg.jpg"
-keywords: DataBase,postgresql
-description: "因為工作需要最近在研究 postgresql DB，postgresql DB 是一個 Open Source RDBMS，所以有任何問題疑問都可以把 source code 下載並 debug 了解原因，本篇希望可以快速幫助想要透過 source code 安裝 postgresql DB 的人"
+keywords: PostgreSQL,source-code,compile,install,Ubuntu,debug,open-source,RDBMS
+description: "手把手教學如何從 PostgreSQL 原始碼編譯安裝，在 Ubuntu 環境下載指定版本 source code 並進行 build、install 與 debug，適合想深入了解 PostgreSQL 內部運作的開發者"
 lang: zh-tw
 ---
 ## 前言

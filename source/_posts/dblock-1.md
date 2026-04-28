@@ -3,11 +3,10 @@ title: 淺談SqlServer Lock(一)
 date: 2020-08-16 11:12:43
 tags: [DataBase,Turning,Sql-server,Lock]
 categories: [DataBase,Turning]
-description: "淺談SqlServer Lock(一) - 之前有跟大家介紹資料庫交易中的ACID,今天我們就來談談常常聽到Lock"
-top:
+description: "淺談 SQL Server Lock 機制第一篇：從 ACID 交易特性延伸，了解 SQL Server 中 Shared Lock、Exclusive Lock、Update Lock 等鎖定類型與鎖定粒度"
 photos: 
     - "https://i.imgur.com/3WWvSXp.png"
-keywords: DataBase,Turning,sql-server,Index
+keywords: SQL-Server,Lock,Shared-Lock,Exclusive-Lock,Update-Lock,Deadlock,Transaction
 ---
 
 

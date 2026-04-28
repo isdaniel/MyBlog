@@ -3,7 +3,9 @@ title: JOIN範圍條件Index優化
 date: 2020-06-28 23:10:43
 tags: [DataBase,Turning,sql-server,Index]
 categories: [DataBase,Turning]
-description: "JOIN範圍條件Index優化 - JOIN條件範圍時,執行計畫預估值容易不準確,這也間接導致查詢效能不好."
+description: "解決 SQL Server JOIN 範圍條件時索引效能問題：當執行計畫預估值不準確時，如何透過 Index 設計讓 JOIN 條件範圍查詢發揮最佳效能"
+keywords: SQL-Server,JOIN,Index,execution-plan,cardinality-estimation,Performance-Tuning
+lang: zh-tw
 ---
 
 ## 前文

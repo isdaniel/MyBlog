@@ -3,7 +3,7 @@ title: "pg-walstream: High-Performance PostgreSQL WAL Streaming in Rust"
 date: 2026-04-21 22:00:00
 tags: [Rust, PostgreSQL, logical-replication, WAL, CDC]
 categories: [Rust, PostgreSQL, logical-replication]
-keywords: Rust, PostgreSQL, WAL, logical-replication, CDC, Change-Data-Capture, pg-walstream
+keywords: Rust,PostgreSQL,WAL,logical-replication,CDC,Change-Data-Capture,pg-walstream,real-time,event-driven
 description: "A high-performance Rust library for parsing and streaming PostgreSQL WAL messages via logical replication — with load testing results showing 200K+ events/sec."
 lang: en
 ---

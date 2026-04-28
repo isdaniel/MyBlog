@@ -1,10 +1,10 @@
 ---
 title: Azure PostgreSQL Flexible long term backup with Managed Identity 
 date: 2022-12-25 22:30:11
-tags: [Azure]
-categories: [Azure,flexibleServer,Managed Identity ]
-keywords: Azure,flexibleServer,Managed Identity 
-description: "This ariticle will guide us how to do long-term backup (more than 35 days) on Azure PostgreSQL Flexible."
+tags: [Azure,PostgreSQL,Backup,Managed-Identity]
+categories: [Azure,PostgreSQL,Managed-Identity]
+keywords: Azure,PostgreSQL-Flexible-Server,long-term-backup,Managed-Identity,pg_dump,Azure-Blob-Storage
+description: "Step-by-step guide to configure long-term backup (beyond 35 days) on Azure PostgreSQL Flexible Server using Managed Identity, pg_dump, and Azure Blob Storage"
 lang: en
 ---
 ## Introduction 

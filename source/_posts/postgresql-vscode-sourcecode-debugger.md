@@ -1,10 +1,10 @@
 ---
 title: How can we use vscode debug PostgreSQL running process by source code? 
 date: 2023-06-02 22:30:11
-tags: [vscode,postgresql,debugger,vscode,postgresql,debugger]
-categories: [vscode,postgresql,debugger,sourcecode]
-keywords: vscode,postgresql,debugger,sourcecode
-description: "Using gdb for command-line debugging still feels inconvenient. I initially wanted to find a simpler way to directly debug the PostgreSQL source code under"
+tags: [VSCode,PostgreSQL,debugger,source-code]
+categories: [PostgreSQL,debugger,source-code]
+keywords: VSCode,PostgreSQL,debugger,source-code,gdb,Linux,debug-running-process
+description: "Step-by-step guide to debug a running PostgreSQL process using VSCode on Linux — build from source with debug symbols, attach to a backend process, and set breakpoints in PostgreSQL internals"
 lang: en
 ---
 ## Foreword

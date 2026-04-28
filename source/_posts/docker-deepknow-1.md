@@ -6,7 +6,8 @@ categories: [Docker]
 top:
 photos: 
     - "https://gblobscdn.gitbook.com/assets%2F-LvLdlWILWa_WXgBI_eY%2F-LvLdmMmmDnQXr_Axo0l%2F-LvLdnbuSZ5KOT0JxN9C%2Fcmd_logic.png?alt=media"
-description: "前言:"
+keywords: Docker,Container,Image,Hyper-V,Docker-Daemon,Linux
+description: "Docker 深入淺出系列第一篇，介紹 Docker 在 Windows 中的運作原理 (HyperV + Docker Daemon)、Image 與 Container 的關係、以及 Docker 操作流程圖解"
 lang: zh-tw
 ---
 ## 前言:

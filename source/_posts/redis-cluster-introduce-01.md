@@ -5,8 +5,8 @@ tags: [Redis,Cluster]
 categories: [Redis,Cluster]
 photos: 
     - "https://i.imgur.com/8EUN7Vu.png"
-keywords: Redis,Cluster
-description: "在巨量資料下，資料庫合理的分片(DB sharding)可以幫助我們承受更高量的資料量(前提Index還有設定都調教到很好在考慮 sharding)"
+keywords: Redis,Cluster,sharding,hash-slot,高可用,分散式
+description: "Redis Cluster 介紹，了解分散式架構下的資料分片 (sharding) 機制、Hash Slot 分配原理，以及 Redis Cluster 如何實現高可用與水平擴展"
 lang: zh-tw
 ---
 ## 前言

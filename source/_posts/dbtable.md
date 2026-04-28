@@ -3,7 +3,9 @@ title: SqlServer資料表深入淺出
 date: 2020-01-26 23:10:43
 tags: [DataBase,Turning,sql-server]
 categories:  [Turning,sql-server]
-description: "SqlServer資料表深入淺出 - 本篇會跟大家對於SQL-Server資料表深入淺出的介紹."
+description: "SQL Server 資料表深入淺出：Page 儲存結構 (8K/Page)、子頁層概念、Clustered Index 與 Heap Table 的差異比較"
+keywords: SQL-Server,Table,Page,Clustered-Index,Heap-Table,storage-engine
+lang: zh-tw
 ---
 
 ## 前文

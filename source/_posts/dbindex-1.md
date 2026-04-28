@@ -1,10 +1,11 @@
 ---
 title: 資料庫索引深入淺出(一)
 date: 2020-01-20 11:12:43
-tags: [DataBase,Turning,sql-server,Index]
-categories: [DataBase,Turning]
-description: "資料庫索引深入淺出(一) - Index第一個欄位至關重要它會影響資料統計值結果，Index一般建立在查詢條件的欄位"
-keywords: DataBase,Turning,sql-server,Index
+tags: [SQL-Server,Index,B-Tree,Performance-Tuning]
+categories: [SQL-Server,Index]
+description: "資料庫索引深入淺出第一篇：解析 Index 第一個欄位對統計值的影響、B+ Tree 結構，以及如何正確選擇查詢條件欄位建立索引"
+keywords: SQL-Server,Index,B-Tree,Clustered-Index,Non-Clustered-Index,Statistics,Performance-Tuning
+lang: zh-tw
 ---
 
 

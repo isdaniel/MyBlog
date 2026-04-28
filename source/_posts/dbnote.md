@@ -3,7 +3,9 @@ title: 撰寫SQL的建議
 date: 2020-01-26 23:10:43
 tags: [DataBase,Turning,sql-server]
 categories: [DataBase,Turning]
-description: "撰寫SQL的建議 - 分享 SARG 條件、避免運算欄位、LIKE 與 COUNT/EXISTS 的效能注意事項。"
+description: "撰寫 SQL 效能建議：SARG 條件寫法、避免欄位運算、LIKE 前綴搜尋、COUNT vs EXISTS 效能比較等實用技巧"
+keywords: SQL-Server,SQL-performance,SARG,query-optimization,LIKE,COUNT,EXISTS
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前文](#%e5%89%8d%e6%96%87)

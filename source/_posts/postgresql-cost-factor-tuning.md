@@ -6,7 +6,7 @@ categories: [Turning,postgresql]
 keywords: DataBase,Turning,postgresql,cost
 photos: 
     - "https://i.imgur.com/ZAs54l8.png"
-description: "前言"
+description: "深入解析 PostgreSQL 成本因子調教，了解 query optimizer 如何透過 seq_page_cost、random_page_cost 等參數選擇最佳執行計畫，搭配 Linux systemtap 實測分析效能差異"
 lang: zh-tw
 ---
 ## 前言

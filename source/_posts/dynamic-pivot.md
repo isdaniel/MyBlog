@@ -3,7 +3,9 @@ title: (SQL Server)Dynamic pivot 動態樞紐分析
 date: 2019-06-02 22:30:11
 tags: [SQL,Dynamic-Pivot,Pivot]
 categories: [SQL]
-description: "(SQL Server)Dynamic pivot 動態樞紐分析 - 之前有和大家分享使用CASE WHEN 搭配聚合函數實現樞紐分析"
+description: "SQL Server Dynamic Pivot 動態樞紐分析教學：使用動態 SQL 搭配 PIVOT 運算子，將列轉行實現動態欄位的樞紐分析報表"
+keywords: SQL-Server,Dynamic-Pivot,PIVOT,dynamic-SQL,CASE-WHEN,aggregate
+lang: zh-tw
 ---
 
 ## 前言：

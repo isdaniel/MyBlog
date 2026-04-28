@@ -3,7 +3,7 @@ title: "pg_pidstat: Real-Time Per-Backend CPU, Memory, and I/O Monitoring for Po
 date: 2026-04-27 10:00:00
 tags: [Rust, PostgreSQL, pgrx, Monitoring, Performance-Tuning]
 categories: [Rust, PostgreSQL, Monitoring]
-keywords: pg_pidstat, PostgreSQL monitoring, per-backend CPU usage, PostgreSQL memory monitoring, PostgreSQL I/O metrics, pgrx, Rust PostgreSQL extension, pg_stat_activity, process monitoring, context switches, PostgreSQL performance
+keywords: pg_pidstat,PostgreSQL-monitoring,per-backend-CPU,PostgreSQL-memory,PostgreSQL-IO,pgrx,Rust-PostgreSQL-extension,pg_stat_activity,process-monitoring,context-switches,PostgreSQL-performance
 description: "pg_pidstat is a Rust-based PostgreSQL extension that adds real-time per-backend CPU, memory, I/O, and context switch monitoring via a single SQL view."
 lang: en
 ---

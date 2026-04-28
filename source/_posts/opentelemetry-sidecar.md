@@ -1,10 +1,10 @@
 ---
 title: Instrument Any App Instantly Using OpenTelemetry_SideCar
 date: 2025-06-01 22:30:11
-tags: [C#,Rust, Sidecar]
-categories: [Rust,C#, Sidecar]
-keywords: Rust,C#, Sidecar
-description: "If you’ve ever struggled to instrument legacy apps or non-standard services for observability, OpenTelemetry_SideCar is here to help. This project offers a"
+tags: [C#,Rust,OpenTelemetry,Sidecar,Observability]
+categories: [Rust,C#,OpenTelemetry]
+keywords: OpenTelemetry,Sidecar,Rust,C#,observability,metrics,traces,Prometheus,Jaeger,non-intrusive-instrumentation
+description: "OpenTelemetry_SideCar is a standalone sidecar proxy that exports metrics and traces via OpenTelemetry without modifying your application code — ideal for instrumenting legacy apps, closed-source binaries, and non-standard services"
 lang: en
 ---
 ## introduce

@@ -3,7 +3,9 @@ title: Oracle [CONNECT BY]
 date: 2019-06-02 22:30:11
 tags: [SQL,Oracle]
 categories: [SQL,Oracle]
-description: "Oracle [CONNECT BY] - 之前有介紹 {% post_link cte-recursive %} 在Oracle 有提供一個精簡的語法產生階層資料 CONNECT BY"
+description: "Oracle CONNECT BY 語法教學：使用 LEVEL、START WITH、PRIOR 關鍵字產生階層式資料與遞迴查詢，與 SQL Server CTE RECURSIVE 的比較"
+keywords: Oracle,CONNECT-BY,hierarchical-query,LEVEL,START-WITH,PRIOR,recursive
+lang: zh-tw
 ---
 
 之前有介紹 {% post_link cte-recursive %} 在`Oracle` 有提供一個精簡的語法產生階層資料 `CONNECT BY`

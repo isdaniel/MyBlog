@@ -1,10 +1,11 @@
 ---
 title: 資料庫索引深入淺出(二)
 date: 2020-01-20 23:10:43
-tags: [DataBase,Turning,sql-server,Index]
-categories: [DataBase,Turning]
-description: "資料庫索引深入淺出(二) - 介紹 Covering Index、Filter Index、Index Intersection 與索引設計重點。"
-keywords: DataBase,Turning,sql-server,Index
+tags: [SQL-Server,Index,Covering-Index,Filter-Index,Performance-Tuning]
+categories: [SQL-Server,Index]
+description: "資料庫索引深入淺出第二篇：介紹 Covering Index (INCLUDE)、Filter Index、Index Intersection 與索引設計重點"
+keywords: SQL-Server,Covering-Index,Filter-Index,Index-Intersection,INCLUDE,Performance-Tuning
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前文](#前文)

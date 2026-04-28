@@ -6,7 +6,8 @@ categories: [Turning,sql-server]
 top:
 photos: 
     - "https://i.imgur.com/uuyIRuC.png"
-description: "前言:"
+keywords: SQL-Server,Page-Split,ALTER-TABLE,column,performance,production
+description: "探討 SQL Server 在 Production 環境新增欄位造成 Page Split 的問題，解析為什麼新增一個 bit 欄位需要 45 分鐘，以及如何避免大量 Page Split 影響效能"
 lang: zh-tw
 ---
 ## 前言:

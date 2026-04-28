@@ -1,10 +1,11 @@
 ---
 title: ACID
 date: 2020-06-02 22:30:11
-tags: [C#,IOC,Autofac,AOP]
-categories: [C#,IOC]
-description: "ACID 資料庫交易特性介紹：原子性、一致性、隔離性與持久性，並說明 SQL Server 交易錯誤與 XACT_ABORT 的影響。"
-keywords: C#,IOC,Autofac,AOP
+tags: [SQL-Server,Database,Transaction,ACID]
+categories: [SQL-Server,Database]
+description: "ACID 資料庫交易特性介紹：原子性、一致性、隔離性與持久性，以及 SQL Server 中 XACT_ABORT 對交易錯誤處理的影響"
+keywords: ACID,SQL-Server,Transaction,Atomicity,Consistency,Isolation,Durability,XACT_ABORT
+lang: zh-tw
 ---
 
 ## 前言
