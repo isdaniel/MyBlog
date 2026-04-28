@@ -3,8 +3,8 @@ title:  揭密Mvc使用IHttpHandler by UrlRoutingModule-4.0 (第8天)
 date: 2019-09-19 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "揭密Mvc使用IHttpHandler by UrlRoutingModule-4.0 (第8天) - 前面幾篇文章已經詳細分享解說Asp.net如何透過HttpApplication找到IHttpHandler並執行呼叫介面方法."
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "揭密 UrlRoutingModule-4.0 如何攔截請求並透過 RouteCollection 匹配路由，將 ASP.NET 請求導向 MVC Handler"
+keywords: C#,ASP.NET-MVC,UrlRoutingModule,PostResolveRequestCache,MvcHandler,RemapHandler
 lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->

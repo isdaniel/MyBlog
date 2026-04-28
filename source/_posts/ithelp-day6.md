@@ -3,8 +3,8 @@ title:  Asp.Net重要物件HttpApplication(二) 建置執行管道 (第6天)
 date:  2019-09-17 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Asp.Net重要物件HttpApplication(二) 建置執行管道 (第6天) - 前面有提到InitInternal方法，是如何載入註冊HttpModule並呼叫Init方法，經典模式和管道模式比較."
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "解析 ApplicationStepManager 的 BuildSteps 方法如何建構執行管道，以及 IExecutionStep 介面如何實現 AOP 擴充機制"
+keywords: C#,ASP.NET,ApplicationStepManager,BuildSteps,IExecutionStep,AOP,event-pipeline
 lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->

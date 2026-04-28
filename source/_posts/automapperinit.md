@@ -3,7 +3,7 @@ title: (AutoMapper)反射自動註冊AutoMapper Profile
 date: 2019-06-10 22:30:11
 tags: [C#,Automapper,Model]
 categories: [C#]
-description: "(AutoMapper)反射自動註冊AutoMapper Profile - AutoMapper 幫我我們方便管理物件跟物件之間屬性值格式轉換"
+description: "使用反射自動掃描並註冊 AutoMapper Profile，免除手動逐一設定物件對應，簡化大型專案的 DTO 轉換管理"
 keywords: C#,AutoMapper,Reflection,Profile,物件映射
 lang: zh-tw
 ---

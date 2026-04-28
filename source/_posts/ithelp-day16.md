@@ -3,8 +3,8 @@ title:  MVC Filter 機制解密 (第16天)
 date: 2019-09-27 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "MVC Filter 機制解密 (第16天) - 上篇和大家介紹Filter去是如何取得且我們可以透過IOC容器註冊IFilterProvider來擴充取得Filter注入點."
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "揭密 MVC Filter 五大介面：Authentication、Authorization、Action、Result、Exception Filter 的載入與執行機制"
+keywords: C#,ASP.NET-MVC,Filter,IActionFilter,IAuthorizationFilter,IExceptionFilter,AOP,proxy-pattern
 lang: zh-tw
 ---
 

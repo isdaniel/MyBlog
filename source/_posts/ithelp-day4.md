@@ -3,8 +3,8 @@ title: 掌控HttpApplication物件建立 - HttpApplicationFactory (第4天)
 date: 2019-09-15 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "掌控HttpApplication物件建立 - HttpApplicationFactory (第4天) - 附上Asp.net執行請求流程圖."
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "解析 HttpApplicationFactory 如何透過物件池機制建立和管理 HttpApplication 實例，以及 Application_Start 為何只執行一次"
+keywords: C#,ASP.NET,HttpApplicationFactory,object-pool,Application_Start,GetApplicationInstance
 lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->

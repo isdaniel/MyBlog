@@ -3,8 +3,8 @@ title:  6個基本(ActionResult) View是如何被建立(二) (第23天)
 date: 2019-10-04 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "6個基本(ActionResult) View是如何被建立(二) (第23天) - 上一篇介紹到CreateActionResult方法會產生一個ActionResult物件利用MethodInfo資訊."
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "介紹 MVC 六大 ActionResult 類型：ContentResult、FileResult、RedirectResult、ViewResultBase 等的 ExecuteResult 實作"
+keywords: C#,ASP.NET-MVC,ActionResult,ContentResult,FileResult,RedirectResult,ViewResultBase,HttpStatusCodeResult
 lang: zh-tw
 ---
 

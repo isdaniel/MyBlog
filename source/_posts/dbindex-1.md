@@ -1,5 +1,5 @@
 ---
-title: 資料庫索引深入淺出(一)
+title: "資料庫索引深入淺出(一) — SQL Server Index Fundamentals"
 date: 2020-01-20 11:12:43
 tags: [SQL-Server,Index,B-Tree,Performance-Tuning]
 categories: [SQL-Server,Index]

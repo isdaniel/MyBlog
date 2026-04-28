@@ -3,8 +3,8 @@ title: (開賽)Http 請求 Asp.net IIS伺服器架構 (第1天)
 date: 2019-09-12 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "(開賽)Http 請求 Asp.net IIS伺服器架構 (第1天) - 三十篇文章架構基本遵循:"
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "解析 HTTP 請求進入 IIS 後的完整流程：從 Http.sys、W3WP 到 ASP.NET pipeline，建立 MVC 原始碼分析的基礎架構"
+keywords: C#,ASP.NET,IIS,Http.sys,W3WP,pipeline,request-lifecycle,HttpModule,HttpHandler
 lang: zh-tw
 ---
 

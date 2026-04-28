@@ -3,8 +3,8 @@ title: Action方法如何被執行InvokeAction(一) (第15天)
 date: 2019-09-26 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Action方法如何被執行InvokeAction(一) (第15天) - 前面介紹完 Asp.net MVC解析器和IOC容器之間關係"
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "深入 ActionInvoker 的 InvokeAction 方法，了解 Action 執行前如何取得 ActionDescriptor 並載入 Filter/AOP 機制"
+keywords: C#,ASP.NET-MVC,ActionInvoker,InvokeAction,ActionDescriptor,ControllerDescriptor,Filter
 lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->

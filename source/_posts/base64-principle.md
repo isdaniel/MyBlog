@@ -6,7 +6,7 @@ categories: WebDesign
 top:
 photos: 
     - "http://i.imgur.com/4wh9OVF.png"
-description: "Base家族以Base64最為出名，這邊會用Base64編碼來做介紹"
+description: "深入解析 Base64 編碼原理：從 ASCII 限制到 6-bit 分組轉換機制，了解 Base64 為何是 HTTP 與 MIME 傳輸的標準編碼方式"
 keywords: Base64,Encoding,編碼原理,ASCII,二進制
 lang: zh-tw
 ---

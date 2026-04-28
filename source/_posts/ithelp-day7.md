@@ -3,8 +3,8 @@ title: Asp.Net重要物件HttpApplication(三) 取得執行的IHttpHandler (第7
 date:  2019-09-18 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Asp.Net重要物件HttpApplication(三) 取得執行的IHttpHandler (第7天) - 前面和大家分享StepManager是如何建立管道和依序呼叫IHttpModule註冊事件"
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "追蹤 HttpApplication 如何透過 MapHandlerExecutionStep 找到匹配的 IHttpHandler 並執行請求處理"
+keywords: C#,ASP.NET,MapHandlerExecutionStep,CallHandlerExecutionStep,IHttpHandlerFactory,handler-resolution
 lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->

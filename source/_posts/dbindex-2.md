@@ -1,5 +1,5 @@
 ---
-title: 資料庫索引深入淺出(二)
+title: "資料庫索引深入淺出(二) — Covering Index & Index Design"
 date: 2020-01-20 23:10:43
 tags: [SQL-Server,Index,Covering-Index,Filter-Index,Performance-Tuning]
 categories: [SQL-Server,Index]

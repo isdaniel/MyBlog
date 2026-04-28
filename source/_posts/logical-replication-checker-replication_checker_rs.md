@@ -4,7 +4,7 @@ date: 2025-08-10 10:30:11
 tags: [Rust,PostgreSQL, logical-replication]
 categories: [Rust, PostgreSQL, logical-replication]
 keywords: Rust,PostgreSQL,logical-replication,replication-checker,WAL,libpq,CDC,replication-slot
-description: "介紹開源專案 replication_checker_rs — 使用 Rust 與 libpq-sys 實作 PostgreSQL logical replication protocol，可建立 replication slot 並即時顯示 INSERT/UPDATE/DELETE 變更，適合學習複寫協議與快速驗證 publication 設定"
+description: "Rust 實作的 PostgreSQL logical replication 協議解析工具，可建立 replication slot 並即時顯示資料變更，適合學習與驗證複寫設定"
 lang: zh-tw
 ---
 ## 前言

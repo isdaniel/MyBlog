@@ -3,7 +3,7 @@ title: 發布自己的Nuget專案
 date: 2019-06-10 22:30:11
 tags: [C#,Nuget]
 categories: [C#]
-description: "發布自己的Nuget專案 - 前陣子在被面試官說：我有電子發票開源專案，是否有上到Nuget上"
+description: "NuGet 套件發布教學：從下載 NuGet CLI、建立 .nuspec 設定檔到上傳 nuget.org，完整的 C# 開源專案發布流程"
 keywords: C#,NuGet,publish,open-source,package
 lang: zh-tw
 ---

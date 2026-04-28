@@ -60,7 +60,7 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
       });
     }
 
-    var image = siteUrl + '/images/favicon-32x32-next.png';
+    var image = siteUrl + '/images/default-og-image.png';
     if (page.photos && page.photos.length) {
       image = page.photos[0];
       if (image.indexOf('http') !== 0) {
@@ -82,15 +82,25 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
       'author': {
         '@type': 'Person',
         'name': config.author,
-        'url': siteUrl + '/about/'
+        'url': siteUrl + '/about/',
+        'sameAs': [
+          'https://github.com/isdaniel',
+          'https://stackoverflow.com/users/5176071/d-shih',
+          'https://www.facebook.com/profile.php?id=100001400319136'
+        ]
       },
       'publisher': {
         '@type': 'Organization',
         'name': config.title,
+        'url': siteUrl + '/',
         'logo': {
           '@type': 'ImageObject',
           'url': siteUrl + '/images/apple-touch-icon-next.png'
-        }
+        },
+        'sameAs': [
+          'https://github.com/isdaniel',
+          'https://stackoverflow.com/users/5176071/d-shih'
+        ]
       },
       'image': {
         '@type': 'ImageObject',

@@ -3,8 +3,8 @@ title:  Asp.net MVC Controller是怎麼被建立 (第11天)
 date: 2019-09-22 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Asp.net MVC Controller是怎麼被建立 (第11天) - 前篇介紹MVC使用HttpHandler是MvcHandler透過並MvcRouteHandler物件來返回."
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "追蹤 Controller 建立流程：從 ControllerBuilder 到 DefaultControllerFactory，了解 MVC 如何透過反射動態建立 Controller"
+keywords: C#,ASP.NET-MVC,Controller-creation,ControllerBuilder,IControllerFactory,DefaultControllerFactory,reflection
 lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->

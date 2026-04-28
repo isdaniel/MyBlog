@@ -1,8 +1,8 @@
 ---
 title: postgresql Page 深入淺出
 date: 2021-09-28 00:30:11
-tags: [DataBase,Turning,postgresql]
-categories: [Turning,postgresql]
+tags: [DataBase,Tuning,postgresql]
+categories: [Tuning,postgresql]
 photos: 
     - "https://i.imgur.com/mYYjXFg.jpg"
 keywords: PostgreSQL,Page,page-layout,page-header,tuple,storage,internals

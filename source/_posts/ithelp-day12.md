@@ -3,8 +3,8 @@ title: 談談Controller幾個重要成員 (第12天)
 date: 2019-09-23 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "談談Controller幾個重要成員 (第12天) - 上篇得知MVC預設透過DefaultControllerFactory反射方式動態建立Controller物件"
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "介紹 Controller 核心成員：TempData、ViewBag、ViewData 的運作原理，以及 ControllerContext 如何封裝請求上下文"
+keywords: C#,ASP.NET-MVC,ControllerBase,TempData,ViewBag,ViewData,ControllerContext
 lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->

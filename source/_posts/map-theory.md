@@ -1,9 +1,9 @@
 ---
 title: 資料庫查詢核心概念-地圖理論
 date: 2021-11-02 23:10:43
-tags: [DataBase,Turning,postgresql]
-categories: [DataBase,Turning]
-keywords: DataBase,Turning,postgresql
+tags: [DataBase,Tuning,postgresql]
+categories: [DataBase,Tuning]
+keywords: DataBase,Tuning,postgresql
 description: "深入理解資料庫查詢優化器運作原理：用地圖理論解析 PostgreSQL 執行計畫生成機制，從 Parser、Planner 到 Executor，掌握統計資訊與成本估算，優化 SQL 查詢效能"
 lang: zh-tw
 ---

@@ -4,7 +4,7 @@ date: 2024-11-11 22:30:11
 tags: [ssl,tls]
 categories: [ssl,tls]
 keywords: SSL,TLS,HTTPS,security,certificate,handshake,encryption
-description: "TLS (Transport Layer Security) is a cryptographic protocol for secure communication over networks, commonly used to secure HTTP traffic. This post explains the TLS/SSL handshake flow and certificate validation process"
+description: "圖解 TLS/SSL 握手流程：從 ClientHello 到 Session Key 生成，完整解析 TLS 1.2 憑證驗證與加密建立過程"
 lang: en
 ---
 ## Foreword

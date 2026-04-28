@@ -3,7 +3,7 @@ title: Asp.net使用快取 (一)
 date: 2019-05-27 08:26:31
 tags: [C#,Asp.net,cache]
 categories: C#
-description: "最近回答SQL Server data caching in ASP.NET問題,且有人問我有關快取的問題."
+description: "ASP.NET 快取機制入門：了解快取的讀寫操作原理，使用 HttpRuntime.Cache 實作記憶體快取提升 Web 應用程式效能"
 keywords: C#,ASP.NET,cache,快取,OutputCache
 lang: zh-tw
 ---

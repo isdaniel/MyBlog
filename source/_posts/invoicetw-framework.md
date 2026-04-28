@@ -3,7 +3,7 @@ title: 【財政部查詢類電子發票API】框架解說 C#
 date: 2019-05-27 22:59:51
 tags: [Open-Source,C#,Asp.net,OOP,Design-Pattern]
 categories: [C#,SourceCode]
-description: "【財政部查詢類電子發票API】框架解說 C# - 小弟之前有分享過串接【財政部查詢類電子發票API】小框架使用文"
+description: "台灣財政部電子發票查詢 API 開源框架 C# 解說：參數排序、簽章產生、時間戳記處理與 HTTP 請求實作細節"
 keywords: C#,電子發票,API,財政部,Open-Source,OOP
 lang: zh-tw
 ---

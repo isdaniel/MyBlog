@@ -1,8 +1,10 @@
 ---
-title: '404 - 連結遺失'
+title: '404 - 頁面不存在'
 date: 2021-07-31 00:01:35
 comments: false
 permalink: /404.html
+description: "找不到您要的頁面。此頁面可能已移除或網址有誤，將自動導向首頁"
+lang: zh-tw
 ---
 
 ## 這是一個不存在的頁面
@@ -11,7 +13,7 @@ permalink: /404.html
 
 預計在<span id="timeout">5</span> 秒後返回首頁。
 
-如果你很急著想看文章，你可以 **[點這裡](https://isdaniel.github.io//)** 返回首頁。
+如果你很急著想看文章，你可以 **[點這裡](https://isdaniel.github.io/)** 返回首頁。
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -22,7 +24,7 @@ function count() {
   document.getElementById('timeout').textContent = countTime;
   countTime -= 1;
   if(countTime === 0){
-    location.href = 'https://isdaniel.github.io//'; 
+    location.href = 'https://isdaniel.github.io/'; 
   }
   setTimeout(() => {
     count();

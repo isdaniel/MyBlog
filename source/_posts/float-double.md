@@ -4,7 +4,7 @@ date: 2019-06-10 22:30:11
 tags: [C#,float,double,number]
 categories: [C#]
 keywords: C#,float,double,浮點數,IEEE-754,精度,誤差
-description: "解析 float 和 double 為什麼會有精度誤差，深入了解 IEEE 754 浮點數儲存原理與二進制表示法"
+description: "解析 float 和 double 精度誤差的根本原因：深入 IEEE 754 浮點數標準，了解二進位表示法如何造成小數運算不精確"
 lang: zh-tw
 ---
 ## 前言：

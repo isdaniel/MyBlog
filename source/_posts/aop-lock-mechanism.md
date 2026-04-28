@@ -3,7 +3,7 @@ title: AOP Lock Architecture
 date: 2020-11-10 16:00:00
 tags: [C#,IOC,Autofac,AOP,Lock]
 categories: [C#,Lock]
-description: "AOP Lock Architecture - 在系統中多少會遇到某些交易間需要互斥(不然容易造成DeadLock)."
+description: "使用 Autofac Interceptor 實作 AOP Lock 架構：透過 LockAttribute 宣告式互斥鎖機制，解決多執行緒交易 DeadLock 問題"
 keywords: C#,AOP,Lock,互斥,Autofac,IOC
 lang: zh-tw
 ---

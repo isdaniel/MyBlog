@@ -4,7 +4,7 @@ date: 2025-06-30 22:30:11
 tags: [Rust, PostgreSQL,pgrx]
 categories: [Rust, pgrx, PostgreSQL]
 keywords: Rust,pgrx,PostgreSQL,FDW,Foreign-Data-Wrapper,extension,external-data
-description: "Learn how to build a PostgreSQL Foreign Data Wrapper (FDW) in Rust using the pgrx framework — implement the FDW lifecycle to query external data sources like Redis or APIs as regular PostgreSQL tables"
+description: "Learn how to build a PostgreSQL Foreign Data Wrapper (FDW) in Rust using pgrx — query external data sources as regular PostgreSQL tables"
 lang: en
 ---
 Here's a well-structured draft for your technical blog post based on the provided Rust + pgrx Foreign Data Wrapper (FDW) code.

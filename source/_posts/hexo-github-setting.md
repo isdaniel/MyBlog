@@ -3,7 +3,7 @@ title: 建立自己Blog系列(二) github Setting
 date: 2019-06-02 22:16:39
 tags: [WebDesign,Blog,Github,CICD]
 categories: WebDesign
-description: "在Github這邊要先建立兩個Repository"
+description: "Hexo + GitHub Pages 部署教學：建立兩個 Repository、安裝 Hexo、設定 deploy 自動發布，快速架設個人技術部落格"
 keywords: GitHub,Hexo,Blog,Repository,設定
 lang: zh-tw
 ---

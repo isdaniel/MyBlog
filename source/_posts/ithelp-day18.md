@@ -3,8 +3,8 @@ title: 提供ModelBing幾個重要功臣(Model) (第18天)
 date: 2019-09-29 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "提供ModelBing幾個重要功臣(Model) (第18天) - MVC的Model-Binding建立複雜物件(牽扯到複雜模型綁定.)"
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "解析 MVC Model Binding 機制：IModelBinder、DefaultModelBinder 與 ValueProviderFactory 如何將 HTTP 參數綁定至物件"
+keywords: C#,ASP.NET-MVC,ModelBinding,IModelBinder,DefaultModelBinder,IValueProvider,JsonValueProviderFactory
 lang: zh-tw
 ---
 

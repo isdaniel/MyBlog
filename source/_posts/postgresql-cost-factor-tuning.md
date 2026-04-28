@@ -1,9 +1,9 @@
 ---
 title: postgresql 執行計畫重要因子 (成本因子調教)
 date: 2021-10-17 20:30:11
-tags: [DataBase,Turning,postgresql,cost]
-categories: [Turning,postgresql]
-keywords: DataBase,Turning,postgresql,cost
+tags: [DataBase,Tuning,postgresql,cost]
+categories: [Tuning,postgresql]
+keywords: DataBase,Tuning,postgresql,cost
 photos: 
     - "https://i.imgur.com/ZAs54l8.png"
 description: "深入解析 PostgreSQL 成本因子調教，了解 query optimizer 如何透過 seq_page_cost、random_page_cost 等參數選擇最佳執行計畫，搭配 Linux systemtap 實測分析效能差異"

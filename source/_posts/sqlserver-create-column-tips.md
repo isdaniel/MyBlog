@@ -2,7 +2,7 @@
 title: 資料庫新增欄造成Page split
 date: 2021-05-11 16:00:00
 tags: [sql-server,column,performance]
-categories: [Turning,sql-server]
+categories: [Tuning,sql-server]
 top:
 photos: 
     - "https://i.imgur.com/uuyIRuC.png"

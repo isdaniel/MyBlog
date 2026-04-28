@@ -4,7 +4,7 @@ date: 2019-05-26 22:31:09
 tags: [C#,IOC,Autofac,Design-Pattern]
 categories: [C#,IOC]
 keywords: C#,IOC,DI,Dependency-Injection,Autofac,Design-Pattern,控制反轉
-description: "深入淺出 IOC (控制反轉) 與 DI (依賴注入) 設計思想，了解如何將物件控制權移轉給第三方容器實現解耦合"
+description: "深入淺出 IOC 控制反轉與 DI 依賴注入的設計思想：了解如何將物件控制權移轉給第三方容器，實現鬆耦合架構"
 lang: zh-tw
 ---
 `IOC`是一個oop重要的程式設計思想。

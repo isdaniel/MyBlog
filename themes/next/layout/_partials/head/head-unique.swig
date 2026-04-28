@@ -1,4 +1,8 @@
-{{ open_graph() }}
+{% if page.photos and page.photos.length %}
+{{ open_graph({image: page.photos[0]}) }}
+{% else %}
+{{ open_graph({image: config.url + '/images/default-og-image.png'}) }}
+{% endif %}
 
 {{ canonical() }}
 

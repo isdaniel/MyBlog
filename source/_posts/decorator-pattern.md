@@ -3,7 +3,7 @@ title: (C#)裝飾者模式(Decorator Pattern)
 date: 2019-06-01 20:37:16
 tags: [C#,Design-Pattern,Decorator-Pattern]
 categories: [C#,DesignPattern]
-description: "(C#)裝飾者模式(Decorator Pattern) - 裝飾者模式是一個很精美且優雅的模式"
+description: "以 C# 實作裝飾者模式 (Decorator Pattern)：透過組合取代繼承，動態串接 AES 加密、Zip 壓縮等功能，優雅處理需求變更"
 keywords: C#,Design-Pattern,Decorator-Pattern,裝飾者模式,OOP
 lang: zh-tw
 ---

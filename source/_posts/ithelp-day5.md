@@ -3,8 +3,8 @@ title: Asp.Net重要物件HttpApplication(一) 初始化建立IHttpMoudule (第5
 date: 2019-09-16 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Asp.Net重要物件HttpApplication(一) 初始化建立IHttpMoudule (第5天) - 附上Asp.net執行請求流程圖."
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "深入 HttpApplication.InitInternal 方法，了解 HttpModule 的載入初始化流程及 Pipeline 與 Classic 模式差異"
+keywords: C#,ASP.NET,HttpApplication,InitInternal,HttpModule-initialization,pipeline-mode,classic-mode
 lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->

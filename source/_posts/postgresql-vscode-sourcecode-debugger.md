@@ -4,7 +4,7 @@ date: 2023-06-02 22:30:11
 tags: [VSCode,PostgreSQL,debugger,source-code]
 categories: [PostgreSQL,debugger,source-code]
 keywords: VSCode,PostgreSQL,debugger,source-code,gdb,Linux,debug-running-process
-description: "Step-by-step guide to debug a running PostgreSQL process using VSCode on Linux — build from source with debug symbols, attach to a backend process, and set breakpoints in PostgreSQL internals"
+description: "Step-by-step guide to debug a running PostgreSQL process with VSCode on Linux — build from source with debug symbols and set breakpoints"
 lang: en
 ---
 ## Foreword

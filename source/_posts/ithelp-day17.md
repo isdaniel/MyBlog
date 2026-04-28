@@ -3,8 +3,8 @@ title: Action方法如何被執行InvokeAction(二) (第17天)
 date: 2019-09-28 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Action方法如何被執行InvokeAction(二) (第17天) - 上篇揭開MVC常用的過濾器如何被獲取呼叫跟基本介紹."
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "深入 InvokeAction 第二階段：ReflectedActionDescriptor 如何透過反射取得 Action 方法的參數資訊與執行細節"
+keywords: C#,ASP.NET-MVC,ReflectedActionDescriptor,ReflectedControllerDescriptor,parameter-binding,InvokeAction
 lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->

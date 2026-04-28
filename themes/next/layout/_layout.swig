@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ config.language }}">
+<html lang="{{ page.lang or page.language or config.language }}">
 <head>
   {{ partial('_partials/head/head.swig', {}, {cache: theme.cache.enable}) }}
   {% include '_partials/head/head-unique.swig' %}

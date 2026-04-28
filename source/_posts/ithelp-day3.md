@@ -3,8 +3,8 @@ title: 啟動吧!Asp.Net IsapiRunTime & HttpRuntime (第3天)
 date: 2019-09-14 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "啟動吧!Asp.Net IsapiRunTime & HttpRuntime (第3天) - 上一篇我們介紹HttpModule & HttpHandler對於"
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "追蹤 IsapiRunTime 與 HttpRuntime 原始碼，了解 HTTP 請求從 IIS 非託管環境進入 .NET CLR 託管環境的轉換過程"
+keywords: C#,ASP.NET,IsapiRunTime,HttpRuntime,CLR,managed-code,W3SVC,COM
 lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->

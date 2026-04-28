@@ -3,8 +3,8 @@ title:  Asp.net MVC如何實現IOC解析器 (第13天)
 date: 2019-09-24 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "Asp.net MVC如何實現IOC解析器 (第13天) - IOC依賴反轉是oop重要程式設計思想"
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "解析 ASP.NET MVC 的 DependencyResolver 機制，了解如何整合 Autofac 等 IOC 容器實現依賴注入"
+keywords: C#,ASP.NET-MVC,IOC,DependencyResolver,Autofac,dependency-injection,IDependencyResolver
 lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->

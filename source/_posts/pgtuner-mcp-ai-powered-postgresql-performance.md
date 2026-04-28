@@ -4,7 +4,7 @@ date: 2025-01-13 10:30:00
 tags: [Python, PostgreSQL, MCP, AI, Performance-Tuning, Database-Optimization]
 categories: [Python, PostgreSQL, AI, Performance]
 keywords: Python,PostgreSQL,MCP,Model-Context-Protocol,AI-tuning,performance-optimization,database-health,index-tuning,pgtuner
-description: "pgtuner_mcp is an MCP server that delivers AI-driven PostgreSQL performance analysis, tuning advice, and health checks — identify slow queries, optimize indexes, and monitor database health directly from your development workflow"
+description: "pgtuner_mcp is an MCP server for AI-driven PostgreSQL performance analysis, tuning advice, and health checks from your development workflow"
 lang: en
 ---
 

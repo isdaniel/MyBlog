@@ -3,7 +3,7 @@ title: Autofac + Interceptors(AOP) 動態代理
 date: 2019-06-02 22:30:11
 tags: [C#,IOC,Autofac,AOP]
 categories: [C#,IOC]
-description: "Autofac + Interceptors(AOP) 動態代理 - Autofac 是個IOC容器 不懂IOC 參考 我之前寫 的{% post_link ioc-di %}"
+description: "使用 Autofac DynamicProxy 實現 AOP 動態代理，透過 Interceptor 攔截方法呼叫實作快取、日誌等橫切關注點"
 keywords: C#,Autofac,AOP,IOC,動態代理,Interceptor
 lang: zh-tw
 ---

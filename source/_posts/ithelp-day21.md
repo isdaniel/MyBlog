@@ -3,8 +3,8 @@ title:  探討Model驗證標籤(ValidationAttribute) (第21天)
 date: 2019-10-02 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
-description: "探討Model驗證標籤(ValidationAttribute) (第21天) - CachedDataAnnotationsMetadataAttributes這個類別攔截某些標籤可被攔截驗證."
-keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+description: "解析 Model 驗證機制：ValidationAttribute 如何透過 ModelValidatorProviders 在伺服器端執行資料驗證"
+keywords: C#,ASP.NET-MVC,ValidationAttribute,ModelValidator,DataAnnotations,DataAnnotationsModelValidatorProvider
 lang: zh-tw
 ---
 
