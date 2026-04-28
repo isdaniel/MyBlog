@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="600" y="260" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="bold" fill="#e94560" text-anchor="middle">石頭的 coding 之路</text>
+  <text x="600" y="340" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#a8a8b3" text-anchor="middle">PostgreSQL · Rust · Software Engineering · AI</text>
+  <text x="600" y="400" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#6c6c80" text-anchor="middle">Daniel Shih — isdaniel.github.io</text>
+  <rect x="480" y="290" width="240" height="3" fill="#e94560" rx="2"/>
+</svg>

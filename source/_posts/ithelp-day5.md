@@ -4,6 +4,8 @@ date: 2019-09-16 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "Asp.Net重要物件HttpApplication(一) 初始化建立IHttpMoudule (第5天) - 附上Asp.net執行請求流程圖."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言：](#%e5%89%8d%e8%a8%80)

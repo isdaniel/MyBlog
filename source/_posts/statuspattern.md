@@ -4,6 +4,8 @@ date: 2019-06-10 22:30:11
 tags: [C#,DesignPattern,StatePattern]
 categories: [C#,DesignPattern]
 description: "State Pattern(狀態者模式) - 以訂單流程為例說明狀態物件如何簡化條件判斷與狀態轉移。"
+keywords: C#,Design-Pattern,State-Pattern,狀態模式,訂單流程
+lang: zh-tw
 ---
 
 ## 前言：

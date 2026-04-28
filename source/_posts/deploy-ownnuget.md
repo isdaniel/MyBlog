@@ -4,6 +4,8 @@ date: 2019-06-10 22:30:11
 tags: [C#,Nuget]
 categories: [C#]
 description: "發布自己的Nuget專案 - 前陣子在被面試官說：我有電子發票開源專案，是否有上到Nuget上"
+keywords: C#,NuGet,publish,open-source,package
+lang: zh-tw
 ---
 
 ## 前言：

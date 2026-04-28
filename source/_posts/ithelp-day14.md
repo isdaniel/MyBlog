@@ -4,6 +4,8 @@ date: 2019-09-25 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "反轉起來~透過IOC解析來執行依賴反轉 (第14天) - 前一篇介紹Asp.net MVC可透過DependencyResolver.SetResolver替換成IOC容器注入控制器物件."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

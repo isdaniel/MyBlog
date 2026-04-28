@@ -4,6 +4,8 @@ date: 2019-10-05 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "探討ViewEngine機制 View是如何被建立(三) (第24天) - 繼承ActiontResult類別中ViewResultBase最為複雜,因為ViewResultBase要找到實現IViewEngine物件取得取得View檔案,在透過實現IView物件把頁面渲染出來."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 
 # Agenda<!-- omit in toc -->

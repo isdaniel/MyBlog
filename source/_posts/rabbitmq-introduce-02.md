@@ -3,6 +3,7 @@ title: RabbitMQ (一) 安裝介紹
 date: 2019-06-03 22:30:11
 tags: [RabbitMQ,MQ,AMQP,Erlang]
 categories: [RabbitMQ]
+keywords: RabbitMQ,安裝,AMQP,Erlang,message-broker,訊息佇列
 description: "RabbitMQ 系列第一篇：介紹 RabbitMQ 訊息中介軟體與 AMQP 標準協議，以及在 Windows/Linux 上安裝 Erlang 環境與 RabbitMQ Server 的步驟"
 lang: zh-tw
 ---

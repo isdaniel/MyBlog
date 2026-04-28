@@ -4,6 +4,7 @@ date: 2019-06-02 11:12:43
 tags: [C#,Func,Delegate]
 categories: [C#,Delegate]
 description: "深入探討 C# 泛型委託中的 in 與 out 關鍵字，理解 Covariance 協變與 Contravariance 逆變概念，提升泛型程式設計能力"
+keywords: C#,Covariance,Contravariance,泛型,in,out
 lang: zh-tw
 ---
 ## 前文：

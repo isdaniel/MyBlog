@@ -4,6 +4,8 @@ date: 2019-05-27 22:57:47
 tags: [C#,Asp.net,AOP,Design-Pattern,Open-Source]
 categories: C#
 description: "【C#】 AOP輕型框架 AwesomeProxy.Net 介紹使用 - 今天和大家分享AwesomeProxy.Net小弟開源AOP輕型框架"
+keywords: C#,AOP,AwesomeProxy,Design-Pattern,Open-Source,代理模式
+lang: zh-tw
 ---
 
 今天和大家分享[AwesomeProxy.Net](https://github.com/isdaniel/AwesomeProxy.Net)小弟開源AOP輕型框架

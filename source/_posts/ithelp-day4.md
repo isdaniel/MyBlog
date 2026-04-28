@@ -4,6 +4,8 @@ date: 2019-09-15 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "掌控HttpApplication物件建立 - HttpApplicationFactory (第4天) - 附上Asp.net執行請求流程圖."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言：](#%e5%89%8d%e8%a8%80)

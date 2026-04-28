@@ -4,6 +4,8 @@ date: 2020-11-10 16:00:00
 tags: [C#,IOC,Autofac,AOP,Lock]
 categories: [C#,Lock]
 description: "AOP Lock Architecture - 在系統中多少會遇到某些交易間需要互斥(不然容易造成DeadLock)."
+keywords: C#,AOP,Lock,互斥,Autofac,IOC
+lang: zh-tw
 ---
 
 ## 前言:

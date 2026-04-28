@@ -4,6 +4,8 @@ date: 2019-10-08 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "動手DIY改造 Asp.net MVC- 自己動作建立一個DependencyResolver解析器(Autofac) (第27天) - 產生Controller物件相關物件關係如下面UML圖"
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 
 # Agenda<!-- omit in toc -->

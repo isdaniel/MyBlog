@@ -3,7 +3,8 @@ title: 建立自己Blog系列(三) Hexo next theme 介紹
 date: 2019-06-03 21:53:16
 tags: [WebDesign,Blog,Github,CICD]
 categories: WebDesign
-description: "前言："
+keywords: Hexo,NexT,Blog,GitHub-Pages,Markdown,CICD,NodeJS
+description: "Hexo 部落格建立教學第三篇：介紹為何選用 Hexo 框架，使用 Markdown 撰寫、搭配 CICD 部署到 GitHub Pages，以及 NexT 主題安裝設定"
 lang: zh-tw
 ---
 ## 前言：

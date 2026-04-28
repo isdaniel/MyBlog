@@ -4,6 +4,8 @@ date: 2019-09-19 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "揭密Mvc使用IHttpHandler by UrlRoutingModule-4.0 (第8天) - 前面幾篇文章已經詳細分享解說Asp.net如何透過HttpApplication找到IHttpHandler並執行呼叫介面方法."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言：](#%e5%89%8d%e8%a8%80)

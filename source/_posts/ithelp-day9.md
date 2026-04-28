@@ -4,6 +4,8 @@ date: 2019-09-20 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "進入MVC原始碼世界 Route & RouteTable 原始碼解析 (第9天) - 現在開始進入Asp.net MVC原始碼世界，我們從路由開始切入一步一步進入MVC核心."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

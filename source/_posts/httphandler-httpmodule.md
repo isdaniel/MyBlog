@@ -4,6 +4,8 @@ date: 2019-06-11 19:16:37
 tags: [C#,IHttpHanlder,IHttpModule,Asp.net]
 categories: [C#,Asp.net]
 description: "Asp.net HttpHandler vs HttpModule 詳細解說. - Asp.net 是一個pipeline的模型"
+keywords: C#,ASP.NET,IHttpHandler,IHttpModule,Pipeline,HTTP
+lang: zh-tw
 ---
 ## 前言：
 

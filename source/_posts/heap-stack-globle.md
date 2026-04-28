@@ -3,7 +3,8 @@ title: .Net 三種區塊記憶體位置 Heap , Stack , Globle??
 date: 2020-10-22 11:12:43
 tags: [C#,Memory,Heap]
 categories: [C#,Memory]
-description: "**前文:**"
+keywords: C#,.NET,Memory,Heap,Stack,Global,記憶體管理
+description: "介紹 .NET 三種記憶體區塊：Heap、Stack、Global 的差異與用途，了解值類型與參考類型在不同記憶體區域的配置方式"
 lang: zh-tw
 ---
 **前文:**

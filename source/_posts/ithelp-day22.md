@@ -4,6 +4,8 @@ date: 2019-10-03 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "View是如何被建立(一) (第22天) - 不知道大家有沒有點暈頭轉向XD,MVC的Model綁定機制真的蠻複雜,希望大家有跟上來"
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 
 # Agenda<!-- omit in toc -->

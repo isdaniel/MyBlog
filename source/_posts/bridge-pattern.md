@@ -4,6 +4,8 @@ date: 2019-06-02 22:30:11
 tags: [C#,DesignPattern,BridgePattern]
 categories: [C#,DesignPattern]
 description: "橋接模式(BridgePattern) - 如果有兩大類模組是多對多的組合，如本次Smaple Code. Nick和Addidas 包包都有紅、藍、黃....或其他顏色"
+keywords: C#,Design-Pattern,Bridge-Pattern,橋接模式,OOP
+lang: zh-tw
 ---
 
 ## 前言：

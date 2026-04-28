@@ -3,7 +3,8 @@ title: 高併發系統系列-使用lock & Interlocked CAS(compare and swap)
 date: 2021-07-14 22:30:11
 tags: [C#,atomic]
 categories: [C#,atomic]
-description: "前言"
+keywords: C#,lock,Interlocked,CAS,compare-and-swap,atomic,concurrency,Racing-Condition
+description: "高併發系統中使用 C# lock 與 Interlocked CAS (Compare and Swap) 解決 Data Racing 問題，確保多執行緒環境下的 Atomic 操作"
 lang: zh-tw
 ---
 ## 前言

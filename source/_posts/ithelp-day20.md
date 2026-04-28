@@ -4,6 +4,8 @@ date: 2019-10-01 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "探討Model上客製化標籤如何被解析使用 (第20天) - 上一篇有介紹ModelMetadata和參數Model之間的關係."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 
 # Agenda<!-- omit in toc -->

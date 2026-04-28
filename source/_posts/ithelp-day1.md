@@ -4,6 +4,8 @@ date: 2019-09-12 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "(開賽)Http 請求 Asp.net IIS伺服器架構 (第1天) - 三十篇文章架構基本遵循:"
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 
 # Agenda<!-- omit in toc -->

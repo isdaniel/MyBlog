@@ -3,6 +3,7 @@ title: RabbitMQ (二) 概念
 date: 2019-06-03 22:30:11
 tags: [RabbitMQ,MQ,AMQP]
 categories: [RabbitMQ]
+keywords: RabbitMQ,AMQP,Producer,Consumer,Exchange,Queue,Binding,訊息佇列
 description: "RabbitMQ 系列第二篇：深入了解 RabbitMQ 核心概念，包含 Producer、Consumer、Exchange、Queue、Binding 等角色與訊息流轉機制"
 lang: zh-tw
 ---

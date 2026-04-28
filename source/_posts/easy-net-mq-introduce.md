@@ -1,12 +1,13 @@
 ---
 title: .Net使用RabbitMq EasyNetQ介紹
 date: 2021-06-27 22:30:52
-tags: [javascript,vue.js,Restcountries]
-categories: [javascript,vue.js]
+tags: [C#,RabbitMQ,EasyNetQ,MQ]
+categories: [C#,RabbitMQ]
 top:
 photos: 
     - "https://i.imgur.com/YEzuPKY.png"
 description: "現今越來越多系統使用MQ來達成非同步並來提升系統吞吐量，我今天想要介紹的是EasyNetQ一個封裝RabbitMq Client .net框架"
+keywords: C#,RabbitMQ,EasyNetQ,message-queue,非同步
 lang: zh-tw
 ---
 ## 前文

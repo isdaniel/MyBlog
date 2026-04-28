@@ -4,6 +4,7 @@ date: 2019-06-02 22:16:39
 tags: [WebDesign,Blog,Github,CICD]
 categories: WebDesign
 description: "在Github這邊要先建立兩個Repository"
+keywords: GitHub,Hexo,Blog,Repository,設定
 lang: zh-tw
 ---
 在Github這邊要先建立兩個Repository

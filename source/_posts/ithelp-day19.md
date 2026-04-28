@@ -4,6 +4,8 @@ date: 2019-09-30 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "Http參數如何綁定到Action參數上(簡單和複雜模型綁定探討) (第19天) - IValueProvider物件透過一個ValueProviderFactory工廠來產生"
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 
 # Agenda<!-- omit in toc -->

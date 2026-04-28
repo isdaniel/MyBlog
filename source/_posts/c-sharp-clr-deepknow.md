@@ -7,6 +7,7 @@ top:
 photos:
     - "https://i.imgur.com/vHPQhIl.png"
 description: "深入理解 .NET CLR 運作原理：從 MSIL 編譯到 JIT 執行，解析 Application Domain、EEClass 架構，使用 SOS Debugger 實戰除錯 CLR 內部機制"
+keywords: C#,CLR,MSIL,JIT,Application-Domain,EEClass,SOS-Debugger
 lang: zh-tw
 ---
 ## 前文：

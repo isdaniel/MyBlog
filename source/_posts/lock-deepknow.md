@@ -7,7 +7,7 @@ top:
 photos: 
     - "https://i.imgur.com/dWZF6DH.png"
 keywords: C#,lock,CLR
-description: "前言"
+description: "深入解析 C# lock 底層實作原理，了解 CLR 中 object lock 的運作機制、可重入鎖 (reentrant lock) 的內部實現，以及 Monitor 的底層細節"
 lang: zh-tw
 ---
 ## 前言

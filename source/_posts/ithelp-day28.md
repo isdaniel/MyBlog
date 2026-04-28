@@ -4,6 +4,8 @@ date: 2019-10-09 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "動手DIY改造 Asp.net MVC- 建立自己ActionInvoker和Model綁定機制 (第28天) - 今天要分享對於ActionInvoker進行替換成自己客制化的IActionInvoker"
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 
 # Agenda<!-- omit in toc -->

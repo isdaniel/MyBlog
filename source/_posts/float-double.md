@@ -3,7 +3,8 @@ title: 為什麼 Float和Double會有誤差 (浮點數儲存原理)
 date: 2019-06-10 22:30:11
 tags: [C#,float,double,number]
 categories: [C#]
-description: "前言："
+keywords: C#,float,double,浮點數,IEEE-754,精度,誤差
+description: "解析 float 和 double 為什麼會有精度誤差，深入了解 IEEE 754 浮點數儲存原理與二進制表示法"
 lang: zh-tw
 ---
 ## 前言：

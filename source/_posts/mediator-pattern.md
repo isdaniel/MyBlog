@@ -4,6 +4,8 @@ date: 2019-06-03 22:30:12
 tags: [C#,DesignPattern,MediatorPattern]
 categories: [C#,DesignPattern]
 description: "MediatorPattern(中介者模式) - 系統模塊存在很多複雜的耦合問題，很適合使用中介者模式來解耦合"
+keywords: C#,Design-Pattern,Mediator-Pattern,中介者模式,解耦合
+lang: zh-tw
 ---
 
 ## 說明

@@ -3,7 +3,8 @@ title: 高併發系統系列-多執行緒中順序 by EventWaitHandle
 date: 2021-07-17 19:16:37
 tags: [C#,thread,concurrent]
 categories: [C#,thread]
-description: "前言"
+keywords: C#,thread,EventWaitHandle,concurrent,multi-thread,synchronization
+description: "使用 C# EventWaitHandle 控制多執行緒執行順序，實作三個 Thread 按 A、B、C 順序交替打印的面試經典題目"
 lang: zh-tw
 ---
 ## 前言

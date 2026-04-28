@@ -3,8 +3,8 @@ title: Understand TLS/SSL networking flow
 date: 2024-11-11 22:30:11
 tags: [ssl,tls]
 categories: [ssl,tls]
-keywords: ssl,tls, security
-description: "TLS (Transport Layer Security) is a cryptographic protocol that provides secure communication over a network, commonly used to secure HTTP traffic (i.e.,"
+keywords: SSL,TLS,HTTPS,security,certificate,handshake,encryption
+description: "TLS (Transport Layer Security) is a cryptographic protocol for secure communication over networks, commonly used to secure HTTP traffic. This post explains the TLS/SSL handshake flow and certificate validation process"
 lang: en
 ---
 ## Foreword

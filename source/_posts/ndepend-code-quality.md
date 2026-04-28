@@ -4,6 +4,7 @@ date: 2021-12-04
 tags: [C#,Ndepend]
 categories: [C#,Ndepend]
 description: "當一個專案越來越大，在開發新產品時同時要兼顧程式碼品質會越來越困難，今天要介紹的　Ndepend 是一個很優秀靜態分析 .Net 專案好物"
+keywords: C#,NDepend,static-analysis,code-quality,.NET
 lang: zh-tw
 ---
 ## 前言

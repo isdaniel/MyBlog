@@ -1,9 +1,10 @@
 ---
 title: C# Boxing vs UnBoxing
 date: 2020-05-02 22:30:11
-tags: [C#]
+tags: [C#,Boxing,UnBoxing,Performance]
 categories: [C#,Boxing-UnBoxing]
-description: "前言:"
+keywords: C#,Boxing,UnBoxing,值類型,參考類型,Stack,Heap,performance
+description: "深入了解 C# Boxing 與 UnBoxing 機制，值類型與參考類型的差異，以及 Stack、Heap 記憶體配置對效能的影響"
 lang: zh-tw
 ---
 ## 前言:

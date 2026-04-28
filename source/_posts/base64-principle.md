@@ -7,6 +7,7 @@ top:
 photos: 
     - "http://i.imgur.com/4wh9OVF.png"
 description: "Base家族以Base64最為出名，這邊會用Base64編碼來做介紹"
+keywords: Base64,Encoding,編碼原理,ASCII,二進制
 lang: zh-tw
 ---
 Base家族以Base64最為出名，這邊會用Base64編碼來做介紹

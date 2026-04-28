@@ -4,6 +4,8 @@ date: 2019-10-02 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "探討Model驗證標籤(ValidationAttribute) (第21天) - CachedDataAnnotationsMetadataAttributes這個類別攔截某些標籤可被攔截驗證."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 
 # Agenda<!-- omit in toc -->

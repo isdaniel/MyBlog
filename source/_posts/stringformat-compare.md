@@ -3,7 +3,8 @@ title: 那些年String.Format中的Boxing和UnBoxing
 date: 2020-05-10 22:30:11
 tags: [C#]
 categories: [C#,Boxing-UnBoxing]
-description: "前言："
+keywords: C#,String.Format,Boxing,UnBoxing,interpolation,performance
+description: "分析 C# 字串插值中隱藏的 Boxing 問題，比較字串插值直接傳入 int 與先呼叫 ToString() 的效能差異"
 lang: zh-tw
 ---
 ## 前言：

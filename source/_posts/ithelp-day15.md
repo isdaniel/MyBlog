@@ -4,6 +4,8 @@ date: 2019-09-26 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "Action方法如何被執行InvokeAction(一) (第15天) - 前面介紹完 Asp.net MVC解析器和IOC容器之間關係"
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

@@ -4,6 +4,8 @@ date: 2019-09-28 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "Action方法如何被執行InvokeAction(二) (第17天) - 上篇揭開MVC常用的過濾器如何被獲取呼叫跟基本介紹."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

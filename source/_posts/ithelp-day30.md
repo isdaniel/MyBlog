@@ -4,6 +4,8 @@ date: 2019-10-11 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "鐵人賽完賽＆總結 (第30天) - 這三十天無法對於MVC全部原始碼做詳細介紹,我盡量在這三十篇講述MVC執行過程中重要知識點,閱讀MVC原始碼真不是很簡單事情."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 
 # Agenda<!-- omit in toc -->

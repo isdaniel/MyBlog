@@ -3,7 +3,8 @@ title: 多執行緒系統中不得不知-volatile
 date: 2021-07-25 22:31:09
 tags: [C#,volatile]
 categories: [C#,volatile]
-description: "前言"
+keywords: C#,volatile,multi-thread,visibility,memory-barrier,CPU-cache
+description: "深入了解 C# volatile 關鍵字的三大特性：可見性、避免指令重排、不保證 Atomic，以及在多執行緒系統中的正確使用方式"
 lang: zh-tw
 ---
 ## 前言

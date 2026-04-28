@@ -4,6 +4,7 @@ date: 2021-09-25 23:10:43
 tags: [c#,RabbitMq,ThreadPool,SystemDesign]
 categories: [C#]
 description: "高併發系統架構實戰：使用 RabbitMQ 搭配 Worker Pool 提升系統吞吐量，支援 ThreadPool 與 ProcessPool 兩種模式，包含 Docker Compose 與 K8s 部署方案，打造高效能非同步處理架構"
+keywords: C#,RabbitMQ,Worker-Pool,ThreadPool,ProcessPool,Docker,Kubernetes
 lang: zh-tw
 ---
 ## 前文

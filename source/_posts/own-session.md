@@ -4,6 +4,7 @@ date: 2019-05-27 21:16:07
 tags: [C#,Asp.net,Session]
 categories: [C#,SourceCode]
 description: "我們在寫網站一定會使用到 Session 今天就跟大家分享自製微型 Asp.net Session 分析Session->實作Session->使用Session"
+keywords: C#,ASP.NET,Session,自製Session,HttpContext
 lang: zh-tw
 ---
 我們在寫網站一定會使用到 `Session`

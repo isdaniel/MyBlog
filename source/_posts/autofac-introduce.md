@@ -4,6 +4,8 @@ date: 2019-06-02 22:30:11
 tags: [C#,IOC,Autofac,AOP]
 categories: [C#,IOC]
 description: "Autofac (IOC)容器介紹 - 市面上有許多IoC容器 Ninject,Unity...."
+keywords: C#,Autofac,IOC,DI,容器,Dependency-Injection
+lang: zh-tw
 ---
 
 ## 前言：

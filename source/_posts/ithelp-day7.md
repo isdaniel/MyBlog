@@ -4,6 +4,8 @@ date:  2019-09-18 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "Asp.Net重要物件HttpApplication(三) 取得執行的IHttpHandler (第7天) - 前面和大家分享StepManager是如何建立管道和依序呼叫IHttpModule註冊事件"
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

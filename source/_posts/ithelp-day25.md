@@ -4,6 +4,8 @@ date: 2019-10-06 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "動態產生程式碼(WebViewPage) View是如何被建立(四) (第25天) - 上一篇說到最終會透過一個實現IView物件(Razor是透過RazorView)來完成,RenderView方法將BuildManagerCompiledView方法取得物件轉換型別成WebViewPage."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 
 # Agenda<!-- omit in toc -->

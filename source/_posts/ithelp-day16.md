@@ -4,6 +4,8 @@ date: 2019-09-27 10:00:00
 tags: [C#,Asp.net,Asp.net-MVC,SourceCode,11th鐵人賽]
 categories: [11th鐵人賽]
 description: "MVC Filter 機制解密 (第16天) - 上篇和大家介紹Filter去是如何取得且我們可以透過IOC容器註冊IFilterProvider來擴充取得Filter注入點."
+keywords: C#,ASP.NET-MVC,SourceCode,HttpModule,HttpHandler,IIS,Pipeline,MVC-Framework
+lang: zh-tw
 ---
 
 # Agenda<!-- omit in toc -->

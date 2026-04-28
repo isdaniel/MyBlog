@@ -4,6 +4,8 @@ date: 2019-06-02 22:30:11
 tags: [C#,Reflection,Decompile]
 categories: [C#]
 description: "沒有Source Code 如何修改程式?? - 某些專案因為歷史久遠沒有Source Code,但有個需求需要異動裡面的程式該怎麼辦??"
+keywords: C#,Reflection,Decompile,逆向工程,Assembly
+lang: zh-tw
 ---
 
 ## 前言：

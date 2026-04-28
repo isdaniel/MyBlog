@@ -4,6 +4,7 @@ date: 2019-06-02 10:54:52
 tags: [C#,Func,Delegate]
 categories: [C#,Delegate]
 description: "深入理解 C# 委託 Delegate 核心概念與實作，從基礎宣告到進階泛型應用，學習如何使用 delegate 降低程式碼耦合度，掌握 .NET 開發必備技能"
+keywords: C#,Delegate,委託,Func,Action
 lang: zh-tw
 ---
 ## 前文：
