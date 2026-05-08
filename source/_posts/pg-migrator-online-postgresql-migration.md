@@ -81,28 +81,39 @@ The trick that makes this work: the replication slot is created **before** the d
 Internally pg_dbmigrator runs the online migration as a sequence of phases:
 
 ```
-Validate → PrepareSnapshot → Dump → Restore → StreamApply
-   → (Lag heartbeat …) → CaughtUp → Cutover → Complete
+Validate → SourceVacuum → PrepareSnapshot → Dump → Restore → Analyze
+   → StreamApply → (Lag heartbeat …) → CaughtUp → Cutover
+   → SourceCleanup → Complete
 ```
 
 Each phase has a specific job:
 
 | Phase | What happens |
 |---|---|
-| **Validate** | Checks connection strings, `wal_level`, publication existence, target reachability. |
-| **PrepareSnapshot** | Creates the logical replication slot with `EXPORT_SNAPSHOT`. The exported snapshot ID is what makes the dump consistent with the slot's starting LSN. |
+| **Validate** | Checks connection strings, `wal_level`, replication slot/sender capacity, target reachability. |
+| **SourceVacuum** | Runs `VACUUM ANALYZE` on the source to reclaim dead tuples and refresh planner statistics before the dump. Skip with `--skip-source-vacuum`. |
+| **PrepareSnapshot** | Creates the logical replication slot with `EXPORT_SNAPSHOT`. Streaming is deferred until after the dump completes; the exported snapshot ID is what makes the dump consistent with the slot's starting LSN. |
 | **Dump** | Runs `pg_dump --snapshot=<exported_id>` so the dump reflects the database state *exactly* at the slot's starting LSN. |
-| **Restore** | `pg_restore` into the target, optionally dropping it first. Parallelized with `--jobs`. |
+| **Restore** | `pg_restore` into the target. Parallelized with `--jobs` and split-sections (indexes rebuilt in parallel) by default. |
+| **Analyze** | Runs `ANALYZE` on the target so the first application queries have fresh statistics. Skip with `--skip-analyze`. |
 | **StreamApply** | Starts `START_REPLICATION` from the slot's LSN and applies decoded changes onto the target. |
 | **Lag heartbeat** | Polls `pg_current_wal_flush_lsn()` on the source on a tunable interval, logs the delta against the receiver/applied LSN. |
-| **CaughtUp** | Fires once lag falls below `--lag-threshold-bytes`, signalling the operator that cutover is safe. |
-| **Cutover** | Triggered by SIGINT (Ctrl+C). Disables the subscription, optionally drops it, exits cleanly. |
+| **CaughtUp** | Fires once lag falls below `--lag-threshold-bytes`, signalling the operator that cutover is safe. The threshold is **advisory only** — it does not auto-trigger cutover. |
+| **Cutover** | Triggered by SIGINT (Ctrl+C). Flushes the final LSN feedback, syncs sequences on the target, then disables and drops the subscription. |
+| **SourceCleanup** | After cutover, drops auto-created publications and the replication slot on the source. Failures are logged as warnings but don't abort. |
 
 The key invariant: the slot is created **before** the dump, and the dump uses the slot's exported snapshot. That way the WAL stream picks up exactly where the dump ended — no gap, no overlap.
 
 ## Installation
 
-pg_dbmigrator is a Rust workspace. From source:
+pg_dbmigrator is published on crates.io:
+
+```bash
+cargo install pg_dbmigrator
+pg_dbmigrator --help
+```
+
+Or build from source:
 
 ```bash
 git clone https://github.com/isdaniel/pg_dbmigrator
@@ -121,9 +132,12 @@ Online mode requires a few server settings on the **source**:
 ALTER SYSTEM SET wal_level = 'logical';
 ALTER SYSTEM SET max_replication_slots = 10;
 ALTER SYSTEM SET max_wal_senders = 10;
+```
 
--- After restart, create the publication once:
-CREATE PUBLICATION pg_dbmigrator_pub FOR ALL TABLES;
+That's it for setup — pg_dbmigrator will **auto-create the publication** (`FOR ALL TABLES`) on first run if it doesn't already exist, and clean it up after cutover. If you'd rather manage the publication yourself (e.g. to scope it to a subset of tables), pre-create it and pass `--no-auto-create-publication`:
+
+```sql
+CREATE PUBLICATION pg_dbmigrator_pub FOR TABLE schema.t1, schema.t2;
 ```
 
 The connecting role needs `REPLICATION` and the ability to read every table in the publication. On managed services:
@@ -133,6 +147,16 @@ The connecting role needs `REPLICATION` and the ability to read every table in t
 - **Google Cloud SQL**: enable `cloudsql.logical_decoding`.
 
 The **target** doesn't need `wal_level = logical` unless you plan to chain replication out of it.
+
+### Resource Lifecycle
+
+By default, pg_dbmigrator owns the resources it creates and cleans them up when the migration finishes. Override the cleanup if you need the resource to outlive the migration:
+
+| Resource | Created by | Default cleanup | Override |
+|---|---|---|---|
+| Publication | Auto-created if missing | Dropped if auto-created | `--no-auto-create-publication` |
+| Replication slot | Always by migrator | Dropped after cutover | `--keep-slot` |
+| Subscription | Always by migrator | Dropped after cutover | `--keep-subscription` |
 
 ## Offline Mode: the Simple Case
 
@@ -178,16 +202,22 @@ Walking through what each flag controls:
 | `--mode online` | Selects the streaming pipeline. |
 | `--source` / `--target` | Standard libpq connection strings. |
 | `--slot-name` | Name of the logical replication slot created on the source. Pick something recognizable so you can clean it up if the migration is aborted. |
-| `--publication` | Pre-existing publication on the source (created above). |
+| `--publication` | Publication name. Defaults to `pg_dbmigrator_pub`; auto-created `FOR ALL TABLES` if missing. |
 | `--subscription-name` | Name pg_dbmigrator gives the subscription it creates on the target. |
-| `--jobs` | Parallelism for the initial `pg_restore`. |
-| `--lag-threshold-bytes` | When the gap between source flush LSN and applied LSN drops below this, the tool emits a "ready to cut over" signal. |
+| `--jobs` | Parallelism for the initial `pg_restore`. Auto-detected from CPU count and clamped to `[1, 8]` if omitted. |
+| `--lag-threshold-bytes` | When the gap between source flush LSN and applied LSN drops below this, the tool emits a "ready to cut over" signal. **Advisory only** — it does not auto-trigger cutover. |
 | `--cutover-poll-secs` | How often the lag heartbeat polls `pg_current_wal_flush_lsn()`. |
 
 Useful additional flags:
 
 - `--drop-target-first` — recreate the target schema cleanly. Necessary on most fresh runs.
-- `--keep-subscription` — leave the subscription in place after cutover instead of dropping it. Handy if you want to keep replicating both ways for a rollback window.
+- `--no-auto-create-publication` — skip auto-creation; use a publication you manage yourself (also skips its cleanup).
+- `--keep-slot` / `--keep-subscription` — leave the slot or subscription in place after cutover instead of dropping them. Handy for keeping a rollback window.
+- `--no-sequence-sync` — skip the automatic `setval()` pass at cutover. Use when the target role lacks the privileges; you'll need to advance sequences manually.
+- `--exclude-schema` / `--exclude-table` — repeat to omit specific schemas or tables from the dump.
+- `--skip-source-vacuum` / `--skip-analyze` — disable the pre-dump `VACUUM ANALYZE` on the source or the post-restore `ANALYZE` on the target. Useful when the source is already well-vacuumed or when you want to control the maintenance window yourself.
+- `--dump-compress` — archive compression spec. Defaults to `lz4:1`; alternatives include `zstd:3` or `none`.
+- `--no-split-sections` — disable parallel section restore. Split sections are 30–60% faster on index-heavy schemas, so only flip this off if the parallel restore is misbehaving.
 - `--allow-restore-errors` — treat `pg_restore` errors as warnings. Useful when the target is a managed service that reserves extension names (Azure-reserved extensions, missing `pg_cron`, etc.).
 
 ### What You'll See in the Terminal
@@ -214,14 +244,14 @@ Cutover is **operator-driven**, not automatic. This is intentional — only you 
 2. **Stop application writes to the source** (put the app in maintenance, revoke writes, or fail over the load balancer).
 3. Wait one more heartbeat to confirm lag is `0` bytes.
 4. Press **Ctrl+C** (single SIGINT). pg_dbmigrator:
-   - Stops the apply loop at the current LSN.
-   - Disables the subscription on the target.
-   - Drops the subscription unless you passed `--keep-subscription`.
+   - Stops the apply loop at the current LSN and flushes the final feedback message.
+   - Syncs sequences on the target via `setval()` (skip with `--no-sequence-sync`).
+   - Disables and drops the subscription on the target (unless `--keep-subscription`).
+   - Drops the replication slot and any auto-created publication on the source (unless `--keep-slot` or `--no-auto-create-publication`).
    - Exits cleanly.
 5. Repoint the application's connection string to the target.
-6. (Later) drop the replication slot on the source: `SELECT pg_drop_replication_slot('pg_dbmigrator_slot');`.
 
-A second Ctrl+C is an escape hatch — if shutdown is stuck, hitting it again forces termination. Use only as a last resort, since the slot may be left behind on the source.
+A second Ctrl+C is an escape hatch — if shutdown is stuck, hitting it again forces termination. Use only as a last resort, since the slot may be left behind on the source (drop manually with `SELECT pg_drop_replication_slot('pg_dbmigrator_slot');`).
 
 ## A Realistic Online Migration Recipe
 
@@ -233,8 +263,8 @@ psql "$SOURCE" <<'SQL'
 ALTER SYSTEM SET wal_level = 'logical';
 SQL
 # Restart source PostgreSQL.
-
-psql "$SOURCE" -c "CREATE PUBLICATION pg_dbmigrator_pub FOR ALL TABLES;"
+# (No need to pre-create the publication — pg_dbmigrator will auto-create
+#  pg_dbmigrator_pub FOR ALL TABLES on first run, and clean it up at cutover.)
 
 # 2. Kick off the migration in a tmux/screen session you can leave running.
 pg_dbmigrator \
@@ -255,11 +285,14 @@ pg_dbmigrator \
 # 4. When CaughtUp fires and you're ready:
 #      a. Put app in maintenance mode (stop writes to source).
 #      b. Wait until lag heartbeat shows 0 bytes.
-#      c. Ctrl+C the pg_dbmigrator process.
+#      c. Ctrl+C the pg_dbmigrator process — it will sync sequences, drop
+#         the subscription, and clean up the slot/publication on the source.
 #      d. Update DNS / connection string to point at TARGET.
 #      e. Bring app out of maintenance.
 
-# 5. Cleanup on the source:
+# 5. Cleanup on the source — by default pg_dbmigrator drops the slot and
+#    the auto-created publication itself. Only run these if you used
+#    --keep-slot / --no-auto-create-publication, or aborted the run:
 psql "$SOURCE" -c "SELECT pg_drop_replication_slot('pg_dbmigrator_slot');"
 psql "$SOURCE" -c "DROP PUBLICATION pg_dbmigrator_pub;"
 ```
@@ -270,22 +303,20 @@ Total user-visible downtime is steps 4a–4e, which is typically tens of seconds
 
 A few things that bite people the first time:
 
-**Replication slots hold WAL**. If you start an online migration and abandon it, the slot will keep the source's WAL pinned indefinitely, eventually filling the source's disk. Always drop the slot when aborting (`pg_drop_replication_slot`).
+**Replication slots hold WAL**. If you start an online migration and abandon it, the slot will keep the source's WAL pinned indefinitely, eventually filling the source's disk. A clean Ctrl+C drops the slot for you, but if the process is killed or crashes, drop the slot manually (`pg_drop_replication_slot`).
 
-**Sequences aren't replicated by logical replication.** After cutover, advance sequences on the target so they don't collide with the source's last values:
+**Sequences are synced automatically at cutover**. pg_dbmigrator runs `setval()` on every sequence in the included schemas as part of cutover, so you don't need the old "advance every sequence by hand" ritual. Per-sequence failures (typically a missing privilege on the target role) are logged as warnings but won't abort cutover. If your target role can't `setval`, pass `--no-sequence-sync` and run the SQL yourself:
 
 ```sql
 SELECT setval('public.users_id_seq',
               (SELECT max(id) FROM public.users));
 ```
 
-Run this for every sequence — easy to script from `pg_class` where `relkind = 'S'`.
-
 **DDL during migration is not replicated.** If someone runs an `ALTER TABLE` on the source mid-stream, the target won't see it and apply will eventually fail when a row references the new column. Freeze schema changes for the duration of the migration. If a DDL change really must happen, you'll need to refresh the publication and restart the migration.
 
 **Restore errors on managed targets.** Azure reserves extension names; `pg_cron` is unavailable on most managed services; some superuser-only objects can't be restored by an unprivileged role. `--allow-restore-errors` lets the migration proceed, but inspect the warnings — anything important needs to be applied manually.
 
-**The streaming apply binds replicated values as text.** This is how the project chose to ship custom column transforms aren't part of the pipeline. If you need to transform data during migration (e.g., re-encrypt a column), do it before or after, not inline.
+**Custom column transforms aren't supported.** The streaming apply binds replicated values as text and casts them server-side. If you need to transform data during migration (e.g. re-encrypt a column), do it before or after, not inline.
 
 **Major-version differences.** If source is PG14 and target is PG16, run `pg_dump`/`pg_restore` from the **higher** version's binaries. pg_dbmigrator inherits whatever's on the `PATH`.
 
@@ -307,9 +338,9 @@ pg_dbmigrator wraps a careful, correct online migration recipe — slot-before-d
 The most important habits when operating it:
 
 1. Always confirm `wal_level = logical` on the source before starting.
-2. Watch the lag heartbeats and only cut over from a `CaughtUp` state with `0` bytes lag and writes stopped.
-3. Clean up replication slots and publications afterwards — abandoned slots will fill your source's disk.
-4. Reset sequences on the target before bringing the app back up.
+2. Watch the lag heartbeats and only cut over from a `CaughtUp` state with `0` bytes lag and writes stopped — the threshold is advisory, not automatic.
+3. Let the tool exit cleanly via Ctrl+C so it can drop the slot, the auto-created publication, and sync sequences for you. If the process dies hard, drop the slot manually so abandoned WAL doesn't fill the source's disk.
+4. Freeze schema changes for the duration of the migration — DDL isn't replicated.
 
 ## References
 
