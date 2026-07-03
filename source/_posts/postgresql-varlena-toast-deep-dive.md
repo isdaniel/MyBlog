@@ -117,7 +117,7 @@ PostgreSQL 用 header 的**第一個 byte** 做 tag dispatch:
 
 ---
 
-## 三、TOAST 觸發條件與儲存策略
+## 三、TOAST 觸發條件與 Storage Strategy
 
 很多人以為「資料只要大就會 TOAST」,實際上 PostgreSQL 是看**整個 tuple 大小**,而且每個欄位的處理方式由「**storage strategy**」決定 — 這是 summary 中沒提到、但對效能調校極重要的觀念。
 
@@ -129,10 +129,10 @@ PostgreSQL 用 header 的**第一個 byte** 做 tag dispatch:
 #define TOAST_MAX_CHUNK_SIZE    1996   /* 每塊約 2KB */
 ```
 
-當一個 tuple 寫入時,只要它的大小 **超過 `TOAST_TUPLE_THRESHOLD` (約 2KB,即 page 的 1/4)**,PostgreSQL 就會挑出 tuple 中標記為可壓縮 / 可外宿的欄位,依以下順序處理直到 tuple 縮小到 target 以下:
+當一個 tuple 寫入時,只要它的大小 **超過 `TOAST_TUPLE_THRESHOLD` (約 2KB,即 page 的 1/4)**,PostgreSQL 就會挑出 tuple 中標記為 compressible / externalizable 的欄位,依以下順序處理直到 tuple 縮小到 target 以下:
 
-1. 對最大的欄位嘗試 **壓縮**(若 storage 允許)。
-2. 若還是太大,把最大的欄位整個 **搬出去 (external)**。
+1. 對最大的欄位嘗試 **compression**(若 storage 允許)。
+2. 若還是太大,把最大的欄位整個 **移到 external storage**。
 3. 重複 1–2 直到 tuple 達標。
 
 ### 四種 Storage Strategy
@@ -142,9 +142,9 @@ PostgreSQL 用 header 的**第一個 byte** 做 tag dispatch:
 | Strategy | Compress | External | 典型用途 |
 |---|---|---|---|
 | `PLAIN` | No | No | 定長型別預設,不走 TOAST(資料必須能塞進 page) |
-| `EXTENDED` | Yes | Yes | **變長度型別預設**,先壓縮,壓完仍太大才搬出去 |
-| `EXTERNAL` | No | Yes | 不壓縮,直接外宿(犧牲空間換取 substring/length 速度) |
-| `MAIN` | Yes | Prefer inline | 先壓縮、盡量留在 main table,壓完還是太大才外宿 |
+| `EXTENDED` | Yes | Yes | **變長度型別預設**,先 compress,壓完仍太大才移 external |
+| `EXTERNAL` | No | Yes | 不 compress,直接 external(犧牲空間換取 substring/length 速度) |
+| `MAIN` | Yes | Prefer inline | 先 compress、盡量留在 main table,壓完還是太大才 external |
 
 實務情境:
 
@@ -163,20 +163,20 @@ ALTER TABLE my_table ALTER COLUMN payload SET STORAGE EXTERNAL;
 
 ---
 
-## 四、外宿指針的真實結構 (`varatt_external`)
+## 四、External Pointer 的真實結構 (`varatt_external`)
 
-當欄位真的被搬出去後,主表留下的不是 16 bytes,而是 **18 bytes** 的 `varatt_external` 結構(再加 2 bytes 的 `varattrib_1b_e` header,總共 20 bytes):
+當欄位真的被移到 external storage 後,主表留下的不是 16 bytes,而是 **18 bytes** 的 `varatt_external` 結構(再加 2 bytes 的 `varattrib_1b_e` header,總共 20 bytes):
 
 ```c
 typedef struct varatt_external {
     int32   va_rawsize;      /* 含 header 的原始大小 */
-    uint32  va_extinfo;      /* 壓縮後大小 (30 bits) + compression method (2 bits) */
+    uint32  va_extinfo;      /* compressed 大小 (30 bits) + compression method (2 bits) */
     Oid     va_valueid;      /* 此筆資料在 TOAST 表中的 ID */
     Oid     va_toastrelid;   /* 對應的 TOAST 表 OID */
 } varatt_external;           /* sizeof = 18 bytes,實際存放時要對齊 */
 ```
 
-> 注意:PostgreSQL 13 之後 `va_extinfo` 把壓縮演算法的 2 bits 塞進去 (因為新增了 LZ4),這也是原始 summary 寫「16 bytes」需要修正之處。
+> 注意:PostgreSQL 13 之後 `va_extinfo` 把 compression method 的 2 bits 塞進去 (因為新增了 LZ4),這也是原始 summary 寫「16 bytes」需要修正之處。
 
 ### 4 bytes (Oid) 的容量
 
@@ -220,7 +220,7 @@ CREATE UNIQUE INDEX pg_toast_<oid>_index
 
 ## 六、Detoast 流程:資料是怎麼被讀回來的
 
-當你執行 `SELECT payload FROM my_table WHERE id = 1`,且 payload 是 128 MB 的外宿資料,引擎做的事情大致是:
+當你執行 `SELECT payload FROM my_table WHERE id = 1`,且 payload 是 128 MB 的 external 資料,引擎做的事情大致是:
 
 ```
 主表 tuple
@@ -243,7 +243,7 @@ CREATE UNIQUE INDEX pg_toast_<oid>_index
 │    ...   │    ...    │   ...      │    │ 依序串接
 │   9527   │  65535    │ [≈2KB]     │    │
 └──────────┴───────────┴────────────┘    ▼
-                                    [拼接 + 解壓 pglz/lz4]
+                                    [拼接 + decompress pglz/lz4]
                                           │
                                           ▼
                                    還原 128MB 原始 bytes
@@ -265,26 +265,26 @@ SELECT id FROM my_table WHERE id = 1;
 -- 即使 payload 是 1GB,根本不會碰 TOAST 表
 ```
 
-這就是為什麼「主表 SELECT * 很快」的真正原因 — 不只是因為指針小,而是因為**指針從不主動被展開**。Detoast 只發生在運算子真的需要 bytes 的那一刻 (例如 `length(payload)` 對未壓縮的 EXTERNAL 是免費的,但對 EXTENDED 就得 decompress)。
+這就是為什麼「主表 SELECT * 很快」的真正原因 — 不只是因為指針小,而是因為**指針從不主動被展開**。Detoast 只發生在運算子真的需要 bytes 的那一刻 (例如 `length(payload)` 對 uncompressed 的 EXTERNAL 是免費的,但對 EXTENDED 就得 decompress)。
 
 ---
 
 ## 七、Inline Compression vs External
 
-很多人混淆「壓縮」與「外宿」,其實它們是**兩個獨立的步驟**:
+很多人混淆「compression」與「external」,其實它們是**兩個獨立的步驟**:
 
 | 狀態 | header 是? | 在哪? | 觸發條件 |
 |---|---|---|---|
 | 純 inline | `varattrib_4b` (tag=00) | 主表 tuple | 小 tuple,完全不動 |
-| Inline compressed | `varattrib_4b` (tag=10) | 主表 tuple | tuple 超過 threshold,壓完仍能塞下 |
+| Inline compressed | `varattrib_4b` (tag=10) | 主表 tuple | tuple 超過 threshold,compress 完仍能塞下 |
 | External uncompressed | `varattrib_1b_e` | TOAST 表 | storage = EXTERNAL,或 EXTENDED 但壓不下去 |
-| External compressed | `varattrib_1b_e` | TOAST 表 | EXTENDED / MAIN,壓縮後仍超過 target |
+| External compressed | `varattrib_1b_e` | TOAST 表 | EXTENDED / MAIN,compress 後仍超過 target |
 
-注意:**External 的資料本身也可以是壓縮的**。`varatt_external` 裡的 `va_extinfo` 同時記錄壓縮後大小與演算法,讓 detoast 時知道要不要解壓。
+注意:**External 的資料本身也可以是 compressed 的**。`varatt_external` 裡的 `va_extinfo` 同時記錄 compressed 大小與 compression method,讓 detoast 時知道要不要 decompress。
 
-### 壓縮演算法:pglz vs lz4
+### Compression Algorithm:pglz vs lz4
 
-PostgreSQL 14 之後支援兩種演算法,可在 column 層級指定:
+PostgreSQL 14 之後支援兩種 compression algorithm,可在 column 層級指定:
 
 ```sql
 ALTER TABLE my_table ALTER COLUMN payload SET COMPRESSION lz4;
@@ -292,12 +292,12 @@ ALTER TABLE my_table ALTER COLUMN payload SET COMPRESSION lz4;
 
 | 特性 | pglz (預設) | lz4 |
 |---|---|---|
-| 壓縮速度 | 較慢 | **約 4–5 倍快** |
-| 解壓速度 | 較慢 | **約 10 倍快** |
-| 壓縮率 | 略好 (≈ 5–10%) | 略差 |
+| Compression speed | 較慢 | **約 4–5 倍快** |
+| Decompression speed | 較慢 | **約 10 倍快** |
+| Compression ratio | 略好 (≈ 5–10%) | 略差 |
 | 需要編譯選項 | 內建 | `--with-lz4` |
 
-對於寫多讀多、且 CPU 比 I/O 緊的場景,LZ4 幾乎是無腦選擇。只有極度在意壓縮率(冷資料、空間敏感)才該留著 pglz。
+對於寫多讀多、且 CPU 比 I/O 緊的場景,LZ4 幾乎是無腦選擇。只有極度在意 compression ratio(冷資料、空間敏感)才該留著 pglz。
 
 ---
 
@@ -334,23 +334,23 @@ LIMIT 5;
 ```sql
 SELECT
     id,
-    pg_column_size(payload)         AS stored_size,    -- 含 header、壓縮後
+    pg_column_size(payload)         AS stored_size,    -- 含 header、compressed 後
     octet_length(payload)           AS logical_size,   -- 邏輯長度
     pg_column_compression(payload)  AS compression     -- 'pglz' / 'lz4' / NULL
 FROM my_table WHERE id = 1;
 ```
 
-如果 `stored_size << logical_size`,代表有壓縮;如果 `stored_size` 只有十幾 bytes 但 `logical_size` 很大,就是外宿了。
+如果 `stored_size << logical_size`,代表有 compression;如果 `stored_size` 只有十幾 bytes 但 `logical_size` 很大,就是 external 了。
 
 ---
 
 ## 九、Expanded Datum:summary 沒提到的記憶體加速機制
 
-當你在 PL/pgSQL 裡反覆對一個 array 或 JSONB 做修改,每次都「decompress → 修改 → 重新壓縮」會很慘。於是 PostgreSQL 9.5 引入了 **expanded datum** (`VARTAG_EXPANDED_RW`):
+當你在 PL/pgSQL 裡反覆對一個 array 或 JSONB 做修改,每次都「decompress → 修改 → 重新 compress」會很慘。於是 PostgreSQL 9.5 引入了 **expanded datum** (`VARTAG_EXPANDED_RW`):
 
 - 第一次使用時,把資料攤平成一個記憶體中可直接操作的物件 (e.g., array 變成真的 C array)。
 - 在 query 執行期間,所有修改都直接在這個展開物件上完成。
-- 寫回磁碟時才重新序列化、壓縮、TOAST。
+- 寫回磁碟時才重新序列化、compress、TOAST。
 
 這對 array 的 `array_append`、JSONB 的 `jsonb_set` 等操作幫助巨大。Expanded datum 也是 `varattrib_1b_e` 的一種特例 — 你會看到一個「指針」,但它指向的不是 TOAST 表,而是記憶體中的展開物件。
 
@@ -362,7 +362,7 @@ PostgreSQL 的 Varlena / TOAST 設計可以用三句話概括:
 
 1. **小資料零成本** — 短 header 讓 99% 的字串只多付 1 byte 的代價。
 2. **大資料對 OLTP 友善** — 主表只留 20 bytes 指針,讓 `SELECT id FROM ...` 等不需要該欄位的查詢完全不受影響。
-3. **Lazy & Composable** — 壓縮、外宿、展開三個正交機制,可根據 workload 用 storage strategy 與 compression method 自由組合。
+3. **Lazy & Composable** — compression、external storage、expansion 三個正交機制,可根據 workload 用 storage strategy 與 compression method 自由組合。
 
 當你下次看到 PostgreSQL 一張表的 size 是「1 MB 主表 + 800 MB TOAST + 100 MB index」時,你會知道那是正常的:它不是 bug,而是讓主表保持精瘦、把肥肉外掛出去的精密設計。
 
@@ -373,12 +373,12 @@ PostgreSQL 的 Varlena / TOAST 設計可以用三句話概括:
 | 元件 | 角色 |
 |---|---|
 | `varattrib_1b` | 小字串的省空間 header (1 byte) |
-| `varattrib_4b` | 一般 / 壓縮資料的 header (4 bytes) |
-| `varattrib_1b_e` | 外宿 / expanded 的 tag |
+| `varattrib_4b` | 一般 / compressed 資料的 header (4 bytes) |
+| `varattrib_1b_e` | external / expanded 的 tag |
 | `varatt_external` | 主表中的 18 byte TOAST 指針 |
 | `pg_toast.*` | 切塊存放的 side table |
 | `(chunk_id, chunk_seq)` B-Tree | 高速回組碎塊的索引 |
-| Storage strategy | 控制是否壓縮 / 外宿 |
+| Storage strategy | 控制是否 compress / external |
 | Compression method | pglz vs lz4 的權衡 |
 | Expanded datum | 記憶體層的加速 |
 
