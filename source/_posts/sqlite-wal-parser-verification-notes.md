@@ -1,5 +1,5 @@
 ---
-title: 寫一個 SQLite WAL Parser 的完整驗證記錄：當官方文件是錯的
+title: 寫一個 SQLite WAL Parser
 date: 2026-08-05 21:30:00
 tags: [SQLite, WAL, Storage, SystemDesign, Database]
 categories: [SQLite, SystemDesign]
@@ -116,15 +116,6 @@ frame   seed（來源）                   算出              檔案裡存的
   4     (161fdd33, a303ab26) frame 3   (f7d14d86, ...)   同左  OK
 ```
 
-這裡有第一個文件錯誤。`wal.c` 中 `walDecodeFrame` 上方的註解寫「the first **16** bytes of this frame-header」，但同一個檔案的第 985 行寫的是：
-
-```c
-walChecksumBytes(nativeCksum, aFrame, 8, aCksum, aCksum);
-```
-
-`nByte = 8`。註解錯了，程式碼是對的。`fileformat2.html` §4.2 這次反而站在正確的一邊。
-
----
 
 ## 二、最重要的一件事：檔案大小不等於有效 frame 數
 
@@ -223,11 +214,7 @@ ckptseq  0 → 1
 套用 slot 4 → page 2 = {ALICE_UPDATED}     最終結果
 ```
 
-備份出來的資料庫：有 ALICE_UPDATED，沒有 bob。
-
-bob 是剛剛才寫進去的，不見了。而 slot 3 的 `alice` 是兩代以前、已經被 UPDATE 掉、又已經被 checkpoint 進主檔的資料，它從墳墓裡爬出來影響了結果。
-
-沒有錯誤訊息、沒有 panic，`PRAGMA integrity_check` 也會回 `ok`，因為產出的確實是一個結構合法的資料庫。
+備份出來的資料庫：有 ALICE_UPDATED，沒有 bob。 bob 是剛剛才寫進去的，不見了。而 slot 3 的 `alice` 是兩代以前、已經被 UPDATE 掉、又已經被 checkpoint 進主檔的資料，它從墳墓裡爬出來影響了結果。 沒有錯誤訊息、沒有 panic，`PRAGMA integrity_check` 也會回 `ok`，因為產出的確實是一個結構合法的資料庫。
 
 ---
 
