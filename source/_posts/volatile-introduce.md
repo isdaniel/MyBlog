@@ -139,7 +139,7 @@ public class Member
 
 所以可能造成兩個Thread剛好對於一個數值或物件異動造成Data Racing.
 
-> 如果要解決此問題可以參閱 [高併發系統系列-使用lock & Interlocked CAS(compare and swap)](https://isdaniel.github.io/high-concurrency-atomic-cas-algorithm/)
+> 如果要解決此問題可以參閱 [高併發系統系列-使用lock & Interlocked CAS(compare and swap)](/high-concurrency-atomic-cas-algorithm/)
 
 下面的範例來演示我說的問題
 

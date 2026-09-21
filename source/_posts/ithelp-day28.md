@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "動手 DIY 替換 ActionInvoker 與 Model 綁定機制：實作自訂 IActionInvoker 和 ValueProvider 處理請求參數"
 keywords: C#,ASP.NET-MVC,custom-ActionInvoker,custom-ValueProvider,custom-ModelBinding,IActionInvoker,DIY
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

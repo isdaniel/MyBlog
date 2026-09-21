@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "深入 HttpApplication.InitInternal 方法，了解 HttpModule 的載入初始化流程及 Pipeline 與 Classic 模式差異"
 keywords: C#,ASP.NET,HttpApplication,InitInternal,HttpModule-initialization,pipeline-mode,classic-mode
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言：](#%e5%89%8d%e8%a8%80)

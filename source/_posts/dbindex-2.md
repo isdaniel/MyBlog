@@ -22,8 +22,8 @@ lang: zh-tw
 
 本系列文章
 
-- [資料庫索引深入淺出(一)](https://isdaniel.github.io/dbindex-1/)
-- [資料庫索引深入淺出(二)](https://isdaniel.github.io/dbindex-2/)
+- [資料庫索引深入淺出(一)](/dbindex-1/)
+- [資料庫索引深入淺出(二)](/dbindex-2/)
 
 兩種基本索引
 

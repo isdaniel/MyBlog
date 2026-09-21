@@ -327,6 +327,6 @@ public class LockerTest
 
 利用[ReaderWriterLockSlim](https://docs.microsoft.com/en-us/dotnet/api/system.threading.readerwriterlockslim?view=netcore-3.1)就可以建立如DB lock,實在非常方便.
 
-假如想要細部了解[Autofac + Interceptors(AOP) 動態代理](https://isdaniel.github.io/Autofac-AOP/)可以參考我之前寫文章,這裡我就不多敘述了.
+假如想要細部了解[Autofac + Interceptors(AOP) 動態代理](/autofac-aop/)可以參考我之前寫文章,這裡我就不多敘述了.
 
 [SourceCode LockService](https://github.com/isdaniel/ExtenionTool/tree/master/src/ExtensionTool/ThirdPartyExtension/LockService)

@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "追蹤 DependencyResolver 在 MVC 框架中的實際應用：ControllerActivator、ViewEngine、FilterProvider 的依賴解析"
 keywords: C#,ASP.NET-MVC,DependencyResolver,DefaultControllerActivator,FilterProvider,IOC
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

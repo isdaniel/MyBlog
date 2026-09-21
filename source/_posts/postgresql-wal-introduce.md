@@ -179,7 +179,7 @@ rmgr: Transaction len (rec/tot):    242/   242, tx:       1770, lsn: 0/0E064858,
 
 而在最後 Update 時會對於 Heap 跟 Btree 異動，原因是我們異動 ID 這個欄位，在 Btree 和 Heap 資料表都有
 
-詳細原因我有寫一篇文章　[postgresql HOT (heap only tuple) update 深入淺出](https://isdaniel.github.io/postgresql-hotupdate-vacuum/)
+詳細原因我有寫一篇文章　[postgresql HOT (heap only tuple) update 深入淺出](/postgresql-hotupdate-vacuum/)
 
 ```bash
 rmgr: Heap        len (rec/tot):     69/    69, tx:       1771, lsn: 0/0E064988, prev 0/0E064950, desc: UPDATE off 2 xmax 1771 ; new off 3 xmax 0, blkref #0: rel 1663/13067/24677 blk 0

@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "解析 HttpApplicationFactory 如何透過物件池機制建立和管理 HttpApplication 實例，以及 Application_Start 為何只執行一次"
 keywords: C#,ASP.NET,HttpApplicationFactory,object-pool,Application_Start,GetApplicationInstance
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言：](#%e5%89%8d%e8%a8%80)

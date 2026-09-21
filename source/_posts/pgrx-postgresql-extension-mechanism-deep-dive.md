@@ -707,7 +707,7 @@ SELECT factorial(10);        -- 3628800
 
 4. **讀 pgrx 的 `examples/` 目錄** — 從 `aggregate.rs`、`bgworker.rs`、`triggers.rs` 看不同類型的 extension 怎麼寫。
 
-5. **動手寫一個有意義的小專案** — 例如我之前做過的 [pg_where_guard](https://isdaniel.github.io/pg-where-guard-rust-postgresql-extension/)(攔截危險 SQL)、[redis_fdw](https://isdaniel.github.io/rust-pgrx-extension-fdw/)(把 Redis 當成 PG 表查)。實作的過程會逼你面對 Datum 轉換、MemoryContext、error handling 等真實問題。
+5. **動手寫一個有意義的小專案** — 例如我之前做過的 [pg_where_guard](/pg-where-guard-rust-postgresql-extension/)(攔截危險 SQL)、[redis_fdw](/rust-pgrx-extension-fdw/)(把 Redis 當成 PG 表查)。實作的過程會逼你面對 Datum 轉換、MemoryContext、error handling 等真實問題。
 
 ---
 
@@ -737,5 +737,5 @@ Rust + pgrx 真正讓 PostgreSQL extension 開發從「危險的系統程式設�
 - [bindgen User Guide](https://rust-lang.github.io/rust-bindgen/)
 - [The Rustonomicon — FFI](https://doc.rust-lang.org/nomicon/ffi.html)
 - 站內相關文章:
-  - [Building a PostgreSQL FDW in Rust with pgrx](https://isdaniel.github.io/rust-pgrx-extension-fdw/)
-  - [Building Safe PostgreSQL Extensions with Rust — pg_where_guard](https://isdaniel.github.io/pg-where-guard-rust-postgresql-extension/)
+  - [Building a PostgreSQL FDW in Rust with pgrx](/rust-pgrx-extension-fdw/)
+  - [Building Safe PostgreSQL Extensions with Rust — pg_where_guard](/pg-where-guard-rust-postgresql-extension/)

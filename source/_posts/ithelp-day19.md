@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "比較簡單模型綁定與複雜模型綁定的差異，追蹤 BindSimpleModel、BindComplexModel 如何處理 JSON POST 參數"
 keywords: C#,ASP.NET-MVC,simple-model-binding,complex-model-binding,ModelMetadata,BindSimpleModel,BindComplexModel
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

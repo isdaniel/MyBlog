@@ -57,7 +57,7 @@ COMMIT TRAN
 
 ### 壓力測試數值介紹 & 問題重現
 
-壓力測試我使用SqlQueryStress，工具使用相關介紹可以參考[資料庫壓測好工具-SQLQueryStress](https://isdaniel.github.io/sqlquerystress-intro/)
+壓力測試我使用SqlQueryStress，工具使用相關介紹可以參考[資料庫壓測好工具-SQLQueryStress](/sqlquerystress-intro/)
 
 測試使用下面數值
 

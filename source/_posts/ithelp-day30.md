@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "鐵人賽完賽總結：回顧 ASP.NET MVC 原始碼分析三十天的重點，從 HTTP 請求到 View 渲染的完整執行流程"
 keywords: C#,ASP.NET-MVC,source-code-analysis,design-patterns,MVC-summary,Expression-tree
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->
@@ -99,64 +100,64 @@ lang: zh-tw
 
 ### 01 ~ 08 Day 介紹Http請求到MVC前Asp.net做了些什麼事情
 
-[[Day01] (開賽)Http 請求 Asp.net IIS伺服器架構](https://ithelp.ithome.com.tw/articles/10214877)
+[[Day01] (開賽)Http 請求 Asp.net IIS伺服器架構](/ithelp-day1/)
 
-[[Day02] Asp.Net支柱 IHttpMoudle & IHttphandler](https://ithelp.ithome.com.tw/articles/10214999)
+[[Day02] Asp.Net支柱 IHttpMoudle & IHttphandler](/ithelp-day2/)
 
-[[Day03] 啟動吧!Asp.Net IsapiRunTime & HttpRuntime](https://ithelp.ithome.com.tw/articles/10215221)
+[[Day03] 啟動吧!Asp.Net IsapiRunTime & HttpRuntime](/ithelp-day3/)
 
-[[Day04] 掌控HttpApplication物件建立 - HttpApplicationFactory](https://ithelp.ithome.com.tw/articles/10215400)
+[[Day04] 掌控HttpApplication物件建立 - HttpApplicationFactory](/ithelp-day4/)
 
-[[Day05] Asp.Net重要物件HttpApplication(一) 初始化建立IHttpMoudule](https://ithelp.ithome.com.tw/articles/10215676)
+[[Day05] Asp.Net重要物件HttpApplication(一) 初始化建立IHttpMoudule](/ithelp-day5/)
 
-[[Day06] Asp.Net重要物件HttpApplication(二) 建置執行管道](https://ithelp.ithome.com.tw/articles/10216299)
+[[Day06] Asp.Net重要物件HttpApplication(二) 建置執行管道](/ithelp-day6/)
 
-[[Day07] Asp.Net重要物件HttpApplication(三) 取得執行的IHttpHandler](https://ithelp.ithome.com.tw/articles/10216960)
+[[Day07] Asp.Net重要物件HttpApplication(三) 取得執行的IHttpHandler](/ithelp-day7/)
 
-[[Day08] 揭密Mvc使用IHttpHandler by UrlRoutingModule-4.0](https://ithelp.ithome.com.tw/articles/10217375)
+[[Day08] 揭密Mvc使用IHttpHandler by UrlRoutingModule-4.0](/ithelp-day8/)
 
 ### 09 ~ 25 Day 介紹MVC原始碼
 
-[[Day09] 進入MVC原始碼世界 Route & RouteTable 原始碼解析](https://ithelp.ithome.com.tw/articles/10217973)
+[[Day09] 進入MVC原始碼世界 Route & RouteTable 原始碼解析](/ithelp-day9/)
 
-[[Day10] 透過MvcRouteHandler取得呼叫IHttphandler](https://ithelp.ithome.com.tw/articles/10218521)
+[[Day10] 透過MvcRouteHandler取得呼叫IHttphandler](/ithelp-day10/)
 
-[[Day11] Asp.net MVC Controller是怎麼被建立(原始碼揭密)](https://ithelp.ithome.com.tw/articles/10219020)
+[[Day11] Asp.net MVC Controller是怎麼被建立(原始碼揭密)](/ithelp-day11/)
 
-[[Day12] 談談Controller幾個重要成員](https://ithelp.ithome.com.tw/articles/10219477)
+[[Day12] 談談Controller幾個重要成員](/ithelp-day12/)
 
-[[Day13] Asp.net MVC如何實現IOC解析器](https://ithelp.ithome.com.tw/articles/10219981)
+[[Day13] Asp.net MVC如何實現IOC解析器](/ithelp-day13/)
 
-[[Day14] 反轉起來~透過IOC解析來執行依賴反轉](https://ithelp.ithome.com.tw/articles/10220510)
+[[Day14] 反轉起來~透過IOC解析來執行依賴反轉](/ithelp-day14/)
 
-[[Day15] Action方法如何被執行InvokeAction(一)](https://ithelp.ithome.com.tw/articles/10220964)
+[[Day15] Action方法如何被執行InvokeAction(一)](/ithelp-day15/)
 
-[[Day16] MVC Filter 機制解密](https://ithelp.ithome.com.tw/articles/10221403)
+[[Day16] MVC Filter 機制解密](/ithelp-day16/)
 
-[[Day17] Action方法如何被執行InvokeAction(二)](https://ithelp.ithome.com.tw/articles/10221908)
+[[Day17] Action方法如何被執行InvokeAction(二)](/ithelp-day17/)
 
-[[Day18] 提供ModelBing幾個重要功臣(Model)](https://ithelp.ithome.com.tw/articles/10222341)
+[[Day18] 提供ModelBing幾個重要功臣(Model)](/ithelp-day18/)
 
-[[Day19] Http參數如何綁定到Action參數上(簡單和複雜模型綁定探討)](https://ithelp.ithome.com.tw/articles/10222831)
+[[Day19] Http參數如何綁定到Action參數上(簡單和複雜模型綁定探討)](/ithelp-day19/)
 
-[[Day20] 探討Model上客製化標籤如何被解析使用](https://ithelp.ithome.com.tw/articles/10223247)
+[[Day20] 探討Model上客製化標籤如何被解析使用](/ithelp-day20/)
 
-[[Day21] Model 探討驗證標籤(ValidationAttribute)](https://ithelp.ithome.com.tw/articles/10223704)
+[[Day21] Model 探討驗證標籤(ValidationAttribute)](/ithelp-day21/)
 
-[[Day22] View是如何被建立(一)](https://ithelp.ithome.com.tw/articles/10224092)
+[[Day22] View是如何被建立(一)](/ithelp-day22/)
 
-[[Day23] 6個基本(ActionResult) View是如何被建立(二)](https://ithelp.ithome.com.tw/articles/10224542)
+[[Day23] 6個基本(ActionResult) View是如何被建立(二)](/ithelp-day23/)
 
-[[Day24] 探討ViewEngine機制 View是如何被建立(三)](https://ithelp.ithome.com.tw/articles/10224865)
+[[Day24] 探討ViewEngine機制 View是如何被建立(三)](/ithelp-day24/)
 
-[[Day25] 動態產生程式碼(WebViewPage) View是如何被建立(四)](https://ithelp.ithome.com.tw/articles/10225229)
+[[Day25] 動態產生程式碼(WebViewPage) View是如何被建立(四)](/ithelp-day25/)
 
 ### 26 ~ 29 Day 對於MVC進行擴充改造
 
-[[Day26] 動手DIY改造 Asp.net MVC- Route解析機制](https://ithelp.ithome.com.tw/articles/10225616)
+[[Day26] 動手DIY改造 Asp.net MVC- Route解析機制](/ithelp-day26/)
 
-[[Day27] 動手DIY改造 Asp.net MVC- 自己動作建立一個DependencyResolver解析器(Autofac)](https://ithelp.ithome.com.tw/articles/10225993)
+[[Day27] 動手DIY改造 Asp.net MVC- 自己動作建立一個DependencyResolver解析器(Autofac)](/ithelp-day27/)
 
-[[Day28] 動手DIY改造 Asp.net MVC- 建立自己ActionInvoker和Model綁定機制](https://ithelp.ithome.com.tw/articles/10226285)
+[[Day28] 動手DIY改造 Asp.net MVC- 建立自己ActionInvoker和Model綁定機制](/ithelp-day28/)
 
-[[Day29] 動手DIY改造 Asp.net MVC- 擴充在擴充,強化WebViewPage製作多國貨幣機制](https://ithelp.ithome.com.tw/articles/10226680)
+[[Day29] 動手DIY改造 Asp.net MVC- 擴充在擴充,強化WebViewPage製作多國貨幣機制](/ithelp-day29/)

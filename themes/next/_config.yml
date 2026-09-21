@@ -299,7 +299,7 @@ related_posts:
   title: # Custom header, leave empty to use the default one
   display_in_home: false
   params:
-    maxCount: 5
+    maxCount: 8
     #PPMixingRate: 0.0
     #isDate: false
     #isImage: false
@@ -476,7 +476,10 @@ disable_baidu_transformation: false
 canonical: true
 
 # Change headers hierarchy on site-subtitle (will be main site description) and on all post / page titles for better SEO-optimization.
-seo: true
+# Set to false so the post title renders as <h1> instead of <h2>.
+# NexT's "seo: true" demotes the article title and promotes the site subtitle, which leaves
+# every article page without a topical h1. See scripts/lint-seo.js for the build-time guard.
+seo: false
 
 # If true, site-subtitle will be added to index page.
 # Remember to set up your site-subtitle in Hexo `_config.yml` (e.g. subtitle: Subtitle)

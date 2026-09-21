@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "解析 HTTP 請求進入 IIS 後的完整流程：從 Http.sys、W3WP 到 ASP.NET pipeline，建立 MVC 原始碼分析的基礎架構"
 keywords: C#,ASP.NET,IIS,Http.sys,W3WP,pipeline,request-lifecycle,HttpModule,HttpHandler
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

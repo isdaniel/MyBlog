@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "解析 ApplicationStepManager 的 BuildSteps 方法如何建構執行管道，以及 IExecutionStep 介面如何實現 AOP 擴充機制"
 keywords: C#,ASP.NET,ApplicationStepManager,BuildSteps,IExecutionStep,AOP,event-pipeline
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "深入 ActionInvoker 的 InvokeAction 方法，了解 Action 執行前如何取得 ActionDescriptor 並載入 Filter/AOP 機制"
 keywords: C#,ASP.NET-MVC,ActionInvoker,InvokeAction,ActionDescriptor,ControllerDescriptor,Filter
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

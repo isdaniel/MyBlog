@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "追蹤 HttpApplication 如何透過 MapHandlerExecutionStep 找到匹配的 IHttpHandler 並執行請求處理"
 keywords: C#,ASP.NET,MapHandlerExecutionStep,CallHandlerExecutionStep,IHttpHandlerFactory,handler-resolution
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

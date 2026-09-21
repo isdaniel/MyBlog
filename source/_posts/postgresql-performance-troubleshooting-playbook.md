@@ -13,9 +13,9 @@ lang: zh-tw
 
 其他相關基礎可以搭配我之前寫的文章一起看：
 
-* [postgresql 執行計畫重要因子 (成本因子調教)](https://isdaniel.github.io/postgresql-cost-factor-tuning/)
-* [Postgresql AutoVacuum 介紹](https://isdaniel.github.io/postgresql-autovacuum/)
-* [PostgreSQL WAL 介紹](https://isdaniel.github.io/postgresql-wal-introduce/)
+* [postgresql 執行計畫重要因子 (成本因子調教)](/postgresql-cost-factor-tuning/)
+* [Postgresql AutoVacuum 介紹](/postgresql-autovacuum/)
+* [PostgreSQL WAL 介紹](/postgresql-wal-introduce/)
 
 ## 前置作業：先把觀測能力打開
 
@@ -212,7 +212,7 @@ SELECT pg_cancel_backend(12345);   -- 換成 Step 1 查到的 pid
 
 ### 找 long transaction / idle-in-transaction
 
-這類 session 會一直卡住 CPU、持鎖、並釘住 xmin horizon 讓 VACUUM 無法回收（延伸閱讀：[Postgresql AutoVacuum 介紹](https://isdaniel.github.io/postgresql-autovacuum/)）：
+這類 session 會一直卡住 CPU、持鎖、並釘住 xmin horizon 讓 VACUUM 無法回收（延伸閱讀：[Postgresql AutoVacuum 介紹](/postgresql-autovacuum/)）：
 
 ```sql
 SELECT pid, usename, datname, state, wait_event_type,
@@ -313,7 +313,7 @@ EXPLAIN (ANALYZE, BUFFERS, VERBOSE, SETTINGS) <query>;
 
 ### 怎麼讀輸出
 
-* **預估值**：`(cost=STARTUP..TOTAL rows=N width=W)` — cost 是 **無單位** 的 planner 估算值（以 `seq_page_cost=1.0` 為基準），**永遠不要拿 cost 去跟實際 ms 比**。想深入理解 cost 怎麼算出來，可看我的 [成本因子調教](https://isdaniel.github.io/postgresql-cost-factor-tuning/)。
+* **預估值**：`(cost=STARTUP..TOTAL rows=N width=W)` — cost 是 **無單位** 的 planner 估算值（以 `seq_page_cost=1.0` 為基準），**永遠不要拿 cost 去跟實際 ms 比**。想深入理解 cost 怎麼算出來，可看我的 [成本因子調教](/postgresql-cost-factor-tuning/)。
 * **實際值（ANALYZE）**：`(actual time=STARTUP..TOTAL rows=N loops=L)` — 真實毫秒與執行次數。
 * **BUFFERS**：`shared hit` = 命中 cache（省了讀取）、`read` = 從 disk 讀（miss）、`dirtied` = 這次改髒的 block、`written` = 被這個 backend 逐出的髒 block。
 
@@ -353,7 +353,7 @@ auto_explain.log_nested_statements = true
 
 ## 鎖與 Blocking 排查
 
-當 [方法論](#排查方法論：三層由上而下定位) 那條快照查詢顯示 `Lock/Contention` 一堆時，就進來這一節。關於各種 lock 模式的互斥對照，可以搭配我的 [dblock 系列](https://isdaniel.github.io/dblock-1/) 一起看。
+當 [方法論](#排查方法論：三層由上而下定位) 那條快照查詢顯示 `Lock/Contention` 一堆時，就進來這一節。關於各種 lock 模式的互斥對照，可以搭配我的 [dblock 系列](/dblock-1/) 一起看。
 
 ### 快速看誰被鎖住
 
@@ -505,7 +505,7 @@ ORDER BY 1, 2;
 
 ## 表膨脹與 Autovacuum 排查
 
-統計資訊過期與 dead tuple 膨脹會拖爛執行計畫、抬高 CPU。原理與觸發時機我在 [Postgresql AutoVacuum 介紹](https://isdaniel.github.io/postgresql-autovacuum/) 有完整說明，這裡給排查用的查詢。
+統計資訊過期與 dead tuple 膨脹會拖爛執行計畫、抬高 CPU。原理與觸發時機我在 [Postgresql AutoVacuum 介紹](/postgresql-autovacuum/) 有完整說明，這裡給排查用的查詢。
 
 ### Dead tuple / 膨脹排名
 

@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "探討 Model 客製化標籤的解析機制：IMetadataAware 介面如何讓 AllowHtmlAttribute 等自訂 Attribute 影響 ModelMetadata"
 keywords: C#,ASP.NET-MVC,IMetadataAware,AllowHtmlAttribute,AdditionalMetadataAttribute,ModelMetadata
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

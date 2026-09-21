@@ -49,7 +49,7 @@ GitHub並創建一個名為**username**.github.io Repository，其中username是
 例如我的Github帳戶是isdaniel 就建立一個Repository 叫
 [isdaniel.github.io](https://github.com/isdaniel/isdaniel.github.io) 只要裡面有版控Html靜態頁面Github page 就可幫我們進行託管.
 
-https://isdaniel.github.io/ 這個網站的進入點在此Repository的index.html頁面.
+/ 這個網站的進入點在此Repository的index.html頁面.
 
 Note :
 

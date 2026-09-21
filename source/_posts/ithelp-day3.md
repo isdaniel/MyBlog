@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "追蹤 IsapiRunTime 與 HttpRuntime 原始碼，了解 HTTP 請求從 IIS 非託管環境進入 .NET CLR 託管環境的轉換過程"
 keywords: C#,ASP.NET,IsapiRunTime,HttpRuntime,CLR,managed-code,W3SVC,COM
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言:](#%e5%89%8d%e8%a8%80)

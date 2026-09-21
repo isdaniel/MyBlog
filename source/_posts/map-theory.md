@@ -82,7 +82,7 @@ google map 利用目前使用 **google 服務用戶在路徑上資料**，經過
 
 成本這個東西就很重要，因為成本會決定我們如何選擇計畫， DB query optimizer 一樣會被成本影響使用執行計畫
 
-在 postgresql DB 有成本因子可以讓我們調成預估成本，關於如何調整我有篇文章在說明　[postgresql 執行計畫重要因子 (成本因子調教)](https://isdaniel.github.io/postgresql-cost-factor-tuning/)
+在 postgresql DB 有成本因子可以讓我們調成預估成本，關於如何調整我有篇文章在說明　[postgresql 執行計畫重要因子 (成本因子調教)](/postgresql-cost-factor-tuning/)
 
 ## 小結
 

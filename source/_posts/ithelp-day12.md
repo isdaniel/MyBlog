@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "介紹 Controller 核心成員：TempData、ViewBag、ViewData 的運作原理，以及 ControllerContext 如何封裝請求上下文"
 keywords: C#,ASP.NET-MVC,ControllerBase,TempData,ViewBag,ViewData,ControllerContext
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

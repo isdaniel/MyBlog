@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "解析 Model 驗證機制：ValidationAttribute 如何透過 ModelValidatorProviders 在伺服器端執行資料驗證"
 keywords: C#,ASP.NET-MVC,ValidationAttribute,ModelValidator,DataAnnotations,DataAnnotationsModelValidatorProvider
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

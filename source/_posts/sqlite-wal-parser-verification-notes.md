@@ -14,7 +14,7 @@ lang: zh-tw
 
 底下所有數字都是實際跑出來的，環境是 SQLite 3.37.2 / Linux x86-64，對照的原始碼是 `libsqlite3-sys` bundled 的 amalgamation。凡是跟文件衝突的地方，一律以 C 原始碼為準。
 
-如果對 PostgreSQL 那一套 WAL 的先寫 log、後寫 dirty block 的模型不熟，可以先讀我之前寫的 [PostgreSQL WAL (Write-Ahead Logging) 機制](https://isdaniel.github.io/postgresql-wal-introduce/)，後面第八節會把兩者的設計取捨拿來對照。
+如果對 PostgreSQL 那一套 WAL 的先寫 log、後寫 dirty block 的模型不熟，可以先讀我之前寫的 [PostgreSQL WAL (Write-Ahead Logging) 機制](/postgresql-wal-introduce/)，後面第八節會把兩者的設計取捨拿來對照。
 
 ---
 
@@ -740,4 +740,4 @@ append 要跟檔案系統要新的 block、更新 inode 大小、可能要 fsync
 - [SQLite WAL-Mode File Format](https://sqlite.org/walformat.html) — `-shm` 格式、鎖定協定、recovery
 - [Write-Ahead Logging](https://sqlite.org/wal.html) — 設計取捨、autocheckpoint、避免 WAL 過大
 - [PostgreSQL WAL Configuration](https://www.postgresql.org/docs/current/wal-configuration.html) — segment 回收與保留條件
-- 相關文章：[PostgreSQL WAL (Write-Ahead Logging) 機制](https://isdaniel.github.io/postgresql-wal-introduce/)
+- 相關文章：[PostgreSQL WAL (Write-Ahead Logging) 機制](/postgresql-wal-introduce/)

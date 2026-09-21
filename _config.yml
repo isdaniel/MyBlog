@@ -11,6 +11,11 @@ author: Daniel Shih
 language: zh-tw
 timezone: Asia/Taipei
 
+# Appended to the home page <title> only. Post/tag/category titles are unaffected.
+# Without this the home page — the highest-authority URL on the site — has a
+# brand-only title that competes for no query.
+index_title_suffix: PostgreSQL 內核與 Rust、.NET 原始碼筆記
+
 # Header
 menu:
   Home: /
@@ -19,6 +24,7 @@ menu:
   Tags: /tags
   Course: /Course
   Categories: /categories
+  English: /en/
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -52,6 +58,11 @@ post_asset_folder: true
 relative_link: false
 future: true
 
+# Without this Hexo falls back to file mtime for `updated`. The site builds from a
+# fresh CI checkout, so every post reported an identical dateModified (fake freshness).
+# 'date' makes dateModified fall back to the post's own date unless `updated:` is set.
+updated_option: 'date'
+
 highlight:
   enable: true
   line_number: true
@@ -77,6 +88,17 @@ index2_generator:
 default_category: uncategorized
 category_map:
 tag_map:
+  # Hexo slugifies `C#` to `C`, which used to collide with the single-post `C` tag
+  # and collapsed the 72-post C# hub into a one-post page. Map it to an explicit slug.
+  C#: csharp
+
+# List every post on its taxonomy page instead of paginating at 10.
+# Paginated pages are noindex (source/_data/head.swig) and absent from the sitemap,
+# so with the default per_page most posts were unreachable from their own topic hub.
+tag_generator:
+  per_page: 0
+category_generator:
+  per_page: 0
 
 # Date / Time format
 ## Hexo uses Moment.js to parse and display date
@@ -118,7 +140,10 @@ search:
 local_search:
   enable: true
 
-all_minifier: true
+# NOTE: `all_minifier: true` used to live here, but hexo-all-minifier is not in
+# package.json or package-lock.json, so nothing was ever minified. Removed rather
+# than left as a setting that lies. Output is gzipped by GitHub Pages anyway;
+# install hexo-all-minifier (and add it to appveyor.yml) if you want real minification.
 
 fancybox: true
 
