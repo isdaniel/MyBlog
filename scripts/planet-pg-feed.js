@@ -69,7 +69,7 @@ hexo.extend.generator.register('planet-postgresql', function (locals) {
 
   entries.forEach(function (post) {
     var url = siteUrl + '/' + post.slug + '/';
-    var description = String(post.description || '').replace(/<[^>]*>/g, '').trim();
+    var description = stripTags(post.description).trim();
 
     xml += '  <entry>\n' +
       '    <title>' + esc(post.title) + '</title>\n' +
@@ -95,11 +95,35 @@ hexo.extend.generator.register('planet-postgresql', function (locals) {
  * Ad markup is stripped defensively — the policy forbids advertising in syndicated posts.
  */
 function prepareContent(content, siteUrl) {
-  return String(content || '')
-    .replace(/<script[\s\S]*?<\/script>/gi, '')
-    .replace(/<ins\b[^>]*adsbygoogle[\s\S]*?<\/ins>/gi, '')
-    .replace(/<amp-auto-ads[\s\S]*?<\/amp-auto-ads>/gi, '')
-    .replace(/(\s(?:src|href))=(["'])\/(?!\/)/gi, '$1=$2' + siteUrl + '/');
+  var html = String(content || '');
+
+  // Each pattern is applied until it stops matching: a single pass can expose a new
+  // match that was hidden by an outer one (e.g. nested/overlapping ad markup).
+  [
+    /<script\b[^>]*>[\s\S]*?<\/script[^>]*>/gi,
+    /<script\b[^>]*\/?>/gi,
+    /<ins\b[^>]*adsbygoogle[\s\S]*?<\/ins[^>]*>/gi,
+    /<amp-auto-ads\b[\s\S]*?<\/amp-auto-ads[^>]*>/gi
+  ].forEach(function (pattern) {
+    html = replaceUntilStable(html, pattern, '');
+  });
+
+  return html.replace(/(\s(?:src|href))=(["'])\/(?!\/)/gi, '$1=$2' + siteUrl + '/');
+}
+
+function replaceUntilStable(input, pattern, replacement) {
+  var previous;
+  var output = input;
+  do {
+    previous = output;
+    output = output.replace(pattern, replacement);
+  } while (output !== previous);
+  return output;
+}
+
+/** Strips tags repeatedly so that removing one tag cannot reveal another. */
+function stripTags(s) {
+  return replaceUntilStable(String(s == null ? '' : s), /<[^<>]*>/g, '');
 }
 
 function iso(d) {
