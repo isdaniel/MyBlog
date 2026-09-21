@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "深入 InvokeAction 第二階段：ReflectedActionDescriptor 如何透過反射取得 Action 方法的參數資訊與執行細節"
 keywords: C#,ASP.NET-MVC,ReflectedActionDescriptor,ReflectedControllerDescriptor,parameter-binding,InvokeAction
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

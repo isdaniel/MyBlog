@@ -23,7 +23,9 @@ lang: zh-tw
 
 因為以上幾點都是CRUD相關操作，關於CRUD相關操作使用三大框架就很適合(所以我選擇使用Vue)
 
-話不多說先給大家看看成品 [RestcountriesSample](https://isdaniel.github.io/RestcountriesSample/)
+話不多說先給大家看看成品 [RestcountriesSample](https://github.com/isdaniel/RestcountriesSample)
+
+> 補充：本文使用的 `restcountries.eu` API 已停止服務，線上 demo 無法再取得資料，請直接參考原始碼。後繼服務為 [restcountries.com](https://restcountries.com/)。
 
 [Source Code](https://github.com/isdaniel/RestcountriesSample)
 

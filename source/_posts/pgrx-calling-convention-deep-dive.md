@@ -16,7 +16,7 @@ PostgreSQL 是 C 寫的，它不認識 Rust。但 [pgrx](https://github.com/pgce
 
 > 對照的原始碼版本：**pgrx 0.19.1**。行號可能隨版本變動，但結構穩定。
 >
-> 這篇是我先前 [《深入 pgrx 機制：用 Rust 撰寫 PostgreSQL Extension 的底層原理與實戰》](https://isdaniel.github.io/pgrx-postgresql-extension-mechanism-deep-dive/) 的延伸：前一篇談的是「Rust 怎麼跟 C 寫的 PostgreSQL 互通」（ABI、Magic Block、bindgen），這篇則聚焦「一個值怎麼在函式邊界進出」。
+> 這篇是我先前 [《深入 pgrx 機制：用 Rust 撰寫 PostgreSQL Extension 的底層原理與實戰》](/pgrx-postgresql-extension-mechanism-deep-dive/) 的延伸：前一篇談的是「Rust 怎麼跟 C 寫的 PostgreSQL 互通」（ABI、Magic Block、bindgen），這篇則聚焦「一個值怎麼在函式邊界進出」。
 
 ---
 
@@ -156,7 +156,7 @@ impl<'a> FromDatum for &'a str {
 這裡藏著三個必懂的 PostgreSQL 機制：
 
 1. **varlena**：`text` / `bytea` / `array` 這種變長型別，記憶體佈局是「4-byte 長度標頭 + 資料」。信封裡的指標指向的就是這個結構。
-2. **TOAST / detoast**：字串很大時 PG 會壓縮、甚至存到另一張表。所以不能直接讀信封裡的指標，必須先 `detoast` 還原。這就是為什麼 `int4` 的 `FromDatum` 一行搞定，而 `&str` 要多這一步。（想深入 varlena / TOAST 的記憶體佈局，可參考我另一篇 [《PostgreSQL Varlena 與 TOAST 機制深度解析》](https://isdaniel.github.io/postgresql-varlena-toast-deep-dive/)。）
+2. **TOAST / detoast**：字串很大時 PG 會壓縮、甚至存到另一張表。所以不能直接讀信封裡的指標，必須先 `detoast` 還原。這就是為什麼 `int4` 的 `FromDatum` 一行搞定，而 `&str` 要多這一步。（想深入 varlena / TOAST 的記憶體佈局，可參考我另一篇 [《PostgreSQL Varlena 與 TOAST 機制深度解析》](/postgresql-varlena-toast-deep-dive/)。）
 3. **零複製借用**：回傳的 `&'a str` 直接指向 PG 記憶體，沒有 copy，所以帶生命週期 `'a`。快，但不能讓它活過那塊記憶體——這也是 pgrx 型別到處都是 lifetime 的原因。
 
 > **借用 vs 複製**：同檔案下方的 `impl FromDatum for String` 會**複製一份**到 Rust 自己管理的記憶體。`&str` = 借 PG 記憶體，快但短命；`String` = 複製一份，慢但你自己擁有。這個取捨貫穿整個 pgrx。
@@ -446,6 +446,6 @@ pgrx 看似魔法，拆開後其實只是四個 trait 分工合作：**內圈的
 
 ## References
 
-- [深入 pgrx 機制：用 Rust 撰寫 PostgreSQL Extension 的底層原理與實戰](https://isdaniel.github.io/pgrx-postgresql-extension-mechanism-deep-dive/)
-- [PostgreSQL Varlena 與 TOAST 機制深度解析](https://isdaniel.github.io/postgresql-varlena-toast-deep-dive/)
+- [深入 pgrx 機制：用 Rust 撰寫 PostgreSQL Extension 的底層原理與實戰](/pgrx-postgresql-extension-mechanism-deep-dive/)
+- [PostgreSQL Varlena 與 TOAST 機制深度解析](/postgresql-varlena-toast-deep-dive/)
 - [PostgreSQL: Version 1 Calling Conventions](https://www.postgresql.org/docs/current/xfunc-c.html#XFUNC-C-V1-CALLING)

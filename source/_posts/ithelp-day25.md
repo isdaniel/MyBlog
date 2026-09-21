@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "揭密 .cshtml 如何編譯為繼承 WebViewPage 的類別，追蹤 Razor 從模板到 DLL 的動態產生程式碼過程"
 keywords: C#,ASP.NET-MVC,WebViewPage,Razor-compilation,cshtml,ExecutePageHierarchy,BuildManager
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

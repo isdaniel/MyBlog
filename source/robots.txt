@@ -5,6 +5,10 @@ Allow: /categories/
 Allow: /tags/
 Disallow: /js/
 Disallow: /lib/
+# search.xml is a ~2.7 MB full-content mirror of every post, generated for the
+# client-side search box. It is not a page; keep it out of the index so it cannot
+# be read as a duplicate of the whole site.
+Disallow: /search.xml
 
 User-agent: GPTBot
 Allow: /

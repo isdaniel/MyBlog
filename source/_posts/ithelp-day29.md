@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "動手 DIY 擴充 WebViewPage：透過 Route 偵測語系並實作 ICurrency 介面，打造多國貨幣顯示機制"
 keywords: C#,ASP.NET-MVC,custom-WebViewPage,localization,internationalization,multi-currency,Razor,DIY
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

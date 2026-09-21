@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "介紹 MVC 六大 ActionResult 類型：ContentResult、FileResult、RedirectResult、ViewResultBase 等的 ExecuteResult 實作"
 keywords: C#,ASP.NET-MVC,ActionResult,ContentResult,FileResult,RedirectResult,ViewResultBase,HttpStatusCodeResult
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

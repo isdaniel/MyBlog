@@ -16,7 +16,7 @@ lang: zh-tw
 
 在Dev可以模擬高併發時產生的問題,下面會分享我之前Prod遇到問題並解決問題過程
 
-詳細資訊可以看[SQLServer-Merge-condition-problem](https://isdaniel.github.io/sqlserver-merge-condition-problem/)
+詳細資訊可以看[SQLServer-Merge-condition-problem](/sqlserver-merge-condition-problem/)
 
 ## SQLQueryStress介紹
 

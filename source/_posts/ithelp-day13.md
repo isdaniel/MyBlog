@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "解析 ASP.NET MVC 的 DependencyResolver 機制，了解如何整合 Autofac 等 IOC 容器實現依賴注入"
 keywords: C#,ASP.NET-MVC,IOC,DependencyResolver,Autofac,dependency-injection,IDependencyResolver
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)
@@ -24,7 +25,7 @@ lang: zh-tw
 
 控制反轉是一個設計思想 ，把對於某個物件的控制權移轉給第三方容器.
 
-詳細資訊可以查看小弟另一篇文章 [IOC(控制反轉)，DI(依賴注入) 深入淺出~~](https://isdaniel.github.io/ioc-di)
+詳細資訊可以查看小弟另一篇文章 [IOC(控制反轉)，DI(依賴注入) 深入淺出~~](/ioc-di)
 
 > 有沒有人會很好奇說為什麼只需要透過`DependencyResolver.SetResolver`方法我就可以直接使用`AutoFac`或其他IOC容器?
 

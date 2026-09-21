@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "解析 MvcRouteHandler 如何實作 IRouteHandler 介面並回傳 MvcHandler 作為處理 MVC 請求的 IHttpHandler"
 keywords: C#,ASP.NET-MVC,MvcRouteHandler,MvcHandler,IRouteHandler,session-state
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

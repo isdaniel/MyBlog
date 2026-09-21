@@ -391,5 +391,5 @@ PostgreSQL 的 Varlena / TOAST 設計可以用三句話概括:
 - PostgreSQL 原始碼 `src/include/varatt.h`、`src/backend/access/common/toast_internals.c`
 - [PostgreSQL Docs — TOAST](https://www.postgresql.org/docs/current/storage-toast.html)
 - [PostgreSQL Docs — Storage Page Layout](https://www.postgresql.org/docs/current/storage-page-layout.html)
-- 相關文章: [深入 pgrx 機制:用 Rust 撰寫 PostgreSQL Extension 的底層原理與實戰](https://isdaniel.github.io/pgrx-postgresql-extension-mechanism-deep-dive/)
-- 相關文章: [PostgreSQL WAL (Write-Ahead Logging) 機制介紹](https://isdaniel.github.io/postgresql-wal-introduce/)
+- 相關文章: [深入 pgrx 機制:用 Rust 撰寫 PostgreSQL Extension 的底層原理與實戰](/pgrx-postgresql-extension-mechanism-deep-dive/)
+- 相關文章: [PostgreSQL WAL (Write-Ahead Logging) 機制介紹](/postgresql-wal-introduce/)

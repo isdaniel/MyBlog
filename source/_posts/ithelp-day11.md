@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "追蹤 Controller 建立流程：從 ControllerBuilder 到 DefaultControllerFactory，了解 MVC 如何透過反射動態建立 Controller"
 keywords: C#,ASP.NET-MVC,Controller-creation,ControllerBuilder,IControllerFactory,DefaultControllerFactory,reflection
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

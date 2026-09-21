@@ -1,7 +1,7 @@
 ---
 title: AWS Lambda 初體驗 by .net core
 date: 2021-10-10 10:30:11
-tags: [AWS,Lambda,.netcore]
+tags: [AWS,Lambda,NetCore]
 categories: [AWS,Lambda]
 keywords: AWS,Lambda,.NET-Core,serverless,EDA,event-driven
 description: "AWS Lambda 初體驗教學，使用 .NET Core 建立第一個 Lambda 函式，從安裝 AWS CLI、設定 IAM 到部署上傳 serverless 服務的完整步驟"

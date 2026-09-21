@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "揭密 MVC Filter 五大介面：Authentication、Authorization、Action、Result、Exception Filter 的載入與執行機制"
 keywords: C#,ASP.NET-MVC,Filter,IActionFilter,IAuthorizationFilter,IExceptionFilter,AOP,proxy-pattern
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

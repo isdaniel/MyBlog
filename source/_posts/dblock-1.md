@@ -24,7 +24,7 @@ lang: zh-tw
 - [小結](#小結)
 ## 前文
 
-之前有跟大家介紹資料庫交易中的[ACID](https://isdaniel.github.io/ACID/),今天我們就來談談常常聽到**Lock**
+之前有跟大家介紹資料庫交易中的[ACID](/acid/),今天我們就來談談常常聽到**Lock**
 
 在討論Lock前我們必須先了解,為什麼會有Lock?
 

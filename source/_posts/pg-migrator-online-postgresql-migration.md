@@ -347,5 +347,5 @@ The most important habits when operating it:
 - [pg_dbmigrator GitHub Repository](https://github.com/isdaniel/pg_dbmigrator)
 - [PostgreSQL Logical Replication Documentation](https://www.postgresql.org/docs/current/logical-replication.html)
 - [PostgreSQL Replication Slots](https://www.postgresql.org/docs/current/logicaldecoding-explanation.html#LOGICALDECODING-REPLICATION-SLOTS)
-- [pg-walstream: PostgreSQL WAL Streaming in Rust](https://isdaniel.github.io/pg-walstream-rust-postgresql-wal-streaming/)
-- [PostgreSQL WAL (Write-Ahead Logging) mechanism](https://isdaniel.github.io/postgresql-wal-introduce/)
+- [pg-walstream: PostgreSQL WAL Streaming in Rust](/pg-walstream-rust-postgresql-wal-streaming/)
+- [PostgreSQL WAL (Write-Ahead Logging) mechanism](/postgresql-wal-introduce/)

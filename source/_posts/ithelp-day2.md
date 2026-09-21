@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "深入 IHttpModule 與 IHttpHandler 兩大核心介面，了解 ASP.NET Application Event 生命週期與 Web.Config 模組註冊機制"
 keywords: C#,ASP.NET,IHttpHandler,IHttpModule,application-events,Web.Config,pipeline
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言：](#%e5%89%8d%e8%a8%80)

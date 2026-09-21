@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "深入 ViewEngine 機制：ViewResultBase 如何透過 IViewEngine 找到 View 檔案，以及 RazorViewEngine 的路徑搜尋策略"
 keywords: C#,ASP.NET-MVC,ViewEngine,IViewEngine,RazorViewEngine,VirtualPathProviderViewEngine,IView
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

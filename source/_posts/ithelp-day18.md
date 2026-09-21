@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "解析 MVC Model Binding 機制：IModelBinder、DefaultModelBinder 與 ValueProviderFactory 如何將 HTTP 參數綁定至物件"
 keywords: C#,ASP.NET-MVC,ModelBinding,IModelBinder,DefaultModelBinder,IValueProvider,JsonValueProviderFactory
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

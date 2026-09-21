@@ -41,7 +41,7 @@ Each WAL record is identified by a **Log Sequence Number (LSN)** — a monotonic
               Replayed by standby / consumed by CDC
 ```
 
-For a deeper dive into WAL internals, see my earlier post: [PostgreSQL WAL (Write-Ahead Logging) mechanism](https://isdaniel.github.io/postgresql-wal-introduce/).
+For a deeper dive into WAL internals, see my earlier post: [PostgreSQL WAL (Write-Ahead Logging) mechanism](/postgresql-wal-introduce/).
 
 ### Physical vs. Logical Replication
 

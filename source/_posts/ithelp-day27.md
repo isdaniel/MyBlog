@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "動手 DIY 建立自訂 DependencyResolver：使用 Autofac 實作 IDependencyResolver 並透過建構子注入 Controller 依賴"
 keywords: C#,ASP.NET-MVC,custom-DependencyResolver,Autofac,IControllerActivator,constructor-injection,DIY
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->
@@ -34,7 +35,7 @@ lang: zh-tw
 
 在實現自己的`DependencyResolver`前先談談Autofac容器做甚麼用的?
 
-我之前有寫一篇[IOC(控制反轉)，DI(依賴注入) 深入淺出~~](https://isdaniel.github.io/ioc-di.html),講述**IOC(控制反轉)，DI(依賴注入)**這兩個設計技巧的理念核心.
+我之前有寫一篇[IOC(控制反轉)，DI(依賴注入) 深入淺出~~](/ioc-di/),講述**IOC(控制反轉)，DI(依賴注入)**這兩個設計技巧的理念核心.
 
 > 言簡意賅可以統一交由容器來幫忙管理物件生命週期和建立方式,也管理物件相依性,兩個重點我們使得只需要提供使用類別的特徵(型別或其他可辨別特徵),容器就提供給我們相對應的物件.
 

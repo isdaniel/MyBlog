@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "進入 MVC 原始碼世界：解析 RouteTable、Route 物件與 MapRoute 擴充方法，了解路由系統如何取代實體檔案路徑"
 keywords: C#,ASP.NET-MVC,Route,RouteTable,MapRoute,URL-routing,SEO-friendly-URL
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言](#%e5%89%8d%e8%a8%80)

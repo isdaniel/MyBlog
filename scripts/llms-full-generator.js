@@ -4,9 +4,11 @@ hexo.extend.generator.register('llms-full', function (locals) {
   var posts = locals.posts.sort('-date');
   var lines = [];
 
-  lines.push('# 石頭的coding之路 - Full Content Index');
+  lines.push('# 石頭的coding之路 - Post Index');
   lines.push('');
-  lines.push('> This file is auto-generated for LLM crawlers. It contains a structured index of all blog posts.');
+  lines.push('> Auto-generated index for LLM crawlers: title, URL, date, taxonomy, description');
+  lines.push('> and a short excerpt for every post. This is an INDEX, not full article text —');
+  lines.push('> fetch the post URL for the complete article.');
   lines.push('> Last generated: ' + new Date().toISOString());
   lines.push('');
   lines.push('## Posts (' + posts.length + ' total)');

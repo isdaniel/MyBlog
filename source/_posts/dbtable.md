@@ -95,7 +95,7 @@ WHERE Val IS NULL
 
 ### RID Lookup
 
-在[資料庫索引深入淺出(一)](https://isdaniel.github.io/DBIndex-1/)有說，資料表沒有`Clustered Index`且使用`Index`所有查詢欄位不包含在`Converting Index`中就會透過`RID Lookup`查找確切Page上的Row(藉由Row-Id)
+在[資料庫索引深入淺出(一)](/dbindex-1/)有說，資料表沒有`Clustered Index`且使用`Index`所有查詢欄位不包含在`Converting Index`中就會透過`RID Lookup`查找確切Page上的Row(藉由Row-Id)
 
 > 此資料表是`Heap`資料表在`NonClustered Index`中會存放`Heap RID`
 

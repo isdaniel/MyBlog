@@ -7,13 +7,12 @@ keywords: Rust,pgrx,PostgreSQL,FDW,Foreign-Data-Wrapper,extension,external-data
 description: "Learn how to build a PostgreSQL Foreign Data Wrapper (FDW) in Rust using pgrx — query external data sources as regular PostgreSQL tables"
 lang: en
 ---
-Here's a well-structured draft for your technical blog post based on the provided Rust + pgrx Foreign Data Wrapper (FDW) code.
 
 # 🚀 Building a Simple PostgreSQL FDW with Rust and pgrx
 
 PostgreSQL Foreign Data Wrappers (FDW) enable PostgreSQL to query external data sources as if they were regular tables. Traditionally, FDWs are written in C, but with [`pgrx`](https://github.com/pgcentralfoundation/pgrx), we can now build PostgreSQL extensions — including FDWs — in **Rust**, unlocking safety and modern tooling.
 
-In this post, we'll walk through creating a simple FDW using Rust and `pgrx` that simulates reading rows from an external source (e.g., Redis or API). While it’s a stub, it demonstrates how to implement the core FDW lifecycle.
+In this post, we'll walk through creating a simple FDW using Rust and `pgrx` that simulates reading rows from an external source (e.g., Redis or API). It is deliberately minimal so the core FDW lifecycle stays visible end to end.
 
 ## 🛠️ What Can You Build with `pgrx`?
 

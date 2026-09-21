@@ -1,7 +1,7 @@
 ---
 title: CLR系列-Lock深入淺出
 date: 2021-08-15 21:13:34
-tags: [C#,lock,CLR]
+tags: [C#,Lock,CLR]
 categories: [C#,CLR]
 top:
 photos: 

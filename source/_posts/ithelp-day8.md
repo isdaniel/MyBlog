@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "揭密 UrlRoutingModule-4.0 如何攔截請求並透過 RouteCollection 匹配路由，將 ASP.NET 請求導向 MVC Handler"
 keywords: C#,ASP.NET-MVC,UrlRoutingModule,PostResolveRequestCache,MvcHandler,RemapHandler
 lang: zh-tw
+robots: noindex, follow
 ---
 # Agenda<!-- omit in toc -->
 - [前言：](#%e5%89%8d%e8%a8%80)

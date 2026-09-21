@@ -12,10 +12,12 @@
 ## Content Index
 
 - [All Posts](https://isdaniel.github.io/archives/)
+- [English Articles](https://isdaniel.github.io/en/)
 - [Categories](https://isdaniel.github.io/categories/)
 - [Tags](https://isdaniel.github.io/tags/)
-- [Full Content for LLMs](https://isdaniel.github.io/llms-full.txt)
+- [Post Index for LLMs](https://isdaniel.github.io/llms-full.txt) — titles, metadata and a short excerpt per post (not full article text)
 - [Atom Feed](https://isdaniel.github.io/atom.xml)
+- [PostgreSQL-only Atom Feed (English)](https://isdaniel.github.io/planet-postgresql/atom.xml)
 - [Sitemap](https://isdaniel.github.io/sitemap.xml)
 
 ## Key Topics

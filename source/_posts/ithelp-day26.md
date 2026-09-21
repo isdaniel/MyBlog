@@ -6,6 +6,7 @@ categories: [11th鐵人賽]
 description: "動手 DIY 改造 MVC 路由機制：深入 RouteData 結構並實作自訂 Route 匹配邏輯，擴充 RouteCollection 路由表"
 keywords: C#,ASP.NET-MVC,custom-route,RouteData,RouteCollection,route-customization,DIY
 lang: zh-tw
+robots: noindex, follow
 ---
 
 # Agenda<!-- omit in toc -->

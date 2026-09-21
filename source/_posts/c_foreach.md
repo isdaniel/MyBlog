@@ -1,7 +1,7 @@
 ---
 title: C language implement foreach
 date: 2024-04-17 22:30:11
-tags: [C,Design-Pattern]
+tags: [C-Language,Design-Pattern]
 categories: [C#,DesignPattern]
 keywords: C, foreach
 description: "In PostgreSQL, there isn't a native foreach loop construct in C, because C itself doesn't have a foreach loop as you might find in higher-level languages like"

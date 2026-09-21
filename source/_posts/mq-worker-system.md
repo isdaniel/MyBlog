@@ -314,13 +314,13 @@ public abstract class RabbitMqWorkerBase
 
 這邊我對於 `ProcessPool` 來作介紹 (ThreadPool 概念差不多只是 UnitWorker 不一樣)
 
-之前我對於 [EventWaitHandle](https://isdaniel.github.io/multithread-eventwaithandle/) 有篇文章有探討，如果不清楚的夥伴可以先去了解後再看這部分程式.
+之前我對於 [EventWaitHandle](/multithread-eventwaithandle/) 有篇文章有探討，如果不清楚的夥伴可以先去了解後再看這部分程式.
 
 使用 `EventWaitHandle` 主要是為了提高系統效率，不造成 Worker 無效空轉造成 CPU 資源浪費
 
 至於 `volatile bool _finish` 一開始是 false ，Pool在接收到關機訊息時會把他設定成 true 告訴 Workers 可以準備下班了.
 
-對於 [volatile](https://isdaniel.github.io/volatile-introduce/) 我之前有文章解釋，他的概念跟使用場景，有興趣的可以再去了解
+對於 [volatile](/volatile-introduce/) 我之前有文章解釋，他的概念跟使用場景，有興趣的可以再去了解
 
 ```c#
 public class ProcessPool : IWorkerPool

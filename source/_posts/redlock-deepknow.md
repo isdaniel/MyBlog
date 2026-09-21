@@ -9,7 +9,7 @@ lang: zh-tw
 ---
 ## 前言
 
-我之前有寫透過 [lock or CAS](https://isdaniel.github.io/high-concurrency-atomic-cas-algorithm/) 來防治，Racing condition 問題，但如果這個問題延深到多台服務器甚至是 micor-services 架構我們要怎麼處理資料問題呢?
+我之前有寫透過 [lock or CAS](/high-concurrency-atomic-cas-algorithm/) 來防治，Racing condition 問題，但如果這個問題延深到多台服務器甚至是 micor-services 架構我們要怎麼處理資料問題呢?
 
 下面程式在單體服務或應用程式不會出問題，但如果服務器有多台問題可就大了，因為下面的 lock 只限於單體 Server 上
 
@@ -256,7 +256,7 @@ public class RedLock
 
 本次跟大家介紹 Redlock 算法帶著大家快速走過一遍，能發現實現 lock 算法其實不會很難，這邊留一個地方讓大家考慮一下
 
-之前我有篇文章討論 [c# lock](https://isdaniel.github.io/lock-deepknow/) 原理，裡面有討論可重入鎖模式，假如給你實現可重入鎖你會實現嗎？
+之前我有篇文章討論 [c# lock](/lock-deepknow/) 原理，裡面有討論可重入鎖模式，假如給你實現可重入鎖你會實現嗎？
 
 在實現的過程中你會發現原來 lock 核心是算法而不是實作，實作可以由許多方式來處理但算法概念不會變
 

@@ -89,7 +89,7 @@ lang: zh-tw
 ### 路由設定：
 
     # URL
-    url: https://isdaniel.github.io/ #網站的網址
+    url: / #網站的網址
     root: /  #網站的根目錄
     permalink: :year/:month/:day/:title/
     permalink_defaults:
