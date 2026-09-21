@@ -72,7 +72,7 @@ hexo.extend.generator.register('en-index', function (locals) {
     html += '<p>' + esc(group.blurb) + '</p>\n<ul>\n';
 
     matched.forEach(function (post) {
-      var desc = String(post.description || '').replace(/<[^>]*>/g, '').trim();
+      var desc = stripTags(post.description).trim();
       html += '  <li><a href="' + esc(siteUrl + '/' + post.slug + '/') + '">' +
         esc(post.title) + '</a>' +
         ' <small>(' + (post.date ? post.date.format('YYYY-MM-DD') : '') + ')</small>' +
@@ -104,6 +104,17 @@ hexo.extend.generator.register('en-index', function (locals) {
     }
   };
 });
+
+/** Strips tags repeatedly so that removing one tag cannot reveal another. */
+function stripTags(s) {
+  var previous;
+  var output = String(s == null ? '' : s);
+  do {
+    previous = output;
+    output = output.replace(/<[^<>]*>/g, '');
+  } while (output !== previous);
+  return output;
+}
 
 function esc(s) {
   return String(s == null ? '' : s)
