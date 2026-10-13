@@ -185,8 +185,9 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
 // Images that are page furniture, not article content — never use them as the share card.
 var NON_CONTENT_IMAGE = /default-og-image|donation-qr|stackoverflow\.com\/users\/flair|credly|flagcounter|badge|shields\.io/i;
 
-// Poor share cards: plain http (mixed content), animated GIFs, hotlink-protected iThome re-prints.
-var UNUSABLE_IMAGE = /^(?:http:\/\/|data:)|\.gif(?:[?#].*)?$|ithelp\.ithome\.com\.tw/i;
+// Poor share cards: plain http (mixed content), data URIs, animated GIFs, and hosts that answer
+// 403 to scrapers (iThome re-prints, the GitBook blob CDN, GitHub's camo image proxy).
+var UNUSABLE_IMAGE = /^(?:http:\/\/|data:)|\.gif(?:[?#].*)?$|ithelp\.ithome\.com\.tw|gblobscdn\.gitbook\.com|camo\.githubusercontent\.com/i;
 
 // BCP-47 tag matching what <html lang> uses, so every inLanguage in the graph agrees.
 function htmlLang(value) {
