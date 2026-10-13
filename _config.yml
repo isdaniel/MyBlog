@@ -8,23 +8,13 @@ subtitle: 好點子沒價值，有價值的是把好點子實現
 description: 專注於 PostgreSQL、軟體工程、原始碼與 AI 的技術筆記與實作分享
 keywords: PostgreSQL,Rust,software-engineering,source-code,AI,C#,ASP.NET,SQL-Server,database,backend
 author: Daniel Shih
-language: zh-tw
+language: zh-TW
 timezone: Asia/Taipei
 
 # Appended to the home page <title> only. Post/tag/category titles are unaffected.
 # Without this the home page — the highest-authority URL on the site — has a
 # brand-only title that competes for no query.
 index_title_suffix: PostgreSQL 內核與 Rust、.NET 原始碼筆記
-
-# Header
-menu:
-  Home: /
-  Archives: /archives
-  About: /about.html
-  Tags: /tags
-  Course: /Course
-  Categories: /categories
-  English: /en/
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -160,8 +150,9 @@ addlink:
 
 sitemap:
   path: sitemap.xml
-baidusitemap:
-  path: baidusitemap.xml
+  template: ./sitemap-template.xml
+  tags: false
+  categories: false
 
 feed:
   type: atom

@@ -4,7 +4,7 @@ date: 2025-06-01 23:30:11
 tags: [Rust, Linux,Docker]
 categories: [Rust, Linux]
 keywords: Rust,Linux,namespace,cgroup
-description: "RustBox 是用 Rust 打造的類 Docker 容器 runtime，基於 Linux namespaces、cgroups、OverlayFS，支援多容器編排與完整 CLI"
+description: "RustBox is a Docker-like container runtime written in Rust, built on Linux namespaces, cgroups and OverlayFS, with multi-container orchestration and a full CLI."
 lang: en
 ---
 # RustBox

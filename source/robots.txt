@@ -1,45 +1,14 @@
 User-agent: *
 Allow: /
-Allow: /archives/
-Allow: /categories/
-Allow: /tags/
-Disallow: /js/
-Disallow: /lib/
+
 # search.xml is a ~2.7 MB full-content mirror of every post, generated for the
 # client-side search box. It is not a page; keep it out of the index so it cannot
 # be read as a duplicate of the whole site.
 Disallow: /search.xml
 
-User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: Claude-Web
-Allow: /
-
-User-agent: anthropic-ai
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: Googlebot
-Allow: /
-
-User-agent: Applebot-Extended
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: CCBot
-Allow: /
-
-User-agent: cohere-ai
-Allow: /
+# Keep this a single group. A crawler obeys only its most specific group and does not
+# merge it with `*`, so per-bot groups would silently drop the Disallow above
+# (scripts/lint-seo.js fails the build if a named group omits it). AI crawlers are allowed by default.
 
 Sitemap: https://isdaniel.github.io/sitemap.xml
-Sitemap: https://isdaniel.github.io/baidusitemap.xml
 Sitemap: https://isdaniel.github.io/atom.xml

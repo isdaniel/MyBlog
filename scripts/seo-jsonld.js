@@ -19,14 +19,12 @@
 var LOCALE_MAP = {
   'en': 'en_US',
   'zh-tw': 'zh_TW',
-  'zh-TW': 'zh_TW',
   'zh-hant-tw': 'zh_TW'
 };
 
 var HTML_LANG_MAP = {
   'en': 'en',
   'zh-tw': 'zh-Hant-TW',
-  'zh-TW': 'zh-Hant-TW',
   'zh-hant-tw': 'zh-Hant-TW'
 };
 
@@ -41,6 +39,9 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
 
   // ------------------------------------------------------------- resolve image
   var image = resolveImage(page, siteUrl);
+  var isDefaultImage = image === defaultImage(siteUrl);
+  var person = buildPerson(config, siteUrl);
+  var isAbout = page.path === 'about/index.html';
 
   // ------------------------------------------------- repair NexT's social tags
   str = setMetaProperty(str, 'og:image', image);
@@ -60,7 +61,7 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
     str = setMetaProperty(str, 'og:locale', LOCALE_MAP[langKey]);
   }
   if (HTML_LANG_MAP[langKey]) {
-    str = str.replace(/(<html[^>]*\slang=")([^"]*)(")/i, '$1' + HTML_LANG_MAP[langKey] + '$3');
+    str = str.replace(/(<html[^>]*\slang=")([^"]*)(")/i, function (m, pre, old, post) { return pre + HTML_LANG_MAP[langKey] + post; });
   }
 
   // --------------------------------------------------------------- injections
@@ -83,7 +84,7 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
     'name': config.title,
     'url': siteUrl,
     'description': config.description,
-    'inLanguage': config.language || 'zh-tw'
+    'inLanguage': htmlLang(config.language)
   }];
 
   if (isPost) {
@@ -116,7 +117,7 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
       });
     }
 
-    var authorId = siteUrl + '/about/#person';
+    var authorId = person['@id'];
 
     var blogPostingSchema = {
       '@type': 'BlogPosting',
@@ -128,46 +129,20 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
       'dateModified': page.updated ? page.updated.toISOString() : (page.date ? page.date.toISOString() : ''),
       'wordCount': wordCount,
       'author': { '@id': authorId },
-      'publisher': {
-        '@type': 'Organization',
-        '@id': siteUrl + '/#organization',
-        'name': config.title,
-        'url': siteUrl + '/',
-        'logo': {
-          '@type': 'ImageObject',
-          'url': siteUrl + '/images/apple-touch-icon-next.png'
-        },
-        'sameAs': [
-          'https://github.com/isdaniel',
-          'https://stackoverflow.com/users/5176071/d-shih'
-        ]
-      },
-      'image': { '@type': 'ImageObject', 'url': image },
+      'publisher': { '@id': authorId },
       'url': postUrl,
-      'inLanguage': pageLang
+      'inLanguage': htmlLang(pageLang)
     };
 
     if (articleSection) blogPostingSchema.articleSection = articleSection;
     if (keywords.length) blogPostingSchema.keywords = keywords.join(',');
+    if (!isDefaultImage) blogPostingSchema.image = { '@type': 'ImageObject', 'url': image };
 
     graphItems.push(blogPostingSchema);
 
     // A single Person node, referenced by @id from every article, instead of 135
     // disconnected author blobs. Gives AI/search a resolvable entity for "Daniel Shih".
-    graphItems.push({
-      '@type': 'Person',
-      '@id': authorId,
-      'name': config.author,
-      'url': siteUrl + '/about/',
-      'jobTitle': 'Software Engineer',
-      'knowsAbout': ['PostgreSQL', 'Rust', 'C#', 'Database Internals', 'pgrx'],
-      'sameAs': [
-        'https://github.com/isdaniel',
-        'https://stackoverflow.com/users/5176071/d-shih',
-        'https://www.linkedin.com/in/bing-shiu-shih-a63151b5/',
-        'https://crates.io/users/isdaniel'
-      ]
-    });
+    graphItems.push(person);
 
     var breadcrumbItems = [
       { '@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': siteUrl }
@@ -189,11 +164,20 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
     graphItems.push({ '@type': 'BreadcrumbList', 'itemListElement': breadcrumbItems });
   }
 
-  injection += '<script type="application/ld+json">' +
-    JSON.stringify({ '@context': 'https://schema.org', '@graph': graphItems }) +
-    '</script>\n';
+  if (isAbout) {
+    graphItems.push({
+      '@type': 'ProfilePage',
+      '@id': siteUrl + '/about/#profilepage',
+      'url': siteUrl + '/about/',
+      'name': page.title,
+      'mainEntity': { '@id': person['@id'] }
+    });
+    graphItems.push(person);
+  }
 
-  return str.replace('</head>', injection + '</head>');
+  injection += jsonLd({ '@context': 'https://schema.org', '@graph': graphItems });
+
+  return insertBeforeHeadEnd(str, injection);
 });
 
 // ------------------------------------------------------------------- helpers
@@ -201,8 +185,17 @@ hexo.extend.filter.register('after_render:html', function (str, data) {
 // Images that are page furniture, not article content — never use them as the share card.
 var NON_CONTENT_IMAGE = /default-og-image|donation-qr|stackoverflow\.com\/users\/flair|credly|flagcounter|badge|shields\.io/i;
 
+// Poor share cards: plain http (mixed content), animated GIFs, hotlink-protected iThome re-prints.
+var UNUSABLE_IMAGE = /^(?:http:\/\/|data:)|\.gif(?:[?#].*)?$|ithelp\.ithome\.com\.tw/i;
+
+// BCP-47 tag matching what <html lang> uses, so every inLanguage in the graph agrees.
+function htmlLang(value) {
+  var v = String(value || 'zh-tw');
+  return HTML_LANG_MAP[v.toLowerCase()] || v;
+}
+
 function resolveImage(page, siteUrl) {
-  if (page.photos && page.photos.length) {
+  if (page.photos && page.photos.length && typeof page.photos[0] === 'string' && page.photos[0] && !UNUSABLE_IMAGE.test(page.photos[0])) {
     return absolutise(page.photos[0], siteUrl);
   }
 
@@ -211,32 +204,69 @@ function resolveImage(page, siteUrl) {
   var re = /<img[^>]+src=["']([^"']+)["']/gi;
   var m;
   while ((m = re.exec(String(page.content || ''))) !== null) {
-    if (m[1] && !NON_CONTENT_IMAGE.test(m[1])) {
+    if (m[1] && !NON_CONTENT_IMAGE.test(m[1]) && !UNUSABLE_IMAGE.test(m[1])) {
       return absolutise(m[1], siteUrl);
     }
   }
 
-  return siteUrl + '/images/default-og-image.png';
+  return defaultImage(siteUrl);
 }
 
 function absolutise(url, siteUrl) {
   if (/^https?:\/\//i.test(url)) return url;
   if (url.indexOf('//') === 0) return 'https:' + url;
-  return siteUrl + (url.charAt(0) === '/' ? '' : '/') + url;
+  // The markdown renderer prefixes the site root, so relative sources arrive as "/../images/x.png" or "/./x.png"; strip the dot-segments and leading slashes and root the path at the site.
+  return siteUrl + '/' + url.replace(/^(?:\/|\.{1,2}\/)+/, '');
+}
+
+// Function replacers: a string replacement would interpret "$&", "$'" and "$`" found in
+// titles, descriptions or URLs and corrupt the page.
+function insertBeforeHeadEnd(str, html) {
+  return str.replace('</head>', function () { return html + '</head>'; });
 }
 
 function setMetaProperty(str, prop, value) {
   var re = new RegExp('(<meta\\s+property="' + prop + '"\\s+content=")([^"]*)(")', 'i');
-  if (re.test(str)) return str.replace(re, '$1' + escapeHtml(value) + '$3');
-  return str;
+  return str.replace(re, function (m, pre, old, post) { return pre + escapeHtml(value) + post; });
 }
 
 function setMetaName(str, name, value) {
   var re = new RegExp('(<meta\\s+name="' + name + '"\\s+content=")([^"]*)(")', 'i');
-  if (re.test(str)) return str.replace(re, '$1' + escapeHtml(value) + '$3');
-  return str.replace('</head>', '<meta name="' + name + '" content="' + escapeHtml(value) + '">\n</head>');
+  if (re.test(str)) {
+    return str.replace(re, function (m, pre, old, post) { return pre + escapeHtml(value) + post; });
+  }
+  return insertBeforeHeadEnd(str, '<meta name="' + name + '" content="' + escapeHtml(value) + '">\n');
 }
 
 function escapeHtml(s) {
   return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// "<" is escaped so a title containing "</script>" cannot terminate the JSON-LD block.
+function jsonLd(data) {
+  return '<script type="application/ld+json">' +
+    JSON.stringify(data).replace(/</g, '\\u003c') +
+    '</script>\n';
+}
+
+// One Person node, referenced by @id from every article and from /about/.
+function buildPerson(config, siteUrl) {
+  return {
+    '@type': 'Person',
+    '@id': siteUrl + '/about/#person',
+    'name': config.author,
+    'url': siteUrl + '/about/',
+    'jobTitle': 'Software Engineer',
+    'knowsAbout': ['PostgreSQL', 'Rust', 'C#', 'Database Internals', 'pgrx'],
+    'sameAs': [
+      'https://github.com/isdaniel',
+      'https://stackoverflow.com/users/5176071/d-shih',
+      'https://www.linkedin.com/in/bing-shiu-shih-a63151b5/',
+      'https://crates.io/users/isdaniel'
+    ]
+  };
+}
+
+function defaultImage(siteUrl) {
+  return siteUrl + '/images/default-og-image.png';
 }
