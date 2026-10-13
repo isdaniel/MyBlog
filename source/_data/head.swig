@@ -21,3 +21,8 @@
    was removed rather than left as SEO work that looks done but is not.
    Re-add it only when a post genuinely exists in two languages, mapping each to the
    other's URL. #}
+
+{# ===================== PostgreSQL-only feed, advertised on the English hub ===================== #}
+{% if page.path == 'en/index.html' %}
+  <link rel="alternate" type="application/atom+xml" title="{{ config.title }} (PostgreSQL, English)" href="{{ config.url }}/planet-postgresql/atom.xml">
+{% endif %}

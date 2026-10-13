@@ -2,7 +2,7 @@
 title: About Daniel Shih
 date: 2019-05-27 22:31:48
 comments: false
-description: "Daniel Shih (石頭) — 專注於 PostgreSQL、Rust、C# 與軟體架構的資深軟體工程師，活躍於 StackOverflow 與 GitHub 開源社群"
+description: "Daniel Shih (石頭), a senior software engineer focused on PostgreSQL, Rust, C# and software architecture, active in the StackOverflow and GitHub open-source communities."
 keywords: Daniel-Shih,software-engineer,PostgreSQL,Rust,C#,open-source,StackOverflow
 lang: en
 ---

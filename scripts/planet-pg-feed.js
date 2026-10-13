@@ -11,7 +11,7 @@
  * options are enable/type/path/limit/hub/content/content_limit/content_limit_delim/
  * order_by/icon/autodiscovery — so this cannot be done in _config.yml. Hence a
  * dedicated generator, following the same registration pattern as
- * scripts/llms-full-generator.js.
+ * scripts/en-index.js.
  *
  * Output: /planet-postgresql/atom.xml
  * Submit that URL at https://planet.postgresql.org/add.html after creating a

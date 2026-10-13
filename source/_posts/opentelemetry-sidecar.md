@@ -4,7 +4,7 @@ date: 2025-06-01 22:30:11
 tags: [C#,Rust,OpenTelemetry,Sidecar,Observability]
 categories: [Rust,C#,OpenTelemetry]
 keywords: OpenTelemetry,Sidecar,Rust,C#,observability,metrics,traces,Prometheus,Jaeger,non-intrusive-instrumentation
-description: "OpenTelemetry SideCar 是獨立的 sidecar proxy，無需修改程式碼即可匯出 metrics 與 traces，適合監控 legacy 或封閉原始碼應用"
+description: "OpenTelemetry SideCar is a standalone sidecar proxy that exports metrics and traces without code changes, making it a good fit for monitoring legacy or closed-source applications."
 lang: en
 ---
 ## introduce
